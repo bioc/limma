@@ -29,11 +29,11 @@ This default background correction method can be over-ridden by using \code{\lin
 background correct methods to simple subtraction.
 Simply use \code{backgroundCorrect} to correct the \code{RGList} before applying \code{normalizeWithinArrays}.
 
-\code{backgroundCorrect} uses utility functions \code{\link{ma3x3.matrix}}, \code{\link{ma3x3.spottedarray}}, \code{\link{fit.normexp}}, \code{\link{signal.normexp}} and \code{\link{m2loglik.normexp}}.
+\code{backgroundCorrect} uses utility functions \code{\link{ma3x3.matrix}} and \code{\link{ma3x3.spottedarray}}.
 
 \code{\link{kooperberg}} is a Bayesian background correction tool designed specifically for GenePix data.
 \code{kooperberg} is not currently used as the default method for GenePix data because it is computationally intensive.
-It requires several columns of the GenePix data files which are not read in by read.maimages, so you will need to use \code{read.series} instead of \code{read.maimages} if you wish to use \code{kooperberg}.
+It requires several columns of the Genepix data files which are not read in by read.maimages, so you will need to use \code{read.series} instead of \code{read.maimages} if you wish to use \code{kooperberg}.
 }
 
 \author{Gordon Smyth}

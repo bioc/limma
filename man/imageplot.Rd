@@ -11,7 +11,7 @@ This function can be used to explore whether there are any spatial effects in th
 }
 \usage{
 imageplot(z, layout, low = NULL, high = NULL, ncolors = 123, zerocenter = NULL, 
-zlim = NULL, mar=c(2,1,1,1), legend=TRUE, ...)
+zlim = NULL, mar=rep(1,4), ...)
 }
 \arguments{
   \item{z}{numeric vector or array. This vector can contain any spot 
@@ -32,8 +32,7 @@ otherwise FALSE.}
 colors \code{low} and \code{high}. By default \code{zlim} is the range of \code{z}. Any values of \code{z} outside 
 the interval \code{zlim} will be truncated to the relevant limit.}
  \item{mar}{numeric vector of length 4 specifying the width of the margin around the plot.
- This argument is passed to \code{\link[graphics]{par}}.}
- \item{legend}{logical, if \code{TRUE} the range of \code{z} and \code{zlim} is shown in the bottom margin}
+ This argument is passed to \code{\link[base]{par}}.}
 \item{...}{any other arguments will be passed to the function image}
 }
 \details{
@@ -47,7 +46,7 @@ top left.
 \value{An image is created on the current graphics device.}
 \author{Gordon Smyth}
 \seealso{
-\code{\link[marray]{maImage}}, \code{\link[graphics]{image}}.
+\code{\link[marrayPlots]{maImage}}, \code{\link[base]{image}}.
 
 An overview of diagnostic functions available in LIMMA is given in \link{7.Diagnostics}.
 }

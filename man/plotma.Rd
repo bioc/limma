@@ -5,11 +5,10 @@
 Creates an MA-plot with color coding for control spots.
 }
 \usage{
-plotMA(MA, array=1, xlab="A", ylab="M", main=colnames(MA)[array], xlim=NULL, ylim=NULL, status, values, pch, col, cex, legend=TRUE, zero.weights=FALSE, ...)
+plotMA(MA, array=1, xlab="A", ylab="M", main=colnames(MA$M)[array], xlim, ylim, status, values, pch, col, cex, legend=TRUE, ...)
 }
 \arguments{
-  \item{MA}{an \code{RGList}, \code{MAList} or \code{MArrayLM} object, or any list with components \code{M} containing log-ratios and \code{A} containing average intensities.
-  Alternatively a \code{matrix} or \code{exprSet} object.}
+  \item{MA}{an \code{MAList} or \code{RGList} object, or any list with components \code{M} containing log-ratios and \code{A} containing average intensities}
   \item{array}{integer giving the array to be plotted. Corresponds to columns of \code{M} and \code{A}.}
   \item{xlab}{character string giving label for x-axis}
   \item{ylab}{character string giving label for y-axis}
@@ -28,20 +27,10 @@ plotMA(MA, array=1, xlab="A", ylab="M", main=colnames(MA)[array], xlim=NULL, yli
   Defaults to 0.2 for the most common status value and 1 for the others.
   Ignored if there is no \code{status} vector.}
   \item{legend}{logical, should a legend of plotting symbols and colors be included. Ignored if there is no \code{status} vector.}
-  \item{zero.weights}{logical, should spots with zero or negative weights be plotted?}
   \item{...}{any other arguments are passed to \code{plot}}
 }
 
 \details{
-An MA-plot is a plot of log-intensity ratios (M-values) versus log-intensity averages (A-values).
-If \code{MA} is an \code{RGList} or \code{MAList} then this function produces an ordinary within-array MA-plot.
-If \code{MA} is an \code{MArrayLM} object, then the plot is an fitted model MA-plot in which the estimated coefficient is on the y-axis and the average A-value is on the x-axis.
-
-If \code{MA} is a \code{matrix} or \code{exprSet} object, then this function produces a between-array MA-plot.
-In this case the A-values in the plot are the average log-intensities across the arrays and the M-values are the deviations of the log-intensities for the specified array from the average.
-If there are more than five arays, then the average is computed robustly using medians.
-With five or fewer arrays, it is computed by means.
-
 The \code{status} vector is intended to specify the control status of each spot, for example "gene", "ratio control", "house keeping gene", "buffer" and so on.
 The vector is usually computed using the function \code{\link{controlStatus}} and a spot-types file.
 However the function may be used to highlight any subset of spots.
@@ -49,7 +38,7 @@ However the function may be used to highlight any subset of spots.
 The \code{status} can be included as the component \code{MA$genes$Status} instead of being passed as an argument to \code{plotMA}.
 The arguments \code{values}, \code{pch}, \code{col} and \code{cex} can be included as attributes to \code{status} instead of being passed as arguments to \code{plotMA}.
 
-See \code{\link[graphics]{points}} for possible values for \code{pch}, \code{col} and \code{cex}.
+See \code{\link[base]{points}} for possible values for \code{pch}, \code{col} and \code{cex}.
 }
 
 \value{A plot is created on the current graphics device.}

@@ -21,7 +21,7 @@ Choices are \code{"mean"} or \code{"median"}.}
 }
 
 \details{
-This function is for use with GenePix data and is designed to cope with the problem of large numbers of negative intensities and hence missing values on the log-intensity scale.
+This function is for use with Genepix data and is designed to cope with the problem of large numbers of negative intensities and hence missing values on the log-intensity scale.
 It avoids missing values in most cases and at the same time dampens down the variability of log-ratios for low intensity spots.
 See Kooperberg et al (2003) for more details.
 
@@ -30,19 +30,18 @@ deviations and number of pixels from GenePix data frames.
 This information is used to compute empirical estimates of the model parameters
 as described in equation 2 of Kooperberg et al (2003).
 
-The foreground and background estimates extracted from the GenePix files may be based on means or medians of pixel values.
-Setting \code{fg="mean"} uses the GenePix column \code{F635.Mean} for red foreground and
-the GenePix column \code{F532.Mean} for green foreground.
+The foreground and background estimates extracted from the Genepix files may be based on means or medians of pixel values.
+Setting \code{fg="mean"} uses the Genepix column \code{F635.Mean} for red foreground and
+the Genepix column \code{F532.Mean} for green foreground.
 Setting \code{fg="median"} uses columns \code{F635.Median} and \code{F532.Median}.
 Similarly for the background, \code{bg="mean"} uses columns \code{B635.Mean} and \code{B532.Mean} while \code{bg="median"} uses columns \code{B635.Median} and \code{B532.Median}.
 }
 
 \value{
-An \code{RGList} containing the components
+A list containing the components
 \item{R}{matrix containing the background adjusted intensities for
 the red channel for each spot for each array}
 \item{G}{matrix containing the background adjusted intensities for the green channel for each spot for each array}
-\item{printer}{list containing printer layout, as input in \code{layout}}
 }
 
 \author{Matthew Ritchie}
@@ -62,11 +61,11 @@ Improved background correction for spotted DNA microarrays.
 #  given GenePix Results (gpr) files in the working directory (data not
 #  provided).
 \dontrun{
-genepixFiles <- dir(pattern="*\\\\.gpr$") # get the names of the GenePix image analysis output files in the current directory
-read.series(genepixFiles, suffix=NULL, skip=26, sep="\t") # read the files into data.frames, assuming headers of 26 lines
-layout <- getLayout(get(genepixFiles[1]))
+genepixFiles <- dir(pattern="\\\\.gpr") # get the names of the GenePix image analysis output files in the current directory
+read.series(genepixFiles, suffix=NULL, skip=26, sep="\t") # read in GenePix files
+layout <- list(ngrid.r=12, ngrid.c=4, nspot.r=26, nspot.c=26) # specify array layout
 RGmodel <- kooperberg(genepixFiles, layout=layout) # model-based background correction
-MA <- normalizeWithinArrays(RGModel) # normalize the data
+MA <- normalizeWithinArrays(RGModel, layout) # normalize the data
 }
 }
 
