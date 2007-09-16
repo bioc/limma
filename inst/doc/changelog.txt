@@ -1,3 +1,7 @@
+19 Sep 2007: limma 2.10.6
+
+- bug fix for as.matrix.vsn
+
 30 May 2007: limma 2.10.5 and 2.11.5
 
 - as.matrix method for vsn objects added.
