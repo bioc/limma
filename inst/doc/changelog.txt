@@ -1,3 +1,16 @@
+24 Sep 2007: limma 2.10.7
+
+- non-ascii European characters removed from Rd files
+- loessFit.Rd edited to make it clearer that this a wrapper
+  function to the lowess and loess functions.
+- decideTests(method="hierarchical") now passes the adjust.method down
+  to the second (t-test) level of testing.  Previously the second level
+  testing was always "holm".  The spelling is also corrected from
+  "heirarchical" to "hierarchical".
+
+Non-visible:
+- "[" now formally documented as S3 method
+
 19 Sep 2007: limma 2.10.6
 
 - bug fix for as.matrix.vsn
