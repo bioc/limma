@@ -1,3 +1,5 @@
+8 October 2007, Bioconductor Release 2.1: limma 2.12.0
+
 25 Sep 2007: limma 2.11.14
 
 - plot character and size can now be passed to volcanoplot()
