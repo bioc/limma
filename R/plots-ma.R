@@ -3,20 +3,25 @@
 plotMA <- function(MA, array=1, xlab="A", ylab="M", main=colnames(MA)[array], xlim=NULL, ylim=NULL, status, values, pch, col, cex, legend=TRUE, zero.weights=FALSE, ...)
 #	MA-plot with color coding for controls
 #	Gordon Smyth 7 April 2003, James Wettenhall 27 June 2003.
-#	Last modified 8 March 2008.
+#	Last modified 8 May 2008.
 {
 #	Convert to MAList of possible
-	clMA <- class(MA)
-	if(clMA=="RGList") {
+	if(class(MA)=="list") MA <- new("MAList",MA)
+	if(is(MA,"RGList")) {
 		array <- 1
 		MA <- MA.RG(MA[,array])
 	}
-	if(clMA=="list") MA <- new("MAList",MA)
 
-	if(class(MA)=="MAList") {
-#		Data is assumed to be two-color
+	if(is(MA,"MAList")) {
+#		Data is two-color
 		x <- as.matrix(MA$A)[,array]
 		y <- as.matrix(MA$M)[,array]
+		if(is.null(MA$weights)) w <- NULL else w <- as.matrix(MA$weights)[,array]
+		if(missing(status)) status <- MA$genes$Status
+	} else if(is(MA,"MArrayLM")) {
+		if(is.null(MA$Amean)) stop("MA-plot not possible because Amean component is absent.")
+		x <- MA$Amean
+		y <- as.matrix(MA$coef)[,array]
 		if(is.null(MA$weights)) w <- NULL else w <- as.matrix(MA$weights)[,array]
 		if(missing(status)) status <- MA$genes$Status
 	} else {
