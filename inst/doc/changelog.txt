@@ -1,3 +1,22 @@
+21 August 2008: limma 2.14.6
+
+- new option "none" for the sort argument of topTable().
+- Better treatment of array weights in linear modelling.
+  lm.series() and gls.series() now treat array weights as a
+  special case, when there are no missing values in the expression
+  data and now probe-specific weights.  This means that the array
+  weights are now incorporated into fit$cov.coefficients, meaning
+  that contrasts.fit() will correctly take array weights into
+  account when computing the contrast standard errors, which it
+  did not do previously.  It also means that lmFit() is much faster
+  when array weighting is used.
+- Speed improvement to gls.series() when there are no missing
+  values and no probe-specific weights.
+- new capabilities and arguments for write.fit().  The argument
+  method allows p-values to be adjusted globally instead of
+  separately, and the argument F.adjust allows the F-statistic
+  P-values to be adjusted.
+
 11 June 2008: limma 2.14.5
 
 - further bug fixes to getEAWP() when object is of PLMset class:
