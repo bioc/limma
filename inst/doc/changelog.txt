@@ -1,3 +1,8 @@
+19 Sept 2008: limma 2.14.7
+
+- in read.maimages(), support added for ArrayVision data files
+  with Artifact-removed (ARM) density values.
+
 21 August 2008: limma 2.14.6
 
 - new option "none" for the sort argument of topTable().
