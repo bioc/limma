@@ -1,3 +1,8 @@
+23 October 2008: limma 2.16.3
+
+- bug fixes to the way that topTable() and topTableF() handle
+  sort="none".
+
 22 October 2008: limma 2.16.1
 
 - minor updates to User's Guide to refer to R 2.8.0

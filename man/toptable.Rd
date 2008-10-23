@@ -14,7 +14,7 @@ topTableF(fit,number=10,genelist=fit$genes,adjust.method="BH",sort.by="F",p.valu
 \arguments{
   \item{fit}{list containing a linear model fit produced by \code{lmFit}, \code{lm.series}, \code{gls.series} or \code{mrlm}.
   For \code{topTable}, \code{fit} should be an object of class \code{MArrayLM} as produced by \code{lmFit} and \code{eBayes}.}
-  \item{coef}{column number or column name specifying which coefficient or contrast of the linear model is of interest. Can also be a vector of column subscripts, in which case the gene ranking is by F-statistic for that set of contrasts.}
+  \item{coef}{column number or column name specifying which coefficient or contrast of the linear model is of interest. For \code{topTable}, can also be a vector of column subscripts, in which case the gene ranking is by F-statistic for that set of contrasts.}
   \item{number}{maximum number of genes to list}
   \item{genelist}{data frame or character vector containing gene information.
   For \code{topTable} only, this defaults to \code{fit$genes}.}
@@ -24,8 +24,8 @@ topTableF(fit,number=10,genelist=fit$genes,adjust.method="BH",sort.by="F",p.valu
   If \code{NULL}, this will be automatically generated.}
   \item{adjust.method}{method used to adjust the p-values for multiple testing.  Options, in increasing conservatism, include \code{"none"}, \code{"BH"}, \code{"BY"} and \code{"holm"}.
   See \code{\link{p.adjust}} for the complete list of options. A \code{NULL} value will result in the default adjustment method, which is \code{"BH"}.}
-  \item{sort.by}{character string specifying statistic to rank genes by.  Possibilities for \code{topTable} and \code{toptable} are \code{"logFC"}, \code{"A"}, \code{"T"}, \code{"t"}, \code{"P"}, \code{"p"} or \code{"B"}. \code{"M"} is allowed as a synonym for \code{"logFC"} for backward compatibility.  Possibilities for \code{topTableF} are \code{"F"} or \code{"none"}.}
-  \item{resort.by}{character string specifying statistic to sort the selected genes by in the output data.frame.  Possibilities are \code{"logFC"}, \code{"A"}, \code{"T"}, \code{"t"}, \code{"P"}, \code{"p"}, \code{"B"} or \code{"none"}. \code{"M"} is allowed as a synonym for \code{"logFC"} for backward compatibility.}
+  \item{sort.by}{character string specifying statistic to rank genes by.  Possibilities for \code{topTable} and \code{toptable} are \code{"logFC"}, \code{"AveExpr"}, \code{"t"}, \code{"P"}, \code{"p"}, \code{"B"} or \code{"none"}. \code{"M"} is allowed as a synonym for \code{"logFC"} for backward compatibility.  Other permitted synonyms are \code{"A"} or \code{"Amean"} for \code{"AveExpr"}, \code{"T"} for \code{"t"} and \code{"p"} for {"P"}.  Possibilities for \code{topTableF} are \code{"F"} or \code{"none"}.}
+  \item{resort.by}{character string specifying statistic to sort the selected genes by in the output data.frame.  Possibilities are the same as for \code{sort.by}.}
   \item{p.value}{cutoff value for adjusted p-values. Only genes with lower p-values are listed.}
   \item{lfc}{cutoff value for log2-fold-change. Only genes with larger fold changes are listed.}
   \item{...}{any other arguments are passed to \code{ebayes} if \code{eb} is \code{NULL}}
