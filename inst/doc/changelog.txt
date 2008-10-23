@@ -1,4 +1,4 @@
-23 October 2008: limma 2.16.3
+23 October 2008: limma 2.16.2
 
 - minor improvements to the help page for topTable and topTableF.
 - bug fixes to the way that topTable() and topTableF() handle
