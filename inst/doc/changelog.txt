@@ -1,3 +1,8 @@
+10 Nov 2008: limma 2.16.3
+
+- fix to toptable() bug which caused an error when user
+  selected p<1 and lfc>0
+
 23 October 2008: limma 2.16.2
 
 - minor improvements to the help page for topTable and topTableF.
