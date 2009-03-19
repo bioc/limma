@@ -1,5 +1,6 @@
 20 March 2009: limma 2.16.5
 
+- biocViews entry of Statistics changed to Bioinformatics
 - Bug fix to rowname assignment for MAList and RGList objects
   containing matrices in 'other' component
 - lmFit() warning message on NA coefficients is now more
