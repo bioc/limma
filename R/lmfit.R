@@ -3,12 +3,15 @@
 lmFit <- function(object,design=NULL,ndups=1,spacing=1,block=NULL,correlation,weights=NULL,method="ls",...)
 #	Fit linear model
 #	Gordon Smyth
-#	30 June 2003.  Last modified 25 Apr 2008.
+#	30 June 2003.  Last modified 6 Feb 2009.
 {
 #	Check arguments
 	y <- getEAWP(object)
 	if(is.null(design))
-		design <- matrix(1,ncol(y$exprs),1)
+		if(is.null(y$design))
+			design <- matrix(1,ncol(y$exprs),1)
+		else
+			design <- as.matrix(object$design)
 	else
 		design <- as.matrix(design)
 	if(mode(design) != "numeric") stop("design must be a numeric matrix")
@@ -35,7 +38,14 @@ lmFit <- function(object,design=NULL,ndups=1,spacing=1,block=NULL,correlation,we
 			if(missing(correlation)) stop("the correlation must be set, see duplicateCorrelation")
 			fit <- gls.series(y$exprs,design=design,ndups=ndups,spacing=spacing,block=block,correlation=correlation,weights=weights,...)
 		}
-	if(any(is.na(fit$coef))) warning("Some coefficients not estimable: coefficient interpretation may vary.") 
+
+#	Possible warning on missing coefs
+	if(NCOL(fit$coef)>1) {
+		i <- is.na(fit$coef)
+		i <- apply(i[,1]==i[,-1,drop=FALSE],1,all)
+		n <- sum(!i)
+		if(n>0) warning("Partial NA coefficients for ",n," probe(s)",call.=FALSE) 
+	}
 
 #	Output
 	fit$genes <- y$probes
@@ -188,6 +198,7 @@ gls.series <- function(M,design=NULL,ndups=2,spacing=1,block=NULL,correlation=NU
 	if(nrow(design) != narrays) stop("Number of rows of design matrix does not match number of arrays")
 	if(is.null(correlation)) correlation <- duplicateCorrelation(M,design=design,ndups=ndups,spacing=spacing,block=block,weights=weights,...)$consensus.correlation
 	if(!is.null(weights)) {
+		weights[is.na(weights)] <- 0
 		weights <- asMatrixWeights(weights,dim(M))
 		M[weights < 1e-15 ] <- NA
 		weights[weights < 1e-15] <- NA
@@ -348,7 +359,7 @@ getEAWP <- function(object)
 #	Given any microarray data object, extract basic information needed for
 #	linear modelling.
 #	Gordon Smyth
-#  9 March 2008. Last modified 11 June 2008.
+#  9 March 2008. Last modified 30 January 2009.
 {
 	y <- list()
 	
@@ -358,6 +369,7 @@ getEAWP <- function(object)
 		y$exprs <- object$M
 		y$weights <- object$weights
 		y$probes <- object$genes
+		y$design <- object$design
 		if(!is.null(object$A)) y$Amean <- rowMeans(as.matrix(object$A),na.rm=TRUE)
 	} else {
 	if(is(object,"ExpressionSet")) {

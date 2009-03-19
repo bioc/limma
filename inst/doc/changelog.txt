@@ -1,3 +1,22 @@
+20 March 2009: limma 2.16.5
+
+- Bug fix to rowname assignment for MAList and RGList objects
+  containing matrices in 'other' component
+- lmFit() warning message on NA coefficients is now more
+  refined.  It now appears only when the coef vector is
+  partially NA for some probes.
+- Fix to gls.series() so that it does not fail when the
+  weight matrix contains NA values.
+- update to backgroundCorrect help page to reflect published
+  papers.
+- update to treat help page to reflect published paper.
+- lmFit now looks for a design matrix in an MAList data object,
+  if one exists.
+- C code dynamic library is loaded when package is loaded
+  rather than when it is attached, to enable other packages
+  to import limma.  (Not user visible.)
+- minor edits to geneSetTest, roast and 08Tests help files.
+
 19 Jan 2009: limma 2.16.4
 
 - fix to a toptable() bug, which caused t-statistics to be out of
