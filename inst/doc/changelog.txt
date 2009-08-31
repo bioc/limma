@@ -1,3 +1,10 @@
+31 Aug 2009: limma 2.18.3
+
+- bug fix to removeBatchEffect(), which gave incorrect
+  results when design=NULL.
+- speed improvements to avereps() (following suggestions
+  from Axel Klenk)
+
 15 June 2009: limma 2.18.2
 
 - new function topTreat() for listing top results by treat().
