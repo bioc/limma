@@ -1,3 +1,34 @@
+2 March 2010: limma 3.2.2
+
+- bug fix: the output from treat() now includes a component
+  df.prior.
+
+- read.maimages() now provides the option of reading Agilent
+  Feature Extraction data with using median foreground
+  summaries.
+
+- spelling error corrections to documentation files.
+
+- minor documentation fix to alias2Symbol() example.
+
+- sma package (which no longer exists) removed from
+  normalizeBetweenArrays.Rd example.
+
+- MArrayLM objects now re-calculate F-statistics if they
+  are subsetted by columns.  This ensures that the F-statistics
+  always match the contrast columns in the object.
+
+- bug fix to row numbers from toptable() and topTable() when
+  the arguments p or lfc are specified.
+
+- documentation fixes for alias2SymbolTable()
+
+- truth argument of auROC() can now be logical
+
+- as.dataframe methods for MAList, EList and EListRaw objects.
+
+- new argument gene.selection for plotMDS()
+
 28 October 2009: limma 3.2.1
 
 - bug fix to backgroundCorrect() so ensure that normexp.method
