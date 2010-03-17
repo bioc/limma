@@ -3,7 +3,7 @@
 \title{NormExp and Quantile by Control (NEQC)}
 \description{Perform normexp background correction and quantile normalization using control probes.}
 \usage{
-neqc(x, status=NULL, negctrl="negative", regular="regular", offset=50, ...)
+neqc(x, status=NULL, negctrl="negative", regular="regular", offset=16, ...)
 }
 \arguments{
   \item{x}{ object of class \code{\link{EListRaw-class}} or \code{matrix} containing raw intensities for regular and control probes from a series of microarrays.}
@@ -26,7 +26,7 @@ An \code{\link{EList-class}} object containing normalized log2 expression values
 }
 
 \references{
-Wei Shi and Gordon K Smyth. Normalizing Illumina Whole Genome Expression BeadChips. In preparation.
+Shi W, Oshlack A and Smyth GK. Calibrating the noise versus bias trade-off: normalization of Illumina Whole Genome Expression BeadChips. Submitted.
 }
 
 \author{Wei Shi and Gordon Smyth}

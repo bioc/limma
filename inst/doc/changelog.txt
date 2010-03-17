@@ -1,3 +1,21 @@
+17 March 2010: limma 3.2.3
+
+- bug fix: topTreat() now allows genelist to be a vector
+  or a data.frame.  Previously failed when a vector was input.
+
+- bug fix to p.value computation in treat(). This affects
+  only p-values greater than 0.5.
+
+- default value for offset in neqc() function reduced
+  from 50 to 16.
+
+- The raw data for the "IlluminaWG-6 Case Study: Mammary
+  Progenitor Cell Populations" in the User's Guide is now
+  available online, with URL given in User's Guide.
+
+- output from vennDiagram() improved to draw complete 
+  unbroken circles.
+
 2 March 2010: limma 3.2.2
 
 - bug fix: the output from treat() now includes a component

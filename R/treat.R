@@ -3,7 +3,7 @@
 treat <- function(fit, lfc=0)
 #  Moderated t-statistics with threshold
 #  Davis McCarthy, Gordon Smyth
-#  25 July 2008. Last revised 2 Mar 2010.
+#  25 July 2008. Last revised 16 Mar 2010.
 {
 	coefficients <- as.matrix(fit$coefficients)
 	stdev.unscaled <- as.matrix(fit$stdev.unscaled)
@@ -22,24 +22,24 @@ treat <- function(fit, lfc=0)
 	fit$s2.post <- sv$var.post
 	df.total <- df.residual + sv$df.prior
 	lfc <- abs(lfc)
-	fc.up <- (coefficients > lfc)
-	fc.down <- (coefficients < -lfc)
 	acoef <- abs(coefficients)
 	se <- stdev.unscaled*sqrt(fit$s2.post)
 	tstat.right <- (acoef-lfc)/se
 	tstat.left <- (acoef+lfc)/se
 	fit$t <- array(0,dim(coefficients),dimnames=dimnames(coefficients))
+	fit$p.value <- pt(tstat.right, df = df.total,lower=FALSE) + pt(tstat.left,df = df.total,lower=FALSE)
 	tstat.right <- pmax(tstat.right,0)
+	fc.up <- (coefficients > lfc)
+	fc.down <- (coefficients < -lfc)
 	fit$t[fc.up] <- tstat.right[fc.up]
 	fit$t[fc.down] <- -tstat.right[fc.down]
-	fit$p.value <- pt(tstat.right, df = df.total,lower=FALSE) + pt(tstat.left,df = df.total,lower=FALSE)
 	fit
 }
 
 topTreat <- function(fit,coef=1,number=10,genelist=fit$genes,adjust.method="BH",sort.by="p",resort.by=NULL,p.value=1)
 #	Summary table of top genes by treat
 #	Gordon Smyth
-#	15 June 2009.
+#	15 June 2009.  Last modified 17 March 2010.
 {
 #	Check input
 	if(length(coef)>1) coef <- coef[1]
@@ -52,6 +52,7 @@ topTreat <- function(fit,coef=1,number=10,genelist=fit$genes,adjust.method="BH",
 	}
 	tstat <- as.matrix(fit$t)[,coef]
 	P.Value <- as.matrix(fit$p.value)[,coef]
+	if(!is.null(genelist) && is.null(dim(genelist))) genelist <- data.frame(ID=genelist,stringsAsFactors=FALSE)
 	sort.by <- match.arg(sort.by,c("logFC","M","A","Amean","AveExpr","P","p","T","t","none"))
 	if(sort.by=="M") sort.by="logFC"
 	if(sort.by=="A" || sort.by=="Amean") sort.by <- "AveExpr"
