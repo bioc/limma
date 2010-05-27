@@ -1,3 +1,24 @@
+27 May 2010: limma 3.4.1
+
+- new function topRomer() to summarize output from
+  romer().
+- new S4 class "Roast" for output from the function roast().
+- new function mroast(), which organizes roast() tests
+  for multiple gene sets.
+- Cosmetic changes to row and column names in the output
+  from roast().
+- new argument 'set.statistic' for roast(), which specifies
+  the gene set summary statistic to be used.
+- the output from roast() no longer includes a column for the
+  "either" alternative hypothesis.
+- edits to romer.Rd, in particular a link to the curated
+  database of gene sets.
+- bug fix to estimation of proportion of active genes in roast()
+  when there are gene weights.
+- Update reference for propexpr().
+
+23 April 2010: limma 3.4.0 (Bioconductor 2.6 Release Branch)
+
 22 April 2010: limma 3.3.22
 
 - new function normalizeCyclicLoess().
