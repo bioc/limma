@@ -1,3 +1,8 @@
+28 June 2010: limma 3.4.4
+
+- bug fix to normexp.fit.control() when the argument 'x'
+  is a matrix.
+
 3 June 2010: limma 3.4.3
 
 - new argument 'set.statistic' for romer() to control the
