@@ -1,3 +1,8 @@
+8 Sep 2010: limma 3.4.5
+
+- avereps.MAList was not averaging the "other" data matrices
+  correctly.  Now fixed.
+
 28 June 2010: limma 3.4.4
 
 - bug fix to normexp.fit.control() when the argument 'x'
