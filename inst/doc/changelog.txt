@@ -1,4 +1,9 @@
-26 October 2010: limma 3.6.5
+28 October 2010: limma 3.6.6
+
+- update to installation instructions in User's Guide, no longer
+  recommending dependencies=TRUE with biocLite.
+
+27 October 2010: limma 3.6.5
 
 - updating Introduction to User's Guide to reflect limma's
   new capabilities for pre-processing data from single-channel
