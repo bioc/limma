@@ -1,3 +1,8 @@
+27 November 2010: limma 3.6.7
+
+- bug fix to mroast(), which had been assigning prior.df
+  incorrectly for the second and subsequent gene sets.
+
 28 October 2010: limma 3.6.6
 
 - update to installation instructions in User's Guide, no longer
