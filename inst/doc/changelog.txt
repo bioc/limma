@@ -1,3 +1,7 @@
+30 November 2010: limma 3.6.8
+
+- remove line from NAMESPACE requiring methods on loading.
+
 27 November 2010: limma 3.6.7
 
 - bug fix to mroast(), which had been assigning prior.df
