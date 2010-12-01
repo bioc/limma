@@ -1,3 +1,9 @@
+1 December 2010: limma 3.6.9
+
+- bug fixes to avereps.default and avearrays.default, which had
+  been treating NA expression values as if zero.  Averages are
+  now computed correctly over non-missing values.
+
 30 November 2010: limma 3.6.8
 
 - remove line from NAMESPACE requiring methods on loading.
