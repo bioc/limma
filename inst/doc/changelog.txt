@@ -1,3 +1,9 @@
+15 March 2011: limma 3.8.1
+
+- Update to package version in introduction of User's Guide.
+
+14 March 2011: limma 3.8.0 (Bioconductor Release 2.7)
+
 31 March 2011: limma 3.7.27
 
 - nec.Rd and neqc.Rd combined into one file.
