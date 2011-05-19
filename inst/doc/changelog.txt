@@ -1,8 +1,17 @@
+20 May 2011: limma 3.8.2
+
+- bug fix to avereps() for EList objects x when x$other is not empty.
+
+- treat() now has an optional trend argument, same as eBayes().
+
+- plotMDS() now invisibly returns the distance.matrix and the x and y
+  plotting coordinates.  plotMDS() now accepts xlab and ylab arguments.
+
 15 April 2011: limma 3.8.1
 
 - Updating package version numbers in introduction of User's Guide.
 
-14 April 2011: limma 3.8.0 (Bioconductor Release 2.7)
+14 April 2011: limma 3.8.0 (Bioconductor 2.8 Release Branch)
 
 31 March 2011: limma 3.7.27
 

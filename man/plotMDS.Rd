@@ -3,9 +3,11 @@
 \alias{plotMDS}
 \description{
 Plot the sample relations based on MDS.
+Distances on the plot can be interpreted in terms of \emph{leading log2-fold-change}.
 }
 \usage{
-plotMDS(x, top=500, labels=colnames(x), col=NULL, cex=1, dim.plot=c(1,2), ndim=max(dim.plot), gene.selection="pairwise", ...)
+plotMDS(x, top=500, labels=colnames(x), col=NULL, cex=1, dim.plot=c(1,2), ndim=max(dim.plot), gene.selection="pairwise",
+        xlab=paste("Dimension",dim.plot[1]), ylab=paste("Dimension",dim.plot[2]), ...)
 }
 \arguments{
   \item{x}{any data object which can be coerced to a matrix, such as \code{ExpressionSet} or \code{EList}.}
@@ -16,12 +18,16 @@ plotMDS(x, top=500, labels=colnames(x), col=NULL, cex=1, dim.plot=c(1,2), ndim=m
   \item{dim.plot}{which two dimensions should be plotted, numeric vector of length two.}
   \item{ndim}{number of dimensions in which data is to be represented}
   \item{gene.selection}{character, \code{"pairwise"} to choose the top genes separately for each pairwise comparison between the samples or \code{"common"} to select the same genes for all comparisons}
+  \item{xlab}{title for the x-axis}
+  \item{ylab}{title for the y-axis}
   \item{...}{any other arguments are passed to \code{plot}.}
 }
 
 \details{
 This function is a variation on the usual multdimensional scaling (or principle coordinate) plot, in that a distance measure particularly appropriate for the microarray context is used.
 The distance between each pair of samples (columns) is the root-mean-square deviation (Euclidean distance) for the top \code{top} genes.
+Distances on the plot can be interpreted as \emph{leading log2-fold-change}, meaning
+the typical log2-fold-change between the samples for the genes that distinguish the samples.
 
 If \code{gene.selection} is \code{"common"}, then the top genes are those with the largest standard deviations between samples.
 If \code{gene.selection} is \code{"pairwise"}, then a different set of top genes is selected for each pair of samples.
@@ -30,7 +36,10 @@ The pairwise feature selection may be appropriate for microarray data when diffe
 See \code{\link[graphics]{text}} for possible values for \code{col} and \code{cex}.
 }
 
-\value{A plot is created on the current graphics device.}
+\value{
+A plot is created on the current graphics device.
+A list containing the \code{distance.matrix} and the \code{x} and \code{y} coordinates is invisibly returned.
+}
 
 \author{Di Wu and Gordon Smyth}
 
