@@ -1,3 +1,10 @@
+5 Aug 2011: limma 3.8.3
+
+- bug fix for normalizeBetweenArrays() when object is an EListRaw
+  and method="cyclicloess".  Previously this function was applying
+  cyclicloess to the raw intensities, then logging.  Now it logs
+  first, then applies cyclicloess.
+
 20 May 2011: limma 3.8.2
 
 - bug fix to avereps() for EList objects x when x$other is not empty.
