@@ -14,7 +14,7 @@ function(object) print(object$p.value)
 roast <- function(iset=NULL,y,design,contrast=ncol(design),set.statistic="mean",gene.weights=NULL,array.weights=NULL,block=NULL,correlation,var.prior=NULL,df.prior=NULL,trend.var=FALSE,nrot=999)
 # Rotation gene set testing for linear models
 # Gordon Smyth and Di Wu
-# Created 24 Apr 2008. Revised 1 July 2011.
+# Created 24 Apr 2008. Revised 11 Jan 2012.
 {
 	if(is.null(iset)) iset <- rep(TRUE,nrow(y))
 	y <- as.matrix(y)
@@ -23,6 +23,7 @@ roast <- function(iset=NULL,y,design,contrast=ncol(design),set.statistic="mean",
 	
 	p <- ncol(design)
 	p0 <- p-1
+	ngenes <- nrow(y)
 	n <- ncol(y)
 	d <- n-p
 
@@ -111,7 +112,12 @@ roast <- function(iset=NULL,y,design,contrast=ncol(design),set.statistic="mean",
 
 #	Active proportions	
 	if(!is.null(gene.weights)) {
-		if(length(gene.weights) != nset) stop("length of gene.weights disagrees with size of set")
+		lgw <- length(gene.weights)
+		if(lgw > nset && lgw==ngenes) {
+			gene.weights <- gene.weights[iset]
+		} else {
+			if(lgw != nset) stop("length of gene.weights disagrees with size of set")
+		}
 		s <- sign(gene.weights)
 		r1 <- mean(s*modt > sqrt(2))
 		r2 <- mean(s*modt < -sqrt(2))
@@ -219,15 +225,16 @@ roast <- function(iset=NULL,y,design,contrast=ncol(design),set.statistic="mean",
 }
 
 
-mroast <- function(iset=NULL,y,design,contrast=ncol(design),set.statistic="mean",gene.weights=NULL,array.weights=NULL,block=NULL,correlation,var.prior=NULL,df.prior=NULL,trend.var=FALSE,nrot=999,adjust.method="BH")
+mroast <- function(iset=NULL,y,design,contrast=ncol(design),set.statistic="mean",gene.weights=NULL,array.weights=NULL,block=NULL,correlation,var.prior=NULL,df.prior=NULL,trend.var=FALSE,nrot=999,adjust.method="BH",midp=TRUE)
 #  Rotation gene set testing with multiple sets
 #  Gordon Smyth and Di Wu
-#  Created 28 Jan 2010. Last revised 4 July 2011.
+#  Created 28 Jan 2010. Last revised 11 Jan 2012.
 { 
 	if(is.null(iset)) iset <- rep(TRUE,nrow(y))
 	if(!is.list(iset)) iset <- list(set = iset)
 	nsets <- length(iset)
 	if(is.null(names(iset))) names(iset) <- paste("set",1:nsets,sep="")
+	if(!is.null(gene.weights)) if(length(gene.weights) != nrow(y)) stop("gene.weights must have length equal to nrow(y)")
 
 #	Estimate var.prior and df.prior if not preset
 	fit <- lmFit(y,design=design,weights=array.weights,block=block,correlation=correlation)
@@ -247,10 +254,14 @@ mroast <- function(iset=NULL,y,design,contrast=ncol(design),set.statistic="mean"
 		pv[i,] <- out$P.Value
 		active[i,] <- out$Active.Prop
 	}
-	
-	adjpv[,"Mixed"] <- p.adjust(pv[,"Mixed"], method=adjust.method) 
-	adjpv[,"Up"] <- p.adjust(pv[,"Up"], method=adjust.method) 
-	adjpv[,"Down"] <- p.adjust(pv[,"Down"], method=adjust.method) 
+
+#	Use mid-p-values or ordinary p-values?
+	pv2 <- pv
+	if(midp) pv2 <- pv2-1/2/(nrot+1)
+
+	adjpv[,"Mixed"] <- p.adjust(pv2[,"Mixed"], method=adjust.method) 
+	adjpv[,"Up"] <- p.adjust(pv2[,"Up"], method=adjust.method) 
+	adjpv[,"Down"] <- p.adjust(pv2[,"Down"], method=adjust.method) 
 	list(P.Value=pv, Adj.P.Value=adjpv, Active.Proportion=active) 
 }
 

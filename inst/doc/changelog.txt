@@ -1,3 +1,40 @@
+11 Jan 2012: limma 3.10.1
+
+- new methods "fast" and "affy" for normalizeCyclicLoess().  New
+  argument 'cyclic.method' for normalizeBetweenArrays() gives
+  access to the different cyclic loess methods.
+
+- argument gene.weights for roast() can now be of length equal
+  to number of probes on the array, in which case it is automatically
+  subsetted.
+
+- There were problems with using the argument gene.weights in
+  mroast().  This argument is now permitted to be of the same
+  length as the number of probes in the data set.  It is then
+  automatically subsetted for each gene set.
+
+- improved documentation for object returned by mroast().
+
+- mroast() now uses mid-p-values by default when adjusting for
+  multiple testing.
+
+- minor documentation correction for plotMA.Rd (default for cex
+  is 0.3 rather than 0.2).
+
+- minor edit to error message from neqc() when no control probe
+  information can be found.
+
+- neqc(), nec() and normexp.fit.control() now give user-friendly
+  error messages when no negative control probes or no regular
+  probes are found.
+
+- voom() now works on ExpressionSet objects.
+
+- User's Guide RNA-Seq case study updated to use tweeDEseqCountData
+  package instead of RNAseqCountData.
+
+1 Nov 2011: limma 3.10.0 (Bioconductor 2.9 Release Branch)
+
 14 Oct 2011: limma 3.9.22
 
 - Nigerian RNA-Seq case study expanded to include gene set tests

@@ -14,7 +14,7 @@ roast(iset=NULL, y, design, contrast=ncol(design), set.statistic="mean",
      var.prior=NULL, df.prior=NULL, trend.var=FALSE, nrot=999)
 mroast(iset=NULL, y, design, contrast=ncol(design), set.statistic="mean",
      gene.weights=NULL, array.weights=NULL, block=NULL, correlation,
-     var.prior=NULL, df.prior=NULL, trend.var=FALSE, nrot=999, adjust.method="BH")
+     var.prior=NULL, df.prior=NULL, trend.var=FALSE, nrot=999, adjust.method="BH", midp=TRUE)
 }
 
 \arguments{
@@ -26,7 +26,7 @@ mroast(iset=NULL, y, design, contrast=ncol(design), set.statistic="mean",
   \item{design}{design matrix}
   \item{contrast}{contrast for which the test is required. Can be an integer specifying a column of \code{design}, or else a contrast vector of length equal to the number of columns of \code{design}.}
   \item{set.statistic}{summary set statistic. Possibilities are \code{"mean"},\code{"floormean"},\code{"mean50"} or \code{"msq"}.}
-  \item{gene.weights}{optional numeric vector of weights for genes in the set. Can be positive or negative.} 
+  \item{gene.weights}{optional numeric vector of weights for genes in the set. Can be positive or negative.  For \code{mroast} this vector must have length equal to \code{nrow(y)}.  For \code{roast}, can be of length \code{nrow(y)} or of length equal to the number of genes in the test set.} 
   \item{array.weights}{optional numeric vector of array weights.} 
   \item{block}{optional vector of blocks.}
   \item{correlation}{correlation between blocks.}
@@ -34,21 +34,21 @@ mroast(iset=NULL, y, design, contrast=ncol(design), set.statistic="mean",
   \item{df.prior}{prior degrees of freedom for residual variances. If not provided, this is estimated using \code{squeezeVar}.}
   \item{trend.var}{logical, should a trend be estimated for \code{var.prior}?  See \code{eBayes} for details.  Only used if \code{var.prior} or \code{df.prior} are \code{NULL}.}
   \item{nrot}{number of rotations used to estimate the p-values.}
-  \item{adjust.method}{method used to adjust the p-values for multiple testing.
-  See \code{\link{p.adjust}} for possible values.}
+  \item{adjust.method}{method used to adjust the p-values for multiple testing. See \code{\link{p.adjust}} for possible values.}
+  \item{midp}{logical, should mid-p-values be used in instead of ordinary p-values when adjusting for multiple testing?}
 }
 
 \value{
-An object of class \code{"Roast"}.
+\code{roast} produces an object of class \code{"Roast"}.
 This consists of a list with the following components:
-\tabular{ll}{
-  \code{p.value}:\tab
-data.frame with columns \code{Active.Prop} and \code{P.Value}, giving the proportion of genes in the set contributing meaningfully to significance and estimated p-values, respectively.
-Rows correspond to the alternative hypotheses mixed, up or down.\cr
-  \code{var.prior}:\tab prior value for residual variances.\cr
-  \code{df.prior}:\tab prior degrees of freedom for residual variances.
-}
-There is a \code{show} method for \code{"Roast"} objects.
+  \item{p.value}{data.frame with columns \code{Active.Prop} and \code{P.Value}, giving the proportion of genes in the set contributing meaningfully to significance and estimated p-values, respectively.
+Rows correspond to the alternative hypotheses mixed, up or down.}
+  \item{var.prior}{prior value for residual variances.}
+  \item{df.prior}{prior degrees of freedom for residual variances.}
+\code{mroast} produces a list of three matrices, each with a row for each set:
+  \item{P.Value}{unadjusted p-values for the mixed, up and down alternative hypotheses}
+	\item{Adj.P.Value}{adjusted p-values for each set and each hypothesis}
+	\item{Active.Proportion}{proportion of active genes for each set and each hypothesis}
 }
 
 \details{
@@ -82,6 +82,8 @@ The p-value is computed as \code{(b+1)/(nrot+1)} where \code{b} is the number of
 This means that the smallest possible p-value is \code{1/(nrot+1)}.
 
 \code{mroast} does roast tests for multiple sets, including adjustment for multiple testing.
+By default, \code{mroast} reports ordinary p-values but uses mid-p-values at the multiple testing stage.
+Mid-p-values are probably a good choice when using false discovery rates (\code{adjust.method="BH"}) but not when controlling the family-wise type I error rate (\code{adjust.method="holm"}).
 }
 
 \note{
@@ -110,6 +112,10 @@ Rotation tests.
 Phipson B, and Smyth GK (2010).
 Permutation P-values should never be zero: calculating exact P-values when permutations are randomly drawn.
 \emph{Statistical Applications in Genetics and Molecular Biology}, Volume 9, Article 39.
+
+Routledge, RD (1994).
+Practicing safe statistics with the mid-p.
+\emph{Canadian Journal of Statistics} 22, 103-110.
 
 Wu, D, Lim, E, Francois Vaillant, F, Asselin-Labat, M-L, Visvader, JE, and Smyth, GK (2010). ROAST: rotation gene set tests for complex microarray experiments.
 \emph{Bioinformatics} 26, 2176-2182.
