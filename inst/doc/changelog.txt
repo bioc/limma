@@ -1,3 +1,9 @@
+22 Jan 2012: limma 3.10.2
+
+- The lfc (log-fold-change) argument of topTable() is now applied
+  to the minimum absolute logFC when ranking by F-statistic.
+  Previously lfc was only used when ranking by t-statistic.
+
 11 Jan 2012: limma 3.10.1
 
 - new methods "fast" and "affy" for normalizeCyclicLoess().  New
