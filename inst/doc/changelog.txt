@@ -1,3 +1,7 @@
+3 March 2012: limma 3.10.3
+
+- default for normalizeCyclicLoess() changed to "fast".
+
 22 Jan 2012: limma 3.10.2
 
 - The lfc (log-fold-change) argument of topTable() is now applied
