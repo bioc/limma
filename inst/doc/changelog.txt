@@ -1,6 +1,6 @@
 6 Sep 2012: limma 3.12.3
 
-- loessFit() now applied minimum and maximum bounds to avoid zero or
+- loessFit() now applies minimum and maximum bounds to avoid zero or
   infinite weights.  Equal weights are now treated as NULL, even all
   zero weights, so that lowess is called instead of loess.
 
