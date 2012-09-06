@@ -1,3 +1,61 @@
+6 Sep 2012: limma 3.12.2
+
+- loessFit() now applied minimum and maximum bounds to avoid zero or
+  infinite weights.  Equal weights are now treated as NULL, even all
+  zero weights, so that lowess is called instead of loess.
+
+- plotMDS() now coerces labels to be character.
+
+- limma license upgraded to GPL (>=2) instead of LGPL to match R itself.
+
+- loessFit() no longer makes direct calls to foreign language
+  functions in the stats package.  Same values are returned as before,
+  but now take 25-30% longer whenever weights are used.
+
+- updating links to Apoa1, Weaver and Bob1 case study datasets in
+  User's Guide.
+
+- new function propTrueNull() for fast estimation of the proportion
+  of true null hypotheses from a vector of p-values.
+
+- plotMDS() now tries to make room on the plot for wider text labels.
+
+- Update to User's Guide.  The chapter on experimental designs has
+  been split into three on single-channel, common reference and
+  two-color respectively.  The material on the fixed effect approach
+  to technical replication has been deleted.
+
+- new section on nested interactions for factorial designs in User's
+  Guide.
+
+- new section on multi-level designs in User's Guide.
+
+- updated help page for geneSetTest().  In view of recent results
+  from Wu and Smyth (NAR, 2012), the claim is no longer made
+  that genes might be treated as independent when the experimental
+  units are genetically identical mice.
+
+- plotMDS() no longer gives an error when the requested number of top
+  genes is greater than the total number of rows of data.
+
+- fix to voom() so that it computes weights correctly even when the
+  design matrix is not of full rank.
+
+- new function zscore(). Includes old functions zscoreGamma()
+  and zscoreT() as special cases.
+
+- camera() reference is published.
+
+- bug fix for roast() when the fitted model has only one coefficient.
+
+- minor code simplification in loessFit().
+
+- help pages for camera() now cite published paper.
+
+- any(duplicated()) replaced by anyDuplicated().
+
+- code speed-up for alias2SymbolTable()
+
 10 June 2012: limma 3.12.1
 
 - User's guide now has sections on reading single channel Agilent
