@@ -1,6 +1,18 @@
-2 Oct 2012: limma 3.14.0 (Bioconductor 2.11 Release Branch)
+13 Oct 2012: limma 3.14.1
 
-1 Oct 2012: limma 3.13.25
+- Rewrite details section of read.maimages.Rd for extra clarity and
+  to fix a typo concerning the meaning of source="agilent".
+
+- Bug fix for contrasts.fit() when the covariance matrix of the 
+  coefficients (cov.coefficients) is not found in the fitted model
+  object.  This situation doesn't arise using any of the standard
+  limma analysis pipelines.
+
+- fitFDist() now coerces degrees of freedom df1 below 1e-15 to zero.
+
+ 2 Oct 2012: limma 3.14.0 (Bioconductor 2.11 Release Branch)
+
+ 1 Oct 2012: limma 3.13.25
 
 - Two bug fixes for roast() when there are observational weights.
 

@@ -1,4 +1,4 @@
-#  DIFFERENTIAL EXPRESSION
+#  EMPIRICAL BAYES FUNCTIONS
 
 eBayes <- function(fit,proportion=0.01,stdev.coef.lim=c(0.1,4),trend=FALSE)
 #	Empirical Bayes statistics to select differentially expressed genes
@@ -138,14 +138,14 @@ fitFDist <- function(x,df1,covariate=NULL)
 #	Moment estimation of the parameters of a scaled F-distribution
 #	The first degrees of freedom are given
 #	Gordon Smyth and Belinda Phipson
-#	8 Sept 2002.  Last revised 26 Sep 2012.
+#	8 Sept 2002.  Last revised 4 Oct 2012.
 {
 	if(!is.null(covariate)) {
 		if(length(covariate) != length(x)) stop("covariate and x must be of same length")
 		if(any(is.na(covariate))) stop("NA covariate values not allowed")
 	}
 #	Remove missing or infinite values and zero degrees of freedom
-	ok <- is.finite(x) & is.finite(df1) & (x > -1e-15) & (df1 > 0)
+	ok <- is.finite(x) & is.finite(df1) & (x > -1e-15) & (df1 > 1e-15)
 	notallok <- !all(ok)
 	if(notallok) {
 		x <- x[ok]
@@ -258,19 +258,6 @@ trigammaInverse <- function(x) {
 		}
 	}
 	y
-}
-
-qqt <- function(y,df=Inf,ylim=range(y),main="Student's t Q-Q Plot",xlab="Theoretical Quantiles",ylab="Sample Quantiles",plot.it=TRUE,...)
-{
-#	Student's t probability plot
-#	Gordon Smyth
-#	3 Oct 2002
-
-    y <- y[!is.na(y)]
-    if(0 == (n <- length(y))) stop("y is empty")
-    x <- qt(ppoints(n),df=df)[order(order(y))]
-    if (plot.it) plot(x,y,main=main,xlab=xlab,ylab=ylab,ylim=ylim,...)
-    invisible(list(x=x,y=y))
 }
 
 squeezeVar <- function(var, df, covariate=NULL)
