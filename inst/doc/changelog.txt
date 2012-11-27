@@ -1,3 +1,10 @@
+27 Oct 2012: limma 3.14.2
+
+- fitFDist() now permits infinite values for covariate.  It also
+  gracefully handles cases where the covariate takes only a small
+  number of distinct values.  Similarly for eBayes() and squeezeVar()
+  that call fitFDist().  
+
 13 Oct 2012: limma 3.14.1
 
 - Rewrite details section of read.maimages.Rd for extra clarity and
