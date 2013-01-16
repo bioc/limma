@@ -1,3 +1,8 @@
+16 Jan 2012: limma 3.14.4
+
+- bug fix to read.maimages(), which was not accepting
+  source="agilent.mean".
+
 29 Nov 2012: limma 3.14.3
 
 - The layout argument for normalizeRobustSpline() now defaults to a
