@@ -1,3 +1,7 @@
+25 April 2013: limma 3.16.2
+
+- bug fix and update to fitFDistRobustly().
+
  7 April 2013: limma 3.16.1
 
 - topTable() and treat() now give more informative error messages

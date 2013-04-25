@@ -3,7 +3,7 @@ fitFDistRobustly <- function(x,df1,covariate=NULL,winsor.tail.p=c(0.05,0.1),trac
 #	given the first degrees of freedom, using first and second
 #	moments of Winsorized z-values
 #	Gordon Smyth and Belinda Phipson
-#	8 Sept 2002.  Last revised 21 Oct 2012.
+#	8 Sept 2002.  Last revised 25 April 2013.
 {
 #	Check x
 	n <- length(x)
@@ -129,7 +129,7 @@ fitFDistRobustly <- function(x,df1,covariate=NULL,winsor.tail.p=c(0.05,0.1),trac
 	if(funvalInf <= 0) {
 		df2 <- Inf
 #		Correct trend for bias
-		ztrendcorrected <- ztrend+zwmean-m
+		ztrendcorrected <- ztrend+zwmean-mom$mean
 		s20 <- exp(ztrendcorrected)
 #		Posterior df for outliers
 		Fstat <- exp(z-ztrendcorrected)
@@ -196,8 +196,13 @@ fitFDistRobustly <- function(x,df1,covariate=NULL,winsor.tail.p=c(0.05,0.1),trac
 			if(df2.outlier < df2) {
 				df2.shrunk <- ProbNotOutlier*df2+ProbOutlier*df2.outlier
 				o <- order(TailP)
-				df2.shrunk[o[1]] <- min(df2.shrunk[o[1]],NonRobust$df2)
-				df2.shrunk[o] <- cummax(df2.shrunk[o])
+				df2.ordered <- df2.shrunk[o]
+				df2.ordered[1] <- min(df2.ordered[1],NonRobust$df2)
+				m <- cumsum(df2.ordered)
+				m <- m/(1:n)
+				imin <- which.min(m)
+				df2.ordered[1:imin] <- m[imin]
+				df2.shrunk[o] <- cummax(df2.ordered)
 			}
 		}
 	}
