@@ -1,3 +1,8 @@
+ 1 May 2013: limma 3.16.3
+
+- Bug fix to ebayes(), which was not passing the 'robust' argument
+  correctly on to squeezeVar().
+
 25 April 2013: limma 3.16.2
 
 - bug fix and update to fitFDistRobustly().
