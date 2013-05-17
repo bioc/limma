@@ -1,3 +1,7 @@
+17 May 2013: limma 3.16.4
+
+- Update references on help page for voom().
+
  1 May 2013: limma 3.16.3
 
 - Bug fix to ebayes(), which was not passing the 'robust' argument
