@@ -11,7 +11,7 @@ normalizeBetweenArrays(object, method=NULL, targets=NULL, cyclic.method="fast", 
 }
 
 \arguments{
-  \item{object}{a numeric \code{matrix}, \code{EListRaw}, \code{\link[limma:rglist]{RGList}} or \code{\link[limma:malist]{MAList}} object.}
+  \item{object}{a numeric \code{matrix}, \code{\link[limma:EList]{EListRaw}}, \code{\link[limma:rglist]{RGList}} or \code{\link[limma:malist]{MAList}} object.}
   \item{method}{character string specifying the normalization method to be used.
   Choices are \code{"none"}, \code{"scale"}, \code{"quantile"}, \code{"Aquantile"}, \code{"Gquantile"}, \code{"Rquantile"} or \code{"Tquantile"} or \code{"cyclicloess"}.
   A partial string sufficient to uniquely identify the choice is permitted.
@@ -38,7 +38,7 @@ Cyclic loess is slower than quantile, but allows probe-wise weights and is more 
 
 The other normalization methods are for two-color arrays.
 Scale normalization was proposed by Yang et al (2001, 2002) and is further explained by Smyth and Speed (2003).
-The idea is simply to scale the log-ratios to have the same median-abolute-deviation (MAD) across arrays.
+The idea is simply to scale the log-ratios to have the same median-absolute-deviation (MAD) across arrays.
 This idea has also been implemented by the \code{maNormScale} function in the marray package.
 The implementation here is slightly different in that the MAD scale estimator is replaced with the median-absolute-value and the A-values are normalized as well as the M-values.
 

@@ -1,3 +1,11 @@
+27 May 2013: limma 3.16.5
+
+- normexp.fit.detection.p() now tolerates some non-monotonicity in
+  the detection p-pvalues as a function of expression.
+
+- A number of help pages have been updated, including a new reference
+  for lmscFit.
+
 17 May 2013: limma 3.16.4
 
 - Update references on help page for voom().

@@ -18,7 +18,7 @@ lmFit(object,design=NULL,ndups=1,spacing=1,block=NULL,correlation,weights=NULL,m
 }
 
 \value{
-Object of class \code{\link[limma:marraylm]{MArrayLM}}
+An \code{\link[limma:marraylm]{MArrayLM}} object containing the result of the fits.
 }
 
 \details{
@@ -61,6 +61,8 @@ If \code{method="ls"} and there is no correlation structure, \code{lm.series} is
 }
 
 \seealso{
+\code{lmFit} uses \code{\link{getEAWP}} to extract expression values, gene annotation and so from the data \code{object}.
+
 An overview of linear model functions in limma is given by \link{06.LinearModels}.
 }
 
@@ -75,19 +77,27 @@ y <- matrix(rnorm(100*6,sd=sd),100,6)
 rownames(y) <- paste("Gene",1:100)
 y[1:2,4:6] <- y[1:2,4:6] + 2
 design <- cbind(Grp1=1,Grp2vs1=c(0,0,0,1,1,1))
-options(digit=3)
+options(digits=3)
 
 # Ordinary fit
 fit <- lmFit(y,design)
 fit <- eBayes(fit)
-fit
-as.data.frame(fit[1:10,2])
-
-# Various ways of summarising or plotting the results
 topTable(fit,coef=2)
+dim(fit)
+colnames(fit)
+rownames(fit)[1:10]
+names(fit)
+
+# Fold-change thresholding
+fit2 <- treat(fit,lfc=0.1)
+topTreat(fit2,coef=2)
+
+# Volcano plot
+volcanoplot(fit,coef=2,highlight=2)
+
+# Q-Q plot of moderated t-statistics
 qqt(fit$t[,2],df=fit$df.residual+fit$df.prior)
 abline(0,1)
-volcanoplot(fit,coef=2,highlight=2)
 
 # Various ways of writing results to file
 \dontrun{write.fit(fit,file="exampleresults.txt")}
@@ -106,14 +116,9 @@ rownames(y) <- paste("Gene",rep(1:50,each=2))
 dupcor <- duplicateCorrelation(y,design,ndups=2)
 dupcor$consensus.correlation
 fit4 <- lmFit(y,design,ndups=2,correlation=dupcor$consensus)
-fit4 <- eBayes(fit3)
 dim(fit4)
+fit4 <- eBayes(fit3)
 topTable(fit4,coef=2)
-
-# Fold-change thresholding
-fit <- lmFit(y,design)
-fit <- treat(fit,lfc=0.1)
-topTreat(fit,coef=2)
 }
 \keyword{models}
 \keyword{regression}
