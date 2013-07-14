@@ -1,3 +1,24 @@
+14 July 2013: limma 3.16.6
+
+- bug fix to eBayes(robust=TRUE) when some of the df.prior values are
+  infinite.
+
+- voom() now outputs lib.size as a column of targets instead of as a
+  separate component.
+
+- cbind for EList and EListRaw objects now recognizes a design matrix
+  if it is present.
+
+- plotMDS() now checks explicitly that there are at least 3 samples
+  to plot.
+
+- The legend argument to plotMA() can now take a character value
+  giving the position to place the legend.
+
+- New merge methods for EList and EListRaw objects.
+
+- Fix minor typo in roast.Rd.
+
 27 May 2013: limma 3.16.5
 
 - normexp.fit.detection.p() now tolerates some non-monotonicity in
