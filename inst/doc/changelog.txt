@@ -1,3 +1,7 @@
+19 September 2013: limma 3.16.8
+
+- bug fix to mroast() which was not using weights correctly.
+
 29 July 2013: limma 3.16.7
 
 - duplicateCorrelation() now uses the weights matrix when block is
