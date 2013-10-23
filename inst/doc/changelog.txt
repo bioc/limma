@@ -1,3 +1,9 @@
+23 Oct 2013: limma 3.18.1
+
+- NEWS.Rd updated to reflect changes in Bioconductor 2.13 Release.
+
+15 Oct 2013: limma 3.18.0 (Bioconductor 2.13 Release Branch)
+
 11 Oct 2013: limma 3.17.28
 
 - Add comment to RNA-seq case study in User's Guide about conflict
@@ -109,7 +115,7 @@
 
 - Update lmscFit and voom references.
 
-- Update voomByGroup documentation.
+- Update voomaByGroup documentation.
 
 12 May 2013: limma 3.17.12
 
