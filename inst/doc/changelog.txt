@@ -1,3 +1,21 @@
+13 Nov 2013: limma 3.18.3
+
+- plotFB now an S3 generic function with methods for RGList and EList
+  data objects.
+
+- edits to help pages for read.ilmn, neqc, beadCountWeights, voom and
+  vooma.
+
+- Update cross link to affy::normalize-method in
+  normalizeBetweenArrays.Rd.
+
+- Revise auROC.Rd help page.  Remove cross reference to ROC package.
+
+- Vignette limma.Rnw renamed to intro.Rnw and moved to vignette
+  directory.
+
+- bug fix to x-axis label for some plotMA methods.
+
  4 Nov 2013: limma 3.18.2
 
 - bug fix to topTable() and topTableF() when sorting by F-statistic
