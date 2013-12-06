@@ -1,3 +1,13 @@
+ 7 Dec 2013: limma 3.18.5
+
+- Bug fix to topTreat().  Rownames were incorrectly ordered when p<1.
+
+- topTable() will now work on an MArrayLM fit object that is missing
+  the lods component, for example as produced by treat().
+
+- lmFit(), eBayes(), tmixture.vector() and so on now work even when
+  there is only one gene (one row of data).
+
  2 Dec 2013: limma 3.18.4
 
 - bug fix to genas(), which was not handling vector df.prior
