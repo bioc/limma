@@ -1,3 +1,7 @@
+11 Jan 2014: limma 3.18.9
+
+- update citation of Law et al (2014) reference for voom().
+
 11 Jan 2014: limma 3.18.8
 
 - roast() and mroast() now permit array weights and observation
