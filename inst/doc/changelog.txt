@@ -1,3 +1,18 @@
+31 January 2014: limma 3.18.10
+
+- treat() now has new arguments robust and winsor.tail.p which are
+  passed through to robust empirical Bayes estimation.
+
+- vennDiagram() wasn't passing extra arguments (...) to plot() when
+  the number of sets was greater than 3.  Now fixed.
+
+- read.ilmn() now sets the same probe IDs as rownames for both the 
+  expression matrix E and the annotation data.frame genes.
+
+- romer() now uses propTrueNull(method="lfdr") instead of convest().
+  This makes romer() substantially faster when the number of genes
+  is large.
+
 11 Jan 2014: limma 3.18.9
 
 - update citation of Law et al (2014) reference for voom().
