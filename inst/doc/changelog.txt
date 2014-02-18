@@ -1,3 +1,8 @@
+18 February 2014: limma 3.18.13
+
+- Bug fix: the mroast methods for EList and MAList objects were
+  ignoring the midp, p.adjust and sorting arguments.
+
 11 February 2014: limma 3.18.12
 
 - The new subsetting code of 12 Dec 2013 introduced a bug whereby
