@@ -102,12 +102,12 @@ assign("[.MArrayLM",
 function(object, i, j)
 #  Subsetting for MArrayLM objects
 #  Gordon Smyth
-#  26 April 2005. Last modified 11 Feb 2014.
+#  26 April 2005. Last modified 14 May 2014.
 {
 #	Recognized components
 	IJ <- c("coefficients","stdev.unscaled","t","p.value","lods","weights")
 	IX <- "genes"
-	JX <- c("targets","design")
+	JX <- character(0)
 	I  <- c("Amean","sigma","df.residual","df.prior","df.total","s2.post","F","F.p.value")
 	JJ <- "cov.coefficients"
 	XJ <- "contrasts"
