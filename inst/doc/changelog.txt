@@ -1,3 +1,28 @@
+16 June 2014: limma 3.20.5
+
+- bug fix to read.ilmn() when sep=",".
+
+- biocViews keywords updated.
+
+- roast() and mroast() have a new argument 'approx.zscore'.  By
+  default they now use approx=TRUE when calling zscoreT().
+
+- zscoreT() can now optionally use a fast approximation instead of
+  the slower exact calculation.
+
+- plotMDS() can now optionally plot samples using symbols instead of
+  text labels.
+
+- many Rd files have been reformated to avoid over long lines in the
+  pdf manual.
+
+- Further change to removeBatchEffect(), which now calls lmFit() to
+  estimate the batch effect.  This means that removeBatchEffect() can
+  now take into account weights and other arguments that will affect
+  the linear model fit.  This also corrects a problem, introduced by
+  the previous change, when the batch effect was confounded with the
+  design matrix.
+
 20 May 2014: limma 3.20.4
 
 - Change to removeBatchEffect() when there is a non-trivial design
