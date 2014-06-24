@@ -1,3 +1,10 @@
+24 June 2014: limma 3.20.7
+
+- update to helpMethods().
+
+- bug fix to topTableF() and topTable() ordering of Amean values when
+  ranking is by F-statistic and a lfc or p.value filter has been set.
+
 18 June 2014: limma 3.20.6
 
 - improvements to roast() and mroast().  The directional (up and
