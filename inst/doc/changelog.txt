@@ -1,3 +1,12 @@
+27 June 2014: limma 3.20.8
+
+- remove col argument from plotMDS(), as it handled by ... as are
+  other graphics arguments.
+
+- vennDiagram() now supports circles of different colors for any
+  number of circles.  Previously this was supported only up to three
+  sets.  
+
 24 June 2014: limma 3.20.7
 
 - update to helpMethods().
