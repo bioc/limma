@@ -4,7 +4,7 @@ read.maimages <- function(files=NULL,source="generic",path=NULL,ext=NULL,names=N
 #	Extracts an RG list from a set of two-color image analysis output files
 #  or an EListRaw from a set of one-color files
 #	Gordon Smyth. 
-#	1 Nov 2002.  Last revised 9 March 2012.
+#	1 Nov 2002.  Last revised 27 August 2012.
 {
 #	Begin checking input arguments
 
@@ -21,7 +21,7 @@ read.maimages <- function(files=NULL,source="generic",path=NULL,ext=NULL,names=N
 	source <- match.arg(source,c("generic","agilent","agilent.mean","agilent.median","arrayvision","arrayvision.ARM","arrayvision.MTM","bluefuse","genepix","genepix.mean","genepix.median","genepix.custom","imagene","imagene9","quantarray","scanarrayexpress","smd.old","smd","spot","spot.close.open"))
 #	source2 is the source type with qualifications removed
 	source2 <- strsplit(source,split=".",fixed=TRUE)[[1]][1]
-	if(is.null(quote)) if(source=="agilent") quote <- "" else quote <- "\""
+	if(is.null(quote)) if(source2=="agilent") quote <- "" else quote <- "\""
 	if(source2=="imagene") return(read.imagene(files=files,path=path,ext=ext,names=names,columns=columns,other.columns=other.columns,wt.fun=wt.fun,verbose=verbose,sep=sep,quote=quote,...))
 
 	if(is.data.frame(files)) {

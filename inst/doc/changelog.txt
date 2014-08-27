@@ -1,3 +1,8 @@
+27 August 2014: limma 3.20.8
+
+- Bug fix for read.maimages: default value for 'quote' was not being
+  set correctly for source="agilent.mean" or source="agilent.median".
+
 27 June 2014: limma 3.20.8
 
 - remove col argument from plotMDS(), as it handled by ... as are
