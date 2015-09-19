@@ -8,12 +8,12 @@ Determine the type (or status) of each spot in the gene list.
 controlStatus(types, genes, spottypecol="SpotType", regexpcol, verbose=TRUE)
 }
 \arguments{
-  \item{types}{dataframe containing spot type specifiers, usually input using \code{readSpotTypes}}
-  \item{genes}{dataframe containing the microarray gene list, or an \code{RGList}, \code{MAList} or \code{MArrayList} containing \code{genes}}
-  \item{spottypecol}{integer or name specifying column of \code{types} containing spot type names}
+  \item{types}{dataframe containing spot type specifiers, usually input using \code{readSpotTypes}.}
+  \item{genes}{dataframe containing gene annotation, or an object of class \code{RGList}, \code{MAList}, \code{EListRaw}, \code{EList} or \code{MArrayLM} from which the gene annotation can be extracted.}
+  \item{spottypecol}{integer or name specifying column of \code{types} containing spot type names.}
   \item{regexpcol}{vector of integers or column names specifying columns of types containing regular expressions.
   Defaults to any column names in common between \code{types} and \code{genes}.}
-  \item{verbose}{logical, if \code{TRUE} then progess on pattern matching is reported to the standard output channel}
+  \item{verbose}{logical, if \code{TRUE} then progess on pattern matching is reported to the standard output channel.}
 }
 \details{
 This function constructs a vector of status codes by searching for patterns in the gene list.

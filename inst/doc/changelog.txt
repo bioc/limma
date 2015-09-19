@@ -1,3 +1,17 @@
+19 Sep 2015: limma 3.25.16
+
+- fry() now produces "mixed" (non-directional) p-values and FDRs as
+  well as directional p-values and FDRs.
+
+- the 'genes' argument of controlStatus() now accepts EListRaw or
+  Elist objects.
+
+- avearrays() now gives a more informative error message if input
+  argument 'x' is not a matrix.
+
+- getEAWP() now works on all eSet objects, not just ExpressionSet,
+  provided there is an data element called "exprs".
+
  5 Aug 2015: limma 3.25.15
 
 - argument truncate.term for topKEGG() renamed to 'truncate.path'.

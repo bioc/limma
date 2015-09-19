@@ -391,7 +391,7 @@ getEAWP <- function(object)
 #	Given any microarray data object, extract basic information needed
 #	for linear modelling.
 #	Gordon Smyth
-#	9 March 2008. Last modified 7 July 2015.
+#	9 March 2008. Last modified 18 August 2015.
 {
 	y <- list()
 	
@@ -431,13 +431,20 @@ getEAWP <- function(object)
 		}
 		if(length(object@maA)) y$Amean <- rowMeans(object@maA,na.rm=TRUE)
 	} else {
+	if(is(object,"eSet")) {
+		if(!requireNamespace("Biobase",quietly=TRUE)) stop("Biobase package required but is not available")
+		y$exprs <- Biobase::assayDataElement(object,"exprs")
+		if(length(object@featureData@data)) y$probes <- object@featureData@data
+		y$Amean <- rowMeans(y$exprs,na.rm=TRUE)
+		if("weights" %in% Biobase::assayDataElementNames(object)) y$weights <- Biobase::assayDataElement(object,"weights")
+	} else {
 #		Default method for matrices, data.frames, vsn objects etc.
 		if(is.vector(object))
 			y$exprs <- matrix(object,nrow=1)
 		else
 			y$exprs <- as.matrix(object)
 		y$Amean <- rowMeans(y$exprs,na.rm=TRUE)
-	}}}}
+	}}}}}
 
 #	Check expression values are numeric
 	if(mode(y$exprs) != "numeric") stop("Data object doesn't contain numeric expression values")

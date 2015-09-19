@@ -18,7 +18,7 @@ barcodeplot(statistics, index = NULL, index2 = NULL, gene.weights = NULL,
   If specified, then \code{index} and \code{index2} specify positive and negative genes respectively.
   Usually used to distinguish down-regulated genes from up-regulated genes.}
   \item{gene.weights}{numeric vector giving directional weights for the genes in the (first) set.
-  Postive and negative weights correspond to positive and negative genes.
+  Positive and negative weights correspond to positive and negative genes.
   Ignored if \code{index2} is non-null.}
   \item{weights.label}{label describing the entries in \code{gene.weights}.}
   \item{labels}{character vector of labels for high and low statistics.  First label is associated with high statistics and is displayed at the left end of the plot.  Second label is associated with low or negative statistics and is displayed at the right end of the plot.}

@@ -68,6 +68,8 @@ Rows correspond to the alternative hypotheses Down, Up, UpOrDown (two-sided) and
 	\item{FDR}{two-sided directional false discovery rate}
 	\item{PValue.Mixed}{non-directional p-value}
 	\item{FDR.Mixed}{non-directional false discovery rate}
+
+\code{fry} produces the same output format as \code{mroast} but without the columns \code{PropDown} and \code{ProbUp}.
 }
 
 \details{

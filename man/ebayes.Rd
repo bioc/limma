@@ -37,7 +37,7 @@ treat(fit, lfc=0, trend=FALSE, robust=FALSE, winsor.tail.p=c(0.05,0.1))
 \code{ebayes} produces an ordinary list containing the above components except for \code{F} and \code{F.p.value}.
 }
 \details{
-These functions is used to rank genes in order of evidence for differential expression.
+These functions are used to rank genes in order of evidence for differential expression.
 They use an empirical Bayes method to shrink the probe-wise sample variances towards a common value and to augmenting the degrees of freedom for the individual variances (Smyth, 2004).
 The functions accept as input argument \code{fit} a fitted model object from the functions \code{lmFit}, \code{lm.series}, \code{mrlm} or \code{gls.series}.
 The fitted model object may have been processed by \code{contrasts.fit} before being passed to \code{eBayes} to convert the coefficients of the design matrix into an arbitrary number of contrasts which are to be tested equal to zero.
@@ -56,7 +56,7 @@ The F-statistics \code{F} are computed by \code{classifyTestsF} with \code{fstat
 \code{eBayes} doesn't compute ordinary (unmoderated) t-statistics by default, but these can be easily extracted from 
 the linear model output, see the example below.
 
-\code{ebayes} is the earlier and leaner function, kept for background capatability, while
+\code{ebayes} is the earlier and leaner function, kept for backwards compatibility, while
 \code{eBayes} is the later more object-orientated version.
 The difference is that \code{ebayes} outputs only the empirical Bayes statistics whereas \code{eBayes} adds them to the fitted model object \code{fit}.
 \code{eBayes} is recommended for routine use as it produces objects containing all the necessary components for downstream analysis

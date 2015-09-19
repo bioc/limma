@@ -177,26 +177,35 @@ readSpotTypes <- function(file="SpotTypes.txt",path=NULL,sep="\t",check.names=FA
 }
 
 controlStatus <- function(types, genes, spottypecol="SpotType", regexpcol, verbose=TRUE)
-#	Set status of each spot
+#	Set status of each spot (row)
 #	Gordon Smyth
-#	19 Oct 2003.  Last modified 9 Nov 2003.
+#	19 Oct 2003.  Last modified 19 Sep 2015.
 {
-#	Check input
-	if (is(genes, "RGList") || is(genes, "MAList") || is(genes, "MArrayLM")) genes <- genes$genes
+#	Check types
+	if(!is.data.frame(types)) stop("types must be a data.frame")
 	cntypes <- colnames(types)
+	if(is.null(cntypes)) stop("types must have column names")
+
+#	Check genes
+	if (is(genes,"RGList") || is(genes,"MAList") || is(genes,"MArrayLM") || is(genes,"EListRaw") || is(genes,"EList")) genes <- genes$genes
+	if(!is.data.frame(genes)) stop("genes must be a data.frame")
 	cngenes <- colnames(genes)
-	if(is.null(cntypes) || is.null(cngenes)) stop("types and genes must have column names")
+	if(is.null(cngenes)) stop("genes must have column names")
+
+#	Check have at least one row
 	ntypes <- nrow(types)
 	nspots <- nrow(genes)
 	if(ntypes==0 || nspots==0) return(NULL)
+
 #	Any undo conversion of types to factors
 	for (j in cntypes) {
 		x <- types[,j]
 		if(is.factor(x) && is.character(levels(x))) types[,j] <- as.character(x)
 	}
+
+#	Check spottypecol
 	if(is.numeric(spottypecol)) spottypecol <- cntypes[spottypecol[1]]
-	if(is.null(spottypecol) || !is.character(spottypecol) || !is.element(spottypecol,cntypes))
-		stop("spottypecol not valid column of types")
+	if(is.null(spottypecol) || !is.character(spottypecol) || !is.element(spottypecol,cntypes)) stop("spottypecol not valid column of types")
 
 #	Find common columns between types and genes
 	if(!missing(regexpcol) && is.numeric(regexpcol)) regexpcol <- cntypes[regexpcol]

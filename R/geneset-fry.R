@@ -5,7 +5,7 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),weights=N
 #	The up and down p-values are equivalent to those from roast with nrot=Inf
 #	in the special case of prior.df=Inf.
 #	Gordon Smyth and Goknur Giner
-#	Created 30 January 2015.  Last modified 23 June 2015
+#	Created 30 January 2015.  Last modified 21 August 2015
 {
 #	Issue warning if extra arguments found
 	dots <- names(list(...))
@@ -36,7 +36,6 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),weights=N
 
 	p <- ncol(design)
 	df.residual <- n-p
-	df.camera <- min(df.residual,G-2)
 
 #	Check weights
 	if(is.null(weights)) weights <- y$weights
@@ -98,33 +97,46 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),weights=N
 	}
 
 #	Standardized residuals
-	U <- effects[-(1:(p-1)),,drop=FALSE]
+	U <- t(effects[-(1:(p-1)),,drop=FALSE])
 
 #	Global statistics
 	nsets <- length(index)
 	NGenes <- rep.int(0L,nsets)
 	Direction <- rep.int("",nsets)
 	PValue.Mixed <- PValue <- rep.int(0,nsets)
+	d1 <- ncol(U)
+	d <- d1-1L
+	beta.mean <- 1/d1
+	beta.var <- d/d1/d1/(d1/2+1)
 	for (i in 1:nsets) {
 		iset <- index[[i]]
-		USet <- U[,iset,drop=FALSE]
-		NGenes[i] <- ncol(USet)
-		MeanUSet <- rowMeans(USet)
+		USet <- U[iset,,drop=FALSE]
+		NGenes[i] <- nrow(USet)
+		MeanUSet <- colMeans(USet)
 		t.stat <- MeanUSet[1L] / sqrt(mean(MeanUSet[-1L]^2L))
 		if(t.stat>0) Direction[i] <- "Up" else Direction[i] <- "Down"
 		PValue[i] <- 2*pt(-abs(t.stat),df=df.residual)
-#		MSqUSet <- rowMeans(USet^2)
-#		F.stat <- MSqUSet[1L] / mean(MSqUSet[-1L])
-#		PValue.Mixed[i] <- pf(F.stat,df1=1L,df2=df.residual,lower.tail=FALSE)
+
+		SVD <- svd(USet,nu=0)
+		A <- SVD$d^2
+		Fobs <- (sum(USet[,1]^2)-A[d1]) / (A[1]-A[d1])
+		Frb.mean <- (sum(A) * beta.mean - A[d1]) / (A[1]-A[d1])
+		COV <- matrix(-beta.var/d,d1,d1)
+		diag(COV) <- beta.var
+		Frb.var <- (A %*% COV %*% A ) / (A[1]-A[d1])^2
+		alphaplusbeta <- Frb.mean*(1-Frb.mean)/Frb.var-1
+		alpha <- alphaplusbeta*Frb.mean
+		beta <- alphaplusbeta-alpha
+		PValue.Mixed[i] <- pbeta(Fobs,shape1=alpha,shape2=beta,lower.tail=FALSE)
 	}
 
 #	Add FDR
 	if(nsets>1) {
 		FDR <- p.adjust(PValue,method="BH")
-#		FDR.Mixed <- p.adjust(PValue.Mixed,method="BH")
-		tab <- data.frame(NGenes=NGenes,Direction=Direction,PValue=PValue,FDR=FDR)
+		FDR.Mixed <- p.adjust(PValue.Mixed,method="BH")
+		tab <- data.frame(NGenes=NGenes,Direction=Direction,PValue=PValue,FDR=FDR,PValue.Mixed=PValue.Mixed,FDR.Mixed=FDR.Mixed)
 	} else {
-		tab <- data.frame(NGenes=NGenes,Direction=Direction,PValue=PValue)
+		tab <- data.frame(NGenes=NGenes,Direction=Direction,PValue=PValue,PValue.Mixed=PValue.Mixed)
 	}
 	rownames(tab) <- names(index)
 

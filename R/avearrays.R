@@ -6,11 +6,12 @@ avearrays <- function(x,ID=NULL,weights=NULL) UseMethod("avearrays")
 avearrays.default <- function(x,ID=colnames(x),weights=NULL)
 #	Average over technical replicate columns, for matrices
 #	Gordon Smyth
-#	Created 24 Sept 2010. Last modified 1 Dec 2010.
+#	Created 24 Sept 2010. Last modified 13 Aug 2015.
 {
 	if(is.null(x)) return(NULL)
-	if(is.null(ID)) stop("No sample IDs")
+	if(is.vector(x)) stop("x must be a matrix")
 	x <- as.matrix(x)
+	if(is.null(ID)) stop("No sample IDs")
 	ID <- as.character(ID)
 	if(mode(x)=="character") {
 		d <- duplicated(ID)
