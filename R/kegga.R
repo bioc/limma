@@ -108,7 +108,7 @@ kegga.default <- function(de, universe = NULL, species = "Hs", prior.prob = NULL
 		o <- order(covariate)
 		prior.prob <- covariate
 		span <- approx(x=c(20,200),y=c(1,0.5),xout=sum(isDE),rule=2)$y
-		prior.prob[o] <- tricubeMovingAverage(isDE[o],span=span,full.length=TRUE)
+		prior.prob[o] <- tricubeMovingAverage(isDE[o],span=span)
 		if(plot) barcodeplot(covariate, index=(isDE==1), worm=TRUE, span.worm=span)
 	}
 

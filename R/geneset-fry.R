@@ -5,7 +5,7 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),weights=N
 #	The up and down p-values are equivalent to those from roast with nrot=Inf
 #	in the special case of prior.df=Inf.
 #	Gordon Smyth and Goknur Giner
-#	Created 30 January 2015.  Last modified 21 August 2015
+#	Created 30 January 2015.  Last modified 6 October 2015
 {
 #	Issue warning if extra arguments found
 	dots <- names(list(...))
@@ -104,10 +104,6 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),weights=N
 	NGenes <- rep.int(0L,nsets)
 	Direction <- rep.int("",nsets)
 	PValue.Mixed <- PValue <- rep.int(0,nsets)
-	d1 <- ncol(U)
-	d <- d1-1L
-	beta.mean <- 1/d1
-	beta.var <- d/d1/d1/(d1/2+1)
 	for (i in 1:nsets) {
 		iset <- index[[i]]
 		USet <- U[iset,,drop=FALSE]
@@ -117,17 +113,25 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),weights=N
 		if(t.stat>0) Direction[i] <- "Up" else Direction[i] <- "Down"
 		PValue[i] <- 2*pt(-abs(t.stat),df=df.residual)
 
-		SVD <- svd(USet,nu=0)
-		A <- SVD$d^2
-		Fobs <- (sum(USet[,1]^2)-A[d1]) / (A[1]-A[d1])
-		Frb.mean <- (sum(A) * beta.mean - A[d1]) / (A[1]-A[d1])
-		COV <- matrix(-beta.var/d,d1,d1)
-		diag(COV) <- beta.var
-		Frb.var <- (A %*% COV %*% A ) / (A[1]-A[d1])^2
-		alphaplusbeta <- Frb.mean*(1-Frb.mean)/Frb.var-1
-		alpha <- alphaplusbeta*Frb.mean
-		beta <- alphaplusbeta-alpha
-		PValue.Mixed[i] <- pbeta(Fobs,shape1=alpha,shape2=beta,lower.tail=FALSE)
+		if(NGenes[i]==1) {
+			PValue.Mixed[i] <- PValue[i]
+		} else {
+			SVD <- svd(USet,nu=0)
+			A <- SVD$d^2
+			d1 <- length(A)
+			d <- d1-1L
+			beta.mean <- 1/d1
+			beta.var <- d/d1/d1/(d1/2+1)
+			Fobs <- (sum(USet[,1]^2)-A[d1]) / (A[1]-A[d1])
+			Frb.mean <- (sum(A) * beta.mean - A[d1]) / (A[1]-A[d1])
+			COV <- matrix(-beta.var/d,d1,d1)
+			diag(COV) <- beta.var
+			Frb.var <- (A %*% COV %*% A ) / (A[1]-A[d1])^2
+			alphaplusbeta <- Frb.mean*(1-Frb.mean)/Frb.var-1
+			alpha <- alphaplusbeta*Frb.mean
+			beta <- alphaplusbeta-alpha
+			PValue.Mixed[i] <- pbeta(Fobs,shape1=alpha,shape2=beta,lower.tail=FALSE)
+		}
 	}
 
 #	Add FDR

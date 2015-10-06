@@ -3,7 +3,7 @@
 lmFit <- function(object,design=NULL,ndups=1,spacing=1,block=NULL,correlation,weights=NULL,method="ls",...)
 #	Fit genewise linear models
 #	Gordon Smyth
-#	30 June 2003.  Last modified 7 July 2015.
+#	30 June 2003.  Last modified 6 Oct 2015.
 {
 #	Extract components from y
 	y <- getEAWP(object)
@@ -51,9 +51,8 @@ lmFit <- function(object,design=NULL,ndups=1,spacing=1,block=NULL,correlation,we
 
 #	Possible warning on missing coefs
 	if(NCOL(fit$coef)>1) {
-		i <- is.na(fit$coef)
-		i <- apply(i[,1]==i[,-1,drop=FALSE],1,all)
-		n <- sum(!i)
+		n <- rowSums(is.na(fit$coef))
+		n <- sum(n>0 & n<NCOL(fit$coef))
 		if(n>0) warning("Partial NA coefficients for ",n," probe(s)",call.=FALSE) 
 	}
 

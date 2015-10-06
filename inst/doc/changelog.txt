@@ -1,7 +1,24 @@
+ 6 Oct 2015: limma 3.25.17
+
+- Checking for NA coefficients in lmFit() is now done more
+  efficiently.
+
+- bug fix for fry() when the gene set has a small number of genes.
+
+- more informative error message from lmscFit() when correlation is
+  NA.
+
 19 Sep 2015: limma 3.25.16
 
 - fry() now produces "mixed" (non-directional) p-values and FDRs as
   well as directional p-values and FDRs.
+
+- tricubeMovingAverage() has new argument 'power' and old argument
+  'full.length' is removed.
+  
+- tricubeMovingAverage() now checks whether span is correctly
+  specified.  It now gives identical results for any span>=1 or any
+  span<=0.
 
 - the 'genes' argument of controlStatus() now accepts EListRaw or
   Elist objects.

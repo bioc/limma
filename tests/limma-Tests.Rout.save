@@ -1,5 +1,5 @@
 
-R version 3.2.1 (2015-06-18) -- "World-Famous Astronaut"
+R version 3.2.2 (2015-08-14) -- "Fire Safety"
 Copyright (C) 2015 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
@@ -1330,53 +1330,31 @@ set1      5  -0.2481655        Up 0.0009047749
 + "1370","137075","1371","137209","1373","137362","1374","137492","1375","1376",
 + "137682","137695","137735","1378","137814","137868","137872","137886","137902","137964")
 > go <- goana(fit,FDR=0.8,geneid=EB)
-> topGO(go,n=10)
-                                                                       Term Ont
-GO:0055082                                    cellular chemical homeostasis  BP
-GO:0006897                                                      endocytosis  BP
-GO:0019725                                             cellular homeostasis  BP
-GO:0006915                                                apoptotic process  BP
-GO:0012501                                            programmed cell death  BP
-GO:0008283                                               cell proliferation  BP
-GO:0042127                                 regulation of cell proliferation  BP
-GO:0097190                                      apoptotic signaling pathway  BP
-GO:0006909                                                     phagocytosis  BP
-GO:0007169 transmembrane receptor protein tyrosine kinase signaling pathway  BP
-           N Up Down        P.Up      P.Down
-GO:0055082 2  0    2 1.000000000 0.004242424
-GO:0006897 3  3    0 0.005046382 1.000000000
-GO:0019725 3  0    2 1.000000000 0.012294372
-GO:0006915 4  3    1 0.017844424 0.255402330
-GO:0012501 4  3    1 0.017844424 0.255402330
-GO:0008283 4  1    2 0.553950615 0.023749721
-GO:0042127 4  1    2 0.553950615 0.023749721
-GO:0097190 2  2    0 0.030909091 1.000000000
-GO:0006909 2  2    0 0.030909091 1.000000000
-GO:0007169 2  2    0 0.030909091 1.000000000
-> topGO(go,n=10,sort="down")
-                                                Term Ont  N Up Down      P.Up
-GO:0055082             cellular chemical homeostasis  BP  2  0    2 1.0000000
-GO:0019725                      cellular homeostasis  BP  3  0    2 1.0000000
-GO:0008283                        cell proliferation  BP  4  1    2 0.5539506
-GO:0042127          regulation of cell proliferation  BP  4  1    2 0.5539506
-GO:0048878                      chemical homeostasis  BP  5  1    2 0.6375849
-GO:0032502                     developmental process  BP 22  3    4 0.8185069
-GO:0048519 negative regulation of biological process  BP 14  2    3 0.7685153
-GO:0043230                   extracellular organelle  CC 14  1    3 0.9502416
-GO:0065010  extracellular membrane-bounded organelle  CC 14  1    3 0.9502416
-GO:0070062           extracellular vesicular exosome  CC 14  1    3 0.9502416
-                P.Down
-GO:0055082 0.004242424
-GO:0019725 0.012294372
-GO:0008283 0.023749721
-GO:0042127 0.023749721
-GO:0048878 0.038228009
-GO:0032502 0.040079017
-GO:0048519 0.055161144
-GO:0043230 0.055161144
-GO:0065010 0.055161144
-GO:0070062 0.055161144
+> topGO(go,n=10,truncate.term=30)
+                                     Term Ont N Up Down        P.Up      P.Down
+GO:0055082 cellular chemical homeostas...  BP 2  0    2 1.000000000 0.004242424
+GO:0006897                    endocytosis  BP 3  3    0 0.005046382 1.000000000
+GO:0019725           cellular homeostasis  BP 3  0    2 1.000000000 0.012294372
+GO:0006915              apoptotic process  BP 4  3    1 0.017844424 0.255402330
+GO:0012501          programmed cell death  BP 4  3    1 0.017844424 0.255402330
+GO:0051130 positive regulation of cell...  BP 4  1    2 0.553950615 0.023749721
+GO:0008283             cell proliferation  BP 4  1    2 0.553950615 0.023749721
+GO:0042127 regulation of cell prolifer...  BP 4  1    2 0.553950615 0.023749721
+GO:0006909                   phagocytosis  BP 2  2    0 0.030909091 1.000000000
+GO:0007169 transmembrane receptor prot...  BP 2  2    0 0.030909091 1.000000000
+> topGO(go,n=10,truncate.term=30,sort="down")
+                                     Term Ont  N Up Down      P.Up      P.Down
+GO:0055082 cellular chemical homeostas...  BP  2  0    2 1.0000000 0.004242424
+GO:0019725           cellular homeostasis  BP  3  0    2 1.0000000 0.012294372
+GO:0051130 positive regulation of cell...  BP  4  1    2 0.5539506 0.023749721
+GO:0008283             cell proliferation  BP  4  1    2 0.5539506 0.023749721
+GO:0042127 regulation of cell prolifer...  BP  4  1    2 0.5539506 0.023749721
+GO:1902589 single-organism organelle o...  BP  5  1    2 0.6375849 0.038228009
+GO:0048878           chemical homeostasis  BP  5  1    2 0.6375849 0.038228009
+GO:0010629 negative regulation of gene...  BP  5  0    2 1.0000000 0.038228009
+GO:0032502          developmental process  BP 22  3    4 0.8185069 0.040079017
+GO:0048519 negative regulation of biol...  BP 14  2    3 0.7685153 0.055161144
 > 
 > proc.time()
    user  system elapsed 
-   2.83    0.18    3.04 
+   3.21    0.21    3.46 

@@ -4,22 +4,30 @@ lmscFit <- function(object,design,correlation)
 #	Fit single channel linear model for each gene to a series of microarrays
 #	allowing for known correlation between the channels on each spot.
 #	Gordon Smyth
-#	14 March 2004.  Last modified 26 June 2004.
+#	14 March 2004.  Last modified 1 Oct 2015.
 {
-#	Check input
+#	Check object (assumed to a MAList)
+	if(!is.list(object)) stop("object should be an MAList")
+	if(is.null(object$M) || is.null(object$A)) stop("object must have components M and A")
 	M <- as.matrix(object$M)
 	A <- as.matrix(object$A)
-	if(is.null(M) || is.null(A)) stop("object must have components M and A")
 	dimM <- dim(M)
 	dimA <- dim(A)
 	if(any(dimM != dimA)) stop("dimensions of M and A don't match")
 	if(!all(is.finite(M)) || !all(is.finite(A))) stop("Missing or infinite values found in M or A")
+	if(!is.null(object$weights)) warning("weights found in object but not used")
+
+#	Check design
 	if(missing(design)) stop("design matrix must be specified")
 	narrays <- dimM[2]
 	ny <- 2*narrays
 	design <- as.matrix(design)
 	if(nrow(design) != ny) stop("The number of rows of the design matrix should match the number of channel intensities, i.e., twice the number of arrays")
+
+#	Check correlation
 	if(missing(correlation)) stop("intra-spot correlation must be specified")
+	correlation <- as.vector(correlation)[1]
+	if(is.na(correlation)) stop("intra-spot correlation is NA")
 	if(abs(correlation) >= 1) stop("correlation must be strictly between -1 and 1")
 
 #	Dimensions
