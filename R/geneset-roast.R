@@ -357,7 +357,7 @@ mroast <- function(y,...) UseMethod("mroast")
 mroast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),set.statistic="mean",gene.weights=NULL,array.weights=NULL,weights=NULL,block=NULL,correlation,var.prior=NULL,df.prior=NULL,trend.var=FALSE,nrot=999,approx.zscore=TRUE,adjust.method="BH",midp=TRUE,sort="directional",...)
 #  Rotation gene set testing with multiple sets
 #  Gordon Smyth and Di Wu
-#  Created 28 Jan 2010. Last revised 23 June 2015.
+#  Created 28 Jan 2010. Last revised 7 Oct 2015.
 {
 #	Extract components from y
 	y <- getEAWP(y)
@@ -494,10 +494,13 @@ mroast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),set.st
 #	Sort by p-value
 	sort <- match.arg(sort,c("directional","mixed","none"))
 	if(sort=="none") return(tab)
-	if(sort=="directional")
-		o <- order(tab$PValue,tab$PValue.Mixed,-tab$NGenes)
-	else
-		o <- order(tab$PValue.Mixed,tab$PValue,-tab$NGenes)
+	if(sort=="directional") {
+		Prop <- pmax(tab$PropUp,tab$PropDown)
+		o <- order(tab$PValue,-Prop,-tab$NGenes,tab$PValue.Mixed)
+	} else {
+		Prop <- tab$PropUp+tab$PropDown
+		o <- order(tab$PValue.Mixed,-Prop,-tab$NGenes,tab$PValue)
+	}
 	tab[o,,drop=FALSE]
 }
 

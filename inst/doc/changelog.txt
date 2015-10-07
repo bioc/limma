@@ -1,3 +1,10 @@
+ 7 Oct 2015: limma 3.25.18
+
+- mroast() now sorts significant gene sets up proportion of genes
+  changing as well as p-values and set size.  When p-values are 
+  equal, sets with a higher proportion of changing genes will now
+  rank higher in ordered results.
+
  6 Oct 2015: limma 3.25.17
 
 - Checking for NA coefficients in lmFit() is now done more
