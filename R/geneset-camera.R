@@ -24,7 +24,7 @@ camera <- function(y,...) UseMethod("camera")
 camera.default <- function(y,index,design=NULL,contrast=ncol(design),weights=NULL,use.ranks=FALSE,allow.neg.cor=TRUE,inter.gene.cor=NULL,trend.var=FALSE,sort=TRUE,...)
 #	Competitive gene set test allowing for correlation between genes
 #	Gordon Smyth and Di Wu
-#	Created 2007.  Last modified 20 July 2015
+#	Created 2007.  Last modified 27 October 2015
 {
 #	Issue warning if extra arguments found
 	dots <- names(list(...))
@@ -34,6 +34,7 @@ camera.default <- function(y,index,design=NULL,contrast=ncol(design),weights=NUL
 	y <- getEAWP(y)
 	G <- nrow(y$exprs)
 	n <- ncol(y$exprs)
+	ID <- rownames(y)
 
 #	Check index
 	if(!is.list(index)) index <- list(set1=index)
@@ -49,8 +50,6 @@ camera.default <- function(y,index,design=NULL,contrast=ncol(design),weights=NUL
 		if(mode(design) != "numeric") stop("design must be a numeric matrix")
 	}
 	if(nrow(design) != n) stop("row dimension of design matrix must match column dimension of data")
-	ne <- nonEstimable(design)
-	if(!is.null(ne)) cat("Coefficients not estimable:",paste(ne,collapse=" "),"\n")
 	p <- ncol(design)
 	df.residual <- n-p
 
@@ -60,14 +59,17 @@ camera.default <- function(y,index,design=NULL,contrast=ncol(design),weights=NUL
 #	Check inter.gene.cor
 	fixed.cor <- !is.null(inter.gene.cor)
 
-#	Set for camera tests
-	if(fixed.cor)
+#	Set df for camera tests
+	if(fixed.cor) {
+		if(df.residual < 1) stop("No residual df: cannot compute t-tests")
 		if(use.ranks)
 			df.camera <- Inf
 		else
 			df.camera <- G-2
-	else
+	} else {
+		if(df.residual < 2) stop("Too few residual df: need as least 2")
 		df.camera <- min(df.residual,G-2)
+	}
 
 #	Reduce to numeric expression matrix
 	y <- y$exprs
@@ -112,7 +114,9 @@ camera.default <- function(y,index,design=NULL,contrast=ncol(design),weights=NUL
 		if(QR$qr[p,p]<0) unscaledt <- -unscaledt
 	} else {
 		effects <- matrix(0,n,G)
-		unscaledt <- rep(0,n)
+		colnames(effects) <- ID
+		unscaledt <- rep.int(0,G)
+		names(unscaledt) <- ID
 		sw <- sqrt(weights)
 		yw <- y*sw
 		for (g in 1:G) {
@@ -150,6 +154,7 @@ camera.default <- function(y,index,design=NULL,contrast=ncol(design),weights=NUL
 	colnames(tab) <- c("NGenes","Correlation","Down","Up","TwoSided")
 	for (i in 1:nsets) {
 		iset <- index[[i]]
+		if(is.character(iset)) iset <- which(ID %in% iset)
 		StatInSet <- Stat[iset]
 		m <- length(StatInSet)
 		m2 <- G-m

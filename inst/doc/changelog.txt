@@ -1,3 +1,20 @@
+27 Oct 2015: limma 3.27.1
+
+- Functions need from the grDevices, graphics, stats and utils
+  packages are now imported explicitly.
+
+- Two changes to barcodeplot():  new argument 'alpha' to set
+  semitransparency of positional bars in some circumstances;
+  the default value for 'quantiles' is increased slightly.
+
+- Bug fix to camera(), which was not accepting character values
+  for index when weights were non-NULL.
+
+- camera() now gives explicit warning when too few residual df.
+
+14 Oct 2015: limma 3.27.0 (Bioconductor 3.3 Developmental Branch)
+14 Oct 2015: limma 3.26.0 (Bioconductor 3.2 Release Branch)
+
  7 Oct 2015: limma 3.25.18
 
 - mroast() now sorts significant gene sets up proportion of genes

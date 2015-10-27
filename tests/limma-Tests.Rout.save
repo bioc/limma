@@ -1,5 +1,5 @@
 
-R version 3.2.2 (2015-08-14) -- "Fire Safety"
+R Under development (unstable) (2015-10-24 r69569) -- "Unsuffered Consequences"
 Copyright (C) 2015 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
@@ -1337,24 +1337,24 @@ GO:0006897                    endocytosis  BP 3  3    0 0.005046382 1.000000000
 GO:0019725           cellular homeostasis  BP 3  0    2 1.000000000 0.012294372
 GO:0006915              apoptotic process  BP 4  3    1 0.017844424 0.255402330
 GO:0012501          programmed cell death  BP 4  3    1 0.017844424 0.255402330
-GO:0051130 positive regulation of cell...  BP 4  1    2 0.553950615 0.023749721
 GO:0008283             cell proliferation  BP 4  1    2 0.553950615 0.023749721
 GO:0042127 regulation of cell prolifer...  BP 4  1    2 0.553950615 0.023749721
 GO:0006909                   phagocytosis  BP 2  2    0 0.030909091 1.000000000
 GO:0007169 transmembrane receptor prot...  BP 2  2    0 0.030909091 1.000000000
+GO:0031252              cell leading edge  CC 2  2    0 0.030909091 1.000000000
 > topGO(go,n=10,truncate.term=30,sort="down")
                                      Term Ont  N Up Down      P.Up      P.Down
 GO:0055082 cellular chemical homeostas...  BP  2  0    2 1.0000000 0.004242424
 GO:0019725           cellular homeostasis  BP  3  0    2 1.0000000 0.012294372
-GO:0051130 positive regulation of cell...  BP  4  1    2 0.5539506 0.023749721
 GO:0008283             cell proliferation  BP  4  1    2 0.5539506 0.023749721
 GO:0042127 regulation of cell prolifer...  BP  4  1    2 0.5539506 0.023749721
 GO:1902589 single-organism organelle o...  BP  5  1    2 0.6375849 0.038228009
 GO:0048878           chemical homeostasis  BP  5  1    2 0.6375849 0.038228009
-GO:0010629 negative regulation of gene...  BP  5  0    2 1.0000000 0.038228009
 GO:0032502          developmental process  BP 22  3    4 0.8185069 0.040079017
-GO:0048519 negative regulation of biol...  BP 14  2    3 0.7685153 0.055161144
+GO:0043230        extracellular organelle  CC 14  1    3 0.9502416 0.055161144
+GO:0065010 extracellular membrane-boun...  CC 14  1    3 0.9502416 0.055161144
+GO:0070062          extracellular exosome  CC 14  1    3 0.9502416 0.055161144
 > 
 > proc.time()
    user  system elapsed 
-   3.21    0.21    3.46 
+   2.80    0.23    3.04 

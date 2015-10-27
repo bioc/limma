@@ -6,8 +6,9 @@ Display the enrichment of one or two gene sets in a ranked gene list.
 }
 \usage{
 barcodeplot(statistics, index = NULL, index2 = NULL, gene.weights = NULL,
-            weights.label = "Weight", labels = c("Up","Down"), quantiles = c(-1,1),
-            col.bars = NULL, worm = TRUE, span.worm=0.45, \dots)
+            weights.label = "Weight", labels = c("Up","Down"),
+            quantiles = c(-1,1)*sqrt(2), col.bars = NULL, alpha = 0.4,
+            worm = TRUE, span.worm=0.45, \dots)
 }
 \arguments{
   \item{statistics}{numeric vector giving the values of statistics to rank genes by.}
@@ -23,9 +24,9 @@ barcodeplot(statistics, index = NULL, index2 = NULL, gene.weights = NULL,
   \item{weights.label}{label describing the entries in \code{gene.weights}.}
   \item{labels}{character vector of labels for high and low statistics.  First label is associated with high statistics and is displayed at the left end of the plot.  Second label is associated with low or negative statistics and is displayed at the right end of the plot.}
   \item{quantiles}{numeric vector of length 2, giving cutoff values for \code{statistics} considered small or large respectively.  Used to color the rectangle of the barcodeplot.}
-  \item{col.bars}{character vector giving colors for the bars on the barcodeplot.
-  Defaults to \code{"black"} for one set or \code{c("red","blue")} for two sets.
-  Defaults to semitransparent color for the bars inside the rectangle when variable gene weights are given which is intended to distinguish the positional bars from the weighted bars and also to show the density of the genes.}
+  \item{col.bars}{character vector of colors for the vertical bars of the barcodeplot showing the ranks of the gene set members.
+  Defaults to \code{"black"} for one set or \code{c("red","blue")} for two sets.}
+  \item{alpha}{transparency for vertical bars.  When \code{gene.weights} are not \code{NULL}, values \code{0<alpha<1} give semitransparent colors for the vertical bars inside the rectangle.  This helps distinguish position bars from the weighted bars and also helps to show the density of the bars when there are many bars.  Ignored if \code{gene.weights=NULL}.}
   \item{worm}{logical, should enrichment worms be plotted?}
   \item{span.worm}{loess span for enrichment worms.  Larger spans give smoother worms.}
   \item{\ldots}{other arguments are passed to \code{plot}.}
