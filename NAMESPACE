@@ -20,7 +20,8 @@ importFrom("stats", "approx", "approxfun", "as.dist", "cmdscale",
            "pnorm", "ppoints", "predict", "pt", "qchisq", "qf",
            "qnorm", "qt", "quantile", "residuals", "rnorm", "sd",
            "uniroot", "var", "weighted.mean")
-importFrom("utils", "read.table", "winMenuAddItem", "write.table")
+importFrom("utils", "read.table", "write.table")
+if( .Platform$OS.type == "windows" && .Platform$GUI == "Rgui" ) importFrom("utils", "winMenuAddItem")
 
 S3method("[",MAList)
 S3method("[",MArrayLM)

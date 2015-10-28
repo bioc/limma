@@ -1,3 +1,9 @@
+29 Oct 2015: limma 3.27.2
+
+- Fix to NAMESPACE.  The function utils::winMenuAddItem(), which is
+  needed to add a GUI menu item for the limma User's Guide, is now
+  imported only conditionally in a Windows GUI session.
+
 27 Oct 2015: limma 3.27.1
 
 - Functions need from the grDevices, graphics, stats and utils
