@@ -2,7 +2,7 @@
 
 - Fix to NAMESPACE.  The function utils::winMenuAddItem(), which is
   needed to add a GUI menu item for the limma User's Guide, is now
-  imported only conditionally in a Windows GUI session.
+  imported only conditionally in Windows.
 
 27 Oct 2015: limma 3.27.1
 
