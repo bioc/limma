@@ -66,7 +66,7 @@ It does not work with \code{voom} pipelines, because these involve observation w
 Majewski, IJ, Ritchie, ME, Phipson, B, Corbin, J, Pakusch, M, Ebert, A, Busslinger, M, Koseki, H, Hu, Y, Smyth, GK, Alexander, WS, Hilton, DJ, and Blewitt, ME (2010).
 Opposing roles of polycomb repressive complexes in hematopoietic stem and progenitor cells.
 \emph{Blood} 116, 731-739.
-\url{http://bloodjournal.hematologylibrary.org/content/116/5/731}
+\url{http://www.bloodjournal.org/content/116/5/731}
 
 Phipson, B. (2013).
 \emph{Empirical Bayes modelling of expression profiles and their associations}.

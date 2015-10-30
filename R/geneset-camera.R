@@ -24,7 +24,7 @@ camera <- function(y,...) UseMethod("camera")
 camera.default <- function(y,index,design=NULL,contrast=ncol(design),weights=NULL,use.ranks=FALSE,allow.neg.cor=TRUE,inter.gene.cor=NULL,trend.var=FALSE,sort=TRUE,...)
 #	Competitive gene set test allowing for correlation between genes
 #	Gordon Smyth and Di Wu
-#	Created 2007.  Last modified 27 October 2015
+#	Created 2007.  Last modified 30 October 2015
 {
 #	Issue warning if extra arguments found
 	dots <- names(list(...))
@@ -35,6 +35,7 @@ camera.default <- function(y,index,design=NULL,contrast=ncol(design),weights=NUL
 	G <- nrow(y$exprs)
 	n <- ncol(y$exprs)
 	ID <- rownames(y)
+	if(G<3) stop("Two few genes in dataset: need at least 3")
 
 #	Check index
 	if(!is.list(index)) index <- list(set1=index)
@@ -52,6 +53,7 @@ camera.default <- function(y,index,design=NULL,contrast=ncol(design),weights=NUL
 	if(nrow(design) != n) stop("row dimension of design matrix must match column dimension of data")
 	p <- ncol(design)
 	df.residual <- n-p
+	if(df.residual < 1) stop("No residual df: cannot compute t-tests")
 
 #	Check weights
 	if(is.null(weights)) weights <- y$weights
@@ -61,13 +63,11 @@ camera.default <- function(y,index,design=NULL,contrast=ncol(design),weights=NUL
 
 #	Set df for camera tests
 	if(fixed.cor) {
-		if(df.residual < 1) stop("No residual df: cannot compute t-tests")
 		if(use.ranks)
 			df.camera <- Inf
 		else
 			df.camera <- G-2
 	} else {
-		if(df.residual < 2) stop("Too few residual df: need as least 2")
 		df.camera <- min(df.residual,G-2)
 	}
 

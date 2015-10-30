@@ -1,3 +1,8 @@
+30 Oct 2015: limma 3.27.3
+
+- Add a check in camera() that dataset must contain as least three
+  genes.
+
 29 Oct 2015: limma 3.27.2
 
 - Fix to NAMESPACE.  The function utils::winMenuAddItem(), which is
@@ -6,8 +11,8 @@
 
 27 Oct 2015: limma 3.27.1
 
-- Functions need from the grDevices, graphics, stats and utils
-  packages are now imported explicitly.
+- Functions needed from the grDevices, graphics, stats and utils
+  packages are now imported explicitly into the NAMESPACE.
 
 - Two changes to barcodeplot():  new argument 'alpha' to set
   semitransparency of positional bars in some circumstances;
@@ -16,7 +21,7 @@
 - Bug fix to camera(), which was not accepting character values
   for index when weights were non-NULL.
 
-- camera() now gives explicit warning when too few residual df.
+- camera() now gives explicit error when too few residual df.
 
 14 Oct 2015: limma 3.27.0 (Bioconductor 3.3 Developmental Branch)
 14 Oct 2015: limma 3.26.0 (Bioconductor 3.2 Release Branch)
