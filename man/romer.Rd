@@ -12,7 +12,7 @@ Gene set enrichment analysis for linear models using rotation tests (ROtation te
 }
 \arguments{
   \item{y}{numeric matrix giving log-expression values.}
-  \item{index}{list of indices specifying the rows of \code{y} in the gene sets. The list can be made using \link{ids2indices}.}
+  \item{index}{list of indices specifying the rows of \code{y} in the gene sets. The list can be made using \code{\link{ids2indices}}.}
   \item{design}{design matrix.}
   \item{contrast}{contrast for which the test is required. Can be an integer specifying a column of \code{design}, or else a contrast vector of length equal to the number of columns of \code{design}.}
   \item{array.weights}{optional numeric vector of array weights.} 
@@ -35,10 +35,6 @@ Like GSEA, it is designed for use with a database of gene sets.
 Like GSEA, it is a competitive test in that the different gene sets are pitted against one another.
 Instead of permutation, it uses rotation, a parametric resampling method suitable for linear models (Langsrud, 2005; Wu et al, 2010).
 \code{romer} can be used with any linear model with some level of replication.
-
-Curated gene sets suitable for use with \code{romer} can be downloaded from
-\url{http://bioinf.wehi.edu.au/software/MSigDB/}.
-These lists are based on the molecular signatures database from the Broad Institute, but with gene symbols converted to offical gene symbols, separately for mouse and human.
 
 In the output, p-values are given for each set for three possible alternative hypotheses.
 The alternative "up" means the genes in the set tend to be up-regulated, with positive t-statistics.
