@@ -89,7 +89,7 @@ classifyTestsF <- function(object,cor.matrix=NULL,df=Inf,p.value=0.01,fstat.only
 #	Gordon Smyth
 #	20 Mar 2003.  Last revised 6 June 2009.
 
-#	Method intended for MAList objects but accept unclassed lists as well
+#	Method intended for MArrayLM objects but accept unclassed lists as well
 	if(is.list(object)) {
 		if(is.null(object$t)) stop("tstat cannot be extracted from object")
 		if(is.null(cor.matrix) && !is.null(object$cov.coefficients)) cor.matrix <- cov2cor(object$cov.coefficients)
