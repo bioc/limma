@@ -1,3 +1,8 @@
+ 6 Nov 2015: limma 3.27.4
+
+- Bug fix to tricubeMovingAverage() when length of series is even
+  and span is close to 1.
+
 30 Oct 2015: limma 3.27.3
 
 - Add a check in camera() that dataset must contain as least three

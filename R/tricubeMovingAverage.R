@@ -1,7 +1,7 @@
 tricubeMovingAverage <- function(x,span=0.5,power=3)
-#	Moving average filter for a time series with tricube weights
-#	Gordon Smyth
-#	Created 5 Feb 2014.  Last modified 18 August 2015.
+#	Moving average filter with tricube weights for a time series
+#	Gordon Smyth and Yifang Hu
+#	Created 5 Feb 2014.  Last modified 6 Nov 2015.
 {
 #	Check span
 	if(length(span)>1) {
@@ -24,11 +24,16 @@ tricubeMovingAverage <- function(x,span=0.5,power=3)
 
 #	Round width of smoothing window to nearest odd number
 	hwidth <- as.integer(width %/% 2L)
+
+#	If width is 1 or smaller, return original series
 	if(hwidth <= 0L) return(x)
 	width <- 2L * hwidth + 1L
 
 #	Make sure window width can't be greater than n
-	if(width>n) width <- n-1L
+	if(width>n) {
+		width <- n-1L
+		hwidth <- hwidth-1L
+	}
 
 #	Tricube weights with all positive values
 	u <- seq(from=-1,to=1,length=width) * width / (width+1)
