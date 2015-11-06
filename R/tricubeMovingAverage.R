@@ -24,16 +24,16 @@ tricubeMovingAverage <- function(x,span=0.5,power=3)
 
 #	Round width of smoothing window to nearest odd number
 	hwidth <- as.integer(width %/% 2L)
-
-#	If width is 1 or smaller, return original series
-	if(hwidth <= 0L) return(x)
 	width <- 2L * hwidth + 1L
 
 #	Make sure window width can't be greater than n
 	if(width>n) {
-		width <- n-1L
+		width <- width-2L
 		hwidth <- hwidth-1L
 	}
+
+#	If width is 1 or smaller, return original series
+	if(hwidth <= 0L) return(x)
 
 #	Tricube weights with all positive values
 	u <- seq(from=-1,to=1,length=width) * width / (width+1)
