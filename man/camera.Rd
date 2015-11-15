@@ -44,7 +44,8 @@ This allows users to focus on differential expression for any coefficient or con
 The inflation factor depends on estimated genewise correlation and the number of genes in the gene set.
 
 By default, \code{camera} uses \code{interGeneCorrelation} to estimate the mean pair-wise correlation within each set of genes.
-\code{camera} can be used with a small preset correlation value, say \code{inter.gene.cor=0.01}.
+\code{camera} can alternatively be used with a preset correlation specified by \code{inter.gene.cor} that is shared by all sets.
+This usually works best with a small value, say \code{inter.gene.cor=0.01}.
 This produces a less conservative test that performs well in many practical situations.
 }
 

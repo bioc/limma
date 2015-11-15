@@ -2,6 +2,132 @@
 \title{limma News}
 \encoding{UTF-8}
 
+
+\section{Version 3.26.0}{\itemize{
+
+\item
+  New functions kegga() and topKEGG() to conduct KEGG pathway over-representation analyses.
+  kegga() is an S3 generic function with a method for MArrayLM fitted model objects as well a default method.
+  It uses the KEGGREST package to access up-to-date KEGG pathways using an internet connection.
+
+\item
+  goana() with trend now chooses the span of the tricube smoother
+  based on the number of differentially expressed genes.  Larger
+  spans give smoother trends and are used for smaller numbers of
+  genes.  Arguments 'species' and 'plot' are no longer part of
+  goana.MArrayLM() and are instead passed if present in a call to goana.default().
+
+\item
+  topGO() has a new argument 'truncate.term' to limit number of
+  characters appearing in a column of the output data.frame.
+
+\item
+  Improved power for the romer() function.  The empirical Bayes
+  shrinkage of the residuals, removed on 4 April, has been
+  re-instated in a corrected form.  It can optionally be turned off
+  using the 'shrink.resid' argument.
+
+\item
+  camera() has a new argument inter.gene.cor.  This allows a preset
+  inter gene correlation to be set for each test test, resulting in
+  potentially less conservative tests.
+  camera() no longer gives NA results when a gene has a residual
+  variance exactly zero.
+
+\item
+  mroast() now sorts significant gene sets by proportion of genes
+  changing as well as by p-value and set size.  When p-values are 
+  equal, sets with a higher proportion of changing genes will now
+  rank higher in ordered results.
+  The contrast argument of roast() can now optionally be a character
+  string giving the name of a column of the design matrix.
+
+\item
+  fry() now produces "mixed" (non-directional) p-values and FDRs as
+  well as directional p-values and FDRs.
+  Bug fix for fry() when the gene set has a small number of genes.
+
+\item
+  camera(), fry(), mroast() and romer() now give more informative
+  error messages when the index list is empty.
+
+\item
+  Speedup for ids2indices().
+
+\item
+  tricubeMovingAverage() has new argument 'power' and old argument
+  'full.length' is removed.
+  tricubeMovingAverage() now checks whether span is correctly
+  specified.  It now gives identical results for any span>=1 or any
+  span<=0.
+
+\item
+  lmFit() and friends now always produce an output component 'rank'
+  that returns the column rank of the design matrix.  Previously it
+  depended on the options used whether this component was given.
+
+\item
+  lmFit() now assumes that if the 'object' of expression values is a simple vector, that it represents
+  a single gene rather than a single sample.
+
+\item
+  lmFit() now always treats infinite expression values as NA.  In the past,
+  this was done somewhat inconsistently.
+
+\item
+  Checking for NA coefficients in lmFit() is now done more
+  efficiently, meaning that lmFit() is now faster on large datasets.
+
+\item
+  More informative error message from lmscFit() when correlation is
+  NA.
+
+\item
+  getEAWP() now works on all eSet objects, not just ExpressionSet,
+  provided there is an data element called "exprs".
+  This allows all the linear modelling functions to handle general eSet objects.
+
+\item
+  plotMD() can now accept arguments 'array' or 'coef' as appropriate
+  as synonyms for 'column'.  This may help users transitioning from
+  plotMA ot plotMD.
+
+\item
+  Arguments hi.pch, hi.col and hi.cex of plotWithHighlights() renamed
+  to hl.pch, hl.col and hl.cex.  ('hl' is short for 'highlight'.)
+
+\item
+  New 'tolerance' argument for read.idat() to allow manifest and idat
+  to differ by a certain number of probes
+
+\item
+  The 'genes' argument of controlStatus() now accepts EListRaw or
+  Elist objects.
+
+\item
+  All data classes (EListRaw, EList, RGList, MAList, MArrayLM) now 
+  require two arguments for subsetting.  This restores the behavior
+  in limma version 3.19.10 and earlier.  In limma 3.19.11 through
+  3.25.13, subsetting by one argument y[i] was equivalent to y[i,].
+  This will now give an error message.
+
+\item
+  The dimnames<- method for EListRaw objects now sets rownames for
+  the background matrix Eb as well as for the foreground matrix E.
+
+\item
+  avearrays() now gives a more informative error message if input
+  argument 'x' is not a matrix.
+
+\item
+  auROC() now allows for tied stat values.
+
+\item
+  Bug fix to write.fit() when method="global" and fit contains more
+  than one column.
+}}
+
+
 \section{Version 3.24.0}{\itemize{
 \item
 Limma review article (Ritchie et al, Nucleic Acids Research, 2015) is now published, and becomes the primary citation for limma.
@@ -38,6 +164,8 @@ camera(), roast(), mroast() and romer() now give a warning if
 romer() is now an S3 generic function.
 Speed improvements for romer() when the "mean" or "floormean" set
   statistics are used.
+The empirical Bayes shrinkage of the residuals, introduced 5 October 2009, has been removed --
+this means that romer() results will revert to being somewhat more conservative.
 
 \item
 topGO() can now sort gene ontology results by several p-value

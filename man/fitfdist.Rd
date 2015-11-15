@@ -24,13 +24,18 @@ The parameters are estimated using the method of moments, specifically from the 
 
 \code{fitFDistRobustly} is similar to \code{fitFDist} except that it computes the moments of the Winsorized values of \code{x}, making it robust against left and right outliers.
 Larger values for \code{winsor.tail.p} produce more robustness but less efficiency.
-The robust method is described by Phipson (2013).
+The robust method is described by Phipson (2013) and by Phipson and Smyth (2013).
+
+As well as estimating the F-distribution for the bulk of the cases, i.e., with outliers discounted, \code{fitFDistRobustly} also returns an estimated F-distribution with reduced df2 that might be appropriate for each outlier case.
 }
+
 \value{
-A list containing the components
   \item{scale}{scale factor for F-distribution. A vector if \code{covariate} is non-\code{NULL}, otherwise a scalar.}
   \item{df2}{the second degrees of freedom of the F-distribution.}
+  \item{df2.shrunk}{(for \code{fitFDistRobustly} only) vector of values for the second degrees of freedom. Most values are equal to \code{df2}, but outliers have reduced values depending on how extreme each case is.}
+  \item{ProbNotOutlier}{for \code{fitFDistRobustly} only) posterior probability that each case is an outlier relative to the scaled F-distribution with degrees of freedom \code{df1} and \code{df2}.}
 }
+
 \author{Gordon Smyth and Belinda Phipson}
 
 \references{
@@ -47,11 +52,12 @@ PhD Thesis. University of Melbourne, Australia.
 
 Phipson, B., and Smyth, G. K. (2013).
 \emph{Robust empirical Bayes estimation protetcts against hyper-variable genes and improves power to detect differential expression in RNA-seq data}.
-Bioinformatics Division, Walter and Eliza Hall Institute of Medical Research, Australia
+Bioinformatics Division, Walter and Eliza Hall Institute of Medical Research, Australia.
+\url{http://www.statsci.org/smyth/pubs/RobustEBayesPreprint.pdf}
 }
 
 \seealso{
-This function is called by \code{\link{squeezeVar}}, and hence by \code{\link{ebayes}} and \code{\link{eBayes}}.
+This function is called by \code{\link{squeezeVar}}, which in turn is called by \code{\link{ebayes}}, \code{\link{eBayes}} and \code{\link{treat}}.
 
 This function calls \code{\link{trigammaInverse}}.
 }

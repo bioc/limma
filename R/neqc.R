@@ -95,7 +95,7 @@ normexp.fit.control <- function(x,status=NULL,negctrl="negative",regular="regula
 nec <- function(x,status=NULL,negctrl="negative",regular="regular",offset=16,robust=FALSE,detection.p="Detection")
 #	Normexp background correction aided by negative controls.
 #	Wei Shi and Gordon Smyth
-#	Created 27 September 2010. Last modified 21 Oct 2014.
+#	Created 27 September 2010. Last modified 15 Nov 2015.
 {
 	if(is(x, "EListRaw")) {
 		if(!is.null(x$Eb)) {
@@ -107,7 +107,7 @@ nec <- function(x,status=NULL,negctrl="negative",regular="regular",offset=16,rob
 			normexp.par <- normexp.fit.control(x,status,negctrl,regular,robust)
 		} else {
 			normexp.par <- normexp.fit.detection.p(x,detection.p)
-			message("Inferred negative control probe intensities were used in background correction.")
+			message("Note: inferring mean and variance of negative control probe intensities from the detection p-values.")
 		}
 		for(i in 1:ncol(x)) x$E[,i] <- normexp.signal(normexp.par[i,], x$E[,i])
 		x$E <- x$E + offset
