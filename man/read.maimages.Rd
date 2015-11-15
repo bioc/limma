@@ -21,7 +21,8 @@ read.imagene(files, path=NULL, ext=NULL, names=NULL, columns=NULL, other.columns
   \item{path}{character string giving the directory containing the files.
   The default is the current working directory.}
   \item{ext}{character string giving optional extension to be added to each file name}
-  \item{names}{character vector of names to be associated with each array as column name.
+  \item{names}{character vector of unique names to be associated with each array as column name.
+  Can be supplied as \code{files$Label} is \code{files} is a data.frame.
   Defaults to \code{removeExt(files)}.}
   \item{columns}{list, or named character vector.
   For two color data, this should have fields \code{R}, \code{G}, \code{Rb} and \code{Gb} giving the column names to be used for red and green foreground and background or, in the case of Imagene data, a list with fields \code{f} and \code{b}.

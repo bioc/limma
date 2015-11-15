@@ -176,6 +176,7 @@ read.maimages <- function(files=NULL,source="generic",path=NULL,ext=NULL,names=N
 	for (a in cnames) RG[[a]] <- Y
 	if(!is.null(wt.fun)) RG$weights <- Y
 	if(is.data.frame(targets)) {
+		rownames(targets) <- names
 		RG$targets <- targets
 	} else {
 		RG$targets <- data.frame(FileName=files,row.names=names,stringsAsFactors=FALSE)

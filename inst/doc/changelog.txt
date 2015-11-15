@@ -1,3 +1,21 @@
+15 Nov 2015: limma 3.27.5
+
+- update NEWS.Rd for Bioconductor 3.2 Release.
+
+- plotRLDF() now produces more complete output and the output is
+  more completely documented.  It can now be used as a complete LDF
+  analysis for classification based on training data.  The argument
+  'main' has been removed as an explicit argument because it and
+  other plotting arguments are better passed using the ... facility.
+  New arguments 'ndim' and 'plot' have been added.  The first allows
+  all possible discriminant functions to be completed even if only
+  two are plotted.  The second allows dicriminant functions to be
+  computed without a plot.
+
+- If a targets data.frame is provided to read.maimages() through the
+  'files' argument, then read.maimages() now overwrites its rownames
+  on output to agree with the column names of the RGList object.
+
  6 Nov 2015: limma 3.27.4
 
 - Bug fix to tricubeMovingAverage() when length of series is even
@@ -33,7 +51,7 @@
 
  7 Oct 2015: limma 3.25.18
 
-- mroast() now sorts significant gene sets up proportion of genes
+- mroast() now sorts significant gene sets by proportion of genes
   changing as well as p-values and set size.  When p-values are 
   equal, sets with a higher proportion of changing genes will now
   rank higher in ordered results.
