@@ -1,11 +1,11 @@
 fry <- function(y,...) UseMethod("fry")
 
-fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),weights=NULL,sort=TRUE,...)
+fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),weights=NULL,sort="directional",...)
 #	Quick version of roast gene set test assuming equal variances between genes
 #	The up and down p-values are equivalent to those from roast with nrot=Inf
 #	in the special case of prior.df=Inf.
 #	Gordon Smyth and Goknur Giner
-#	Created 30 January 2015.  Last modified 6 October 2015
+#	Created 30 January 2015.  Last modified 1 December 2016
 {
 #	Issue warning if extra arguments found
 	dots <- names(list(...))
@@ -144,11 +144,14 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),weights=N
 	}
 	rownames(tab) <- names(index)
 
-#	Sort by p-value
-	if(sort && nsets>1) {
-		o <- order(tab$PValue,-tab$NGenes)
-		tab <- tab[o,]
+#	Sort results
+	if(is.logical(sort)) if(sort) sort <- "directional" else sort <- "none"
+	sort <- match.arg(sort,c("directional","mixed","none"))
+	if(sort=="none") return(tab)
+	if(sort=="directional") {
+		o <- order(tab$PValue,-tab$NGenes,tab$PValue.Mixed)
+	} else {
+		o <- order(tab$PValue.Mixed,-tab$NGenes,tab$PValue)
 	}
-
-	tab
+	tab[o,,drop=FALSE]
 }
