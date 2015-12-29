@@ -5,7 +5,7 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),weights=N
 #	The up and down p-values are equivalent to those from roast with nrot=Inf
 #	in the special case of prior.df=Inf.
 #	Gordon Smyth and Goknur Giner
-#	Created 30 January 2015.  Last modified 1 December 2016
+#	Created 30 January 2015.  Last modified 22 December 2015
 {
 #	Issue warning if extra arguments found
 	dots <- names(list(...))
@@ -25,7 +25,7 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),weights=N
 #	Check design
 	if(is.null(design)) design <- y$design
 	if(is.null(design))
-		design <- matrix(1,n,1)
+		stop("design matrix not specified")
 	else {
 		design <- as.matrix(design)
 		if(mode(design) != "numeric") stop("design must be a numeric matrix")

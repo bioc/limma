@@ -1,3 +1,15 @@
+29 Dec 2015: limma 3.27.7
+
+- roast(), mroast(), fry() and camera() now require the 'design'
+  matrix to be set.  Previously the design matrix defaulted to a
+  single intercept column.
+
+- Bug fix to plotRLDF(), to ensure 'top' is included in output object
+  even if all the rows of data are used.
+
+- gls.series() now gives a more informative error message when the
+  correlation is equal to 1 or -1.
+
  1 Dec 2015: limma 3.27.6
 
 - Slightly improved algorithm for producing the df2.shrunk values

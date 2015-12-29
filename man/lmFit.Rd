@@ -125,7 +125,7 @@ dupcor <- duplicateCorrelation(y,design,ndups=2)
 dupcor$consensus.correlation
 fit4 <- lmFit(y,design,ndups=2,correlation=dupcor$consensus)
 dim(fit4)
-fit4 <- eBayes(fit3)
+fit4 <- eBayes(fit4)
 topTable(fit4,coef=2)
 }
 \keyword{models}

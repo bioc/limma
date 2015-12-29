@@ -3,7 +3,7 @@
 plotRLDF <- function(y,design=NULL,z=NULL,labels.y=NULL,labels.z=NULL,col.y="black",col.z="black",df.prior=5,show.dimensions=c(1,2),ndim=max(show.dimensions),nprobes=100,plot=TRUE,...)
 #	Regularized linear discriminant function
 #	Di Wu and Gordon Smyth
-#	29 June 2009.  Last revised 15 Nov 2015.
+#	29 June 2009.  Last revised 10 Dec 2015.
 {
 #	Check y
 	y <- as.matrix(y)
@@ -38,6 +38,9 @@ plotRLDF <- function(y,design=NULL,z=NULL,labels.y=NULL,labels.z=NULL,col.y="bla
 #	Check ndim
 	if(any(show.dimensions)>ndim) ndim <- max(show.dimensions)
 
+#	Check nprobes
+	if(nprobes<1) stop("'nprobes' must be at least 1")
+
 #	Project onto between and within spaces
 #	Discard first column as intercept
 	qrd <- qr(design)
@@ -61,6 +64,8 @@ plotRLDF <- function(y,design=NULL,z=NULL,labels.y=NULL,labels.z=NULL,col.y="bla
 		UB <- UB[,top,drop=FALSE]
 		UW <- UW[,top,drop=FALSE]
 		g <- nprobes
+	} else {
+		top <- 1:nprobes
 	}
 
 #	Within group SS

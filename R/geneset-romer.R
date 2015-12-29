@@ -1,10 +1,10 @@
 ##	ROMER.R
 romer <- function(y,...) UseMethod("romer")
 
-romer.default <- function(y,index,design,contrast=ncol(design),array.weights=NULL,block=NULL,correlation=NULL,set.statistic="mean",nrot=9999,shrink.resid=TRUE,...)
+romer.default <- function(y,index,design=NULL,contrast=ncol(design),array.weights=NULL,block=NULL,correlation=NULL,set.statistic="mean",nrot=9999,shrink.resid=TRUE,...)
 #	rotation mean-rank version of GSEA (gene set enrichment analysis) for linear models
 #	Gordon Smyth and Yifang Hu
-#	27 March 2009.	Last modified 23 June 2015.
+#	27 March 2009.	Last modified 22 Dec 2015.
 {
 #	Issue warning if extra arguments found
 	dots <- names(list(...))
@@ -22,10 +22,18 @@ romer.default <- function(y,index,design,contrast=ncol(design),array.weights=NUL
 	SetSizes <- unlist(lapply(index,length))
 
 #	Check design
-	design <- as.matrix(design)
+	if(is.null(design)) design <- y$design
+	if(is.null(design))
+		stop("design matrix not specified")
+	else {
+		design <- as.matrix(design)
+		if(mode(design) != "numeric") stop("design must be a numeric matrix")
+	}
+	if(nrow(design) != n) stop("row dimension of design matrix must match column dimension of data")
+	ne <- nonEstimable(design)
+	if(!is.null(ne)) cat("Coefficients not estimable:",paste(ne,collapse=" "),"\n")
 	p <- ncol(design)
 	if(p<2L) stop("design needs at least two columns")
-	if(nrow(design) != n) stop("row dimension of design matrix must match column dimension of data")
 	p0 <- p-1L
 	d <- n-p
 

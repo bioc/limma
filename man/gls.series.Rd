@@ -10,8 +10,8 @@ This is a utility function for \code{lmFit}.
 \arguments{
   \item{M}{numeric matrix containing log-ratio or log-expression values for a series of microarrays, rows correspond to genes and columns to arrays.}
   \item{design}{numeric design matrix defining the linear model, with rows corresponding to arrays and columns to comparisons to be estimated. The number of rows must match the number of columns of \code{M}. Defaults to the unit vector meaning that the arrays are treated as replicates.} 
-  \item{ndups}{positive integer giving the number of times each gene is printed on an array. \code{nrow(M)} must be divisible by \code{ndups}.}
-  \item{spacing}{the spacing between the rows of \code{M} corresponding to duplicate spots, \code{spacing=1} for consecutive spots}
+  \item{ndups}{positive integer giving the number of times each gene is printed on an array. \code{nrow(M)} must be divisible by \code{ndups}. Ignored if \code{block} is not \code{NULL}.}
+  \item{spacing}{the spacing between the rows of \code{M} corresponding to duplicate spots, \code{spacing=1} for consecutive spots. Ignored if \code{block} is not \code{NULL}.}
   \item{block}{vector or factor specifying a blocking variable on the arrays.
   Same length as \code{ncol(M)}.}
   \item{correlation}{numeric value specifying the inter-duplicate or inter-block correlation.}
