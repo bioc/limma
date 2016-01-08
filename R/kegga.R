@@ -74,7 +74,7 @@ kegga.MArrayLM <- function(de, coef = ncol(de), geneid = rownames(de), FDR = 0.0
 		kegga(de=DEGenes, universe = universe, ...)
 }
 
-kegga.default <- function(de, universe=NULL, species="Hs", species.KEGG=NULL, convert=FALSE, gene.pathway.links=NULL, pathway.names = NULL, prior.prob=NULL, covariate=NULL, plot=FALSE, ...)
+kegga.default <- function(de, universe=NULL, species="Hs", species.KEGG=NULL, convert=FALSE, gene.pathway=NULL, pathway.names = NULL, prior.prob=NULL, covariate=NULL, plot=FALSE, ...)
 #	KEGG (Kyoto Encyclopedia of Genes and Genomes) pathway analysis of DE genes
 #	Gordon Smyth and Yifang Hu
 #	Created 18 May 2015.  Modified 8 January 2016.
@@ -129,13 +129,13 @@ kegga.default <- function(de, universe=NULL, species="Hs", species.KEGG=NULL, co
 	}
 
 #	Get pathway annotation
-	if(is.null(gene.pathway.links))
+	if(is.null(gene.pathway))
 		EG.KEGG <- getGeneKEGGLinks(species.KEGG)
 	else {
-		EG.KEGG <- gene.pathway.links
+		EG.KEGG <- gene.pathway
 		d <- dim(EG.KEGG)
-		if(is.null(d)) stop("gene.pathway.links must be data.frame or matrix")
-		if(d[2] < 2) stop("gene.pathway.links must have at least 2 columns")
+		if(is.null(d)) stop("gene.pathway must be data.frame or matrix")
+		if(d[2] < 2) stop("gene.pathway must have at least 2 columns")
 	}
 
 #	Make sure that universe matches annotated genes
@@ -229,7 +229,7 @@ kegga.default <- function(de, universe=NULL, species="Hs", species.KEGG=NULL, co
 getGeneKEGGLinks <- function(species.KEGG="hsa", convert=FALSE)
 #	Read pathway-gene mapping from KEGG website
 #	Gordon Smyth
-#	7 Jan 2016.
+#	Created 7 Jan 2016.  Last modified 8 Jan 2016.
 {
 	URL <- paste("http://rest.kegg.jp/link/pathway",species.KEGG,sep="/")
 	Path.Gene <- read.table(URL,sep="\t",quote="\"",fill=TRUE,comment.char="",stringsAsFactors=FALSE)
@@ -250,7 +250,7 @@ getGeneKEGGLinks <- function(species.KEGG="hsa", convert=FALSE)
 getKEGGPathwayNames <- function(species.KEGG=NULL, remove.qualifier=FALSE)
 #	Read pathways from KEGG website
 #	Gordon Smyth
-#	7 Jan 2016.
+#	Created 7 Jan 2016.  Last modified 8 Jan 2016.
 {
 	URL <- "http://rest.kegg.jp/list/pathway"
 	if(!is.null(species.KEGG)) URL <- paste(URL,species.KEGG,sep="/")
