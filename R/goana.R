@@ -98,7 +98,7 @@ goana.default <- function(de, universe = NULL, species = "Hs", prior.prob = NULL
 	names(de) <- makeUnique(NAME)
 
 #	Select species
-	species <- match.arg(species, c("Hs", "Mm", "Rn", "Dm"))
+	species <- match.arg(species, c("Hs", "Mm", "Rn", "Dm", "Pt"))
 
 #	Fit trend in DE with respect to the covariate, combining all de lists
 	if(!is.null(covariate)) {

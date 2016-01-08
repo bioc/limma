@@ -253,17 +253,19 @@ controlStatus <- function(types, genes, spottypecol="SpotType", regexpcol, verbo
 	status
 }
 
-removeExt <- function(x) {
+removeExt <- function(x, sep=".")
 #	Remove any common extension from a vector of file names
 #	Gordon Smyth
-#	19 July 2002.  Last modified 19 Jan 2005.
-
+#	19 July 2002.  Last modified 8 Jan 2016.
+{
 	x <- as.character(x)
 	n <- length(x)
-	if(length(grep("\\.",x)) < n) return(x)
-	ext <- sub("(.*)\\.(.*)$","\\2",x)
+	if(length(grep(sep,x)) < n) return(x)
+	sep <- protectMetachar(sep)
+	RegExpr <- paste0("(.*)", sep, "(.*)$")
+	ext <- sub(RegExpr, "\\2", x)
 	if(all(ext[1] == ext))
-		return(sub("(.*)\\.(.*)$","\\1",x))
+		return(sub(RegExpr,"\\1",x))
 	else
 		return(x)
 }

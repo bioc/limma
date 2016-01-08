@@ -1,32 +1,30 @@
 \name{getEAWP}
 \alias{getEAWP}
-\title{Extract Basic Data from Microarray Data Objects}
+\title{Extract Basic Data from Expression Data Objects}
 \description{
-Given a microarray data object of any known class, get the expression values, weights, probe annotation and A-values, which are needed for linear modelling.
+Given an expression data object of any known class, get the expression values, weights, probe annotation and A-values that are needed for linear modelling.
 This function is called by the linear modelling functions in LIMMA.
 }
 \usage{
 getEAWP(object)
 }
 \arguments{
-  \item{object}{a microarray data object.
-  An object of class \code{MAList}, \code{EList}, \code{marrayNorm}, \code{PLMset}, \code{vsn}, or any class inheriting from \code{ExpressionSet}, or any object that can be coerced to a numeric matrix.}
+  \item{object}{any matrix-like object containing log-expression values.
+  Can be an object of class \code{MAList}, \code{EList}, \code{marrayNorm}, \code{PLMset}, \code{vsn}, or any class inheriting from \code{ExpressionSet}, or any object that can be coerced to a numeric matrix.}
 }
 \details{
-In the case of two-color objects, the \code{Amean} is computed from the matrix of A-values.
-For single-channel objects, \code{Amean} is computed from the matrix of expression vales.
-\code{PLMset}, \code{vsn} and \code{ExpressionSet} are assumed to be single-channel for this purpose.
+Rows correspond to probes and columns to RNA samples.
 
-If \code{object} is a matrix, it is assumed to contain log-intensities if the values are all positive and log-ratios otherwise.
-\code{Amean} is computed in the former case but not the latter. 
+In the case of two-color microarray data objects (\code{MAList} or \code{marrayNorm}), \code{Amean} is the vector of row means of the matrix of A-values.
+For other data objects, \code{Amean} is the vector of row means of the matrix of expression values.
 
-From April 2013, the output \code{exprs} matrix is ensured to have unique row names.
-If \code{object} has no row names, then the output row names of \code{exprs} are 1 to the number of rows.
-If \code{object} has row names but with duplicated names, then row names of \code{exprs} are set to 1 up to the number of rows and the original row names are preserved in the \code{ID} column of \code{probes}.
+From April 2013, the rownames of the output \code{exprs} matrix are required to be unique.
+If \code{object} has no row names, then the output rownames of \code{exprs} are \code{1:nrow(object)}.
+If \code{object} has row names but with duplicated names, then the rownames of \code{exprs} are set to \code{1:nrow(object)} and the original row names are preserved in the \code{ID} column of \code{probes}.
 }
 \value{
 A list with components
-\item{exprs}{numeric matrix of log-ratios or log-intensities}
+\item{exprs}{numeric matrix of log-ratios, log-intensities or log-expression values}
 \item{weights}{numeric matrix of weights}
 \item{probes}{data.frame of probe-annotation}
 \item{Amean}{numeric vector of average log-expression for each probe}
@@ -37,4 +35,3 @@ The other components will be \code{NULL} if not found in the input object.
 \seealso{
   \link{02.Classes} gives an overview of data classes used in LIMMA.
 }
-\keyword{array}

@@ -1,3 +1,16 @@
+ 8 Jan 2016: limma 3.27.8
+
+- goana() now supports species="Pt" (chimpanzee).
+
+- kegga() has several new arguments and now supports any species
+  supported by KEGG.  kegga() can now accept annotation as a
+  data.frame, meaning that it can work from user-supplied annotation.
+
+- new functions getGeneKEGGLinks() and getKEGGPathwayNames() to get
+  pathway annotation from the rest.kegg website.
+
+- removeExt() has new 'sep' argument.
+
 29 Dec 2015: limma 3.27.7
 
 - roast(), mroast(), fry() and camera() now require the 'design'
