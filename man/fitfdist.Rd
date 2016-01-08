@@ -28,12 +28,20 @@ The robust method is described by Phipson (2013) and by Phipson and Smyth (2013)
 
 As well as estimating the F-distribution for the bulk of the cases, i.e., with outliers discounted, \code{fitFDistRobustly} also returns an estimated F-distribution with reduced df2 that might be appropriate for each outlier case.
 }
-
+\note{
+The algorithm used by \code{fitFDistRobustly} was revised slightly in limma 3.26.4.
+The \code{prob.outlier} value, which is the lower bound for \code{df2.shrunk}, may be slightly smaller than previously.
+}
 \value{
+\code{fitFDist} produces a list with the following components:
   \item{scale}{scale factor for F-distribution. A vector if \code{covariate} is non-\code{NULL}, otherwise a scalar.}
-  \item{df2}{the second degrees of freedom of the F-distribution.}
-  \item{df2.shrunk}{(for \code{fitFDistRobustly} only) vector of values for the second degrees of freedom. Most values are equal to \code{df2}, but outliers have reduced values depending on how extreme each case is.}
-  \item{ProbNotOutlier}{for \code{fitFDistRobustly} only) posterior probability that each case is an outlier relative to the scaled F-distribution with degrees of freedom \code{df1} and \code{df2}.}
+  \item{df2}{the second degrees of freedom of the fitted F-distribution.}
+
+\code{fitFDistRobustly} returns the following components as well:
+  \item{tail.p.value}{right tail probability of the scaled F-distribution for each \code{x} value.}
+  \item{prob.outlier}{posterior probability that each case is an outlier relative to the scaled F-distribution with degrees of freedom \code{df1} and \code{df2}.}
+  \item{df2.outlier}{the second degrees of freedom associated with extreme outlier cases.}
+  \item{df2.shrunk}{numeric vector of values for the second degrees of freedom, with shrunk values for outliers. Most values are equal to \code{df2}, but outliers have reduced values depending on how extreme each case is. All values lie between \code{df2.outlier} and \code{df2}.}
 }
 
 \author{Gordon Smyth and Belinda Phipson}

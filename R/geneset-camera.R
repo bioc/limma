@@ -24,7 +24,7 @@ camera <- function(y,...) UseMethod("camera")
 camera.default <- function(y,index,design=NULL,contrast=ncol(design),weights=NULL,use.ranks=FALSE,allow.neg.cor=TRUE,inter.gene.cor=NULL,trend.var=FALSE,sort=TRUE,...)
 #	Competitive gene set test allowing for correlation between genes
 #	Gordon Smyth and Di Wu
-#	Created 2007.  Last modified 30 October 2015
+#	Created 2007.  Last modified 22 Dec 2015
 {
 #	Issue warning if extra arguments found
 	dots <- names(list(...))
@@ -45,7 +45,7 @@ camera.default <- function(y,index,design=NULL,contrast=ncol(design),weights=NUL
 #	Check design
 	if(is.null(design)) design <- y$design
 	if(is.null(design))
-		design <- matrix(1,n,1)
+		stop("design matrix not specified")
 	else {
 		design <- as.matrix(design)
 		if(mode(design) != "numeric") stop("design must be a numeric matrix")

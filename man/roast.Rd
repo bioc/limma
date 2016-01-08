@@ -13,8 +13,6 @@ Rotation gene set testing for linear models.
 }
 
 \usage{
-\S3method{fry}{default}(y, index = NULL, design = NULL, contrast = ncol(design),
-      weights = NULL, sort = TRUE, \dots)
 \S3method{roast}{default}(y, index = NULL, design = NULL, contrast = ncol(design),
       set.statistic = "mean", gene.weights = NULL, array.weights = NULL, weights = NULL,
       block = NULL, correlation, var.prior = NULL, df.prior = NULL, trend.var = FALSE,
@@ -24,6 +22,8 @@ Rotation gene set testing for linear models.
        block = NULL, correlation, var.prior = NULL, df.prior = NULL, trend.var = FALSE,
        nrot = 999, approx.zscore = TRUE, adjust.method = "BH", midp = TRUE,
        sort = "directional", \dots)
+\S3method{fry}{default}(y, index = NULL, design = NULL, contrast = ncol(design),
+      weights = NULL, sort = "directional", \dots)
 }
 
 \arguments{
@@ -46,7 +46,7 @@ Rotation gene set testing for linear models.
   \item{nrot}{number of rotations used to estimate the p-values.}
   \item{adjust.method}{method used to adjust the p-values for multiple testing. See \code{\link{p.adjust}} for possible values.}
   \item{midp}{logical, should mid-p-values be used in instead of ordinary p-values when adjusting for multiple testing?}
-  \item{sort}{character, whether to sort output table by directional p-value (\code{"directional"}), non-directional p-value (\code{"mixed"}), or not at all (\code{"none"}).  For \code{fry} it is logical, whether to sort or not.}
+  \item{sort}{character, whether to sort output table by directional p-value (\code{"directional"}), non-directional p-value (\code{"mixed"}), or not at all (\code{"none"}).}
   \item{approx.zscore}{logical, if \code{TRUE} then a fast approximation is used to convert t-statistics into z-scores prior to computing set statistics. If \code{FALSE}, z-scores will be exact.}
   \item{\dots}{other arguments not currently used.}
 }

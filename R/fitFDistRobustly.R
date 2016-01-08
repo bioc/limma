@@ -3,20 +3,17 @@ fitFDistRobustly <- function(x,df1,covariate=NULL,winsor.tail.p=c(0.05,0.1),trac
 #	given the first degrees of freedom, using first and second
 #	moments of Winsorized z-values
 #	Gordon Smyth and Belinda Phipson
-#	8 Sept 2002.  Last revised 14 January 2015.
+#	Created 7 Oct 2012.  Last revised 20 November 2015.
 {
 #	Check x
 	n <- length(x)
 
-#	Eliminate case of no useful data
-	if(n==0) 
-		if(is.null(covariate))
-			return(list(scale=NaN,df2=NaN,df2.robust=NaN))
-		else
-			return(list(scale=numeric(0),df2=numeric(0),df2.robust=NaN))
+#	Eliminate cases of no useful data
+	if(n<2) return(list(scale=NA,df2=NA,df2.shrunk=NA))
+	if(n==2) return(fitFDist(x=x,df1=df1,covariate=covariate))
 
 #	Check df1
-	if(length(df1)>1) if(length(df1) != n) stop("x and df1 are different lengths")
+	if(all(length(df1) != c(1,n))) stop("x and df1 are different lengths")
 
 #	Check covariate
 	if(!is.null(covariate)) {
@@ -189,28 +186,59 @@ fitFDistRobustly <- function(x,df1,covariate=NULL,winsor.tail.p=c(0.05,0.1),trac
 	r <- rank(Fstat)
 	EmpiricalTailProb <- (n-r+0.5)/n
 	ProbNotOutlier <- pmin(TailP/EmpiricalTailProb,1)
-	df2.shrunk <- rep.int(df2,n)
+	ProbOutlier <- 1-ProbNotOutlier
 	if(any(ProbNotOutlier<1)) {
-		ProbOutlier <- 1-ProbNotOutlier
+		o <- order(TailP)
+
+#		Old calculation for df2.outlier
 		VarOutlier <- max(zresid)^2
 		VarOutlier <- VarOutlier-trigamma(df1/2)
 		if(trace) cat("VarOutlier",VarOutlier,"\n")
 		if(VarOutlier > 0) {
-			df2.outlier <- 2*trigammaInverse(VarOutlier)
-			if(trace) cat("df2.outlier",df2.outlier,"\n")
-			if(df2.outlier < df2) {
-				df2.shrunk <- ProbNotOutlier*df2+ProbOutlier*df2.outlier
-				o <- order(TailP)
-				df2.ordered <- df2.shrunk[o]
+			df2.outlier.old <- 2*trigammaInverse(VarOutlier)
+			if(trace) cat("df2.outlier.old",df2.outlier.old,"\n")
+			if(df2.outlier.old < df2) {
+				df2.shrunk.old <- ProbNotOutlier*df2+ProbOutlier*df2.outlier.old
+#				Make df2.shrunk.old monotonic in TailP
+				df2.ordered <- df2.shrunk.old[o]
 				df2.ordered[1] <- min(df2.ordered[1],NonRobust$df2)
 				m <- cumsum(df2.ordered)
 				m <- m/(1:n)
 				imin <- which.min(m)
 				df2.ordered[1:imin] <- m[imin]
-				df2.shrunk[o] <- cummax(df2.ordered)
+				df2.shrunk.old[o] <- cummax(df2.ordered)
 			}
 		}
+
+#		New calculation for df2.outlier
+#		Find df2.outlier to make maxFstat the median of the distribution
+#		Exploit fact that log(TailP) is nearly linearly with positive 2nd deriv as a function of df2
+#		Note that minTailP and NewTailP are always less than 0.5
+		df2.outlier <- log(0.5)/log(min(TailP))*df2
+#		Iterate for accuracy
+		NewTailP <- pf(max(Fstat),df1=df1,df2=df2.outlier,lower.tail=FALSE)
+		df2.outlier <- log(0.5)/log(NewTailP)*df2.outlier
+		df2.shrunk <- ProbNotOutlier*df2+ProbOutlier*df2.outlier
+
+#		Force df2.shrunk to be monotonic in TailP
+		o <- order(TailP)
+		df2.ordered <- df2.shrunk[o]
+		m <- cumsum(df2.ordered)
+		m <- m/(1:n)
+		imin <- which.min(m)
+		df2.ordered[1:imin] <- m[imin]
+		df2.shrunk[o] <- cummax(df2.ordered)
+
+#		Use isoreg() instead. This gives similar results.
+		df2.shrunk.iso <- rep.int(df2,n)
+		o <- o[1:(n/2)]
+		df2.shrunk.iso[o] <- ProbNotOutlier[o]*df2+ProbOutlier[o]*df2.outlier
+		df2.shrunk.iso[o] <- isoreg(TailP[o],df2.shrunk.iso[o])$yf
+
+	} else {
+		df2.outlier <- df2.outlier2 <- df2
+		df2.shrunk2 <- df2.shrunk <- rep.int(df2,n)
 	}
 
-	list(scale=s20,df2=df2,df2.shrunk=df2.shrunk)
+	list(scale=s20,df2=df2,tail.p.value=TailP,prob.outlier=ProbOutlier,df2.outlier=df2.outlier,df2.outlier.old=df2.outlier.old,df2.shrunk=df2.shrunk,df2.shrunk.old=df2.shrunk.old,df2.shrunk.iso=df2.shrunk.iso)
 }

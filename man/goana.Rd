@@ -5,6 +5,8 @@
 \alias{kegga}
 \alias{kegga.default}
 \alias{kegga.MArrayLM}
+\alias{getGeneKEGGLinks}
+\alias{getKEGGPathwayNames}
 \title{Gene Ontology or KEGG Pathway Analysis}
 
 \description{
@@ -16,8 +18,11 @@ Test for over-representation of gene ontology (GO) terms or KEGG pathways in one
 \method{goana}{default}(de, universe = NULL, species = "Hs", prior.prob = NULL, covariate=NULL,
       plot=FALSE, \dots)
 \method{kegga}{MArrayLM}(de, coef = ncol(de), geneid = rownames(de), FDR = 0.05, trend = FALSE, \dots)
-\method{kegga}{default}(de, universe = NULL, species = "Hs", prior.prob = NULL, covariate=NULL,
-      plot=FALSE, \dots)
+\method{kegga}{default}(de, universe = NULL, species = "Hs", species.KEGG = NULL, convert = FALSE,
+      gene.pathway.links = NULL, pathway.names = NULL,
+      prior.prob = NULL, covariate=NULL, plot=FALSE, \dots)
+getGeneKEGGLinks(species.KEGG = "hsa", convert = FALSE)
+getKEGGPathwayNames(species.KEGG = NULL, remove.qualifier = FALSE)
 }
 
 \arguments{
@@ -25,14 +30,22 @@ Test for over-representation of gene ontology (GO) terms or KEGG pathways in one
   \item{coef}{column number or column name specifying for which coefficient or contrast differential expression should be assessed.}
   \item{geneid}{Entrez Gene identifiers. Either a vector of length \code{nrow(de)} or the name of the column of \code{de$genes} containing the Entrez Gene IDs.}
   \item{FDR}{false discovery rate cutoff for differentially expressed genes. Numeric value between 0 and 1.}
-  \item{species}{species identifier. Possible values are \code{"Hs"}, \code{"Mm"}, \code{"Rn"} or \code{"Dm"}.}
+  \item{species}{two-letter Bioconductor species identifier. Possible values are \code{"Hs"}, \code{"Mm"}, \code{"Rn"}, \code{"Dm"} or \code{"Pt"}. Ignored if \code{species.KEGG} or is not \code{NULL} or if \code{gene.pathway.links} and \code{pathway.names} are not \code{NULL}.}
+  \item{species.KEGG}{three-letter KEGG species identifier. See \url{http://www.kegg.jp/kegg/catalog/org_list.html} or \url{http://rest.kegg.jp/list/organism} for possible values. Ignored if \code{gene.pathway.links} and \code{pathway.names} are not \code{NULL}.}
+  \item{convert}{if \code{TRUE} then KEGG gene identifiers will be converted to NCBI Entrez Gene identifiers.  Note that KEGG IDs are the same as Entrez Gene IDs for most species anyway.}
+  \item{gene.pathway.links}{data.frame linking gene to pathways.  First column gives gene IDs, second column gives pathway IDs. By default this is obtained automatically by \code{getGeneKEGGLinks(species.KEGG)}.}
+  \item{remove.qualifier}{if \code{TRUE}, the species qualifier will be removed from the pathway names.}
+  \item{pathway.names}{data.frame giving names of pathways. First column gives pathway IDs, second column gives pathway names. By default this is obtained automatically using \code{getKEGGPathwayNames(species.KEGG, remove=TRUE)}.}
   \item{trend}{adjust analysis for gene length or abundance?
   Can be logical, or a numeric vector of covariate values, or the name of the column of \code{de$genes} containing the covariate values.
   If \code{TRUE}, then \code{de$Amean} is used as the covariate.}
   \item{universe}{vector specifying the set of Entrez Gene identifiers to be the background universe.
   If \code{NULL} then all Entrez Gene IDs associated with any gene ontology term will be used as the universe.}
-  \item{prior.prob}{optional numeric vector of the same length as \code{universe} giving the prior probability that each gene in the universe appears in a gene set. Will be computed from \code{covariate} if the latter is provided.}
-  \item{covariate}{optional numeric vector of the same length as \code{universe} giving a covariate against which \code{prior.prob} should be computed.}
+  \item{prior.prob}{optional numeric vector of the same length as \code{universe} giving the prior probability that each gene in the universe appears in a gene set.
+  Will be computed from \code{covariate} if the latter is provided.
+  Ignored if \code{universe} is \code{NULL}.}
+  \item{covariate}{optional numeric vector of the same length as \code{universe} giving a covariate against which \code{prior.prob} should be computed.
+  Ignored if \code{universe} is \code{NULL}.}
   \item{plot}{logical, should the \code{prior.prob} vs \code{covariate} trend be plotted?}
   \item{\dots}{any other arguments in a call to the \code{MArrayLM} method are passed to the default method.}
 }
@@ -43,9 +56,18 @@ The default method accepts the gene list as a vector of gene IDs,
 while the \code{MArrayLM} method extracts the gene lists automatically from a linear model fit object.
 
 \code{goana} uses annotation from the appropriate Bioconductor organism package.
-\code{kegga} uses the KEGGREST package to access KEGG pathway annotation.
+\code{goana} can be used for any of the five species specified.
 
-The default method accepts a vector \code{prior.prob} giving the prior probability that each gene in the universe appears in a gene set.
+\code{kegga} reads KEGG pathway annotation from the KEGG website.
+Note that the species name can be provided in either Bioconductor or KEGG format.
+\code{kegga} can be used for any species supported by KEGG, of which there are more than 14,000 possibilities.
+By default, \code{kegga} obtains the KEGG annotation for the specified species from the \url{http://rest.kegg.jp} website.
+Alternatively one can supply the required pathway annotation to \code{kegga} in the form of two data.frames.
+If this is done, then an internet connection is not required.
+
+The ability to supply data.frame annotation to \code{kegga} means that \code{kegga} can in principle be used to analyze any user-supplied gene sets.
+
+The default \code{goana} and \code{kegga} methods accept a vector \code{prior.prob} giving the prior probability that each gene in the universe appears in a gene set.
 This vector can be used to correct for unwanted trends in the differential expression analysis associated with gene length, gene abundance or any other covariate.
 The \code{MArrayLM} object computes the \code{prior.prob} vector automatically when \code{trend} is non-\code{NULL}.
 
@@ -64,6 +86,8 @@ The goseq package has additional functionality to convert gene identifiers and t
 The only methodological difference is that \code{goana} and \code{kegga} computes gene length or abundance bias using \code{tricubeMovingAverage} instead of monotonic regression.
 While \code{tricubeMovingAverage} does not enforce monotonicity, it has the advantage of numerical stability when \code{de} contains only a small number of genes.
 }
+
+\note{By default, \code{kegga} assumes an internet connection.}
 
 \value{
 The \code{goana} default method produces a data frame with a row for each GO term and the following columns:
@@ -117,7 +141,7 @@ fit <- lmFit(y, design)
 fit <- eBayes(fit)
 
 # Standard GO analysis
-go.fisher <- goana(fit)
+go.fisher <- goana(fit, species="Hs")
 topGO(go.fisher, sort = "up")
 topGO(go.fisher, sort = "down")
 
@@ -140,6 +164,10 @@ topGO(go.de, sort = "DE2")
 topGO(go.de, ontology = "BP", sort = "DE3")
 topGO(go.de, ontology = "CC", sort = "DE3")
 topGO(go.de, ontology = "MF", sort = "DE3")
+
+## Standard KEGG analysis
+k <- kegga(fit, species="Hs")
+k <- kegga(fit, species.KEGG="hsa") # equivalent to previous
 }
 }
 

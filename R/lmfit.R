@@ -217,40 +217,51 @@ gls.series <- function(M,design=NULL,ndups=2,spacing=1,block=NULL,correlation=NU
 #	Fit linear model for each gene to a series of microarrays.
 #	Fit is by generalized least squares allowing for correlation between duplicate spots.
 #	Gordon Smyth
-#	11 May 2002.  Last revised 26 June 2015.
+#	11 May 2002.  Last revised 29 Dec 2015.
 {
+#	Check M
 	M <- as.matrix(M)
+	ngenes <- nrow(M)
 	narrays <- ncol(M)
+
+#	Check design
 	if(is.null(design)) design <- matrix(1,narrays,1)
 	design <- as.matrix(design)
 	if(nrow(design) != narrays) stop("Number of rows of design matrix does not match number of arrays")
+	nbeta <- ncol(design)
+	coef.names <- colnames(design)
+
+#	Check correlation
 	if(is.null(correlation)) correlation <- duplicateCorrelation(M,design=design,ndups=ndups,spacing=spacing,block=block,weights=weights,...)$consensus.correlation
+	if(abs(correlation) >= 1) stop("correlation is 1 or -1, so the model is degenerate")
+
+#	Check weights
 	if(!is.null(weights)) {
 		weights[is.na(weights)] <- 0
 		weights <- asMatrixWeights(weights,dim(M))
 		M[weights < 1e-15 ] <- NA
 		weights[weights < 1e-15] <- NA
 	}
-	nbeta <- ncol(design)
-	coef.names <- colnames(design)
+
+#	Unwrap duplicates (if necessary) and make correlation matrix
 	if(is.null(block)) {
+#		Correlated within-array probes
 		if(ndups<2) {
-			warning("No duplicates: correlation between duplicates set to zero")
+			warning("No duplicates (ndups<2)")
 			ndups <- 1
 			correlation <- 0
 		}
-		if(is.null(spacing)) spacing <- 1
 		cormatrix <- diag(rep(correlation,len=narrays),nrow=narrays,ncol=narrays) %x% array(1,c(ndups,ndups))
+		if(is.null(spacing)) spacing <- 1
 		M <- unwrapdups(M,ndups=ndups,spacing=spacing)
 		if(!is.null(weights)) weights <- unwrapdups(weights,ndups=ndups,spacing=spacing)
 		design <- design %x% rep(1,ndups)
 		colnames(design) <- coef.names
+		ngenes <- nrow(M)
+		narrays <- ncol(M)
 	} else {
-		if(ndups>1) {
-			stop("Cannot specify ndups>2 and non-null block argument")
-		} else {
-			ndups <- spacing <- 1
-		}
+#		Correlated samples
+		ndups <- spacing <- 1
 		block <- as.vector(block)
 		if(length(block)!=narrays) stop("Length of block does not match number of arrays")
 		ub <- unique(block)
@@ -259,9 +270,10 @@ gls.series <- function(M,design=NULL,ndups=2,spacing=1,block=NULL,correlation=NU
 		cormatrix <- Z%*%(correlation*t(Z))
 	}
 	diag(cormatrix) <- 1
-	ngenes <- nrow(M)
+
 	stdev.unscaled <- matrix(NA,ngenes,nbeta,dimnames=list(rownames(M),coef.names))
 
+#	If weights and missing values are absent, use a fast computation
 	NoProbeWts <- all(is.finite(M)) && (is.null(weights) || !is.null(attr(weights,"arrayweights")))
 	if(NoProbeWts) {
 		V <- cormatrix
@@ -299,6 +311,7 @@ gls.series <- function(M,design=NULL,ndups=2,spacing=1,block=NULL,correlation=NU
 		return(fit)
 	}
 
+#	Weights or missing values are present, to have to iterate over probes
 	beta <- stdev.unscaled
 	sigma <- rep(NA,ngenes)
 	df.residual <- rep(0,ngenes)

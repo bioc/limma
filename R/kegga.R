@@ -74,10 +74,10 @@ kegga.MArrayLM <- function(de, coef = ncol(de), geneid = rownames(de), FDR = 0.0
 		kegga(de=DEGenes, universe = universe, ...)
 }
 
-kegga.default <- function(de, universe = NULL, species = "Hs", prior.prob = NULL, covariate=NULL, plot=FALSE, ...)
+kegga.default <- function(de, universe=NULL, species="Hs", species.KEGG=NULL, convert=FALSE, gene.pathway.links=NULL, pathway.names = NULL, prior.prob=NULL, covariate=NULL, plot=FALSE, ...)
 #	KEGG (Kyoto Encyclopedia of Genes and Genomes) pathway analysis of DE genes
 #	Gordon Smyth and Yifang Hu
-#	Created 18 May 2015.  Modified 4 August 2015.
+#	Created 18 May 2015.  Modified 8 January 2016.
 {
 #	Ensure de is a list
 	if(!is.list(de)) de <- list(DE = de)
@@ -98,102 +98,95 @@ kegga.default <- function(de, universe = NULL, species = "Hs", prior.prob = NULL
 	names(de) <- makeUnique(NAME)
 
 #	Select species
-	species <- match.arg(species, c("Hs", "Mm", "Rn", "Dm"))
+	if(is.null(species.KEGG)) {
+		species <- match.arg(species, c("Hs", "Mm", "Rn", "Dm", "Pt"))
+#		Convert from Bioconductor to KEGG species codes
+		species.KEGG <- switch(species, "Hs"="hsa", "Dm"="dme", "Mm"="mmu", "Rn"="rno", "Pt"="ptr")
+	}
+
+#	prior.prob and covariate must have same length as universe
+	if(is.null(universe)) {
+		if(!is.null(prior.prob)) stop("prior.prob ignored unless universe is specified.")
+		if(!is.null(covariate)) stop("covariate ignored unless universe is specified.")
+		prior.prob <- covariate <- NULL
+	} else {
+		lu <- length(universe)
+		if(!lu) stop("No genes in universe")
+		if(!is.null(prior.prob) && length(prior.prob)!=lu) stop("universe and prior.prob must have same length")
+		if(!is.null(covariate) && length(covariate)!=lu) stop("universe and covariate must have same length")
+	}
 
 #	Fit trend in DE with respect to the covariate, combining all de lists
 	if(!is.null(covariate)) {
+		if(!is.null(prior.prob)) warning("prior.prob being recomputed from covariate")
 		covariate <- as.numeric(covariate)
-		if(length(covariate) != length(covariate)) stop("universe and covariate must have same length")
 		isDE <- as.numeric(universe %in% unlist(de))
 		o <- order(covariate)
 		prior.prob <- covariate
 		span <- approx(x=c(20,200),y=c(1,0.5),xout=sum(isDE),rule=2)$y
 		prior.prob[o] <- tricubeMovingAverage(isDE[o],span=span)
-		if(plot) barcodeplot(covariate, index=(isDE==1), worm=TRUE, span.worm=span)
+		if(plot) barcodeplot(covariate, index=as.logical(isDE), worm=TRUE, span.worm=span, main="DE status vs covariate")
 	}
 
-#	Enable REST-style online access to KEGG pathways
-	if(!requireNamespace("KEGGREST",quietly=TRUE)) stop("KEGGREST required but is not available")
+#	Get pathway annotation
+	if(is.null(gene.pathway.links))
+		EG.KEGG <- getGeneKEGGLinks(species.KEGG)
+	else {
+		EG.KEGG <- gene.pathway.links
+		d <- dim(EG.KEGG)
+		if(is.null(d)) stop("gene.pathway.links must be data.frame or matrix")
+		if(d[2] < 2) stop("gene.pathway.links must have at least 2 columns")
+	}
 
-#	Convert to KEGG organism/species codes
-	organism <- switch(species, "Hs"="hsa", "Dm"="dme", "Mm"="mmu", "Rn"="rno")
-
-#	Get gene-KEGG mappings, and remove duplicate entries
+#	Make sure that universe matches annotated genes
 	if(is.null(universe)) {
-
-		path <- KEGGREST::keggLink("pathway", organism)
-		path <- data.frame(kegg_id = names(path), path_id = path, stringsAsFactors = FALSE)
-		if(organism == "dme") {
-			EG <- KEGGREST::keggConv("dme", "ncbi-geneid")
-			geneid <- names(EG)[match(path$kegg_id, EG)]
-			geneid <- gsub("ncbi-geneid:", "", geneid)
-		} else {
-			geneid <- gsub(paste0(organism, ":"), "", path$kegg_id)
-		}
-		EG.KEGG <- data.frame(gene_id = geneid, path, stringsAsFactors = FALSE)
-
-		universe <- unique(EG.KEGG$gene_id)
-		universe <- as.character(universe)
+		universe <- as.character(unique(EG.KEGG[,1]))
 	} else {
 
+#		Consolidate replicated entries in universe, averaging corresponding prior.probs
 		universe <- as.character(universe)
-
 		dup <- duplicated(universe)
 		if(!is.null(prior.prob)) {
-			if(length(prior.prob)!=length(universe)) stop("length(prior.prob) must equal length(universe)")
 			prior.prob <- rowsum(prior.prob,group=universe,reorder=FALSE)
 			n <- rowsum(rep_len(1L,length(universe)),group=universe,reorder=FALSE)
 			prior.prob <- prior.prob/n
 		}
 		universe <- universe[!dup]
 
-		path <- KEGGREST::keggLink("pathway", organism)
-		path <- data.frame(kegg_id = names(path), path_id = path, stringsAsFactors = FALSE)
-		if(organism == "dme") {
-			EG <- KEGGREST::keggConv("dme", "ncbi-geneid")
-			geneid <- names(EG)[match(path$kegg_id, EG)]
-			geneid <- gsub("ncbi-geneid:", "", geneid)
-		} else {
-			geneid <- gsub(paste0(organism, ":"), "", path$kegg_id)
-		}
-		EG.KEGG <- data.frame(gene_id = geneid, path, stringsAsFactors = FALSE)
-
-		m <- match(EG.KEGG$gene_id, universe)
+#		Restrict universe to genes with annotation
+		m <- match(EG.KEGG[,1], universe)
 		universe <- universe[m]
 		if(!is.null(prior.prob)) prior.prob <- prior.prob[m]
-		EG.KEGG <- EG.KEGG[EG.KEGG$gene_id %in% universe,]
+
+#		Restrict annotation to genes in universe
+		EG.KEGG <- EG.KEGG[!is.na(m),]
+		m <- m[!is.na(m)]
 	}
 
-	Total <- length(unique(EG.KEGG$gene_id))
+	Total <- length(universe)
 	if(Total<1L) stop("No genes found in universe")
 
-#	Check prior probabilities
-	if(!is.null(prior.prob)) {
-		if(length(prior.prob)!=length(universe)) stop("length(prior.prob) must equal length(universe)")
-	}
-
 #	Overlap with DE genes
-	isDE <- lapply(de, function(x) EG.KEGG$gene_id %in% x)
-	TotalDE <- lapply(isDE, function(x) length(unique(EG.KEGG$gene_id[x])))
+	isDE <- lapply(de, function(x) EG.KEGG[,1] %in% x)
+	TotalDE <- lapply(isDE, function(x) length(unique(EG.KEGG[x,1])))
 	nDE <- length(isDE)
 
-	if(length(prior.prob)) {
-	#	Probability weight for each gene
-		m <- match(EG.KEGG$gene_id, universe)
+	if(!is.null(prior.prob)) {
+#		Probability weight for each gene
 		PW2 <- list(prior.prob[m])
 		X <- do.call(cbind, c(N=1, isDE, PW=PW2))
 	} else
 		X <- do.call(cbind, c(N=1, isDE))
 
-	group <- EG.KEGG$path_id
-	S <- rowsum(X, group=group, reorder=FALSE)
+#	Count #genes and #DE genes for each pathway
+	S <- rowsum(X, group=EG.KEGG[,2], reorder=FALSE)
 
 	P <- matrix(0, nrow = nrow(S), ncol = nsets)
 
 	if(length(prior.prob)) {
 
 #		Calculate average prior prob for each set
-		PW.ALL <- sum(prior.prob[universe %in% EG.KEGG$gene_id])
+		PW.ALL <- sum(prior.prob[universe %in% EG.KEGG[,1]])
 		AVE.PW <- S[,"PW"]/S[,"N"]
 		W <- AVE.PW*(Total-S[,"N"])/(PW.ALL-S[,"N"]*AVE.PW)
 
@@ -211,18 +204,60 @@ kegga.default <- function(de, universe = NULL, species = "Hs", prior.prob = NULL
 
 	}
 
+#	Get list of pathway names
+	if(is.null(pathway.names))
+		PathID.PathName <- getKEGGPathwayNames(species.KEGG, remove.qualifier=TRUE)
+	else {
+		PathID.PathName <- pathway.names
+		d <- dim(PathID.PathName)
+		if(is.null(d)) stop("pathway.names must be data.frame or matrix")
+		if(d[2] < 2) stop("pathway.names must have at least 2 columns")
+	}
+
 #	Assemble output
 	g <- rownames(S)
-	pathname <- KEGGREST::keggList("pathway")
-	names(pathname) <- gsub("map", organism, names(pathname))
-	m <- match(g, names(pathname))
-	Results <- data.frame(Pathway = pathname[m], S, P, stringsAsFactors=FALSE)
+	m <- match(g, PathID.PathName[,1])
+	Results <- data.frame(Pathway = PathID.PathName[m,2], S, P, stringsAsFactors=FALSE)
 	rownames(Results) <- g
 
 #	Name p-value columns
 	colnames(Results)[2+nsets+(1L:nsets)] <- paste0("P.", names(de))
 
 	Results
+}
+
+getGeneKEGGLinks <- function(species.KEGG="hsa", convert=FALSE)
+#	Read pathway-gene mapping from KEGG website
+#	Gordon Smyth
+#	7 Jan 2016.
+{
+	URL <- paste("http://rest.kegg.jp/link/pathway",species.KEGG,sep="/")
+	Path.Gene <- read.table(URL,sep="\t",quote="\"",fill=TRUE,comment.char="",stringsAsFactors=FALSE)
+	colnames(Path.Gene) <- c("GeneID","PathwayID")
+	if(convert) {
+#		Convert KEGG IDs to Entrez Gene IDs
+		URL <- paste("http://rest.kegg.jp/conv",species.KEGG,"ncbi-geneid",sep="/")
+		EntrezID.KEGGGeneID <- read.table(URL,sep="\t",quote="\"",fill=TRUE,comment.char="",stringsAsFactors=FALSE)
+		m <- match(Path.Gene[,1],EntrezID.KEGGGeneID[,2])
+		Path.Gene[,1] <- EntrezID.KEGGGeneID[m,1]
+		Path.Gene[,1] <- sub("^ncbi-geneid:", "", Path.Gene[,1])
+	} else {
+		Path.Gene[,1] <- sub(paste0("^",species.KEGG,":"), "", Path.Gene[,1])
+	}
+	Path.Gene
+}
+
+getKEGGPathwayNames <- function(species.KEGG=NULL, remove.qualifier=FALSE)
+#	Read pathways from KEGG website
+#	Gordon Smyth
+#	7 Jan 2016.
+{
+	URL <- "http://rest.kegg.jp/list/pathway"
+	if(!is.null(species.KEGG)) URL <- paste(URL,species.KEGG,sep="/")
+	PathID.PathName <- read.table(URL,sep="\t",quote="\"",fill=TRUE,comment.char="",stringsAsFactors=FALSE)
+	colnames(PathID.PathName) <- c("PathwayID","Description")
+	if(remove.qualifier) PathID.PathName[,2] <- removeExt(PathID.PathName[,2], sep=" - ")
+	PathID.PathName
 }
 
 topKEGG <- function(results, sort = NULL, number = 20L, truncate.path=NULL)

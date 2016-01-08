@@ -74,6 +74,10 @@ See \code{\link{squeezeVar}} for more details.
 If \code{robust=TRUE} then the robust empirical Bayes procedure of Phipson et al (2013) is used.
 See \code{\link{squeezeVar}} for more details.
 }
+\note{
+The algorithm used by \code{eBayes} and \code{treat} with \code{robust=TRUE} was revised slightly in limma 3.27.6.
+The minimum \code{df.prior} returned may be slightly smaller than previously.
+}
 \seealso{
 \code{\link{squeezeVar}}, \code{\link{fitFDist}}, \code{\link{tmixture.matrix}}.
 

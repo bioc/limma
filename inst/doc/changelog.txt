@@ -1,3 +1,36 @@
+ 8 Jan 2016: limma 3.26.4
+
+- goana() now supports species="Pt" (chimpanzee).
+
+- kegga() has several new arguments and now supports any species
+  supported by KEGG.  kegga() can now accept annotation as a
+  data.frame, meaning that it can work from user-supplied annotation.
+
+- new functions getGeneKEGGLinks() and getKEGGPathwayNames() to get
+  pathway annotation from the rest.kegg website.
+
+- removeExt() has new 'sep' argument.
+
+- roast(), mroast(), fry() and camera() now require the 'design'
+  matrix to be set.  Previously the design matrix defaulted to a
+  single intercept column.
+
+- Bug fix to plotRLDF(), to ensure 'top' is included in output object
+  even if all the rows of data are used.
+
+- gls.series() now gives a more informative error message when the
+  correlation is equal to 1 or -1.
+
+- Slightly improved algorithm for producing the df2.shrunk values
+  returned by fitFDistRobustly().  fitFDistRobustly() now returns
+  tail.p.value, prob.outlier and df2.outlier as well as previously
+  returned values.  The minimum df.prior value returned by
+  eBayes(fit, robust=TRUE) may be slightly smaller than previously.
+
+- update 'sort' argument of fry() to be the same as for mroast().
+
+- edit help page for vennDiagram().
+
 15 Nov 2015: limma 3.26.3
 
 - update NEWS.Rd for Bioconductor 3.2 Release.

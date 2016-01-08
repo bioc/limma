@@ -16,7 +16,7 @@ roast <- function(y,...) UseMethod("roast")
 roast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),set.statistic="mean",gene.weights=NULL,array.weights=NULL,weights=NULL,block=NULL,correlation,var.prior=NULL,df.prior=NULL,trend.var=FALSE,nrot=999,approx.zscore=TRUE,...)
 # Rotation gene set testing for linear models
 # Gordon Smyth and Di Wu
-# Created 24 Apr 2008.  Last modified 16 July 2015.
+# Created 24 Apr 2008.  Last modified 22 Dec 2015.
 {
 #	Issue warning if extra arguments found
 	dots <- names(list(...))
@@ -36,7 +36,7 @@ roast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),set.sta
 #	Check design
 	if(is.null(design)) design <- y$design
 	if(is.null(design))
-		design <- matrix(1,n,1)
+		stop("design matrix not specified")
 	else {
 		design <- as.matrix(design)
 		if(mode(design) != "numeric") stop("design must be a numeric matrix")
@@ -357,7 +357,7 @@ mroast <- function(y,...) UseMethod("mroast")
 mroast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),set.statistic="mean",gene.weights=NULL,array.weights=NULL,weights=NULL,block=NULL,correlation,var.prior=NULL,df.prior=NULL,trend.var=FALSE,nrot=999,approx.zscore=TRUE,adjust.method="BH",midp=TRUE,sort="directional",...)
 #  Rotation gene set testing with multiple sets
 #  Gordon Smyth and Di Wu
-#  Created 28 Jan 2010. Last revised 7 Oct 2015.
+#  Created 28 Jan 2010. Last revised 22 Dec 2015.
 {
 #	Extract components from y
 	y <- getEAWP(y)
@@ -374,7 +374,7 @@ mroast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),set.st
 #	Check design matrix
 	if(is.null(design)) design <- y$design
 	if(is.null(design))
-		design <- matrix(1,n,1)
+		stop("design matrix not specified")
 	else {
 		design <- as.matrix(design)
 		if(mode(design) != "numeric") stop("design must be a numeric matrix")

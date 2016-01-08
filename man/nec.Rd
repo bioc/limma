@@ -30,6 +30,7 @@ After background correction, an \code{offset} is added to the data.
 
 When expression values for negative controls are not available, the \code{detection.p} argument is used instead,
 In that case, these functions call \code{\link{normexp.fit.detection.p}}, which infers the negative control probe intensities from the detection p-values associated with the regular probes.
+The function outputs a message if this is done.
 
 For more detailed descriptions of the arguments \code{x}, \code{status}, \code{negctrl}, \code{regular} and \code{detection.p}, please refer to functions \code{\link{normexp.fit.control}}, \code{\link{normexp.fit.detection.p}} and \code{\link{read.ilmn}}.
 
