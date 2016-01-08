@@ -28,7 +28,8 @@
 - Slightly improved algorithm for producing the df2.shrunk values
   returned by fitFDistRobustly().  fitFDistRobustly() now returns
   tail.p.value, prob.outlier and df2.outlier as well as previously
-  returned values.
+  returned values.  The minimum df.prior value returned by
+  eBayes(fit, robust=TRUE) may be slightly smaller than previously.
 
 - update 'sort' argument of fry() to be the same as for mroast().
 
