@@ -19,7 +19,7 @@ Test for over-representation of gene ontology (GO) terms or KEGG pathways in one
       plot=FALSE, \dots)
 \method{kegga}{MArrayLM}(de, coef = ncol(de), geneid = rownames(de), FDR = 0.05, trend = FALSE, \dots)
 \method{kegga}{default}(de, universe = NULL, species = "Hs", species.KEGG = NULL, convert = FALSE,
-      gene.pathway.links = NULL, pathway.names = NULL,
+      gene.pathway = NULL, pathway.names = NULL,
       prior.prob = NULL, covariate=NULL, plot=FALSE, \dots)
 getGeneKEGGLinks(species.KEGG = "hsa", convert = FALSE)
 getKEGGPathwayNames(species.KEGG = NULL, remove.qualifier = FALSE)
@@ -30,12 +30,12 @@ getKEGGPathwayNames(species.KEGG = NULL, remove.qualifier = FALSE)
   \item{coef}{column number or column name specifying for which coefficient or contrast differential expression should be assessed.}
   \item{geneid}{Entrez Gene identifiers. Either a vector of length \code{nrow(de)} or the name of the column of \code{de$genes} containing the Entrez Gene IDs.}
   \item{FDR}{false discovery rate cutoff for differentially expressed genes. Numeric value between 0 and 1.}
-  \item{species}{two-letter Bioconductor species identifier. Possible values are \code{"Hs"}, \code{"Mm"}, \code{"Rn"}, \code{"Dm"} or \code{"Pt"}. Ignored if \code{species.KEGG} or is not \code{NULL} or if \code{gene.pathway.links} and \code{pathway.names} are not \code{NULL}.}
-  \item{species.KEGG}{three-letter KEGG species identifier. See \url{http://www.kegg.jp/kegg/catalog/org_list.html} or \url{http://rest.kegg.jp/list/organism} for possible values. Ignored if \code{gene.pathway.links} and \code{pathway.names} are not \code{NULL}.}
+  \item{species}{two-letter Bioconductor species identifier. Possible values are \code{"Hs"}, \code{"Mm"}, \code{"Rn"}, \code{"Dm"} or \code{"Pt"}. Ignored if \code{species.KEGG} or is not \code{NULL} or if \code{gene.pathway} and \code{pathway.names} are not \code{NULL}.}
+  \item{species.KEGG}{three-letter KEGG species identifier. See \url{http://www.kegg.jp/kegg/catalog/org_list.html} or \url{http://rest.kegg.jp/list/organism} for possible values. Ignored if \code{gene.pathway} and \code{pathway.names} are not \code{NULL}.}
   \item{convert}{if \code{TRUE} then KEGG gene identifiers will be converted to NCBI Entrez Gene identifiers.  Note that KEGG IDs are the same as Entrez Gene IDs for most species anyway.}
-  \item{gene.pathway.links}{data.frame linking gene to pathways.  First column gives gene IDs, second column gives pathway IDs. By default this is obtained automatically by \code{getGeneKEGGLinks(species.KEGG)}.}
+  \item{gene.pathway}{data.frame linking genes to pathways.  First column gives gene IDs, second column gives pathway IDs. By default this is obtained automatically by \code{getGeneKEGGLinks(species.KEGG)}.}
   \item{remove.qualifier}{if \code{TRUE}, the species qualifier will be removed from the pathway names.}
-  \item{pathway.names}{data.frame giving names of pathways. First column gives pathway IDs, second column gives pathway names. By default this is obtained automatically using \code{getKEGGPathwayNames(species.KEGG, remove=TRUE)}.}
+  \item{pathway.names}{data.frame giving full names of pathways. First column gives pathway IDs, second column gives pathway names. By default this is obtained automatically using \code{getKEGGPathwayNames(species.KEGG, remove=TRUE)}.}
   \item{trend}{adjust analysis for gene length or abundance?
   Can be logical, or a numeric vector of covariate values, or the name of the column of \code{de$genes} containing the covariate values.
   If \code{TRUE}, then \code{de$Amean} is used as the covariate.}
