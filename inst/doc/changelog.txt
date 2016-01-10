@@ -1,3 +1,8 @@
+11 Jan 2016: limma 3.26.5
+
+- bug fix for kegga(), which wasn't passing the 'convert' argument
+  to getGeneKEGGLinks().
+
  8 Jan 2016: limma 3.26.4
 
 - goana() now supports species="Pt" (chimpanzee).

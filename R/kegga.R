@@ -77,7 +77,7 @@ kegga.MArrayLM <- function(de, coef = ncol(de), geneid = rownames(de), FDR = 0.0
 kegga.default <- function(de, universe=NULL, species="Hs", species.KEGG=NULL, convert=FALSE, gene.pathway=NULL, pathway.names = NULL, prior.prob=NULL, covariate=NULL, plot=FALSE, ...)
 #	KEGG (Kyoto Encyclopedia of Genes and Genomes) pathway analysis of DE genes
 #	Gordon Smyth and Yifang Hu
-#	Created 18 May 2015.  Modified 8 January 2016.
+#	Created 18 May 2015.  Modified 11 January 2016.
 {
 #	Ensure de is a list
 	if(!is.list(de)) de <- list(DE = de)
@@ -130,7 +130,7 @@ kegga.default <- function(de, universe=NULL, species="Hs", species.KEGG=NULL, co
 
 #	Get pathway annotation
 	if(is.null(gene.pathway))
-		EG.KEGG <- getGeneKEGGLinks(species.KEGG)
+		EG.KEGG <- getGeneKEGGLinks(species.KEGG, convert=convert)
 	else {
 		EG.KEGG <- gene.pathway
 		d <- dim(EG.KEGG)
