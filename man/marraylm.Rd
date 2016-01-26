@@ -34,6 +34,7 @@ Objects are normally created by \code{\link{lmFit}}, and additional components a
   \tabular{ll}{
     {\code{s2.prior}} \tab {numeric value giving empirical Bayes estimated prior value for residual variances}\cr
     {\code{df.prior}} \tab {numeric vector giving empirical Bayes estimated degrees of freedom associated with \code{s2.prior} for each gene}\cr
+    {\code{df.total}} \tab {numeric vector giving total degrees of freedom used for each gene, usually equal to \code{df.prior + df.residual}.}\cr
     {\code{s2.post}} \tab {numeric vector giving posterior residual variances}\cr
     {\code{var.prior}} \tab {numeric vector giving empirical Bayes estimated prior variance for each true coefficient}\cr
     {\code{F}} \tab {numeric vector giving moderated F-statistics for testing all contrasts equal to zero}\cr
