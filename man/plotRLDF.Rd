@@ -6,34 +6,43 @@ Plot regularized linear discriminant functions for classifying samples based on 
 }
 \usage{
 plotRLDF(y, design=NULL, z=NULL, labels.y=NULL, labels.z=NULL,
-         col.y="black", col.z="black", df.prior=5, show.dimensions=c(1,2),
-         ndim=max(show.dimensions), nprobes=100, plot=TRUE, \dots)
+         col.y="black", col.z="black", show.dimensions=c(1,2),
+         ndim=max(show.dimensions), nprobes=100, plot=TRUE,
+         var.prior=NULL, df.prior=NULL, trend=FALSE, robust=FALSE, \dots)
 }
 \arguments{
- \item{y}{any data object which can be coerced to a matrix, such as \code{ExpressionSet} or \code{EList}. The training dataset.}
+ \item{y}{the training dataset. Can be any data object which can be coerced to a matrix, such as \code{ExpressionSet} or \code{EList}.}
  \item{design}{design matrix defining the training groups to be distinguished. The first column is assumed to represent the intercept.
  Defaults to \code{model.matrix(~factor(labels.y))}.}
- \item{z}{any data object which can be coerced to a matrix, such as \code{ExpressionSet} or \code{EList}. The dataset to be classified.}
+ \item{z}{the dataset to be classified.  Can be any data object which can be coerced to a matrix, such as \code{ExpressionSet} or \code{EList}.  Rows must correspond to rows of \code{y}.}
  \item{labels.y}{character vector of sample names or labels in \code{y}. Defaults to \code{colnames(y)} or failing that to \code{1:n}.}
  \item{labels.z}{character vector of sample names or labels in \code{z}. Defaults to \code{colnames(z)} or failing that to \code{letters[1:n]}.}
  \item{col.y}{colors for the plotting \code{labels.y}.}
  \item{col.z}{colors for the plotting \code{labels.z}.}
- \item{df.prior}{prior degrees of freedom for residual variances. To regularize the genewise variances and the covariance matrix.}
  \item{show.dimensions}{integer vector of length two indicating which two discriminant functions to plot. Functions are in decreasing order of discriminatory power.}
  \item{ndim}{number of discriminant functions to compute}
  \item{nprobes}{number of probes to be used for the calculations. The probes will be selected by moderated F statistic.}
  \item{plot}{logical, should a plot be created?}
+ \item{var.prior}{prior variances, for regularizing the within-group covariance matrix. By default is estimated by \code{squeezeVar}.}
+ \item{df.prior}{prior degrees of freedom for regularizing the within-group covariance matrix. By default is estimated by \code{squeezeVar}.}
+ \item{trend}{logical, should a trend be estimated for \code{var.prior}?  See \code{eBayes} for details.  Only used if \code{var.prior} or \code{df.prior} are \code{NULL}.}
+ \item{robust}{logical, should \code{var.prior} and \code{df.prior} be estimated robustly?  See \code{eBayes} for details.  Only used if \code{var.prior} or \code{df.prior} are \code{NULL}.}
  \item{\dots}{any other arguments are passed to \code{plot}.}
 }
 
 \details{
-This function is a variation on the plot of usual linear discriminant function (LDF), in that the within-group covariance matrix is regularized to ensure that it is invertible, with eigenvalues bounded away from zero.
-A diagonal regulation using \code{df.prior} and the median within-group variance is used.
+The function builds discriminant functions from the training data (\code{y}) and applies them to the test data (\code{z}).
+The method is a variation on classifical linear discriminant functions (LDFs), in that the within-group covariance matrix is regularized to ensure that it is invertible, with eigenvalues bounded away from zero.
+The within-group covariance matrix is squeezed towards a diagonal matrix with empirical Bayes posterior variances as diagonal elements.
 
 The calculations are based on a filtered list of probes.
 The \code{nprobes} probes with largest moderated F statistics are used to discriminate.
 
 The \code{ndim} argument allows all required LDFs to be computed even though only two are plotted.
+}
+
+\note{
+Default values for \code{df.prior} and \code{var.prior} were changed in limma 3.27.10.
 }
 
 \value{
@@ -45,9 +54,11 @@ A list containing the following components is (invisibly) returned:
   \item{metagenes}{numeric matrix with \code{nprobes} rows and \code{ndim} columns containing probe weights defining each discriminant function.}
   \item{singular.values}{singular.values showing the predictive power of each discriminant function.}
   \item{rank}{maximum number of discriminant functions with singular.values greater than zero.}
+  \item{var.prior}{numeric vector of prior variances.}
+  \item{df.prior}{numeric vector of prior degrees of freedom.}
 }
 
-\author{Di Wu and Gordon Smyth}
+\author{Gordon Smyth, Di Wu and Yifang Hu}
 
 \seealso{
 \code{lda} in package \code{MASS}
@@ -72,6 +83,7 @@ options(digit=3)
 
 # Samples 1-6 are training set, samples a-f are test set:
 plotRLDF(y, design, z=z, col.y="black", col.z="red")
+legend("top", pch=16, col=c("black","red"), legend=c("Training","Predicted"))
 }
 
 \keyword{hplot}
