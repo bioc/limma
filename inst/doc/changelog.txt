@@ -1,3 +1,20 @@
+25 January 2016: limma 3.27.10.
+
+- kegga() gives better error message when there are no annotated genes
+  in the universe.
+
+- topKEGG() now breaks tied p-values by number of genes in pathway and
+  by name of pathway.
+
+- diffSplice() now returns genewise residual variances.
+
+- plotRLDF() now uses squeezeVar() to estimate how by how much the
+  within-group covariance matrix is moderated.  It has new arguments
+  'trend' and 'robust' as options to the empirical Bayes estimation
+  step.  It also has new argument 'var.prior' to allow the prior
+  variances to be optionally supplied.  Argument 'df.prior' can now be
+  a vector of genewise values.
+
 11 Jan 2016: limma 3.27.9
 
 - bug fix for kegga(), which wasn't passing the 'convert' argument

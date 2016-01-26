@@ -77,7 +77,7 @@ kegga.MArrayLM <- function(de, coef = ncol(de), geneid = rownames(de), FDR = 0.0
 kegga.default <- function(de, universe=NULL, species="Hs", species.KEGG=NULL, convert=FALSE, gene.pathway=NULL, pathway.names = NULL, prior.prob=NULL, covariate=NULL, plot=FALSE, ...)
 #	KEGG (Kyoto Encyclopedia of Genes and Genomes) pathway analysis of DE genes
 #	Gordon Smyth and Yifang Hu
-#	Created 18 May 2015.  Modified 11 January 2016.
+#	Created 18 May 2015.  Modified 25 January 2016.
 {
 #	Ensure de is a list
 	if(!is.list(de)) de <- list(DE = de)
@@ -155,16 +155,17 @@ kegga.default <- function(de, universe=NULL, species="Hs", species.KEGG=NULL, co
 
 #		Restrict universe to genes with annotation
 		m <- match(EG.KEGG[,1], universe)
-		universe <- universe[m]
+		InUni <- !is.na(m)
+		universe <- universe[m[InUni]]
 		if(!is.null(prior.prob)) prior.prob <- prior.prob[m]
 
 #		Restrict annotation to genes in universe
-		EG.KEGG <- EG.KEGG[!is.na(m),]
-		m <- m[!is.na(m)]
+		EG.KEGG <- EG.KEGG[InUni,]
+		m <- m[InUni]
 	}
 
 	Total <- length(universe)
-	if(Total<1L) stop("No genes found in universe")
+	if(Total<1L) stop("No annotated genes found in universe")
 
 #	Overlap with DE genes
 	isDE <- lapply(de, function(x) EG.KEGG[,1] %in% x)
@@ -263,7 +264,7 @@ getKEGGPathwayNames <- function(species.KEGG=NULL, remove.qualifier=FALSE)
 topKEGG <- function(results, sort = NULL, number = 20L, truncate.path=NULL)
 #	Extract top KEGG pathways from kegga output 
 #	Gordon Smyth and Yifang Hu
-#	Created 15 May 2015. Modified 4 August 2015.
+#	Created 15 May 2015. Modified 25 Jan 2016.
 {
 #	Check results
 	if(!is.data.frame(results)) stop("results should be a data.frame.")
@@ -291,11 +292,11 @@ topKEGG <- function(results, sort = NULL, number = 20L, truncate.path=NULL)
 
 #	Sort by minimum p-value for specified gene lists
 	P.col <- 2L+nsets+isort
-	if(length(P.col)==1L) {
-		o <- order(results[,P.col])
-	} else {
-		o <- order(do.call("pmin",as.data.frame(results[,P.col,drop=FALSE])))
-	}
+	if(nsets==1L)
+		P <- results[,P.col]
+	else
+		P <- do.call(pmin,results[,P.col,drop=FALSE])
+	o <- order(P,results$N,results$Pathway)
 	tab <- results[o[1L:number],,drop=FALSE]
 
 #	Truncate Pathway column for readability

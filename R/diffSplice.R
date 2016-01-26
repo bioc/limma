@@ -2,10 +2,13 @@ diffSplice <- function(fit,geneid,exonid=NULL,robust=FALSE,verbose=TRUE)
 #	Test for splicing variants between conditions
 #	using linear model fit of exon data.
 #	Gordon Smyth and Charity Law
-#	Created 13 Dec 2013.  Last modified 22 Sep 2014.
+#	Created 13 Dec 2013.  Last modified 18 Jan 2016.
 {
+#	Make sure there is always an annotation frame
 	exon.genes <- fit$genes
 	if(is.null(exon.genes)) exon.genes <- data.frame(ExonID=1:nrow(fit))
+
+#	Get ID columns for genes and exons
 	if(length(geneid)==1) {
 		genecolname <- as.character(geneid)
 		geneid <- exon.genes[[genecolname]]
@@ -13,7 +16,9 @@ diffSplice <- function(fit,geneid,exonid=NULL,robust=FALSE,verbose=TRUE)
 		exon.genes$GeneID <- geneid
 		genecolname <- "GeneID"
 	}
-	if(!is.null(exonid))
+	if(is.null(exonid)) {
+		exoncolname <- NULL
+	} else {
 		if(length(exonid)==1) {
 			exoncolname <- as.character(exonid)
 			exonid <- exon.genes[[exoncolname]]
@@ -21,8 +26,7 @@ diffSplice <- function(fit,geneid,exonid=NULL,robust=FALSE,verbose=TRUE)
 			exon.genes$ExonID <- exonid
 			exoncolname <- "ExonID"
 		}
-	else
-		exoncolname <- NULL
+	}
 
 #	Sort by geneid
 	if(is.null(exonid))
@@ -36,7 +40,7 @@ diffSplice <- function(fit,geneid,exonid=NULL,robust=FALSE,verbose=TRUE)
 	exon.df.residual <- fit$df.residual[o]
 	exon.s2 <- fit$sigma[o]^2
 
-# 	Count exons and get genewise variances
+# 	Count exons by gene and get genewise variances
 	exon.stat <- cbind(1,exon.df.residual,exon.s2)
 	gene.sum <- rowsum(exon.stat,geneid,reorder=FALSE)
 	gene.nexons <- gene.sum[,1]
@@ -102,6 +106,7 @@ diffSplice <- function(fit,geneid,exonid=NULL,robust=FALSE,verbose=TRUE)
 	out$gene.df.prior <- squeeze$df.prior
 	out$gene.df.residual <- gene.df.residual
 	out$gene.df.total <- gene.df.total
+	out$gene.s2 <- gene.s2[gene.keep]
 	out$gene.s2.post <- gene.s2.post
 	out$gene.F <- gene.F
 	out$gene.F.p.value <- gene.F.p.value

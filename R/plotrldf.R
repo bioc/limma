@@ -1,9 +1,9 @@
 #  Plot regularized linear discriminant functions
 
-plotRLDF <- function(y,design=NULL,z=NULL,labels.y=NULL,labels.z=NULL,col.y="black",col.z="black",df.prior=5,show.dimensions=c(1,2),ndim=max(show.dimensions),nprobes=100,plot=TRUE,...)
+plotRLDF <- function(y,design=NULL,z=NULL,labels.y=NULL,labels.z=NULL,col.y="black",col.z="black",show.dimensions=c(1,2),ndim=max(show.dimensions),nprobes=100,plot=TRUE,var.prior=NULL,df.prior=NULL,trend=FALSE,robust=FALSE,...)
 #	Regularized linear discriminant function
 #	Di Wu and Gordon Smyth
-#	29 June 2009.  Last revised 10 Dec 2015.
+#	29 June 2009.  Last revised 26 Jan 2016.
 {
 #	Check y
 	y <- as.matrix(y)
@@ -18,6 +18,19 @@ plotRLDF <- function(y,design=NULL,z=NULL,labels.y=NULL,labels.z=NULL,col.y="bla
 		labels.y <- as.character(labels.y)
 	}
 	if(is.null(labels.y)) labels.y <- as.character(1:n)
+
+#	Check z and labels.z
+	if(is.null(z)) {
+		labels.z <- character(0)
+	} else {
+		z <- as.matrix(z)
+		if(nrow(z) != g) stop("nrow(z) disagrees with nrow(y)")
+		if(is.null(labels.z)) labels.z <- colnames(z)
+		if(is.null(labels.z)) labels.z <- letters[1:ncol(z)]
+		if(length(labels.z) != ncol(z)) stop("length(labels.z) doesn't agree with ncol(z)")
+		labels.z <- as.character(labels.z)
+		if(!all(rownames(z)==rownames(y))) warning("y and z have different rownames - they are assumed to correspond to same probes")
+	}
 
 #	Check design
 	if(is.null(design)) {
@@ -45,24 +58,37 @@ plotRLDF <- function(y,design=NULL,z=NULL,labels.y=NULL,labels.z=NULL,col.y="bla
 #	Discard first column as intercept
 	qrd <- qr(design)
 	p <- qrd$rank
-	if(p==n) stop("No residual degrees of freedom")
+	df.residual <- n-p
+	if(df.residual==0) stop("No residual degrees of freedom")
 	U <- qr.qty(qrd, t(y))
 	UB <- U[2:p,,drop=FALSE]
 	UW <- U[(p+1):n,,drop=FALSE]
+	s2 <- colMeans(UW*UW)
 
-#	Prior variance
-	s <- colMeans(UW*UW)
-	s0 <- median(s)
+#	Prior variance and prior df
+	if(is.null(var.prior) || is.null(df.prior)) {
+		if(trend) covariate <- rowMeans(y) else covariate <- NULL
+		sv <- squeezeVar(s2, df=df.residual, covariate=covariate, robust=robust)
+		var.prior <- sv$var.prior
+		df.prior <- sv$df.prior
+	} else {
+		if(!any(length(var.prior)==c(1,g))) stop("var.prior wrong length")
+		if(!any(length(df.prior)==c(1,g))) stop("df.prior wrong length")
+	}
+	df.prior <- pmin(df.prior, (g-1)*df.residual)
+	df.prior <- pmax(df.prior, 1)
 
 #	Select probes by moderated F
 	if(g>nprobes) {
-		modF <- colMeans(UB*UB)/(s+df.prior*s0)
+		modF <- colMeans(UB*UB)/(s2+df.prior*var.prior)
 		o <- order(modF,decreasing=TRUE)
 		top <- o[1:nprobes]
 		y <- y[top,,drop=FALSE]
 		if(!is.null(z)) z <- z[top,,drop=FALSE]
 		UB <- UB[,top,drop=FALSE]
 		UW <- UW[,top,drop=FALSE]
+		if(length(df.prior)>1) df.prior <- df.prior[top]
+		if(length(var.prior)>1) var.prior <- var.prior[top]
 		g <- nprobes
 	} else {
 		top <- 1:nprobes
@@ -71,8 +97,17 @@ plotRLDF <- function(y,design=NULL,z=NULL,labels.y=NULL,labels.z=NULL,col.y="bla
 #	Within group SS
 	W <- crossprod(UW)
 
-#	Regularized within group SS
-	Wreg <- W+diag(df.prior*s0,g,g)
+#	Regularize the within-group covariance matrix
+	Wreg <- W
+	diag(Wreg) <- diag(Wreg) + df.prior*var.prior
+	df.total <- df.prior + df.residual
+	if(length(df.total)>1) {
+		df.total <- sqrt(df.total)
+		Wreg <- Wreg / df.total
+		Wreg <- (t(Wreg) / df.total)
+	} else {
+		Wreg <- Wreg / df.total
+	}
 
 #	Ratio of between to within SS
 	WintoB <- backsolve(chol(Wreg),t(UB),transpose=TRUE)
@@ -84,7 +119,7 @@ plotRLDF <- function(y,design=NULL,z=NULL,labels.y=NULL,labels.z=NULL,col.y="bla
 	metagenes <- SVD$u
 
 	rank <- min(dim(WintoB))
-	if(ndim > rank) message("Note: only ",rank," discriminant function(s) have any predictive power")
+#	if(ndim > rank) message("Note: only ",rank," of the discriminant functions have any predictive power")
 
 #	LDF for training set
 	d.y <- t(y) %*% metagenes
@@ -92,18 +127,12 @@ plotRLDF <- function(y,design=NULL,z=NULL,labels.y=NULL,labels.z=NULL,col.y="bla
 	d2.y <- d.y[,d2]
 
 #	LDF for classified set
-	if(!is.null(z)) {
-		z <- as.matrix(z)
+	if(is.null(z)) {
+		d1.z <- d2.z <- numeric(0)
+	} else {
 		d.z <- t(z) %*% metagenes
 		d1.z <- d.z[,d1]
 		d2.z <- d.z[,d2]
-		if(is.null(labels.z)) labels.z <- colnames(z)
-		if(is.null(labels.z)) labels.z <- letters[1:ncol(z)]
-		if(length(labels.z) != ncol(z)) stop("length(labels.z) doesn't agree with ncol(z)")
-		labels.z <- as.character(labels.z)
-	} else {
-		d1.z <- d2.z <- numeric(0)
-		labels.z <- character(0)
 	}
 
 #	Make plot
@@ -116,6 +145,8 @@ plotRLDF <- function(y,design=NULL,z=NULL,labels.y=NULL,labels.z=NULL,col.y="bla
 #	Output
 	out <- list(training=d.y,top=top,metagenes=metagenes,singular.values=SVD$d,rank=rank)
 	if(!is.null(z)) out$predicting <- d.z
+	out$var.prior <- var.prior
+	out$df.prior <- df.prior
 	invisible(out)
 }
 
