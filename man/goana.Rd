@@ -87,7 +87,12 @@ The only methodological difference is that \code{goana} and \code{kegga} compute
 While \code{tricubeMovingAverage} does not enforce monotonicity, it has the advantage of numerical stability when \code{de} contains only a small number of genes.
 }
 
-\note{By default, \code{kegga} assumes an internet connection.}
+\note{
+\code{kegga} requires an internet connection unless \code{gene.pathway} and \code{pathway.names} are both supplied.
+
+The default for \code{kegga} with \code{species="Dm"} changed from \code{convert=TRUE} to \code{convert=FALSE} in limma 3.27.8.
+Users wanting to use Entrez Gene IDs for Drosophila should set \code{convert=TRUE}, otherwise fly-base IDs are assumed.
+}
 
 \value{
 The \code{goana} default method produces a data frame with a row for each GO term and the following columns:
