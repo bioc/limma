@@ -1,4 +1,9 @@
-25 January 2016: limma 3.26.6
+27 January 2016: limma 3.26.7
+
+- kegga() now checks for missing values in 'gene.pathway' or
+  'pathway.names'.
+
+26 January 2016: limma 3.26.6
 
 - kegga() gives better error message when there are no annotated genes
   in the universe.

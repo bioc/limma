@@ -77,7 +77,7 @@ kegga.MArrayLM <- function(de, coef = ncol(de), geneid = rownames(de), FDR = 0.0
 kegga.default <- function(de, universe=NULL, species="Hs", species.KEGG=NULL, convert=FALSE, gene.pathway=NULL, pathway.names = NULL, prior.prob=NULL, covariate=NULL, plot=FALSE, ...)
 #	KEGG (Kyoto Encyclopedia of Genes and Genomes) pathway analysis of DE genes
 #	Gordon Smyth and Yifang Hu
-#	Created 18 May 2015.  Modified 25 January 2016.
+#	Created 18 May 2015.  Modified 27 January 2016.
 {
 #	Ensure de is a list
 	if(!is.list(de)) de <- list(DE = de)
@@ -136,6 +136,8 @@ kegga.default <- function(de, universe=NULL, species="Hs", species.KEGG=NULL, co
 		d <- dim(EG.KEGG)
 		if(is.null(d)) stop("gene.pathway must be data.frame or matrix")
 		if(d[2] < 2) stop("gene.pathway must have at least 2 columns")
+		isna <- rowSums(is.na(EG.KEGG[,1:2])) > 0.5
+		EG.KEGG <- EG.KEGG[!isna,]
 	}
 
 #	Make sure that universe matches annotated genes
@@ -213,6 +215,9 @@ kegga.default <- function(de, universe=NULL, species="Hs", species.KEGG=NULL, co
 		d <- dim(PathID.PathName)
 		if(is.null(d)) stop("pathway.names must be data.frame or matrix")
 		if(d[2] < 2) stop("pathway.names must have at least 2 columns")
+		isna <- rowSums(is.na(PathID.PathName[,1:2])) > 0.5
+		PathID.PathName <- PathID.PathName[!isna,]
+
 	}
 
 #	Assemble output
