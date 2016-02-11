@@ -8,7 +8,7 @@ The data are then ready for linear modelling.
 
 \usage{
 voom(counts, design = NULL, lib.size = NULL, normalize.method = "none",
-     plot = FALSE, span=0.5, \dots)
+     span = 0.5, plot = FALSE, save.plot = FALSE, \dots)
 }
 \arguments{
  \item{counts}{a numeric \code{matrix} containing raw counts, or an \code{ExpressionSet} containing raw counts, or a \code{DGEList} object.}
@@ -18,8 +18,9 @@ voom(counts, design = NULL, lib.size = NULL, normalize.method = "none",
  Otherwise library sizes are calculated from the columnwise counts totals.}
  \item{normalize.method}{normalization method to be applied to the logCPM values.
  Choices are as for the \code{method} argument of \code{normalizeBetweenArrays} when the data is single-channel.}
- \item{plot}{\code{logical}, should a plot of the mean-variance trend be displayed?}
  \item{span}{width of the lowess smoothing window as a proportion.}
+ \item{plot}{logical, should a plot of the mean-variance trend be displayed?}
+ \item{save.plot}{logical, should the coordinates and line of the plot be saved in the output?}
  \item{\dots}{other arguments are passed to \code{lmFit}.}
   }
 
@@ -44,6 +45,8 @@ An \code{\link[limma:EList]{EList}} object with the following components:
 \item{design}{design matrix}
 \item{lib.size}{numeric vector of total normalized library sizes}
 \item{genes}{dataframe of gene annotation extracted from \code{counts}}
+\item{voom.xy}{if \code{save.plot}, list containing x and y coordinates for points in mean-variance plot}
+\item{voom.line}{if \code{save.plot}, list containing coordinates of loess line in the mean-variance plot}
  }
 
 \author{Charity Law and Gordon Smyth}
@@ -56,11 +59,10 @@ Voom: precision weights unlock linear model analysis tools for RNA-seq read coun
 }
 
 \seealso{
-\code{\link{voomWithQualityWeights}}
+\code{\link{voomWithQualityWeights}}.
+\code{\link{vooma}} is similar to \code{voom} but for microarrays instead of RNA-seq.
 
 A summary of functions for RNA-seq analysis is given in \link{11.RNAseq}.
-
-\code{\link{vooma}} is similar to \code{voom} but for microarrays instead of RNA-seq.
 }
 
 \keyword{rna-seq}

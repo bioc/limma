@@ -1,3 +1,10 @@
+11 February 2016: limma 3.27.12
+
+- new argument 'save.plot' for voom().
+
+- bug fix for kegga() when 'covariate' or 'prior.prob' are not NULL
+  and when not all genes in the universe have annotation.
+
 27 January 2016: limma 3.27.11
 
 - kegga() now checks for missing values in 'gene.pathway' or

@@ -77,20 +77,20 @@ kegga.MArrayLM <- function(de, coef = ncol(de), geneid = rownames(de), FDR = 0.0
 kegga.default <- function(de, universe=NULL, species="Hs", species.KEGG=NULL, convert=FALSE, gene.pathway=NULL, pathway.names = NULL, prior.prob=NULL, covariate=NULL, plot=FALSE, ...)
 #	KEGG (Kyoto Encyclopedia of Genes and Genomes) pathway analysis of DE genes
 #	Gordon Smyth and Yifang Hu
-#	Created 18 May 2015.  Modified 27 January 2016.
+#	Created 18 May 2015.  Modified 11 Feb 2016.
 {
 #	Ensure de is a list
 	if(!is.list(de)) de <- list(DE = de)
+	nsets <- length(de)
 
 #	Stop if components of de are not vectors
 	if(!all(vapply(de,is.vector,TRUE))) stop("components of de should be vectors")
 
 #	Ensure gene IDs are of character mode
-	de <- lapply(de, as.character)
+	for (s in 1:nsets) de[[s]] <- unique(as.character(de[[s]]))
 	if(!is.null(universe)) universe <- as.character(universe)
 
 #	Ensure all gene sets have unique names
-	nsets <- length(de)
 	names(de) <- trimWhiteSpace(names(de))
 	NAME <- names(de)
 	i <- which(NAME == "" | is.na(NAME))
@@ -158,52 +158,60 @@ kegga.default <- function(de, universe=NULL, species="Hs", species.KEGG=NULL, co
 #		Restrict universe to genes with annotation
 		m <- match(EG.KEGG[,1], universe)
 		InUni <- !is.na(m)
-		universe <- universe[m[InUni]]
+		m <- m[InUni]
+		universe <- universe[m]
 		if(!is.null(prior.prob)) prior.prob <- prior.prob[m]
 
 #		Restrict annotation to genes in universe
 		EG.KEGG <- EG.KEGG[InUni,]
-		m <- m[InUni]
 	}
 
-	Total <- length(universe)
-	if(Total<1L) stop("No annotated genes found in universe")
+	NGenes <- length(universe)
+	if(NGenes<1L) stop("No annotated genes found in universe")
 
-#	Overlap with DE genes
-	isDE <- lapply(de, function(x) EG.KEGG[,1] %in% x)
-	TotalDE <- lapply(isDE, function(x) length(unique(EG.KEGG[x,1])))
-	nDE <- length(isDE)
+#	Restrict DE genes to universe
+	nde <- rep_len(0L,nsets)
+	for (s in 1:nsets) {
+		de[[s]] <- de[[s]][de[[s]] %in% universe]
+		nde[s] <- length(de[[s]])
+	}
 
-	if(!is.null(prior.prob)) {
-#		Probability weight for each gene
-		PW2 <- list(prior.prob[m])
-		X <- do.call(cbind, c(N=1, isDE, PW=PW2))
-	} else
-		X <- do.call(cbind, c(N=1, isDE))
+#	Overlap pathways with DE genes
+	if(is.null(prior.prob)) {
+		X <- matrix(1,nrow(EG.KEGG),nsets+1)
+		colnames(X) <- c("N",names(de))
+	} else {
+		X <- matrix(1,nrow(EG.KEGG),nsets+2)
+		X[,nsets+2] <- prior.prob
+		colnames(X) <- c("N",names(de),"PP")
+	}
+	for (s in 1:nsets) X[,s+1] <- (EG.KEGG[,1] %in% de[[s]])
 
-#	Count #genes and #DE genes for each pathway
+#	Count #genes and #DE genes and sum prior.prob for each pathway
 	S <- rowsum(X, group=EG.KEGG[,2], reorder=FALSE)
 
-	P <- matrix(0, nrow = nrow(S), ncol = nsets)
-
+#	Overlap tests
+	PValue <- matrix(0,nrow=nrow(S),ncol=nsets)
 	if(length(prior.prob)) {
 
 #		Calculate average prior prob for each set
-		PW.ALL <- sum(prior.prob[universe %in% EG.KEGG[,1]])
-		AVE.PW <- S[,"PW"]/S[,"N"]
-		W <- AVE.PW*(Total-S[,"N"])/(PW.ALL-S[,"N"]*AVE.PW)
+		SumPP <- sum(prior.prob)
+		AvePP.set <- S[,"PP"]/S[,"N"]
+		W <- AvePP.set*(NGenes-S[,"N"])/(SumPP-S[,"N"]*AvePP.set)
 
 #		Wallenius' noncentral hypergeometric test
 		if(!requireNamespace("BiasedUrn",quietly=TRUE)) stop("BiasedUrn package required but is not available")
-		for(j in 1:nsets) for(i in 1:nrow(S)) 
-			P[i,j] <- BiasedUrn::pWNCHypergeo(S[i,1+j], S[i,"N"], Total-S[i,"N"], TotalDE[[j]], W[i],lower.tail=FALSE) + BiasedUrn::dWNCHypergeo(S[i,1+j], S[i,"N"], Total-S[i,"N"], TotalDE[[j]], W[i])
+		for(j in 1:nsets) for(i in 1:nrow(S))
+			PValue[i,j] <- BiasedUrn::pWNCHypergeo(S[i,1+j], S[i,"N"], NGenes-S[i,"N"], nde[j], W[i], lower.tail=FALSE) + BiasedUrn::dWNCHypergeo(S[i,1+j], S[i,"N"], NGenes-S[i,"N"], nde[j], W[i])
+
+#		Remove sum of prob column, not needed for output
 		S <- S[,-ncol(S)]
 
 	} else {
 
 #		Fisher's exact test
 		for(j in 1:nsets)
-			P[,j] <- phyper(q=S[,1+j]-0.5,m=TotalDE[[j]],n=Total-TotalDE[[j]], k=S[,"N"],lower.tail=FALSE)
+			PValue[,j] <- phyper(q=S[,1+j]-0.5,m=nde[j],n=NGenes-nde[j], k=S[,"N"],lower.tail=FALSE)
 
 	}
 
@@ -223,7 +231,7 @@ kegga.default <- function(de, universe=NULL, species="Hs", species.KEGG=NULL, co
 #	Assemble output
 	g <- rownames(S)
 	m <- match(g, PathID.PathName[,1])
-	Results <- data.frame(Pathway = PathID.PathName[m,2], S, P, stringsAsFactors=FALSE)
+	Results <- data.frame(Pathway = PathID.PathName[m,2], S, PValue, stringsAsFactors=FALSE)
 	rownames(Results) <- g
 
 #	Name p-value columns
@@ -235,11 +243,15 @@ kegga.default <- function(de, universe=NULL, species="Hs", species.KEGG=NULL, co
 getGeneKEGGLinks <- function(species.KEGG="hsa", convert=FALSE)
 #	Read pathway-gene mapping from KEGG website
 #	Gordon Smyth
-#	Created 7 Jan 2016.  Last modified 8 Jan 2016.
+#	Created 7 Jan 2016.  Last modified 11 Feb 2016.
 {
 	URL <- paste("http://rest.kegg.jp/link/pathway",species.KEGG,sep="/")
 	Path.Gene <- read.table(URL,sep="\t",quote="\"",fill=TRUE,comment.char="",stringsAsFactors=FALSE)
 	colnames(Path.Gene) <- c("GeneID","PathwayID")
+
+#	Human, mouse, rat and chimp IDs are already Entrez, so don't need to convert
+	if(convert && species.KEGG %in% c("hsa","mmu","rno","ptr")) convert <- FALSE
+
 	if(convert) {
 #		Convert KEGG IDs to Entrez Gene IDs
 		URL <- paste("http://rest.kegg.jp/conv",species.KEGG,"ncbi-geneid",sep="/")

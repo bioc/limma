@@ -28,7 +28,10 @@ Numeric vector giving the proportions of expressed probes in each array.
 }
 
 \references{
-Shi, W, de Graaf, C, Kinkel, S, Achtman, A, Baldwin, T, Schofield, L, Scott, H, Hilton, D, Smyth, GK (2010). Estimating the proportion of microarray probes expressed in an RNA sample. Nucleic Acids Research 38, 2168-2176.
+Shi, W, de Graaf, C, Kinkel, S, Achtman, A, Baldwin, T, Schofield, L, Scott, H, Hilton, D, Smyth, GK (2010).
+Estimating the proportion of microarray probes expressed in an RNA sample.
+\emph{Nucleic Acids Research} 38, 2168-2176.
+\url{http://nar.oxfordjournals.org/content/38/7/2168}
 }
 
 \author{Wei Shi and Gordon Smyth}
@@ -40,8 +43,6 @@ Description to the control probes in Illumina BeadChips can be found in \code{\l
 \examples{
 \dontrun{
 x <- read.ilmn(files="sample probe profile.txt",ctrlfiles="control probe profile.txt")
-propexpr(x, )
+propexpr(x)
 }
 }
-
-\keyword{models}
