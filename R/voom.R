@@ -1,8 +1,8 @@
-voom <- function(counts,design=NULL,lib.size=NULL,normalize.method="none",plot=FALSE,span=0.5,...) 
-# Linear modelling of count data with mean-variance modelling at the observational level.
-# Creates an EList object for entry to lmFit() etc in the limma pipeline.
-# Gordon Smyth and Charity Law
-# Created 22 June 2011.  Last modified 5 June 2013.
+voom <- function(counts,design=NULL,lib.size=NULL,normalize.method="none",span=0.5,plot=FALSE,save.plot=FALSE,...) 
+#	Linear modelling of count data with mean-variance modelling at the observational level.
+#	Creates an EList object for entry to lmFit() etc in the limma pipeline.
+#	Gordon Smyth and Charity Law
+#	Created 22 June 2011.  Last modified 27 Jan 2016.
 {
 	out <- list()
 
@@ -88,6 +88,11 @@ voom <- function(counts,design=NULL,lib.size=NULL,normalize.method="none",plot=F
 		out$targets <- data.frame(lib.size=lib.size)
 	else
 		out$targets$lib.size <- lib.size
+	if(save.plot) {
+		out$voom.xy <- list(x=sx,y=sy,xlab="log2( count size + 0.5 )",ylab="Sqrt( standard deviation )")
+		out$voom.line <- l
+	}
+
 	new("EList",out)
 }
 
