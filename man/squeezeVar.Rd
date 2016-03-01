@@ -35,7 +35,7 @@ The squeezed variances have a smaller expected mean square error to the true var
 If \code{covariate} is non-null, then the scale parameter of the prior distribution is assumed to depend on the covariate.
 If the covariate is average log-expression, then the effect is an intensity-dependent trend similar to that in Sartor et al (2006).
 
-\code{robust=TRUE} implements the robust empirical Bayes procedure of Phipson et al (2013) which allows some of the \code{var} values to be outliers.
+\code{robust=TRUE} implements the robust empirical Bayes procedure of Phipson et al (2016) which allows some of the \code{var} values to be outliers.
 }
 
 \note{
@@ -53,10 +53,10 @@ A list with components
 \author{Gordon Smyth}
 
 \references{
-Phipson, B, Lee, S, Majewski, IJ, Alexander, WS, and Smyth, GK (2013).
-Empirical Bayes in the presence of exceptional cases, with application to microarray data.
-Bioinformatics Division, Walter and Eliza Hall Institute of Medical Research, Melbourne, Australia.
-\url{http://www.statsci.org/smyth/pubs/RobustEBayesPreprint.pdf}
+Phipson, B, Lee, S, Majewski, IJ, Alexander, WS, and Smyth, GK (2016).
+Robust hyperparameter estimation protects against hypervariable genes and improves power to detect differential expression.
+\emph{Annals of Applied Statistics} 10.
+\url{http://arxiv.org/abs/1602.08678}
 
 Sartor MA, Tomlinson CR, Wesselkamper SC, Sivaganesan S, Leikauf GD, Medvedovic M (2006).
 Intensity-based hierarchical Bayes method improves testing for differentially expressed genes in microarray experiments.
