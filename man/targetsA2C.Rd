@@ -29,6 +29,12 @@ The second format may be more appropriate if the data is to be analyzed in terms
 data.frame with twice as many rows as \code{targets}.
 Any pair of columns named by \code{channel.columns} will now be one column.
 }
+\references{
+Smyth, GK, and Altman, NS (2013).
+Separate-channel analysis of two-channel microarrays: recovering inter-spot information.
+\emph{BMC Bioinformatics} 14, 165.
+\url{http://www.biomedcentral.com/1471-2105/14/165}
+}
 \seealso{
 \code{targetsA2C} is used by the \code{coerce} method from \code{RGList} to \code{ExpressionSet} in the convert package.
 
