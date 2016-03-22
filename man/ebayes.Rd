@@ -71,7 +71,7 @@ If \code{trend=TRUE} then an intensity-dependent trend is fitted to the prior va
 Specifically, \code{squeezeVar} is called with the \code{covariate} equal to \code{Amean}, the average log2-intensity for each gene.
 See \code{\link{squeezeVar}} for more details.
 
-If \code{robust=TRUE} then the robust empirical Bayes procedure of Phipson et al (2013) is used.
+If \code{robust=TRUE} then the robust empirical Bayes procedure of Phipson et al (2016) is used.
 See \code{\link{squeezeVar}} for more details.
 }
 \note{
@@ -93,10 +93,10 @@ Testing significance relative to a fold-change threshold is a TREAT.
 
 Loennstedt, I., and Speed, T. P. (2002). Replicated microarray data. \emph{Statistica Sinica} \bold{12}, 31-46.
 
-Phipson, B, Lee, S, Majewski, IJ, Alexander, WS, and Smyth, GK (2013).
-Empirical Bayes in the presence of exceptional cases, with application to microarray data.
-Bioinformatics Division, Walter and Eliza Hall Institute of Medical Research, Melbourne, Australia.
-\url{http://www.statsci.org/smyth/pubs/RobustEBayesPreprint.pdf}
+Phipson, B, Lee, S, Majewski, IJ, Alexander, WS, and Smyth, GK (2016).
+Robust hyperparameter estimation protects against hypervariable genes and improves power to detect differential expression.
+\emph{Annals of Applied Statistics} 10.
+\url{http://arxiv.org/abs/1602.08678}
 
 Smyth, G. K. (2004). Linear models and empirical Bayes methods for assessing differential expression in microarray experiments.
 \emph{Statistical Applications in Genetics and Molecular Biology}, Volume \bold{3}, Article 3.

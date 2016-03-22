@@ -1,3 +1,11 @@
+22 March 2016: limma 3.26.9
+
+- bug fix for Active Proportions from roast() when gene.weights are
+  set.
+
+ - update references to Phipson et al (2016) article on robust
+  empirical Bayes.
+
 11 February 2016: limma 3.26.8
 
 - new argument 'save.plot' for voom().

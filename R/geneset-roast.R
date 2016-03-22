@@ -16,7 +16,7 @@ roast <- function(y,...) UseMethod("roast")
 roast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),set.statistic="mean",gene.weights=NULL,array.weights=NULL,weights=NULL,block=NULL,correlation,var.prior=NULL,df.prior=NULL,trend.var=FALSE,nrot=999,approx.zscore=TRUE,...)
 # Rotation gene set testing for linear models
 # Gordon Smyth and Di Wu
-# Created 24 Apr 2008.  Last modified 22 Dec 2015.
+# Created 24 Apr 2008.  Last modified 22 March 2016.
 {
 #	Issue warning if extra arguments found
 	dots <- names(list(...))
@@ -210,8 +210,9 @@ roast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),set.sta
 			if(lgw != nset) stop("length of gene.weights disagrees with size of set")
 		}
 		s <- sign(gene.weights)
-		r1 <- mean(s*modt > sqrt(2))
-		r2 <- mean(s*modt < -sqrt(2))
+		ss <- sum(abs(s))
+		r1 <- sum(s*modt > sqrt(2)) / ss
+		r2 <- sum(s*modt < -sqrt(2)) / ss
 	} else {
 		r1 <- mean(modt > sqrt(2))
 		r2 <- mean(modt < -sqrt(2))
