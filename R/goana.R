@@ -77,7 +77,7 @@ goana.MArrayLM <- function(de, coef = ncol(de), geneid = rownames(de), FDR = 0.0
 goana.default <- function(de, universe = NULL, species = "Hs", prior.prob = NULL, covariate=NULL, plot=FALSE, ...)
 #	Gene ontology analysis of DE genes
 #	Gordon Smyth and Yifang Hu
-#	Created 20 June 2014.  Last modified 27 March 2015.
+#	Created 20 June 2014.  Last modified 10 April 2016.
 {
 #	Ensure de is a list
 	if(!is.list(de)) de <- list(DE = de)
@@ -112,17 +112,42 @@ goana.default <- function(de, universe = NULL, species = "Hs", prior.prob = NULL
 		if(plot) barcodeplot(covariate, index=(isDE==1), worm=TRUE, span.worm=span)
 	}
 
-#	Load package of GO terms
-	if(!suppressPackageStartupMessages(require("GO.db", character.only = TRUE))) stop("GO.db package not available")
+#	Get access to package of GO terms
+	suppressPackageStartupMessages(OK <- requireNamespace("GO.db",quietly=TRUE))
+	if(!OK) stop("GO.db package required but not available")
 
-#	Load species annotation package
-	DB <- paste("org", species, "eg", "db", sep = ".")
-	if(!suppressPackageStartupMessages(require(DB, character.only = TRUE))) stop(DB,"package not available")
+#	Get access to required annotation functions
+	suppressPackageStartupMessages(OK <- requireNamespace("AnnotationDbi",quietly=TRUE))
+	if(!OK) stop("AnnotationDbi package required but not available")
 
-#	Get gene-GOterm mappings, and remove duplicate entries
-	GO2ALLEGS <- paste("org", species, "egGO2ALLEGS", sep = ".")
+#	Get gene-GOterm mappings
+	switch(species,
+		Hs = {
+			suppressPackageStartupMessages(OK <- requireNamespace("org.Hs.eg.db",quietly=TRUE))
+			if(!OK) stop("org.Hs.eg.db package required but not available")
+			GO2ALLEGS <- org.Hs.eg.db::org.Hs.egGO2ALLEGS
+		}, Mm = {
+			suppressPackageStartupMessages(OK <- requireNamespace("org.Mm.eg.db",quietly=TRUE))
+			if(!OK) stop("org.Mm.eg.db package required but not available")
+			GO2ALLEGS <- org.Mm.eg.db::org.Mm.egGO2ALLEGS
+		}, Rn = {
+			suppressPackageStartupMessages(OK <- requireNamespace("org.Rn.eg.db",quietly=TRUE))
+			if(!OK) stop("org.Rn.eg.db package required but not available")
+			GO2ALLEGS <- org.Rn.eg.db::org.Rn.egGO2ALLEGS
+		}, Dm = {
+			suppressPackageStartupMessages(OK <- requireNamespace("org.Dm.eg.db",quietly=TRUE))
+			if(!OK) stop("org.Dm.eg.db package required but not available")
+			GO2ALLEGS <- org.Dm.eg.db::org.Dm.egGO2ALLEGS
+		}, Pt = {
+			suppressPackageStartupMessages(OK <- requireNamespace("org.Pt.eg.db",quietly=TRUE))
+			if(!OK) stop("org.Pt.eg.db package required but not available")
+			GO2ALLEGS <- org.Pt.eg.db::org.Pt.egGO2ALLEGS
+		}
+	)
+
+#	Convert gene-GOterm mappings to data.frame and remove duplicate entries
 	if(is.null(universe)) {
-		EG.GO <- AnnotationDbi::toTable(get(GO2ALLEGS))
+		EG.GO <- AnnotationDbi::toTable(GO2ALLEGS)
 		d <- duplicated(EG.GO[,c("gene_id", "go_id", "Ontology")])
 		EG.GO <- EG.GO[!d, ]
 		universe <- unique(EG.GO$gene_id)
@@ -140,7 +165,6 @@ goana.default <- function(de, universe = NULL, species = "Hs", prior.prob = NULL
 		}
 		universe <- universe[!dup]
 
-		GO2ALLEGS <- get(GO2ALLEGS)
 		m <- match(AnnotationDbi::Lkeys(GO2ALLEGS),universe,0L)
 		universe <- universe[m]
 		if(!is.null(prior.prob)) prior.prob <- prior.prob[m]

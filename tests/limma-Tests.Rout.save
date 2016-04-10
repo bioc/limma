@@ -1,6 +1,6 @@
 
-R Under development (unstable) (2015-10-24 r69569) -- "Unsuffered Consequences"
-Copyright (C) 2015 The R Foundation for Statistical Computing
+R Under development (unstable) (2016-03-14 r70331) -- "Unsuffered Consequences"
+Copyright (C) 2016 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -1331,30 +1331,41 @@ set1      5  -0.2481655        Up 0.0009047749
 + "137682","137695","137735","1378","137814","137868","137872","137886","137902","137964")
 > go <- goana(fit,FDR=0.8,geneid=EB)
 > topGO(go,n=10,truncate.term=30)
-                                     Term Ont N Up Down        P.Up      P.Down
-GO:0055082 cellular chemical homeostas...  BP 2  0    2 1.000000000 0.004242424
-GO:0006897                    endocytosis  BP 3  3    0 0.005046382 1.000000000
-GO:0019725           cellular homeostasis  BP 3  0    2 1.000000000 0.012294372
-GO:0006915              apoptotic process  BP 4  3    1 0.017844424 0.255402330
-GO:0012501          programmed cell death  BP 4  3    1 0.017844424 0.255402330
-GO:0008283             cell proliferation  BP 4  1    2 0.553950615 0.023749721
-GO:0042127 regulation of cell prolifer...  BP 4  1    2 0.553950615 0.023749721
-GO:0006909                   phagocytosis  BP 2  2    0 0.030909091 1.000000000
-GO:0007169 transmembrane receptor prot...  BP 2  2    0 0.030909091 1.000000000
-GO:0031252              cell leading edge  CC 2  2    0 0.030909091 1.000000000
+                                     Term Ont  N Up Down        P.Up
+GO:0032502          developmental process  BP 24  3    6 0.868520473
+GO:0006915              apoptotic process  BP  5  4    1 0.003446627
+GO:0012501          programmed cell death  BP  5  4    1 0.003446627
+GO:0055082 cellular chemical homeostas...  BP  2  0    2 1.000000000
+GO:0006897                    endocytosis  BP  3  3    0 0.005046382
+GO:0044767 single-organism development...  BP 23  3    5 0.845083285
+GO:0048856 anatomical structure develo...  BP 23  3    5 0.845083285
+GO:1902589 single-organism organelle o...  BP  7  1    3 0.762502428
+GO:0008219                     cell death  BP  6  4    1 0.009129968
+GO:0016265                          death  BP  6  4    1 0.009129968
+                 P.Down
+GO:0032502 0.0006606503
+GO:0006915 0.3096959098
+GO:0012501 0.3096959098
+GO:0055082 0.0042424242
+GO:0006897 1.0000000000
+GO:0044767 0.0066515474
+GO:0048856 0.0066515474
+GO:1902589 0.0066732856
+GO:0008219 0.3605604217
+GO:0016265 0.3605604217
 > topGO(go,n=10,truncate.term=30,sort="down")
-                                     Term Ont  N Up Down      P.Up      P.Down
-GO:0055082 cellular chemical homeostas...  BP  2  0    2 1.0000000 0.004242424
-GO:0019725           cellular homeostasis  BP  3  0    2 1.0000000 0.012294372
-GO:0008283             cell proliferation  BP  4  1    2 0.5539506 0.023749721
-GO:0042127 regulation of cell prolifer...  BP  4  1    2 0.5539506 0.023749721
-GO:1902589 single-organism organelle o...  BP  5  1    2 0.6375849 0.038228009
-GO:0048878           chemical homeostasis  BP  5  1    2 0.6375849 0.038228009
-GO:0032502          developmental process  BP 22  3    4 0.8185069 0.040079017
-GO:0043230        extracellular organelle  CC 14  1    3 0.9502416 0.055161144
-GO:0065010 extracellular membrane-boun...  CC 14  1    3 0.9502416 0.055161144
-GO:0070062          extracellular exosome  CC 14  1    3 0.9502416 0.055161144
+                                     Term Ont  N Up Down      P.Up       P.Down
+GO:0032502          developmental process  BP 24  3    6 0.8685205 0.0006606503
+GO:0055082 cellular chemical homeostas...  BP  2  0    2 1.0000000 0.0042424242
+GO:0044767 single-organism development...  BP 23  3    5 0.8450833 0.0066515474
+GO:0048856 anatomical structure develo...  BP 23  3    5 0.8450833 0.0066515474
+GO:1902589 single-organism organelle o...  BP  7  1    3 0.7625024 0.0066732856
+GO:0007283                spermatogenesis  BP  3  0    2 1.0000000 0.0122943723
+GO:0048232         male gamete generation  BP  3  0    2 1.0000000 0.0122943723
+GO:0001889              liver development  BP  3  0    2 1.0000000 0.0122943723
+GO:0019725           cellular homeostasis  BP  3  0    2 1.0000000 0.0122943723
+GO:0035295               tube development  BP  3  0    2 1.0000000 0.0122943723
 > 
 > proc.time()
    user  system elapsed 
-   2.80    0.23    3.04 
+   2.76    0.18    2.94 

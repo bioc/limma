@@ -1,3 +1,8 @@
+10 April 2016: limma 3.27.15
+
+- goana() now loads the name spaces of GO.db and org.XX.eg.db instead
+  of loading the packages.  This keeps the user search path cleaner.
+
 22 March 2016: limma 3.27.14
 
 - bug fix for Active Proportions from roast() when gene.weights are
