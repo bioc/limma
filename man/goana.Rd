@@ -110,8 +110,8 @@ The \code{goana} method for \code{MArrayLM} objects produces a data frame with a
   \item{N}{number of genes in the GO term.}
   \item{Up}{number of up-regulated differentially expressed genes.}
   \item{Down}{number of down-regulated differentially expressed genes.}
-  \item{P.Up}{p-value for over-representation of GO term in up-regulated genes.}
-  \item{P.Down}{p-value for over-representation of GO term in down-regulated genes.}
+  \item{P.Up}{p-value for over-representation of GO term in up-regulated genes. Not adjusted for multiple testing.}
+  \item{P.Down}{p-value for over-representation of GO term in down-regulated genes. Not adjusted for multiple testing.}
 
 The row names of the data frame give the GO term IDs.
 
