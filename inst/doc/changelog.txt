@@ -1,3 +1,9 @@
+13 April 2016: limma 3.27.16
+
+- alias2Symbol() and alias2SymbolTable() now load the name space of
+  the relevant organism package org.XX.eg.db instead of loading the
+  package.
+
 10 April 2016: limma 3.27.15
 
 - goana() now loads the name spaces of GO.db and org.XX.eg.db instead
