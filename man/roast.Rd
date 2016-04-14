@@ -23,7 +23,7 @@ Rotation gene set testing for linear models.
        nrot = 999, approx.zscore = TRUE, adjust.method = "BH", midp = TRUE,
        sort = "directional", \dots)
 \S3method{fry}{default}(y, index = NULL, design = NULL, contrast = ncol(design),
-      weights = NULL, sort = "directional", \dots)
+      sort = "directional", geneid = NULL, standardize = "posterior.sd", \dots)
 }
 
 \arguments{
@@ -48,6 +48,8 @@ Rotation gene set testing for linear models.
   \item{midp}{logical, should mid-p-values be used in instead of ordinary p-values when adjusting for multiple testing?}
   \item{sort}{character, whether to sort output table by directional p-value (\code{"directional"}), non-directional p-value (\code{"mixed"}), or not at all (\code{"none"}).}
   \item{approx.zscore}{logical, if \code{TRUE} then a fast approximation is used to convert t-statistics into z-scores prior to computing set statistics. If \code{FALSE}, z-scores will be exact.}
+  \item{geneid}{gene identifiers. Either a vector of length \code{nrow(y)} or the name of the column of \code{y$genes} containing the gene identifiers.}
+  \item{standardize}{how to standardize the residual effects. Residuals can be standardized by \code{"residual.sd"}, by empirical Bayes \code{"posterior.sd"} or not all (\code{"none"}).}
   \item{\dots}{other arguments not currently used.}
 }
 

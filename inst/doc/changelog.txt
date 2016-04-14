@@ -1,3 +1,13 @@
+14 April 2006: limma 3.27.17
+
+- Improve capabilities and improved power for fry().  fry() has two
+  new arguments, 'geneid' and 'standardize'.  The index argument of
+  fry() can now be a list of data.frames containing identifiers and
+  weights for each set.  The options introduced by the standardize
+  argument allows fry() to be more powerful when genes have unequal
+  variances.  fry() now accepts any arguments that would be suitable
+  for lmFit() or eBayes().
+
 13 April 2016: limma 3.27.16
 
 - alias2Symbol() and alias2SymbolTable() now load the name space of
