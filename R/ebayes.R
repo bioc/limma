@@ -86,11 +86,11 @@ ebayes <- function(fit,proportion=0.01,stdev.coef.lim=c(0.1,4),trend=FALSE,robus
 	out
 }
 
-tmixture.matrix <- function(tstat,stdev.unscaled,df,proportion,v0.lim=NULL) {
+tmixture.matrix <- function(tstat,stdev.unscaled,df,proportion,v0.lim=NULL)
 #	Estimate the prior variance of the coefficients for DE genes
 #	Gordon Smyth
 #	18 Nov 2002. Last modified 12 Dec 2003.
-
+{
 	tstat <- as.matrix(tstat)
 	stdev.unscaled <- as.matrix(stdev.unscaled)
 	if(any(dim(tstat) != dim(stdev.unscaled))) stop("Dims of tstat and stdev.unscaled don't match")
@@ -101,19 +101,22 @@ tmixture.matrix <- function(tstat,stdev.unscaled,df,proportion,v0.lim=NULL) {
 	v0
 }
 
-tmixture.vector <- function(tstat,stdev.unscaled,df,proportion,v0.lim=NULL) {
+tmixture.vector <- function(tstat,stdev.unscaled,df,proportion,v0.lim=NULL)
 #	Estimate scale factor in mixture of two t-distributions
 #	tstat is assumed to follow sqrt(1+v0/v1)*t(df) with probability proportion and t(df) otherwise
 #	v1 is stdev.unscaled^2 and v0 is to be estimated
 #	Gordon Smyth
-#	18 Nov 2002.  Last modified 13 Dec 2003.
-
-	if(any(is.na(tstat))) {
+#	18 Nov 2002.  Last modified 15 April 2016.
+{
+#	Remove missing values
+	if(anyNA(tstat)) {
 		o <- !is.na(tstat)
 		tstat <- tstat[o]
 		stdev.unscaled <- stdev.unscaled[o]
 		df <- df[o]
 	}
+
+#	ntarget t-statistics will be used for estimation
 	ngenes <- length(tstat)
 	ntarget <- ceiling(proportion/2*ngenes)
 	if(ntarget < 1) return(NA)
@@ -122,22 +125,29 @@ tmixture.vector <- function(tstat,stdev.unscaled,df,proportion,v0.lim=NULL) {
 #	This ensures ptarget < 1
 	p <- max(ntarget/ngenes,proportion)
 
+#	Method requires that df be equal
 	tstat <- abs(tstat)
-	if(ngenes>1)
-		ttarget <- quantile(tstat,(ngenes-ntarget)/(ngenes-1))
-	else
-		ttarget <- tstat
-	top <- (tstat >= ttarget)
-	tstat <- tstat[top]
-	v1 <- stdev.unscaled[top]^2
-	df <- df[top]
-	r <- ntarget-rank(tstat)+1
-	p0 <- pt(-tstat,df=df)
-	ptarget <- ( (r-0.5)/2/ngenes - (1-p)*p0 ) / p
+	MaxDF <- max(df)
+	i <- df < MaxDF
+	if(any(i)) {
+		TailP <- pt(tstat[i],df=df[i],lower.tail=FALSE,log.p=TRUE)
+		tstat[i] <- qt(TailP,df=MaxDF,lower.tail=FALSE,log.p=TRUE)
+		df[i] <- MaxDF
+	}
+
+#	Select top statistics
+	o <- order(tstat,decreasing=TRUE)[1:ntarget]
+	tstat <- tstat[o]
+	v1 <- stdev.unscaled[o]^2
+
+#	Compare to order statistics
+	r <- 1:ntarget
+	p0 <- 2*pt(tstat,df=MaxDF,lower.tail=FALSE)
+	ptarget <- ( (r-0.5)/ngenes - (1-p)*p0 ) / p
+	v0 <- rep.int(0,ntarget)
 	pos <- ptarget > p0
-	v0 <- rep(0,ntarget)
 	if(any(pos)) {
-		qtarget <- qt(ptarget[pos],df=df[pos])
+		qtarget <- qt(ptarget[pos]/2,df=MaxDF,lower.tail=FALSE)
 		v0[pos] <- v1[pos]*((tstat[pos]/qtarget)^2-1)
 	}
 	if(!is.null(v0.lim)) v0 <- pmin(pmax(v0,v0.lim[1]),v0.lim[2])

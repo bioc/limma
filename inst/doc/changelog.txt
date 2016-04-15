@@ -1,4 +1,10 @@
-14 April 2006: limma 3.27.17
+15 April 2016: limma 3.27.18
+
+- tmixture.vector() now handles unequal df in a better way.  This
+  will be seen in slightly changed B-statistics from topTable when
+  the residual or prior df are not all equal.
+
+14 April 2016: limma 3.27.17
 
 - Improve capabilities and improved power for fry().  fry() has two
   new arguments, 'geneid' and 'standardize'.  The index argument of
