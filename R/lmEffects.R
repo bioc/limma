@@ -100,9 +100,14 @@
 	qrX <- qr(X)
 	if(qrX$rank < p) stop("design must be full column rank")
 
-#	Compute effects
+#	Compute effects for contrasts and residuals
 	if(is.null(weights)) {
 		Effects <- t(qr.qty(qrX,t(y)))
+		signc <- sign(qrX$qr[p,p])
+#		Remove model effects other than the required contrast
+		if(p>1) Effects <- Effects[,p:n,drop=FALSE]
+#		Preserve sign of estimated effect
+		if(signc<0) Effects[,1] <- signc*Effects[,1]
 	} else {
 		Effects <- matrix(0,ngenes,n)
 		signc <- rep.int(0,ngenes)
@@ -118,10 +123,13 @@
 			signc[g] <- sign(qrX$qr[p,p])
 			Effects[g,] <- qr.qty(qrX,wy)
 		}
+#		Remove model effects other than the required contrast
+		if(p>1) Effects <- Effects[,p:n,drop=FALSE]
+#		Preserve sign of estimated effect
+		Effects[,1] <- signc*Effects[,1]
 	}
 
-#	Remove model effects other than the required contrast
-	if(p>1) Effects <- Effects[,p:n,drop=FALSE]
+#	Dimension names
 	EffectNames <- p:n
 	EffectNames[1] <- CoefName
 	dimnames(Effects) <- list(geneid,c(EffectNames))

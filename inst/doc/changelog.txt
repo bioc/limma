@@ -1,3 +1,8 @@
+18 April 2016: limma 3.27.18
+
+- bug fix for fry(), which is some cases was reversing the sign of a
+  contrast effect.
+
 15 April 2016: limma 3.27.18
 
 - tmixture.vector() now handles unequal df in a better way.  This

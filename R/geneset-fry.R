@@ -5,7 +5,7 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),sort="dir
 #	The up and down p-values are equivalent to those from roast with nrot=Inf
 #	in the special case of prior.df=Inf.
 #	Gordon Smyth and Goknur Giner
-#	Created 30 January 2015.  Last modified 12 April 2016
+#	Created 30 January 2015.  Last modified 18 April 2016
 {
 #	Partial matching of extra arguments
 	Dots <- list(...)
@@ -26,10 +26,10 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),sort="dir
 		array.weights=Dots$array.weights,
 		weights=Dots$weights,
 		block=Dots$block,
-		correlation=Dots$correlation)
+		correlation=Dots$correlationlib)
 
 #	Divide out genewise standard deviations
-	standardize <- match.arg(standardize, c("none","residual.sd","posterior.sd"))
+	standardize <- match.arg(standardize, c("none","residual.sd","posterior.sd","p2"))
 	if(!standardize=="none") {
 
 #		Estimate genewise sds robustly
@@ -48,6 +48,22 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),sort="dir
 				robust=Dots$robust,
 				winsor.tail.p=Dots$winsor.tail.p)
 			s2.robust <- sv$var.post
+			cat(sv$df.prior,"\n")
+		}
+		if(standardize=="p2") {
+			s2 <- rowMeans(Effects[,-1,drop=FALSE]^2)
+			sv <- squeezeVar(s2, df=df.residual,
+				covariate=covariate,
+				robust=Dots$robust,
+				winsor.tail.p=Dots$winsor.tail.p)
+			if(sv$df.prior==Inf) {
+				s2.robust <- sv$var.prior
+			} else {
+				df.res.rob <- 0.92*df.residual
+				df.total <- df.res.rob + sv$var.prior
+				s2.robust <- (df.res.rob*s2.robust + sv$df.prior*sv$var.prior) / df.total
+				cat(sv$df.prior,"\n")
+			}
 		}
 
 		Effects <- Effects/sqrt(s2.robust)
