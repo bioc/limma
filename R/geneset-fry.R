@@ -26,7 +26,7 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),sort="dir
 		array.weights=Dots$array.weights,
 		weights=Dots$weights,
 		block=Dots$block,
-		correlation=Dots$correlationlib)
+		correlation=Dots$correlation)
 
 #	Divide out genewise standard deviations
 	standardize <- match.arg(standardize, c("none","residual.sd","posterior.sd","p2"))

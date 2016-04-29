@@ -1,4 +1,8 @@
-18 April 2016: limma 3.27.18
+29 April 2016: limma 3.27.20
+
+- update NEWS.Rd ready for Bioconductor 3.3 release.
+
+18 April 2016: limma 3.27.19
 
 - bug fix for fry(), which is some cases was reversing the sign of a
   contrast effect.
@@ -11,8 +15,8 @@
 
 14 April 2016: limma 3.27.17
 
-- Improve capabilities and improved power for fry().  fry() has two
-  new arguments, 'geneid' and 'standardize'.  The index argument of
+- Improved capabilities and power for fry().  fry() has two new
+  arguments, 'geneid' and 'standardize'.  The index argument of
   fry() can now be a list of data.frames containing identifiers and
   weights for each set.  The options introduced by the standardize
   argument allows fry() to be more powerful when genes have unequal

@@ -3,6 +3,103 @@
 \encoding{UTF-8}
 
 
+\section{Version 3.28.0}{\itemize{
+
+\item
+  Improved capabilities and performance for fry().  fry() has two
+  new arguments, 'geneid' and 'standardize'.  The index argument of
+  fry() can now be a list of data.frames containing identifiers and
+  weights for each set.  The options introduced by the standardize
+  argument allows fry() to be more statistically powerful when genes have unequal
+  variances.  fry() now accepts any arguments that would be suitable
+  for lmFit() or eBayes().
+  The 'sort' argument of fry() is now the same as for mroast().
+
+\item
+  roast(), mroast(), fry() and camera() now require the 'design'
+  matrix to be set.  Previously the design matrix defaulted to a
+  single intercept column.
+
+\item
+  Two changes to barcodeplot():  new argument 'alpha' to set
+  semitransparency of positional bars in some circumstances;
+  the default value for 'quantiles' is increased slightly.
+
+\item
+  kegga() has several new arguments and now supports any species
+  supported by KEGG.  kegga() can now accept annotation as a
+  data.frame, meaning that it can work from user-supplied annotation.
+
+\item
+  New functions getGeneKEGGLinks() and getKEGGPathwayNames() to get
+  pathway annotation from the rest.kegg website.
+
+\item
+  topKEGG() now breaks tied p-values by number of genes in pathway and
+  by name of pathway.
+
+\item
+  goana() now supports species="Pt" (chimpanzee).
+
+\item
+  plotRLDF() now produces more complete output and the output is
+  more completely documented.  It can now be used as a complete LDF
+  analysis for classification based on training data.  The argument
+  'main' has been removed as an explicit argument because it and
+  other plotting arguments are better passed using the ... facility.
+  New arguments 'ndim' and 'plot' have been added.  The first allows
+  all possible discriminant functions to be completed even if only
+  two are plotted.  The second allows dicriminant functions to be
+  computed without a plot.
+  
+  plotRLDF() also now uses squeezeVar() to estimate how by how much the
+  within-group covariance matrix is moderated.  It has new arguments
+  'trend' and 'robust' as options to the empirical Bayes estimation
+  step.  It also has new argument 'var.prior' to allow the prior
+  variances to be optionally supplied.  Argument 'df.prior' can now be
+  a vector of genewise values.
+
+\item
+  new argument 'save.plot' for voom().
+
+\item
+  diffSplice() now returns genewise residual variances.
+
+\item
+  removeExt() has new 'sep' argument.
+
+\item
+  Slightly improved algorithm for producing the df2.shrunk values
+  returned by fitFDistRobustly().  fitFDistRobustly() now returns
+  tail.p.value, prob.outlier and df2.outlier as well as previously
+  returned values.  The minimum df.prior value returned by
+  eBayes(fit, robust=TRUE) may be slightly smaller than previously.
+
+\item
+  tmixture.vector() now handles unequal df in a better way.  This
+  will be seen in slightly changed B-statistics from topTable when
+  the residual or prior df are not all equal.
+
+\item
+  If a targets data.frame is provided to read.maimages() through the
+  'files' argument, then read.maimages() now overwrites its rownames
+  on output to agree with the column names of the RGList object.
+
+\item
+  More explicit handling of namespaces.
+  Functions needed from the grDevices, graphics, stats and utils
+  packages are now imported explicitly into the NAMESPACE, avoiding any possible masking by other packages.
+  goana(), alias2Symbol(), alias2SymbolTable() now load the name spaces of GO.db
+  the relevant organism package org.XX.eg.db instead of loading the
+  packages.
+  This keeps the user search path cleaner.
+
+\item
+  Various minor bug fixes and improvements to error messages.
+
+}}
+
+
 \section{Version 3.26.0}{\itemize{
 
 \item

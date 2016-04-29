@@ -17,8 +17,8 @@ alias2SymbolTable(alias, species = "Hs")
 }
 \details{
 Aliases are mapped via NCBI Entrez Gene identity numbers using Bioconductor organism packages.
-Species are \code{"Dm"} for fly, \code{"Hs"} for human, \code{"Mm"} for mouse and \code{"Rn"} for rat.
-The user needs to have the appropriate Bioconductor organism package installed.
+Possible species are \code{"Dm"} for fly, \code{"Hs"} for human, \code{"Mm"} for mouse and \code{"Rn"} for rat.
+The appropriate Bioconductor organism package is assumed to be installed.
 
 \code{alias2Symbol} maps a set of aliases to a set of symbols, without necessarily preserving order.
 The output vector may be longer or shorter than the original vector, because some aliases might not be found and some aliases may map to more than one symbol.
@@ -29,7 +29,7 @@ If an alias maps to more than one symbol, then the first one found is returned.
 Character vector of gene symbols.
 
 \code{alias2SymbolTable} returns a vector of the same length and order as \code{alias}, including \code{NA} values where no gene symbol was found.
-\code{alias2Symbol} returns an unordered vector which may be longer or shorter than \code{alias}.
+\code{alias2Symbol} returns an unordered vector that may be longer or shorter than \code{alias}.
 }
 \author{Gordon Smyth and Yifang Hu}
 \seealso{
@@ -37,7 +37,7 @@ This function is often used to assist gene set testing, see
 \link{10.GeneSetTests}.
 }
 \examples{
-if(require("org.Hs.eg.db")) alias2Symbol(c("PUMA","NOXA","BIM"))
+alias2Symbol(c("PUMA","NOXA","BIM"), species="Hs")
 }
 
 \keyword{gene annotation}
