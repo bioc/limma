@@ -30,7 +30,7 @@ Rotation gene set testing for linear models.
   \item{y}{numeric matrix giving log-expression or log-ratio values for a series of microarrays, or any object that can coerced to a matrix including \code{ExpressionSet}, \code{MAList}, \code{EList} or \code{PLMSet} objects.
   Rows correspond to probes and columns to samples.
   If either \code{var.prior} or \code{df.prior} are null, then \code{y} should contain values for all genes on the arrays. If both prior parameters are given, then only \code{y} values for the test set are required.}
-  \item{index}{index vector specifying which rows (probes) of \code{y} are in the test set.  This can be a vector of indices, or a logical vector of the same length as \code{statistics}, or any vector such as \code{y[index,]} contains the values for the gene set to be tested.
+  \item{index}{index vector specifying which rows (probes) of \code{y} are in the test set.  This can be a vector of integer indices, or a logical vector of length \code{nrow(y)}, or any vector such that \code{y[index,]} contains the values for the gene set to be tested.
   For \code{mroast}, \code{index} is a list of index vectors. The list can be made using \link{ids2indices}.}
   \item{design}{design matrix}
   \item{contrast}{contrast for which the test is required. Can be an integer specifying a column of \code{design}, or the name of a column of \code{design}, or a numeric contrast vector of length equal to the number of columns of \code{design}.}
