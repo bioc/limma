@@ -383,10 +383,10 @@ nonEstimable <- function(x)
 	}
 }
 
-fitted.MArrayLM <- function(object,design=object$design,...)
+fitted.MArrayLM <- function(object,...)
 #	Fitted values from MArray linear model fit
 #	Gordon Smyth
-#	29 November 2005
+#	29 November 2005.  Last modified 4 May 2016.
 {
 	object$coefficients %*% t(object$design)
 }

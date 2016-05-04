@@ -1,3 +1,14 @@
+ 4 May 2016: limma 3.27.21
+
+- unnecesary argument 'design' removed from fitted.MArrayLM.
+
+- bug fix to fry() with robust=TRUE.
+
+- bug fix to alias2Symbol() with expand.symbol=TRUE.
+
+ 4 May 2016: limma 3.29.0 (Bioconductor 3.4 Developmental Branch)
+ 4 May 2016: limma 3.28.0 (Bioconductor 3.3 Release Branch)
+
 29 April 2016: limma 3.27.20
 
 - update NEWS.Rd ready for Bioconductor 3.3 release.

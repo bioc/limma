@@ -4,7 +4,7 @@ romer <- function(y,...) UseMethod("romer")
 romer.default <- function(y,index,design=NULL,contrast=ncol(design),array.weights=NULL,block=NULL,correlation=NULL,set.statistic="mean",nrot=9999,shrink.resid=TRUE,...)
 #	rotation mean-rank version of GSEA (gene set enrichment analysis) for linear models
 #	Gordon Smyth and Yifang Hu
-#	27 March 2009.	Last modified 22 Dec 2015.
+#	27 March 2009.	Last modified 3 May 2015.
 {
 #	Issue warning if extra arguments found
 	dots <- names(list(...))
@@ -22,7 +22,6 @@ romer.default <- function(y,index,design=NULL,contrast=ncol(design),array.weight
 	SetSizes <- unlist(lapply(index,length))
 
 #	Check design
-	if(is.null(design)) design <- y$design
 	if(is.null(design))
 		stop("design matrix not specified")
 	else {

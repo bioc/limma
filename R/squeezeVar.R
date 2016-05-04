@@ -3,7 +3,7 @@
 squeezeVar <- function(var, df, covariate=NULL, robust=FALSE, winsor.tail.p=c(0.05,0.1))
 #	Empirical Bayes posterior variances
 #	Gordon Smyth
-#	Created 2 March 2004.  Last modified 2 Dec 2013.
+#	Created 2 March 2004.  Last modified 3 May 2016.
 {
 	n <- length(var)
 	if(n == 0) stop("var is empty")
@@ -35,7 +35,7 @@ squeezeVar <- function(var, df, covariate=NULL, robust=FALSE, winsor.tail.p=c(0.
 	var[df==0] <- 0 # guard against missing or infinite values
 	Infdf <- df.prior==Inf
 	if(any(Infdf)) {
-		var.post <- rep(var.prior,length.out=n)
+		var.post <- rep_len(var.prior,length.out=n)
 		i <- which(!Infdf)
 		if(length(i)) {
 			if(is.null(covariate))

@@ -81,6 +81,7 @@
 
 #	Correlation matrix
 	if(!is.null(block)) {
+		if(missing(correlation) || is.null(correlation)) stop("correlation must be set")
 		block <- as.vector(block)
 		if (length(block) != n) stop("Length of block does not match number of arrays")
 		ub <- unique(block)

@@ -5,7 +5,7 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),sort="dir
 #	The up and down p-values are equivalent to those from roast with nrot=Inf
 #	in the special case of prior.df=Inf.
 #	Gordon Smyth and Goknur Giner
-#	Created 30 January 2015.  Last modified 18 April 2016
+#	Created 30 January 2015.  Last modified 4 May 2016
 {
 #	Partial matching of extra arguments
 	Dots <- list(...)
@@ -14,10 +14,14 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),sort="dir
 		i <- pmatch(names(Dots),PossibleArgs)
 		names(Dots) <- PossibleArgs[i]
 	}
+
+#	Defaults for extra arguments
 	if(is.null(Dots$trend)) Dots$trend <- FALSE
 	if(is.null(Dots$robust)) Dots$robust <- FALSE
+	if(Dots$robust & is.null(Dots$winsor.tail.p)) Dots$winsor.tail.p <- c(0.05,0.1)
+	if(!is.null(Dots$block) & is.null(Dots$correlation)) stop("correlation must be set")
 
-#	Trended eBayes
+#	Covariate for trended eBayes
 	covariate <- NULL
 	if(Dots$trend) covariate <- rowMeans(as.matrix(y))
 
@@ -48,7 +52,6 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),sort="dir
 				robust=Dots$robust,
 				winsor.tail.p=Dots$winsor.tail.p)
 			s2.robust <- sv$var.post
-			cat(sv$df.prior,"\n")
 		}
 		if(standardize=="p2") {
 			s2 <- rowMeans(Effects[,-1,drop=FALSE]^2)
@@ -56,14 +59,20 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),sort="dir
 				covariate=covariate,
 				robust=Dots$robust,
 				winsor.tail.p=Dots$winsor.tail.p)
-			if(sv$df.prior==Inf) {
-				s2.robust <- sv$var.prior
+			df.res.rob <- 0.92*df.residual
+			df.total <- df.res.rob + sv$df.prior
+			Infdf <- sv$df.prior==Inf
+			if(any(Infdf)) {
+				var.post <- sv$var.prior
+				if(!all(Infdf)) {
+					i <- which(!Infdf)
+					var.prior <- rep_len(sv$var.prior,length.out=nrow(y))[i]
+					var.post[i] <- (df.res.rob*s2[i] + sv$df.prior[i]*var.prior) / df.total[i]
+				}
 			} else {
-				df.res.rob <- 0.92*df.residual
-				df.total <- df.res.rob + sv$var.prior
-				s2.robust <- (df.res.rob*s2.robust + sv$df.prior*sv$var.prior) / df.total
-				cat(sv$df.prior,"\n")
+				var.post <- (df.res.rob*s2 + sv$df.prior*sv$var.prior) / df.total
 			}
+			s2.robust <- var.post
 		}
 
 		Effects <- Effects/sqrt(s2.robust)
