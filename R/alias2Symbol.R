@@ -4,7 +4,7 @@ alias2Symbol <- function(alias,species="Hs",expand.symbols=FALSE)
 #  Convert a set of alias names to official gene symbols
 #  via Entrez Gene identifiers
 #  Di Wu, Gordon Smyth and Yifang Hu
-#  4 Sep 2008. Last revised 13 April 2016.
+#  4 Sep 2008. Last revised 2 May 2016.
 {
 	alias <- as.character(alias)
 	species <- match.arg(species,c("Dm","Hs","Mm","Rn"))
@@ -41,7 +41,7 @@ alias2Symbol <- function(alias,species="Hs",expand.symbols=FALSE)
 	if(expand.symbols) {
 		alias <- intersect(alias,AnnotationDbi::Rkeys(ALIAS2EG))
 		eg <- AnnotationDbi::mappedLkeys(ALIAS2EG[alias])
-		AnnotationDbi::mappedRkeys(SYMBOL)[eg]
+		AnnotationDbi::mappedRkeys(SYMBOL[eg])
 	} else {
 		isSymbol <- alias %in% AnnotationDbi::Rkeys(SYMBOL) 
 		alias2 <- intersect(alias[!isSymbol],AnnotationDbi::Rkeys(ALIAS2EG))

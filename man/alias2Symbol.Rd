@@ -13,7 +13,10 @@ alias2SymbolTable(alias, species = "Hs")
   \item{alias}{character vector of gene aliases}
   \item{species}{character string specifying the species.
   Possible values are \code{"Dm"}, \code{"Hs"}, \code{"Mm"} or \code{"Rn"}.}
-  \item{expand.symbols}{logical, should those elements of \code{alias} which are already official symbols be expanded if they are aliases for other symbols.}
+  \item{expand.symbols}{logical.
+  This affects those elements of \code{alias} that are the official gene symbol for one gene and also an alias for another gene.
+  If \code{FALSE}, then these elements will just return themselves.
+  If \code{TRUE}, then all the genes for which they are aliases will be returned.}
 }
 \details{
 Aliases are mapped via NCBI Entrez Gene identity numbers using Bioconductor organism packages.
@@ -38,6 +41,7 @@ This function is often used to assist gene set testing, see
 }
 \examples{
 alias2Symbol(c("PUMA","NOXA","BIM"), species="Hs")
+alias2Symbol("RS1", expand=TRUE)
 }
 
 \keyword{gene annotation}
