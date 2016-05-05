@@ -162,8 +162,7 @@ y[index1,3:4] <- y[index1,3:4]+3
 index2 <- 6:10
 
 roast(y,index1,design,contrast=2)
-mroast(y,index1,design,contrast=2)
-mroast(y,list(set1=index1,set2=index2),design,contrast=2)
+fry(y,list(set1=index1,set2=index2),design,contrast=2)
 }
 
 \keyword{gene set test}
