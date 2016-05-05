@@ -5,7 +5,7 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),sort="dir
 #	The up and down p-values are equivalent to those from roast with nrot=Inf
 #	in the special case of prior.df=Inf.
 #	Gordon Smyth and Goknur Giner
-#	Created 30 January 2015.  Last modified 4 May 2016
+#	Created 30 January 2015.  Last modified 5 May 2016
 {
 #	Partial matching of extra arguments
 	Dots <- list(...)
@@ -45,7 +45,7 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),sort="dir
 		u2max <- apply(Effects^2,1,max)
 		s2.robust <- (rowSums(Effects^2)-u2max) / (df.residual+1-Eu2max)
 
-#		Empirical Bayes moderation
+#		Empirical Bayes moderation method I: estimate hyperparameters from robust variances
 		if(standardize=="posterior.sd") {
 			sv <- squeezeVar(s2.robust, df=0.92*df.residual,
 				covariate=covariate,
@@ -53,26 +53,18 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),sort="dir
 				winsor.tail.p=Dots$winsor.tail.p)
 			s2.robust <- sv$var.post
 		}
+
+#		Empirical Bayes moderation method II: estimate hyperparameters from residual variances
 		if(standardize=="p2") {
 			s2 <- rowMeans(Effects[,-1,drop=FALSE]^2)
-			sv <- squeezeVar(s2, df=df.residual,
-				covariate=covariate,
-				robust=Dots$robust,
-				winsor.tail.p=Dots$winsor.tail.p)
-			df.res.rob <- 0.92*df.residual
-			df.total <- df.res.rob + sv$df.prior
-			Infdf <- sv$df.prior==Inf
-			if(any(Infdf)) {
-				var.post <- sv$var.prior
-				if(!all(Infdf)) {
-					i <- which(!Infdf)
-					var.prior <- rep_len(sv$var.prior,length.out=nrow(y))[i]
-					var.post[i] <- (df.res.rob*s2[i] + sv$df.prior[i]*var.prior) / df.total[i]
-				}
+			if(Dots$robust) {
+				fit <- fitFDistRobustly(s2, df1=df.residual, covariate=covariate, winsor.tail.p=Dots$winsor.tail.p)
+				df.prior <- fit$df2.shrunk
 			} else {
-				var.post <- (df.res.rob*s2 + sv$df.prior*sv$var.prior) / df.total
+				fit <- fitFDist(s2, df1=df.residual, covariate=covariate)
+				df.prior <- fit$df2
 			}
-			s2.robust <- var.post
+			s2.robust <- .squeezeVar(s2.robust,df=0.92*df.residual,var.prior=fit$scale,df.prior=df.prior)
 		}
 
 		Effects <- Effects/sqrt(s2.robust)
