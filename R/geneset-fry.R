@@ -1,11 +1,11 @@
 fry <- function(y,...) UseMethod("fry")
 
-fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),sort="directional",geneid=NULL,standardize="posterior.sd",...)
+fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid=NULL,standardize="posterior.sd",sort="directional",...)
 #	Quick version of roast gene set test assuming equal variances between genes
 #	The up and down p-values are equivalent to those from roast with nrot=Inf
 #	in the special case of prior.df=Inf.
 #	Gordon Smyth and Goknur Giner
-#	Created 30 January 2015.  Last modified 5 May 2016
+#	Created 30 January 2015.  Last modified 9 May 2016
 {
 #	Partial matching of extra arguments
 	Dots <- list(...)
@@ -25,7 +25,7 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),sort="dir
 	covariate <- NULL
 	if(Dots$trend) covariate <- rowMeans(as.matrix(y))
 
-#	Compute effects matrix
+#	Compute effects matrix (with df.residual+1 columns)
 	Effects <- .lmEffects(y=y,design=design,contrast=contrast,
 		array.weights=Dots$array.weights,
 		weights=Dots$weights,
@@ -70,7 +70,7 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),sort="dir
 		Effects <- Effects/sqrt(s2.robust)
 	}
 
-#	Check geneid (used if index contains data.frames)
+#	Check geneid (can be a vector of gene IDs or an annotation column name)
 	if(is.null(geneid)) {
 		geneid <- rownames(Effects)
 	} else {
@@ -88,7 +88,7 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),sort="dir
 .fryEffects <- function(effects,index=NULL,geneid=rownames(effects),sort=TRUE)
 #	fry given the effects matrix
 #	Gordon Smyth and Goknur Giner
-#	Created 30 January 2015.  Last modified 12 April 2016
+#	Created 30 January 2015.  Last modified 9 May 2016
 {
 	G <- nrow(effects)
 	neffects <- ncol(effects)
@@ -97,6 +97,7 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),sort="dir
 #	Check index
 	if(is.null(index)) index <- list(set1=1L:G)
 	if(is.data.frame(index) || !is.list(index)) index <- list(set1=index)
+	if(is.null(names(index))) names(index) <- paste("set",1:nsets,sep="")
 
 #	Global statistics
 	nsets <- length(index)

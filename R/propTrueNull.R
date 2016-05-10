@@ -47,10 +47,12 @@ propTrueNull <- function(p, method="lfdr", nbins=20, ...)
 #	http://www.public.iastate.edu/~dnett/microarray/multtest.txt
 #	Accessed March 2012
 
-#	Created 2 Dec 2012. Last revised 2 Dec 2012.
+#	Created 2 Dec 2012. Last revised 9 May 2016.
 {
 	bin <- c(-0.1, (1:nbins)/nbins)
-	bin.counts <- tabulate(cut(p,bin))
+	bin.counts <- rep_len(0L, length.out=nbins)
+	tab <- tabulate(cut(p,bin))
+	bin.counts[1:length(tab)] <- tab
 	tail.means <- rev(cumsum(rev(bin.counts))/(1:nbins))
 	index <- which(tail.means >= bin.counts)[1]
 	tail.means[index]/tail.means[1]

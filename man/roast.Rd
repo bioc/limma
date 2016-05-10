@@ -13,44 +13,44 @@ Rotation gene set testing for linear models.
 }
 
 \usage{
-\S3method{roast}{default}(y, index = NULL, design = NULL, contrast = ncol(design),
-      set.statistic = "mean", gene.weights = NULL, array.weights = NULL, weights = NULL,
-      block = NULL, correlation, var.prior = NULL, df.prior = NULL, trend.var = FALSE,
+\S3method{roast}{default}(y, index = NULL, design = NULL, contrast = ncol(design), geneid = NULL,
+      set.statistic = "mean", gene.weights = NULL, var.prior = NULL, df.prior = NULL,
       nrot = 999, approx.zscore = TRUE, \dots)
-\S3method{mroast}{default}(y, index = NULL, design = NULL, contrast = ncol(design),
-       set.statistic = "mean", gene.weights = NULL, array.weights = NULL, weights = NULL,
-       block = NULL, correlation, var.prior = NULL, df.prior = NULL, trend.var = FALSE,
-       nrot = 999, approx.zscore = TRUE, adjust.method = "BH", midp = TRUE,
-       sort = "directional", \dots)
-\S3method{fry}{default}(y, index = NULL, design = NULL, contrast = ncol(design),
-      sort = "directional", geneid = NULL, standardize = "posterior.sd", \dots)
+\S3method{mroast}{default}(y, index = NULL, design = NULL, contrast = ncol(design), geneid = NULL,
+       set.statistic = "mean", gene.weights = NULL, var.prior = NULL, df.prior = NULL,
+       nrot = 999, approx.zscore = TRUE, adjust.method = "BH",
+       midp = TRUE, sort = "directional", \dots)
+\S3method{fry}{default}(y, index = NULL, design = NULL, contrast = ncol(design), geneid = NULL,
+      standardize = "posterior.sd", sort = "directional", \dots)
 }
 
 \arguments{
   \item{y}{numeric matrix giving log-expression or log-ratio values for a series of microarrays, or any object that can coerced to a matrix including \code{ExpressionSet}, \code{MAList}, \code{EList} or \code{PLMSet} objects.
-  Rows correspond to probes and columns to samples.
-  If either \code{var.prior} or \code{df.prior} are null, then \code{y} should contain values for all genes on the arrays. If both prior parameters are given, then only \code{y} values for the test set are required.}
-  \item{index}{index vector specifying which rows (probes) of \code{y} are in the test set.  This can be a vector of integer indices, or a logical vector of length \code{nrow(y)}, or any vector such that \code{y[index,]} contains the values for the gene set to be tested.
-  For \code{mroast}, \code{index} is a list of index vectors. The list can be made using \link{ids2indices}.}
+        Rows correspond to probes and columns to samples.
+        If either \code{var.prior} or \code{df.prior} are \code{NULL}, then \code{y} should contain values for all genes on the arrays. If both prior parameters are given, then only \code{y} values for the test set are required.}
+  \item{index}{index vector specifying which rows (probes) of \code{y} are in the test set.
+        Can be a vector of integer indices, or a logical vector of length \code{nrow(y)}, or a vector of gene IDs corresponding to entries in \code{geneid}.
+        Alternatively it can be a data.frame with the first column containing the index vector and the second column containing gene weights.
+        For \code{mroast} or \code{fry}, \code{index} is a list of index vectors or a list of data.frames. }
   \item{design}{design matrix}
-  \item{contrast}{contrast for which the test is required. Can be an integer specifying a column of \code{design}, or the name of a column of \code{design}, or a numeric contrast vector of length equal to the number of columns of \code{design}.}
+  \item{contrast}{contrast for which the test is required.
+        Can be an integer specifying a column of \code{design}, or the name of a column of \code{design}, or a numeric contrast vector of length equal to the number of columns of \code{design}.}
+  \item{geneid}{gene identifiers corresponding to the rows of \code{y}.
+        Can be either a vector of length \code{nrow(y)} or the name of the column of \code{y$genes} containing the gene identifiers.
+        Defaults to \code{rownames(y)}.}
   \item{set.statistic}{summary set statistic. Possibilities are \code{"mean"},\code{"floormean"},\code{"mean50"} or \code{"msq"}.}
-  \item{gene.weights}{optional numeric vector of weights for genes in the set. Can be positive or negative.  For \code{mroast} this vector must have length equal to \code{nrow(y)}.  For \code{roast}, can be of length \code{nrow(y)} or of length equal to the number of genes in the test set.} 
-  \item{array.weights}{optional numeric vector of array weights.}
-  \item{weights}{optional matrix of observation weights. If supplied, should be of same dimensions as \code{y} and all values should be positive. If \code{y} is an \code{EList} or \code{MAList} object containing weights, then those weights will be used.}
-  \item{block}{optional vector of blocks.}
-  \item{correlation}{correlation between blocks.}
+  \item{gene.weights}{numeric vector of (positive or negative) probewise weights.
+        For \code{mroast} or \code{fry}, this vector must have length equal to \code{nrow(y)}.
+        For \code{roast}, can be of length \code{nrow(y)} or of length equal to the number of genes in the test set.} 
   \item{var.prior}{prior value for residual variances. If not provided, this is estimated from all the data using \code{squeezeVar}.}
   \item{df.prior}{prior degrees of freedom for residual variances. If not provided, this is estimated using \code{squeezeVar}.}
-  \item{trend.var}{logical, should a trend be estimated for \code{var.prior}?  See \code{eBayes} for details.  Only used if \code{var.prior} or \code{df.prior} are \code{NULL}.}
-  \item{nrot}{number of rotations used to estimate the p-values.}
+  \item{nrot}{number of rotations used to compute the p-values.}
+  \item{approx.zscore}{logical, if \code{TRUE} then a fast approximation is used to convert t-statistics into z-scores prior to computing set statistics. If \code{FALSE}, z-scores will be exact.}
   \item{adjust.method}{method used to adjust the p-values for multiple testing. See \code{\link{p.adjust}} for possible values.}
   \item{midp}{logical, should mid-p-values be used in instead of ordinary p-values when adjusting for multiple testing?}
   \item{sort}{character, whether to sort output table by directional p-value (\code{"directional"}), non-directional p-value (\code{"mixed"}), or not at all (\code{"none"}).}
-  \item{approx.zscore}{logical, if \code{TRUE} then a fast approximation is used to convert t-statistics into z-scores prior to computing set statistics. If \code{FALSE}, z-scores will be exact.}
-  \item{geneid}{gene identifiers. Either a vector of length \code{nrow(y)} or the name of the column of \code{y$genes} containing the gene identifiers.}
-  \item{standardize}{how to standardize the residual effects. Residuals can be standardized by \code{"residual.sd"}, by empirical Bayes \code{"posterior.sd"} or not all (\code{"none"}).}
-  \item{\dots}{other arguments not currently used.}
+  \item{standardize}{how to standardize for unequal probewise variances. Possibilities are \code{"residual.sd"}, \code{"posterior.sd"} or \code{"none"}.}
+  \item{\dots}{any argument that would be suitable for \code{\link{lmFit}} or \code{\link{eBayes}} can be included.}
 }
 
 \value{
@@ -85,6 +85,8 @@ They can be used for any microarray experiment which can be represented by a lin
 The design matrix for the experiment is specified as for the \code{\link{lmFit}} function, and the contrast of interest is specified as for the \code{\link{contrasts.fit}} function.
 This allows users to focus on differential expression for any coefficient or contrast in a linear model.
 If \code{contrast} is not specified, then the last coefficient in the linear model will be tested.
+
+The argument \code{index} is often made using \link{ids2indices}.
 
 The argument \code{gene.weights} allows directional weights to be set for individual genes in the set.
 This is often useful, because it allows each gene to be flagged as to its direction and magnitude of change based on prior experimentation.
