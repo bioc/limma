@@ -1,3 +1,7 @@
+11 May 2016: limma 3.28.4
+
+- Slight change to fry() standardize="posterior.sd" method.
+
 11 May 2016: limma 3.28.3
 
 - New flexibility for the roast() and mroast() functions, similar to
