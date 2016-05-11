@@ -5,7 +5,7 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid=NU
 #	The up and down p-values are equivalent to those from roast with nrot=Inf
 #	in the special case of prior.df=Inf.
 #	Gordon Smyth and Goknur Giner
-#	Created 30 January 2015.  Last modified 9 May 2016
+#	Created 30 January 2015.  Last modified 11 May 2016
 {
 #	Partial matching of extra arguments
 	Dots <- list(...)
@@ -46,7 +46,7 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid=NU
 		s2.robust <- (rowSums(Effects^2)-u2max) / (df.residual+1-Eu2max)
 
 #		Empirical Bayes moderation method I: estimate hyperparameters from robust variances
-		if(standardize=="posterior.sd") {
+		if(standardize=="p2") {
 			sv <- squeezeVar(s2.robust, df=0.92*df.residual,
 				covariate=covariate,
 				robust=Dots$robust,
@@ -54,8 +54,8 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid=NU
 			s2.robust <- sv$var.post
 		}
 
-#		Empirical Bayes moderation method II: estimate hyperparameters from residual variances
-		if(standardize=="p2") {
+#		Empirical Bayes moderation method II: estimate hyperparameters from residual variances but apply squeezing to robust variances
+		if(standardize=="posterior.sd") {
 			s2 <- rowMeans(Effects[,-1,drop=FALSE]^2)
 			if(Dots$robust) {
 				fit <- fitFDistRobustly(s2, df1=df.residual, covariate=covariate, winsor.tail.p=Dots$winsor.tail.p)

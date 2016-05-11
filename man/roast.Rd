@@ -116,8 +116,10 @@ This means that the smallest possible p-value is \code{1/(nrot+1)}.
 By default, \code{mroast} reports ordinary p-values but uses mid-p-values (Routledge, 1994) at the multiple testing stage.
 Mid-p-values are probably a good choice when using false discovery rates (\code{adjust.method="BH"}) but not when controlling the family-wise type I error rate (\code{adjust.method="holm"}).
 
-\code{fry} is a fast version of \code{mroast} in the special case that \code{df.prior} is large and \code{set.statistic="mean"}.
-In this situation, it gives the same result as \code{mroast} with an infinite number of rotations.
+\code{fry} is a fast approximation to \code{mroast}.
+In the special case that \code{df.prior} is large and \code{set.statistic="mean"}, \code{fry} gives the same result as \code{mroast} with an infinite number of rotations.
+In other circumstances, when genes have different variances, \code{fry} uses a standardization strategy to approximate the \code{mroast} results.
+Using \code{fry} may be advisable when performing tests for a large number of sets, because it is fast and because the \code{fry} p-values are not limited by the number of rotations performed.
 }
 
 \note{
