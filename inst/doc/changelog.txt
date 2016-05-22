@@ -1,3 +1,13 @@
+22 May 2016: limma 3.28.5
+
+- New function fitmixture() to estimate genewise fold changes and
+  expression values from mixture experiments.  Previously this
+  funtion was only available as part of the illumina package available
+  from http://bioinf.wehi.edu.au/illumina
+
+- New function logcosh() to compute log(cosh(x)) accurately without
+  floating underflow or overflow.
+
 11 May 2016: limma 3.28.4
 
 - Slight change to fry() standardize="posterior.sd" method.
