@@ -1,3 +1,11 @@
+ 4 Jun 2016: limma 3.29.6
+
+- The default settings for the 'inter.gene.cor' and 'use.neg.cor'
+  arguments of camera() have been changed.  camera() now uses by
+  default a preset value for the inter-gene correlation. This has the
+  effect that it tends to rank highly co-regulated,
+  biologically-interpretable more highly than before.
+
 22 May 2016: limma 3.29.5
 
 - New function fitmixture() to estimate genewise fold changes and
@@ -32,7 +40,7 @@
 
  4 May 2016: limma 3.29.1
 
-- unnecesary argument 'design' removed from fitted.MArrayLM.
+- unnecessary argument 'design' removed from fitted.MArrayLM.
 
 - bug fix to fry() with robust=TRUE.
 

@@ -7,9 +7,9 @@
 Test whether a set of genes is highly ranked relative to other genes in terms of differential expression, accounting for inter-gene correlation.
 }
 \usage{
-\S3method{camera}{default}(y, index, design, contrast=ncol(design), weights=NULL,
-       use.ranks=FALSE, allow.neg.cor=TRUE, inter.gene.cor=NULL, trend.var=FALSE,
-       sort=TRUE, \dots)
+\S3method{camera}{default}(y, index, design, contrast = ncol(design), weights = NULL,
+       use.ranks = FALSE, allow.neg.cor=FALSE, inter.gene.cor=0.01, trend.var = FALSE,
+       sort = TRUE, \dots)
 interGeneCorrelation(y, design)
 }
 \arguments{
@@ -23,7 +23,7 @@ interGeneCorrelation(y, design)
   \item{weights}{can be a numeric matrix of individual weights, of same size as \code{y}, or a numeric vector of array weights with length equal to \code{ncol(y)}, or a numeric vector of gene weights with length equal to \code{nrow(y)}.}
   \item{use.ranks}{do a rank-based test (\code{TRUE}) or a parametric test (\code{FALSE})?}
   \item{allow.neg.cor}{should reduced variance inflation factors be allowed for negative correlations?}
-  \item{inter.gene.cor}{numeric, optional preset value for the inter gene correlation within tested sets.  If not \code{NULL}, then this value will over-ride estimation of the inter gene correlations.}
+  \item{inter.gene.cor}{numeric, optional preset value for the inter-gene correlation within tested sets.  If \code{NA} or \code{NULL}, then an inter-gene correlation will be estimated for each tested set.}
   \item{trend.var}{logical, should an empirical Bayes trend be estimated?  See \code{\link{eBayes}} for details.}
   \item{sort}{logical, should the results be sorted by p-value?}
   \item{\dots}{other arguments are not currently used}
@@ -49,17 +49,20 @@ This usually works best with a small value, say \code{inter.gene.cor=0.01}.
 This produces a less conservative test that performs well in many practical situations.
 }
 
+\note{The default settings for \code{inter.gene.cor} and \code{allow.neg.cor} were changed to the current values in limma 3.29.6.
+Previously, the default was to estimate an inter-gene correlation for each set.}
+
 \value{
 \code{camera} returns a data.frame with a row for each set and the following columns:
-\item{NGenes}{number of genes in set}
-\item{Correlation}{inter-gene correlation}
-\item{Direction}{direction of change (\code{"Up"} or \code{"Down"})}
-\item{PValue}{two-tailed p-value}
-\item{FDR}{Benjamini and Hochberg FDR adjusted p-value}
+\item{NGenes}{number of genes in set.}
+\item{Correlation}{inter-gene correlation (only included if the \code{inter.gene.cor} was not preset).}
+\item{Direction}{direction of change (\code{"Up"} or \code{"Down"}).}
+\item{PValue}{two-tailed p-value.}
+\item{FDR}{Benjamini and Hochberg FDR adjusted p-value.}
 
 \code{interGeneCorrelation} returns a list with components:
-\item{vif}{variance inflation factor}
-\item{correlation}{inter-gene correlation}
+\item{vif}{variance inflation factor.}
+\item{correlation}{inter-gene correlation.}
 }
 
 \author{Di Wu and Gordon Smyth}
@@ -80,6 +83,7 @@ Analyzing gene expression data in terms of gene sets: methodological issues.
 \code{\link{rankSumTestWithCorrelation}},
 \code{\link{geneSetTest}},
 \code{\link{roast}},
+\code{\link{fry}},
 \code{\link{romer}},
 \code{\link{ids2indices}}.
 
@@ -100,7 +104,7 @@ index2 <- 21:40
 camera(y, index1, design)
 camera(y, index2, design)
 
-camera(y, list(set1=index1,set2=index2), design)
+camera(y, list(set1=index1,set2=index2), design, inter.gene.cor=NA)
 camera(y, list(set1=index1,set2=index2), design, inter.gene.cor=0.01)
 }
 

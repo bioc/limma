@@ -21,10 +21,10 @@ interGeneCorrelation <- function(y, design)
 
 camera <- function(y,...) UseMethod("camera")
 
-camera.default <- function(y,index,design=NULL,contrast=ncol(design),weights=NULL,use.ranks=FALSE,allow.neg.cor=TRUE,inter.gene.cor=NULL,trend.var=FALSE,sort=TRUE,...)
+camera.default <- function(y,index,design=NULL,contrast=ncol(design),weights=NULL,use.ranks=FALSE,allow.neg.cor=FALSE,inter.gene.cor=0.01,trend.var=FALSE,sort=TRUE,...)
 #	Competitive gene set test allowing for correlation between genes
 #	Gordon Smyth and Di Wu
-#	Created 2007.  Last modified 22 Dec 2015
+#	Created 2007.  Last modified 4 June 2016.
 {
 #	Issue warning if extra arguments found
 	dots <- names(list(...))
@@ -59,7 +59,7 @@ camera.default <- function(y,index,design=NULL,contrast=ncol(design),weights=NUL
 	if(is.null(weights)) weights <- y$weights
 
 #	Check inter.gene.cor
-	fixed.cor <- !is.null(inter.gene.cor)
+	fixed.cor <- !(is.na(inter.gene.cor) || is.null(inter.gene.cor))
 
 #	Set df for camera tests
 	if(fixed.cor) {
@@ -196,6 +196,9 @@ camera.default <- function(y,index,design=NULL,contrast=ncol(design),weights=NUL
 	tab$Direction <- Direction
 	tab$PValue <- tab$TwoSided
 	tab$Down <- tab$Up <- tab$TwoSided <- NULL
+
+#	Remove correlation column if it was not estimated
+	if(fixed.cor) tab$Correlation <- NULL
 
 #	Add FDR
 	if(nsets>1) tab$FDR <- p.adjust(tab$PValue,method="BH")
