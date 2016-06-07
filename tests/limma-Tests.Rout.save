@@ -1,5 +1,5 @@
 
-R Under development (unstable) (2016-03-14 r70331) -- "Unsuffered Consequences"
+R version 3.3.0 (2016-05-03) -- "Supposedly Educational"
 Copyright (C) 2016 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
@@ -1191,16 +1191,27 @@ set2      5      0.2      0      Down  0.950 0.950        0.250     0.250
      NGenes PropDown PropUp Direction PValue   FDR PValue.Mixed FDR.Mixed
 set1      5        0      1        Up  0.001 0.001        0.001     0.001
 set2      5        0      0      Down  0.791 0.791        0.146     0.146
+> fry(y=y,list(set1=iset1,set2=iset2),design,contrast=2,weights=w,array.weights=c(0.5,1,0.5,1))
+     NGenes Direction       PValue         FDR PValue.Mixed    FDR.Mixed
+set1      5        Up 0.0007432594 0.001486519 1.820548e-05 3.641096e-05
+set2      5      Down 0.8208140511 0.820814051 2.211837e-01 2.211837e-01
 > 
 > ### camera
 > 
-> camera(y=y,iset1,design,contrast=2,weights=c(0.5,1,0.5,1))
+> camera(y=y,iset1,design,contrast=2,weights=c(0.5,1,0.5,1),allow.neg.cor=TRUE,inter.gene.cor=NA)
      NGenes Correlation Direction      PValue
 set1      5  -0.2481655        Up 0.001050253
-> camera(y=y,list(set1=iset1,set2=iset2),design,contrast=2)
+> camera(y=y,list(set1=iset1,set2=iset2),design,contrast=2,allow.neg.cor=TRUE,inter.gene.cor=NA)
      NGenes Correlation Direction       PValue        FDR
 set1      5  -0.2481655        Up 0.0009047749 0.00180955
 set2      5   0.1719094      Down 0.9068364378 0.90683644
+> camera(y=y,iset1,design,contrast=2,weights=c(0.5,1,0.5,1))
+     NGenes Direction       PValue
+set1      5        Up 1.105329e-10
+> camera(y=y,list(set1=iset1,set2=iset2),design,contrast=2)
+     NGenes Direction       PValue          FDR
+set1      5        Up 7.334400e-12 1.466880e-11
+set2      5      Down 8.677115e-01 8.677115e-01
 > 
 > ### with EList arg
 > 
@@ -1211,9 +1222,12 @@ Down               0 0.997498749
 Up                 1 0.003001501
 UpOrDown           1 0.006000000
 Mixed              1 0.006000000
-> camera(y=y,iset1,design,contrast=2)
+> camera(y=y,iset1,design,contrast=2,allow.neg.cor=TRUE,inter.gene.cor=NA)
      NGenes Correlation Direction       PValue
 set1      5  -0.2481655        Up 0.0009047749
+> camera(y=y,iset1,design,contrast=2)
+     NGenes Direction     PValue
+set1      5        Up 7.3344e-12
 > 
 > ### eBayes with trend
 > 
@@ -1368,4 +1382,4 @@ GO:0035295               tube development  BP  3  0    2 1.0000000 0.0122943723
 > 
 > proc.time()
    user  system elapsed 
-   2.76    0.18    2.94 
+   2.73    0.20    2.94 

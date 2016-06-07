@@ -231,9 +231,12 @@ mroast(y=y,list(set1=iset1,set2=iset2),design,contrast=2,gene.weights=runif(100)
 mroast(y=y,list(set1=iset1,set2=iset2),design,contrast=2,array.weights=c(0.5,1,0.5,1))
 mroast(y=y,list(set1=iset1,set2=iset2),design,contrast=2,weights=w)
 mroast(y=y,list(set1=iset1,set2=iset2),design,contrast=2,weights=w,array.weights=c(0.5,1,0.5,1))
+fry(y=y,list(set1=iset1,set2=iset2),design,contrast=2,weights=w,array.weights=c(0.5,1,0.5,1))
 
 ### camera
 
+camera(y=y,iset1,design,contrast=2,weights=c(0.5,1,0.5,1),allow.neg.cor=TRUE,inter.gene.cor=NA)
+camera(y=y,list(set1=iset1,set2=iset2),design,contrast=2,allow.neg.cor=TRUE,inter.gene.cor=NA)
 camera(y=y,iset1,design,contrast=2,weights=c(0.5,1,0.5,1))
 camera(y=y,list(set1=iset1,set2=iset2),design,contrast=2)
 
@@ -241,6 +244,7 @@ camera(y=y,list(set1=iset1,set2=iset2),design,contrast=2)
 
 y <- new("EList",list(E=y))
 roast(y=y,iset1,design,contrast=2)
+camera(y=y,iset1,design,contrast=2,allow.neg.cor=TRUE,inter.gene.cor=NA)
 camera(y=y,iset1,design,contrast=2)
 
 ### eBayes with trend
