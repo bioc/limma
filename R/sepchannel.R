@@ -87,7 +87,7 @@ intraspotCorrelation <- function(object,design,trim=0.15)
 	designA <- (Ident %x% matrix(c(0.5,0.5),1,2)) %*% design
 	X <- rbind(designM, designA)
 	Z <- diag(2) %x% rep(1,narrays)
-	if(!requireNamespace("statmod",quietly=TRUE)) stop("statmod package required but is not available")
+	if(!requireNamespace("statmod",quietly=TRUE)) stop("statmod package required but is not installed")
 	arho <- rep(NA,ngenes)
 	degfre <- matrix(0,ngenes,2,dimnames=list(rownames(M),c("df.M","df.A")))
 	for (i in 1:ngenes) {

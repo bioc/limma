@@ -81,7 +81,7 @@ loessFit <- function(y, x, weights=NULL, span=0.3, iterations=4L, min.weight=1e-
 		},
 		"locfit" = {
 #			Check for locfit package
-			if(!requireNamespace("locfit",quietly=TRUE)) stop("locfit required but is not available")
+			if(!requireNamespace("locfit",quietly=TRUE)) stop("locfit required but is not installed (or can't be loaded)")
 #			Weighted lowess with robustifying iterations
 		    biweights <- rep(1,nobs)
  			for (i in 1:iterations) {

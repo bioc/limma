@@ -52,16 +52,40 @@ An overview of linear model functions in limma is given by \link{06.LinearModels
 \author{Gordon Smyth}
 \references{
 Smyth, G. K., Michaud, J., and Scott, H. (2005). The use of within-array replicate spots for assessing differential expression in microarray experiments. \emph{Bioinformatics} 21(9), 2067-2075.
-\url{http://www.statsci.org/smyth/pubs/dupcor.pdf}
+[\url{http://bioinformatics.oxfordjournals.org/content/21/9/2067}]
+[Preprint with corrections: \url{http://www.statsci.org/smyth/pubs/dupcor.pdf}]
 }
-\examples{
-#  Also see lmFit examples
 
-\dontrun{
-corfit <- duplicateCorrelation(MA, ndups=2, design)
-all.correlations <- tanh(corfit$atanh.correlations)
-boxplot(all.correlations)
-fit <- lmFit(MA, design, ndups=2, correlation=corfit$consensus)
+\examples{
+# Simulate gene expression data for 100 probes and 6 microarrays
+# Microarray are in two groups
+# First two probes are more highly expressed in second group
+# Std deviations vary between genes with prior df=4
+sd <- 0.3*sqrt(4/rchisq(100,df=4))
+y <- matrix(rnorm(100*6,sd=sd),100,6)
+rownames(y) <- paste("Gene",1:100)
+y[1:2,4:6] <- y[1:2,4:6] + 2
+design <- cbind(Grp1=1,Grp2vs1=c(0,0,0,1,1,1))
+options(digits=3)
+
+# Fit with correlated arrays
+# Suppose each pair of arrays is a block
+block <- c(1,1,2,2,3,3)
+dupcor <- duplicateCorrelation(y,design,block=block)
+dupcor$consensus.correlation
+fit1 <- lmFit(y,design,block=block,correlation=dupcor$consensus)
+fit1 <- eBayes(fit1)
+topTable(fit1,coef=2)
+
+# Fit with duplicate probes
+# Suppose two side-by-side duplicates of each gene
+rownames(y) <- paste("Gene",rep(1:50,each=2))
+dupcor <- duplicateCorrelation(y,design,ndups=2)
+dupcor$consensus.correlation
+fit2 <- lmFit(y,design,ndups=2,correlation=dupcor$consensus)
+dim(fit2)
+fit2 <- eBayes(fit2)
+topTable(fit2,coef=2)
 }
-}
+
 \keyword{multivariate}

@@ -114,33 +114,33 @@ goana.default <- function(de, universe = NULL, species = "Hs", prior.prob = NULL
 
 #	Get access to package of GO terms
 	suppressPackageStartupMessages(OK <- requireNamespace("GO.db",quietly=TRUE))
-	if(!OK) stop("GO.db package required but not available")
+	if(!OK) stop("GO.db package required but not installed (or can't be loaded)")
 
 #	Get access to required annotation functions
 	suppressPackageStartupMessages(OK <- requireNamespace("AnnotationDbi",quietly=TRUE))
-	if(!OK) stop("AnnotationDbi package required but not available")
+	if(!OK) stop("AnnotationDbi package required but not installed (or can't be loaded)")
 
 #	Get gene-GOterm mappings
 	switch(species,
 		Hs = {
 			suppressPackageStartupMessages(OK <- requireNamespace("org.Hs.eg.db",quietly=TRUE))
-			if(!OK) stop("org.Hs.eg.db package required but not available")
+			if(!OK) stop("org.Hs.eg.db package required but not installed (or can't be loaded)")
 			GO2ALLEGS <- org.Hs.eg.db::org.Hs.egGO2ALLEGS
 		}, Mm = {
 			suppressPackageStartupMessages(OK <- requireNamespace("org.Mm.eg.db",quietly=TRUE))
-			if(!OK) stop("org.Mm.eg.db package required but not available")
+			if(!OK) stop("org.Mm.eg.db package required but not installed (or can't be loaded)")
 			GO2ALLEGS <- org.Mm.eg.db::org.Mm.egGO2ALLEGS
 		}, Rn = {
 			suppressPackageStartupMessages(OK <- requireNamespace("org.Rn.eg.db",quietly=TRUE))
-			if(!OK) stop("org.Rn.eg.db package required but not available")
+			if(!OK) stop("org.Rn.eg.db package required but not installed (or can't be loaded)")
 			GO2ALLEGS <- org.Rn.eg.db::org.Rn.egGO2ALLEGS
 		}, Dm = {
 			suppressPackageStartupMessages(OK <- requireNamespace("org.Dm.eg.db",quietly=TRUE))
-			if(!OK) stop("org.Dm.eg.db package required but not available")
+			if(!OK) stop("org.Dm.eg.db package required but not installed (or can't be loaded)")
 			GO2ALLEGS <- org.Dm.eg.db::org.Dm.egGO2ALLEGS
 		}, Pt = {
 			suppressPackageStartupMessages(OK <- requireNamespace("org.Pt.eg.db",quietly=TRUE))
-			if(!OK) stop("org.Pt.eg.db package required but not available")
+			if(!OK) stop("org.Pt.eg.db package required but not installed (or can't be loaded)")
 			GO2ALLEGS <- org.Pt.eg.db::org.Pt.egGO2ALLEGS
 		}
 	)
@@ -209,7 +209,7 @@ goana.default <- function(de, universe = NULL, species = "Hs", prior.prob = NULL
 		W <- AVE.PW*(Total-S[,"N"])/(PW.ALL-S[,"N"]*AVE.PW)
 
 #		Wallenius' noncentral hypergeometric test
-		if(!requireNamespace("BiasedUrn",quietly=TRUE)) stop("BiasedUrn package required but is not available")
+		if(!requireNamespace("BiasedUrn",quietly=TRUE)) stop("BiasedUrn package required but is not installed (or can't be loaded)")
 		for(j in 1:nsets) for(i in 1:nrow(S)) 
 			P[i,j] <- BiasedUrn::pWNCHypergeo(S[i,1+j], S[i,"N"], Total-S[i,"N"], TotalDE[[j]], W[i],lower.tail=FALSE) + BiasedUrn::dWNCHypergeo(S[i,1+j], S[i,"N"], Total-S[i,"N"], TotalDE[[j]], W[i])
 		S <- S[,-ncol(S)]

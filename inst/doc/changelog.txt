@@ -1,3 +1,9 @@
+12 Jun 2016: limma 3.29.7
+
+- new argument 'verbose' for read.idat().
+
+- Example code added to duplicateCorrelation.Rd.
+
  4 Jun 2016: limma 3.29.6
 
 - The default settings for the 'inter.gene.cor' and 'use.neg.cor'

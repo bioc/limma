@@ -97,7 +97,7 @@ duplicateCorrelation <- function(object,design=NULL,ndups=2,spacing=1,block=NULL
 		design <- design %x% rep(1,ndups)
 	}
 
-	if(!requireNamespace("statmod",quietly=TRUE)) stop("statmod package required but is not available")
+	if(!requireNamespace("statmod",quietly=TRUE)) stop("statmod package required but is not installed")
 	rho <- rep(NA,ngenes)
 	nafun <- function(e) NA
 	for (i in 1:ngenes) {

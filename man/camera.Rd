@@ -46,11 +46,18 @@ The inflation factor depends on estimated genewise correlation and the number of
 By default, \code{camera} uses \code{interGeneCorrelation} to estimate the mean pair-wise correlation within each set of genes.
 \code{camera} can alternatively be used with a preset correlation specified by \code{inter.gene.cor} that is shared by all sets.
 This usually works best with a small value, say \code{inter.gene.cor=0.01}.
-This produces a less conservative test that performs well in many practical situations.
+
+If \code{interGeneCorrelation=NA}, then \code{camera} will estimate the inter-gene correlation for each set.
+In this mode, \code{camera} gives rigorous error rate control for all sample sizes and all gene sets.
+However, in this mode, highly co-regulated gene sets that are biological interpretable may not always be ranked at the top of the list.
+
+With \code{interGeneCorrelation=0.01}, \code{camera} will rank biologically interpetable sets more highly.
+This gives a useful compromise between strict error rate control and interpretable gene set rankings.
 }
 
 \note{The default settings for \code{inter.gene.cor} and \code{allow.neg.cor} were changed to the current values in limma 3.29.6.
-Previously, the default was to estimate an inter-gene correlation for each set.}
+Previously, the default was to estimate an inter-gene correlation for each set.
+To reproduce the earlier default, use \code{allow.neg.cor=TRUE} and \code{inter.gene.cor=NA}.}
 
 \value{
 \code{camera} returns a data.frame with a row for each set and the following columns:
