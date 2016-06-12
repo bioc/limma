@@ -6,14 +6,15 @@
 \description{Read Illumina BeadArray data from IDAT and manifest (.bgx) files for gene expression platforms.}
 
 \usage{
-read.idat(idatfiles, bgxfile, dateinfo=FALSE, tolerance=0)
+read.idat(idatfiles, bgxfile, dateinfo = FALSE, tolerance = 0L, verbose = TRUE)
 }
 
 \arguments{
   \item{idatfiles}{character vector specifying idat files to be read in.}
   \item{bgxfile}{character string specifying bead manifest file (.bgx) to be read in.}
-  \item{dateinfo}{logical. Should date and software version info be read in?}
-  \item{tolerance}{numeric. The number of probe ID discrepancies allowed between the manifest and a given idat file.} 
+  \item{dateinfo}{logical. Should date and software version information be read in?}
+  \item{tolerance}{integer. The number of probe ID discrepancies allowed between the manifest and a given idat file.} 
+  \item{verbose}{logical. Should progress messages are sent to standard output?}
 }
 
 \details{
@@ -42,7 +43,7 @@ read.idat(idatfiles, bgxfile, dateinfo=FALSE, tolerance=0)
 \references{
 Smith ML, Baggerly KA, Bengtsson H, Ritchie ME, Hansen KD (2013). 
 illuminaio: An open source IDAT parsing tool. \emph{F1000 Research} 2, 264.
-\url{http://f1000research.com/articles/2-264/v1}
+\url{http://f1000research.com/articles/2-264/}
 }
 
 \author{Matt Ritchie}

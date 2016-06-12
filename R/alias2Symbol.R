@@ -11,28 +11,28 @@ alias2Symbol <- function(alias,species="Hs",expand.symbols=FALSE)
 
 #	Get access to required annotation functions
 	suppressPackageStartupMessages(OK <- requireNamespace("AnnotationDbi",quietly=TRUE))
-	if(!OK) stop("AnnotationDbi package required but not available")
+	if(!OK) stop("AnnotationDbi package required but not installed (or can't be loaded)")
 
 #	Get alias to symbol mappings
 	switch(species,
 		Hs = {
 			suppressPackageStartupMessages(OK <- requireNamespace("org.Hs.eg.db",quietly=TRUE))
-			if(!OK) stop("org.Hs.eg.db package required but not available")
+			if(!OK) stop("org.Hs.eg.db package required but not installed (or can't be loaded)")
 			ALIAS2EG <- org.Hs.eg.db::org.Hs.egALIAS2EG
 			SYMBOL <- org.Hs.eg.db::org.Hs.egSYMBOL
 		}, Mm = {
 			suppressPackageStartupMessages(OK <- requireNamespace("org.Mm.eg.db",quietly=TRUE))
-			if(!OK) stop("org.Mm.eg.db package required but not available")
+			if(!OK) stop("org.Mm.eg.db package required but not installed (or can't be loaded)")
 			ALIAS2EG <- org.Mm.eg.db::org.Mm.egALIAS2EG
 			SYMBOL <- org.Mm.eg.db::org.Mm.egSYMBOL
 		}, Rn = {
 			suppressPackageStartupMessages(OK <- requireNamespace("org.Rn.eg.db",quietly=TRUE))
-			if(!OK) stop("org.Rn.eg.db package required but not available")
+			if(!OK) stop("org.Rn.eg.db package required but not installed (or can't be loaded)")
 			ALIAS2EG <- org.Rn.eg.db::org.Rn.egALIAS2EG
 			SYMBOL <- org.Rn.eg.db::org.Rn.egSYMBOL
 		}, Dm = {
 			suppressPackageStartupMessages(OK <- requireNamespace("org.Dm.eg.db",quietly=TRUE))
-			if(!OK) stop("org.Dm.eg.db package required but not available")
+			if(!OK) stop("org.Dm.eg.db package required but not installed (or can't be loaded)")
 			ALIAS2EG <- org.Dm.eg.db::org.Dm.egALIAS2EG
 			SYMBOL <- org.Dm.eg.db::org.Dm.egSYMBOL
 		}
@@ -61,28 +61,28 @@ alias2SymbolTable <- function(alias,species="Hs")
 
 #	Get access to required annotation functions
 	suppressPackageStartupMessages(OK <- requireNamespace("AnnotationDbi",quietly=TRUE))
-	if(!OK) stop("AnnotationDbi package required but not available")
+	if(!OK) stop("AnnotationDbi package required but not installed (or can't be loaded)")
 
 #	Get alias to symbol mappings
 	switch(species,
 		Hs = {
 			suppressPackageStartupMessages(OK <- requireNamespace("org.Hs.eg.db",quietly=TRUE))
-			if(!OK) stop("org.Hs.eg.db package required but not available")
+			if(!OK) stop("org.Hs.eg.db package required but not installed (or can't be loaded)")
 			ALIAS2EG <- org.Hs.eg.db::org.Hs.egALIAS2EG
 			SYMBOL <- org.Hs.eg.db::org.Hs.egSYMBOL
 		}, Mm = {
 			suppressPackageStartupMessages(OK <- requireNamespace("org.Mm.eg.db",quietly=TRUE))
-			if(!OK) stop("org.Mm.eg.db package required but not available")
+			if(!OK) stop("org.Mm.eg.db package required but not installed (or can't be loaded)")
 			ALIAS2EG <- org.Mm.eg.db::org.Mm.egALIAS2EG
 			SYMBOL <- org.Mm.eg.db::org.Mm.egSYMBOL
 		}, Rn = {
 			suppressPackageStartupMessages(OK <- requireNamespace("org.Rn.eg.db",quietly=TRUE))
-			if(!OK) stop("org.Rn.eg.db package required but not available")
+			if(!OK) stop("org.Rn.eg.db package required but not installed (or can't be loaded)")
 			ALIAS2EG <- org.Rn.eg.db::org.Rn.egALIAS2EG
 			SYMBOL <- org.Rn.eg.db::org.Rn.egSYMBOL
 		}, Dm = {
 			suppressPackageStartupMessages(OK <- requireNamespace("org.Dm.eg.db",quietly=TRUE))
-			if(!OK) stop("org.Dm.eg.db package required but not available")
+			if(!OK) stop("org.Dm.eg.db package required but not installed (or can't be loaded)")
 			ALIAS2EG <- org.Dm.eg.db::org.Dm.egALIAS2EG
 			SYMBOL <- org.Dm.eg.db::org.Dm.egSYMBOL
 		}
