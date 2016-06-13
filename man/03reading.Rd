@@ -26,6 +26,7 @@ There are also a series of utility functions which read the header information f
 and produces an \code{ElistRaw} object.
 
 \code{\link{read.idat}} reads Illumina files in IDAT format, and produces an \code{EListRaw} object.
+\code{\link{detectionPValues}} can be used to add detection p-values.
 
 The function \link{as.MAList} can be used to convert a \code{marrayNorm} object to an \code{MAList} object if the data was read and normalized using the marray and marrayNorm packages.
 }
