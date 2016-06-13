@@ -7,7 +7,7 @@
 Gene set enrichment analysis for linear models using rotation tests (ROtation testing using MEan Ranks).
 }
 \usage{
-\S3method{romer}{default}(y, index, design = NULL, contrast = ncol(design),
+\method{romer}{default}(y, index, design = NULL, contrast = ncol(design),
       array.weights = NULL, block = NULL, correlation,
       set.statistic = "mean", nrot = 9999, shrink.resid = TRUE, \dots)
 }

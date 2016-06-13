@@ -1,3 +1,8 @@
+13 Jun 2016: limma 3.28.8
+
+- new function detectionPValues() to compute detection p-values from
+  negative control probes.
+
 12 Jun 2016: limma 3.28.7
 
 - new argument 'verbose' for read.idat().

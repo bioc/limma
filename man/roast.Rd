@@ -13,14 +13,14 @@ Rotation gene set testing for linear models.
 }
 
 \usage{
-\S3method{roast}{default}(y, index = NULL, design = NULL, contrast = ncol(design), geneid = NULL,
+\method{roast}{default}(y, index = NULL, design = NULL, contrast = ncol(design), geneid = NULL,
       set.statistic = "mean", gene.weights = NULL, var.prior = NULL, df.prior = NULL,
       nrot = 999, approx.zscore = TRUE, \dots)
-\S3method{mroast}{default}(y, index = NULL, design = NULL, contrast = ncol(design), geneid = NULL,
+\method{mroast}{default}(y, index = NULL, design = NULL, contrast = ncol(design), geneid = NULL,
        set.statistic = "mean", gene.weights = NULL, var.prior = NULL, df.prior = NULL,
        nrot = 999, approx.zscore = TRUE, adjust.method = "BH",
        midp = TRUE, sort = "directional", \dots)
-\S3method{fry}{default}(y, index = NULL, design = NULL, contrast = ncol(design), geneid = NULL,
+\method{fry}{default}(y, index = NULL, design = NULL, contrast = ncol(design), geneid = NULL,
       standardize = "posterior.sd", sort = "directional", \dots)
 }
 
