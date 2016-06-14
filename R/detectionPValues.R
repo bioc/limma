@@ -12,7 +12,7 @@ detectionPValues.EListRaw <- function(x,status=NULL,...)
 detectionPValues.default <- function(x, status, negctrl="negative",...)
 #	Detection p-values from negative controls
 #	Gordon Smyth
-#	Created 13 June 2016
+#	Created 13 June 2016.  Last modified 14 June 2016.
 {
 	x <- as.matrix(x)
 
@@ -33,7 +33,7 @@ detectionPValues.default <- function(x, status, negctrl="negative",...)
 		o2 <- order(x[,j],notneg,decreasing=TRUE)
 		cs1[o1] <- cumsum(isneg[o1])
 		cs2[o2] <- cumsum(isneg[o2])
-		DetectionPValue1[,j] <- cs1+cs2
+		DetectionPValue[,j] <- cs1+cs2
 	}
 
 #	Convert to p-values

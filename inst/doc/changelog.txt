@@ -1,3 +1,8 @@
+14 Jun 2016: limma 3.29.9
+
+- normalizeBetweenArrays() now checks whether the input 'object' is a
+  data.frame, and converts to a matrix if possible.
+
 13 Jun 2016: limma 3.29.8
 
 - new function detectionPValues() to compute detection p-values from
