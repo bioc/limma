@@ -333,7 +333,12 @@ plotPrintorder <- function(object,layout,start="topleft",slide=1,method="loess",
 normalizeBetweenArrays <- function(object, method=NULL, targets=NULL, cyclic.method="fast", ...) {
 #	Normalize between arrays
 #	Gordon Smyth
-#	12 Apri 2003.  Last revised 21 July 2013.
+#	12 Apri 2003.  Last revised 13 June 2016.
+
+	if(is.data.frame(object)) {
+		object <- as.matrix(object)
+		if(mode(object) != "numeric") stop("'object' is a data.frame and not all columns are numeric")
+	}
 
 #	Default method
 	if(is.null(method)) {

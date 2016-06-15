@@ -1,3 +1,13 @@
+15 Jun 2016: limma 3.28.10
+
+- new argument 'annotation' for read.idat(), to allow users to read
+  any required columns from the manifest file.
+
+15 Jun 2016: limma 3.28.9
+
+- normalizeBetweenArrays() now checks whether the input 'object' is a
+  data.frame, and converts to a matrix if possible.
+
 13 Jun 2016: limma 3.28.8
 
 - new function detectionPValues() to compute detection p-values from
