@@ -1,3 +1,8 @@
+15 Jun 2016: limma 3.29.10
+
+- new argument 'annotation' for read.idat(), to allow users to read
+  any required columns from the manifest file.
+
 14 Jun 2016: limma 3.29.9
 
 - normalizeBetweenArrays() now checks whether the input 'object' is a
