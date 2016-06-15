@@ -14,7 +14,7 @@ read.idat(idatfiles, bgxfile, dateinfo = FALSE, annotation = "Symbol",
   \item{idatfiles}{character vector specifying idat files to be read in.}
   \item{bgxfile}{character string specifying bead manifest file (.bgx) to be read in.}
   \item{dateinfo}{logical. Should date and software version information be read in?}
-  \item{annotation}{character vector of annotation columns be read from the manifest file.}
+  \item{annotation}{character vector of annotation columns to be read from the manifest file.}
   \item{tolerance}{integer. The number of probe ID discrepancies allowed between the manifest and any of the IDAT files.} 
   \item{verbose}{logical. Should progress messages are sent to standard output?}
 }
