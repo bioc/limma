@@ -20,7 +20,7 @@ importFrom("stats", "approx", "approxfun", "as.dist", "cmdscale",
            "pnorm", "ppoints", "predict", "pt", "qchisq", "qf",
            "qnorm", "qt", "quantile", "residuals", "rnorm", "sd",
            "uniroot", "var", "weighted.mean")
-importFrom("utils", "read.table", "write.table")
+importFrom("utils", "getFromNamespace", "read.table", "write.table")
 if( tools:::.OStype() == "windows" ) importFrom("utils", "winMenuAddItem")
 
 S3method("[",MAList)

@@ -1,3 +1,8 @@
+22 Jun 2016: limma 3.29.11
+
+- alias2Symbol() and alias2SymbolTable() now for for any species for
+  which an Entrez Gene based organism package exists.
+
 15 Jun 2016: limma 3.29.10
 
 - new argument 'annotation' for read.idat(), to allow users to read
