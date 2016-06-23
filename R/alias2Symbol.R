@@ -4,7 +4,7 @@ alias2Symbol <- function(alias,species="Hs",expand.symbols=FALSE)
 #  Convert a set of alias names to official gene symbols
 #  via Entrez Gene identifiers
 #  Di Wu, Gordon Smyth and Yifang Hu
-#  4 Sep 2008. Last revised 22 June 2016.
+#  4 Sep 2008. Last revised 23 June 2016.
 {
 	alias <- as.character(alias)
 
@@ -20,12 +20,12 @@ alias2Symbol <- function(alias,species="Hs",expand.symbols=FALSE)
 #	Get alias to Entrez Gene mappings
 	obj <- paste0("org.",species,".egALIAS2EG")
 	egALIAS2EG <- tryCatch(getFromNamespace(obj,orgPkg), error=function(e) FALSE)
-	if(is.logical(egALIAS2EG)) stop("Couldn't get ",paste(orgPkg,obj,sep="::"))
+	if(is.logical(egALIAS2EG)) stop("Can't find alias mappings in package ",orgPkg)
 
 #	Get symbol to Entrez Gene mappings
 	obj <- paste0("org.",species,".egSYMBOL")
 	egSYMBOL <- tryCatch(getFromNamespace(obj,orgPkg), error=function(e) FALSE)
-	if(is.logical(egSYMBOL)) stop("Couldn't get ",paste(orgPkg,obj,sep="::"))
+	if(is.logical(egSYMBOL)) stop("Can't find symbol mappings in package ",orgPkg)
 
 	if(expand.symbols) {
 		alias <- intersect(alias,AnnotationDbi::Rkeys(egALIAS2EG))
@@ -43,7 +43,7 @@ alias2SymbolTable <- function(alias,species="Hs")
 #  Convert a vector of alias names to the vector of corresponding official gene symbols
 #  via Entrez Gene identifiers
 #  Di Wu, Gordon Smyth and Yifang Hu
-#  Created 3 Sep 2009.  Last modified 22 April 2016.
+#  Created 3 Sep 2009.  Last modified 23 April 2016.
 {
 	alias <- as.character(alias)
 
@@ -59,12 +59,12 @@ alias2SymbolTable <- function(alias,species="Hs")
 #	Get alias to Entrez Gene mappings
 	obj <- paste0("org.",species,".egALIAS2EG")
 	egALIAS2EG <- tryCatch(getFromNamespace(obj,orgPkg), error=function(e) FALSE)
-	if(is.logical(egALIAS2EG)) stop("Couldn't get ",paste(orgPkg,obj,sep="::"))
+	if(is.logical(egALIAS2EG)) stop("Can't find alias mappings in package ",orgPkg)
 
 #	Get symbol to Entrez Gene mappings
 	obj <- paste0("org.",species,".egSYMBOL")
 	egSYMBOL <- tryCatch(getFromNamespace(obj,orgPkg), error=function(e) FALSE)
-	if(is.logical(egSYMBOL)) stop("Couldn't get ",paste(orgPkg,obj,sep="::"))
+	if(is.logical(egSYMBOL)) stop("Can't find symbol mappings in package ",orgPkg)
 
 #	Output vector same length as input
 	Symbol <- alias

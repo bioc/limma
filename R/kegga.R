@@ -77,7 +77,7 @@ kegga.MArrayLM <- function(de, coef = ncol(de), geneid = rownames(de), FDR = 0.0
 kegga.default <- function(de, universe=NULL, species="Hs", species.KEGG=NULL, convert=FALSE, gene.pathway=NULL, pathway.names = NULL, prior.prob=NULL, covariate=NULL, plot=FALSE, ...)
 #	KEGG (Kyoto Encyclopedia of Genes and Genomes) pathway analysis of DE genes
 #	Gordon Smyth and Yifang Hu
-#	Created 18 May 2015.  Modified 11 Feb 2016.
+#	Created 18 May 2015.  Modified 23 June 2016.
 {
 #	Ensure de is a list
 	if(!is.list(de)) de <- list(DE = de)
@@ -99,9 +99,9 @@ kegga.default <- function(de, universe=NULL, species="Hs", species.KEGG=NULL, co
 
 #	Select species
 	if(is.null(species.KEGG)) {
-		species <- match.arg(species, c("Hs", "Mm", "Rn", "Dm", "Pt"))
+		species <- match.arg(species, c("Ag", "At", "Bt", "Ce", "Dm", "Dr", "EcK12", "EcSakai", "Gg", "Hs", "Mm", "Mmu", "Pf", "Pt", "Rn", "Ss", "Xl"))
 #		Convert from Bioconductor to KEGG species codes
-		species.KEGG <- switch(species, "Hs"="hsa", "Dm"="dme", "Mm"="mmu", "Rn"="rno", "Pt"="ptr")
+		species.KEGG <- switch(species, "Ag"="aga", "At"="ath", "Bt"="bta", "Ce"="cel", "Cf"="cfa", "Dm"="dme", "Dr"="dre", "EcK12"="eco", "EcSakai"="ecs", "Gg"="gga", "Hs"="hsa", "Mm"="mmu", "Mmu"="mcc", "Pf"="pfa", "Pt"="ptr", "Rn"="rno", "Ss"="ssc", "Xl"="xla")
 	}
 
 #	prior.prob and covariate must have same length as universe

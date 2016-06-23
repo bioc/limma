@@ -45,7 +45,6 @@ At the time of writing (June 2016), the following organism packages are availabl
 \tab org.Mmu.eg.db \tab  Rhesus\cr
 \tab org.Pt.eg.db \tab  Chimp\cr
 \tab org.Rn.eg.db \tab  Rat\cr
-\tab org.Sc.sgd.db \tab  Yeast\cr
 \tab org.Ss.eg.db \tab  Pig\cr
 \tab org.Xl.eg.db \tab  Xenopus
 }
