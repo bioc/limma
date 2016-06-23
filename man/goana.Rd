@@ -30,7 +30,10 @@ getKEGGPathwayNames(species.KEGG = NULL, remove.qualifier = FALSE)
   \item{coef}{column number or column name specifying for which coefficient or contrast differential expression should be assessed.}
   \item{geneid}{Entrez Gene identifiers. Either a vector of length \code{nrow(de)} or the name of the column of \code{de$genes} containing the Entrez Gene IDs.}
   \item{FDR}{false discovery rate cutoff for differentially expressed genes. Numeric value between 0 and 1.}
-  \item{species}{two-letter Bioconductor species identifier. Possible values are \code{"Hs"}, \code{"Mm"}, \code{"Rn"}, \code{"Dm"} or \code{"Pt"}. Ignored if \code{species.KEGG} or is not \code{NULL} or if \code{gene.pathway} and \code{pathway.names} are not \code{NULL}.}
+  \item{species}{character string specifying the species.
+  Possible values include \code{"Hs"} (human), \code{"Mm"} (mouse), \code{"Rn"} (rat), \code{"Dm"} (fly) or \code{"Pt"} (chimpanzee), but other values are possible if the corresponding organism package is available.
+  See \code{\link{alias2Symbol}} for other possible values.
+  Ignored if \code{species.KEGG} or is not \code{NULL} or if \code{gene.pathway} and \code{pathway.names} are not \code{NULL}.}
   \item{species.KEGG}{three-letter KEGG species identifier. See \url{http://www.kegg.jp/kegg/catalog/org_list.html} or \url{http://rest.kegg.jp/list/organism} for possible values. Ignored if \code{gene.pathway} and \code{pathway.names} are not \code{NULL}.}
   \item{convert}{if \code{TRUE} then KEGG gene identifiers will be converted to NCBI Entrez Gene identifiers.  Note that KEGG IDs are the same as Entrez Gene IDs for most species anyway.}
   \item{gene.pathway}{data.frame linking genes to pathways.  First column gives gene IDs, second column gives pathway IDs. By default this is obtained automatically by \code{getGeneKEGGLinks(species.KEGG)}.}
@@ -56,7 +59,8 @@ The default method accepts the gene list as a vector of gene IDs,
 while the \code{MArrayLM} method extracts the gene lists automatically from a linear model fit object.
 
 \code{goana} uses annotation from the appropriate Bioconductor organism package.
-\code{goana} can be used for any of the five species specified.
+The \code{species} can be any character string XX for which an organism package org.XX.eg.db exists and is installed.
+See \code{\link{alias2Symbol}} for other possible values for \code{species}.
 
 \code{kegga} reads KEGG pathway annotation from the KEGG website.
 Note that the species name can be provided in either Bioconductor or KEGG format.

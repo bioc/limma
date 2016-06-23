@@ -1351,8 +1351,8 @@ GO:0006915              apoptotic process  BP  5  4    1 0.003446627
 GO:0012501          programmed cell death  BP  5  4    1 0.003446627
 GO:0055082 cellular chemical homeostas...  BP  2  0    2 1.000000000
 GO:0006897                    endocytosis  BP  3  3    0 0.005046382
-GO:0044767 single-organism development...  BP 23  3    5 0.845083285
 GO:0048856 anatomical structure develo...  BP 23  3    5 0.845083285
+GO:0044767 single-organism development...  BP 23  3    5 0.845083285
 GO:1902589 single-organism organelle o...  BP  7  1    3 0.762502428
 GO:0008219                     cell death  BP  6  4    1 0.009129968
 GO:0016265                          death  BP  6  4    1 0.009129968
@@ -1362,8 +1362,8 @@ GO:0006915 0.3096959098
 GO:0012501 0.3096959098
 GO:0055082 0.0042424242
 GO:0006897 1.0000000000
-GO:0044767 0.0066515474
 GO:0048856 0.0066515474
+GO:0044767 0.0066515474
 GO:1902589 0.0066732856
 GO:0008219 0.3605604217
 GO:0016265 0.3605604217
@@ -1371,15 +1371,15 @@ GO:0016265 0.3605604217
                                      Term Ont  N Up Down      P.Up       P.Down
 GO:0032502          developmental process  BP 24  3    6 0.8685205 0.0006606503
 GO:0055082 cellular chemical homeostas...  BP  2  0    2 1.0000000 0.0042424242
-GO:0044767 single-organism development...  BP 23  3    5 0.8450833 0.0066515474
 GO:0048856 anatomical structure develo...  BP 23  3    5 0.8450833 0.0066515474
+GO:0044767 single-organism development...  BP 23  3    5 0.8450833 0.0066515474
 GO:1902589 single-organism organelle o...  BP  7  1    3 0.7625024 0.0066732856
-GO:0007283                spermatogenesis  BP  3  0    2 1.0000000 0.0122943723
-GO:0048232         male gamete generation  BP  3  0    2 1.0000000 0.0122943723
-GO:0001889              liver development  BP  3  0    2 1.0000000 0.0122943723
+GO:0031225 anchored component of membr...  CC  3  0    2 1.0000000 0.0122943723
 GO:0019725           cellular homeostasis  BP  3  0    2 1.0000000 0.0122943723
-GO:0035295               tube development  BP  3  0    2 1.0000000 0.0122943723
+GO:0061008 hepaticobiliary system deve...  BP  3  0    2 1.0000000 0.0122943723
+GO:0001889              liver development  BP  3  0    2 1.0000000 0.0122943723
+GO:0048232         male gamete generation  BP  3  0    2 1.0000000 0.0122943723
 > 
 > proc.time()
    user  system elapsed 
-   2.73    0.20    2.94 
+   2.77    0.23    3.04 

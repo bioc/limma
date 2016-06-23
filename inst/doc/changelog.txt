@@ -1,3 +1,15 @@
+23 Jun 2016: limma 3.28.12
+
+- goana() now works for any species for which an Entrez Gene based
+  organism package exists.
+
+- The 'species' argument of kegga() can now accept any Bioconductor
+  species abbreviation.
+
+- topGO() now breaks ties by the number of genes in the GO Term and
+  by the name of the Term if the p-values are equal. (This is the
+  same behavior as topKEGG.)
+
 22 Jun 2016: limma 3.28.11
 
 - alias2Symbol() and alias2SymbolTable() now work for any species for

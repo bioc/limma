@@ -77,7 +77,7 @@ goana.MArrayLM <- function(de, coef = ncol(de), geneid = rownames(de), FDR = 0.0
 goana.default <- function(de, universe = NULL, species = "Hs", prior.prob = NULL, covariate=NULL, plot=FALSE, ...)
 #	Gene ontology analysis of DE genes
 #	Gordon Smyth and Yifang Hu
-#	Created 20 June 2014.  Last modified 10 April 2016.
+#	Created 20 June 2014.  Last modified 23 June 2016.
 {
 #	Ensure de is a list
 	if(!is.list(de)) de <- list(DE = de)
@@ -96,9 +96,6 @@ goana.default <- function(de, universe = NULL, species = "Hs", prior.prob = NULL
 	i <- which(NAME == "" | is.na(NAME))
 	NAME[i] <- paste0("DE",i)
 	names(de) <- makeUnique(NAME)
-
-#	Select species
-	species <- match.arg(species, c("Hs", "Mm", "Rn", "Dm", "Pt"))
 
 #	Fit trend in DE with respect to the covariate, combining all de lists
 	if(!is.null(covariate)) {
@@ -120,34 +117,19 @@ goana.default <- function(de, universe = NULL, species = "Hs", prior.prob = NULL
 	suppressPackageStartupMessages(OK <- requireNamespace("AnnotationDbi",quietly=TRUE))
 	if(!OK) stop("AnnotationDbi package required but not installed (or can't be loaded)")
 
-#	Get gene-GOterm mappings
-	switch(species,
-		Hs = {
-			suppressPackageStartupMessages(OK <- requireNamespace("org.Hs.eg.db",quietly=TRUE))
-			if(!OK) stop("org.Hs.eg.db package required but not installed (or can't be loaded)")
-			GO2ALLEGS <- org.Hs.eg.db::org.Hs.egGO2ALLEGS
-		}, Mm = {
-			suppressPackageStartupMessages(OK <- requireNamespace("org.Mm.eg.db",quietly=TRUE))
-			if(!OK) stop("org.Mm.eg.db package required but not installed (or can't be loaded)")
-			GO2ALLEGS <- org.Mm.eg.db::org.Mm.egGO2ALLEGS
-		}, Rn = {
-			suppressPackageStartupMessages(OK <- requireNamespace("org.Rn.eg.db",quietly=TRUE))
-			if(!OK) stop("org.Rn.eg.db package required but not installed (or can't be loaded)")
-			GO2ALLEGS <- org.Rn.eg.db::org.Rn.egGO2ALLEGS
-		}, Dm = {
-			suppressPackageStartupMessages(OK <- requireNamespace("org.Dm.eg.db",quietly=TRUE))
-			if(!OK) stop("org.Dm.eg.db package required but not installed (or can't be loaded)")
-			GO2ALLEGS <- org.Dm.eg.db::org.Dm.egGO2ALLEGS
-		}, Pt = {
-			suppressPackageStartupMessages(OK <- requireNamespace("org.Pt.eg.db",quietly=TRUE))
-			if(!OK) stop("org.Pt.eg.db package required but not installed (or can't be loaded)")
-			GO2ALLEGS <- org.Pt.eg.db::org.Pt.egGO2ALLEGS
-		}
-	)
+#	Load appropriate organism package
+	orgPkg <- paste0("org.",species,".eg.db")
+	suppressPackageStartupMessages(OK <- requireNamespace(orgPkg,quietly=TRUE))
+	if(!OK) stop(orgPkg," package required but not not installed (or can't be loaded)")
+
+#	Get GO to Entrez Gene mappings
+	obj <- paste0("org.",species,".egGO2ALLEGS")
+	egGO2ALLEGS <- tryCatch(getFromNamespace(obj,orgPkg), error=function(e) FALSE)
+	if(is.logical(egGO2ALLEGS)) stop("Can't find gene ontology mappings in package ",orgPkg)
 
 #	Convert gene-GOterm mappings to data.frame and remove duplicate entries
 	if(is.null(universe)) {
-		EG.GO <- AnnotationDbi::toTable(GO2ALLEGS)
+		EG.GO <- AnnotationDbi::toTable(egGO2ALLEGS)
 		d <- duplicated(EG.GO[,c("gene_id", "go_id", "Ontology")])
 		EG.GO <- EG.GO[!d, ]
 		universe <- unique(EG.GO$gene_id)
@@ -165,12 +147,12 @@ goana.default <- function(de, universe = NULL, species = "Hs", prior.prob = NULL
 		}
 		universe <- universe[!dup]
 
-		m <- match(AnnotationDbi::Lkeys(GO2ALLEGS),universe,0L)
+		m <- match(AnnotationDbi::Lkeys(egGO2ALLEGS),universe,0L)
 		universe <- universe[m]
 		if(!is.null(prior.prob)) prior.prob <- prior.prob[m]
 
-		AnnotationDbi::Lkeys(GO2ALLEGS) <- universe
-		EG.GO <- AnnotationDbi::toTable(GO2ALLEGS)
+		AnnotationDbi::Lkeys(egGO2ALLEGS) <- universe
+		EG.GO <- AnnotationDbi::toTable(egGO2ALLEGS)
 		d <- duplicated(EG.GO[,c("gene_id", "go_id", "Ontology")])
 		EG.GO <- EG.GO[!d, ]
 	}
@@ -237,7 +219,7 @@ goana.default <- function(de, universe = NULL, species = "Hs", prior.prob = NULL
 topGO <- function(results, ontology = c("BP", "CC", "MF"), sort = NULL, number = 20L, truncate.term=NULL)
 #	Extract top GO terms from goana output 
 #	Gordon Smyth and Yifang Hu
-#	Created 20 June 2014. Last modified 22 April 2015.
+#	Created 20 June 2014. Last modified 23 June 2016.
 {
 #	Check results
 	if(!is.data.frame(results)) stop("results should be a data.frame.")
@@ -275,10 +257,11 @@ topGO <- function(results, ontology = c("BP", "CC", "MF"), sort = NULL, number =
 #	Sort by minimum p-value for specified gene lists
 	P.col <- 3L+nsets+isort
 	if(length(P.col)==1L) {
-		o <- order(results[,P.col])
+		P <- results[,P.col]
 	} else {
-		o <- order(do.call("pmin",as.data.frame(results[,P.col,drop=FALSE])))
+		P <- do.call("pmin",as.data.frame(results[,P.col,drop=FALSE]))
 	}
+	o <- order(P,results$N,results$Term)
 	tab <- results[o[1L:number],,drop=FALSE]
 
 #	Truncate Term column for readability
