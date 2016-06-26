@@ -1,3 +1,8 @@
+26 Jun 2016: limma 3.28.13
+
+- The lowess line drawn by plotSA() is now more robust with respect
+  to NA variances.
+
 23 Jun 2016: limma 3.28.12
 
 - goana() now works for any species for which an Entrez Gene based
