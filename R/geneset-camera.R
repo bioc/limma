@@ -40,7 +40,7 @@ camera.default <- function(y,index,design=NULL,contrast=ncol(design),weights=NUL
 #	Check index
 	if(!is.list(index)) index <- list(set1=index)
 	nsets <- length(index)
-	if(nsets==0) stop("index is empty")
+	if(nsets==0L) stop("index is empty")
 
 #	Check design
 	if(is.null(design)) design <- y$design

@@ -88,20 +88,23 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid=NU
 .fryEffects <- function(effects,index=NULL,geneid=rownames(effects),sort=TRUE)
 #	fry given the effects matrix
 #	Gordon Smyth and Goknur Giner
-#	Created 30 January 2015.  Last modified 9 May 2016
+#	Created 30 January 2015.  Last modified 28 June 2016
 {
 	G <- nrow(effects)
 	neffects <- ncol(effects)
-	df.residual <- neffects-1
+	df.residual <- neffects-1L
 
 #	Check index
 	if(is.null(index)) index <- list(set1=1L:G)
 	if(is.data.frame(index) || !is.list(index)) index <- list(set1=index)
-	if(is.null(names(index))) names(index) <- paste("set",1:nsets,sep="")
+	nsets <- length(index)
+	if(nsets==0L) stop("index is empty")
+	if(is.null(names(index)))
+		names(index) <- paste0("set",formatC(1L:nsets,width=1L+floor(log10(nsets)),flag="0"))
+	else
+		if(anyDuplicated(names(index))) stop("Gene sets don't have unique names",call. =FALSE)
 
 #	Global statistics
-	nsets <- length(index)
-	if(nsets==0) stop("index is empty")
 	NGenes <- rep.int(0L,nsets)
 	PValue.Mixed <- t.stat <- rep.int(0,nsets)
 	for (i in 1:nsets) {

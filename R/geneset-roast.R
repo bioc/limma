@@ -95,7 +95,7 @@ mroast <- function(y,...) UseMethod("mroast")
 mroast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid=NULL,set.statistic="mean",gene.weights=NULL,var.prior=NULL,df.prior=NULL,nrot=999,approx.zscore=TRUE,adjust.method="BH",midp=TRUE,sort="directional",...)
 #  Rotation gene set testing with multiple sets
 #  Gordon Smyth and Di Wu
-#  Created 28 Jan 2010. Last revised 9 May 2016.
+#  Created 28 Jan 2010. Last revised 28 June 2016.
 {
 #	Partial matching of extra arguments
 	Dots <- list(...)
@@ -138,11 +138,14 @@ mroast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid
 	}
 
 #	Check index
-	if(is.null(index)) index <- rep_len(TRUE,length.out=ngenes)
-	if(!is.list(index)) index <- list(set = index)
+	if(is.null(index)) index <- list(set1=1L:ngenes)
+	if(is.data.frame(index) || !is.list(index)) index <- list(set1=index)
 	nsets <- length(index)
-	if(nsets==0) stop("index is empty")
-	if(is.null(names(index))) names(index) <- paste("set",1:nsets,sep="")
+	if(nsets==0L) stop("index is empty")
+	if(is.null(names(index)))
+		names(index) <- paste0("set",formatC(1L:nsets,width=1L+floor(log10(nsets)),flag="0"))
+	else
+		if(anyDuplicated(names(index))) stop("Gene sets don't have unique names",call. =FALSE)
 
 #	Check gene.weights
 	lgw <- length(gene.weights)
