@@ -129,7 +129,7 @@ rbind.EListRaw <- rbind.EList <- function(..., deparse.level=1)
 makeUnique <- function(x)
 #  Add characters to the elements of a character vector to make all values unique
 #  Gordon Smyth
-#  10 April 2003
+#  10 April 2003.  Last modified 28 June 2016.
 {
 	x <- as.character(x)
 	tab <- table(x)
@@ -139,7 +139,7 @@ makeUnique <- function(x)
 		u <- names(tab)
 		for (i in 1:lentab) {
 			n <- tab[i]
-			x[x==u[i]] <- paste(x[x==u[i]],formatC(1:n,width=1+floor(log(n,10)),flag="0"),sep="")
+			x[x==u[i]] <- paste0(x[x==u[i]],formatC(1:n,width=1+floor(log10(n)),flag="0"))
 		}
 	}
 	x
