@@ -1,3 +1,8 @@
+18 Jul 2016: limma 3.29.15
+
+- More informative error message from getEAWP() and lmFit() when
+  'object' is a non-normalized data object.
+
 28 Jun 2016: limma 3.29.14
 
 - Bug fix for fry() when 'index' has NULL names.

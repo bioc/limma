@@ -403,7 +403,7 @@ getEAWP <- function(object)
 #	Given any microarray data object, extract basic information needed
 #	for linear modelling.
 #	Gordon Smyth
-#	9 March 2008. Last modified 18 August 2015.
+#	9 March 2008. Last modified 18 July 2016.
 {
 	y <- list()
 	
@@ -413,7 +413,10 @@ getEAWP <- function(object)
 			y$exprs <- as.matrix(object$E)
 			y$Amean <- rowMeans(y$exprs,na.rm=TRUE)
 		} else {
+			if(is(object,"EListRaw")) stop("EListRaw object: please normalize first")
+			if(is(object,"RGList")) stop("RGList object: please normalize first")
 			y$printer <- object$printer
+			if(is.null(object$M)) stop("data object isn't of a recognized data class")
 			y$exprs <- as.matrix(object$M)
 			if(!is.null(object$A)) y$Amean <- rowMeans(as.matrix(object$A),na.rm=TRUE)
 		}

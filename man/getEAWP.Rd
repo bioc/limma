@@ -21,6 +21,9 @@ For other data objects, \code{Amean} is the vector of row means of the matrix of
 From April 2013, the rownames of the output \code{exprs} matrix are required to be unique.
 If \code{object} has no row names, then the output rownames of \code{exprs} are \code{1:nrow(object)}.
 If \code{object} has row names but with duplicated names, then the rownames of \code{exprs} are set to \code{1:nrow(object)} and the original row names are preserved in the \code{ID} column of \code{probes}.
+
+\code{object} should be a normalized data object.
+\code{getEAWP} will return an error if \code{object} is a non-normalized data object such as \code{RGList} or \code{EListRaw}, because these do not contain log-expression values.
 }
 \value{
 A list with components
