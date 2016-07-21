@@ -1,3 +1,8 @@
+21 Jul 2016: limma 3.28.16
+
+- Added more explanation about the 'batch2' and 'covariates'
+  arguments to the help page for removeBatchEffect().
+
 18 Jul 2016: limma 3.28.15
 
 - More informative error message from getEAWP() and lmFit() when
