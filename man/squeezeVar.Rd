@@ -55,7 +55,7 @@ A list with components
 \references{
 Phipson, B, Lee, S, Majewski, IJ, Alexander, WS, and Smyth, GK (2016).
 Robust hyperparameter estimation protects against hypervariable genes and improves power to detect differential expression.
-\emph{Annals of Applied Statistics} 10.
+\emph{Annals of Applied Statistics} 10, 946-963.
 \url{http://arxiv.org/abs/1602.08678}
 
 Sartor MA, Tomlinson CR, Wesselkamper SC, Sivaganesan S, Leikauf GD, Medvedovic M (2006).
@@ -64,8 +64,7 @@ BMC bioinformatics 7, 538.
 
 Smyth, G. K. (2004). Linear models and empirical Bayes methods for
 assessing differential expression in microarray experiments.
-\emph{Statistical Applications in Genetics and Molecular Biology}, \bold{3},
-No. 1, Article 3.
+\emph{Statistical Applications in Genetics and Molecular Biology} 3, Article 3.
 \url{http://www.statsci.org/smyth/pubs/ebayes.pdf}
 }
 

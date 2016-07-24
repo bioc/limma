@@ -1,3 +1,7 @@
+24 Jul 2016: limma 3.29.17
+
+- Update Phipson et al (2016) reference for robust empirical Bayes.
+
 21 Jul 2016: limma 3.29.16
 
 - Added more explanation about the 'batch2' and 'covariates'
