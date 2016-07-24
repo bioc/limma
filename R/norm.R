@@ -424,8 +424,8 @@ normalizeBetweenArrays <- function(object, method=NULL, targets=NULL, cyclic.met
 
 normalizeVSN <- function(x,...)
 {
-	if(!requireNamespace("Biobase",quietly=TRUE)) stop("Biobase package required but is not available")
-	if(!requireNamespace("vsn",quietly=TRUE)) stop("vsn package required but is not available")
+	if(!requireNamespace("Biobase",quietly=TRUE)) stop("Biobase package required but is not installed (or can't be loaded)")
+	if(!requireNamespace("vsn",quietly=TRUE)) stop("vsn package required but is not installed (or can't be loaded)")
 	UseMethod("normalizeVSN")
 }
 
