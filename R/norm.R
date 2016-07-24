@@ -148,8 +148,8 @@ normalizeRobustSpline <- function(M,A,layout=NULL,df=5,method="M") {
 #	Gordon Smyth
 #	27 April 2003.  Last revised 14 January 2015.
 
-	if(!requireNamespace("MASS",quietly=TRUE)) stop("MASS package required but is not available")
-	if(!requireNamespace("splines",quietly=TRUE)) stop("splines package required but is not available")
+	if(!requireNamespace("MASS",quietly=TRUE)) stop("MASS package required but is not installed (or can't be loaded)")
+	if(!requireNamespace("splines",quietly=TRUE)) stop("splines package required but is not installed (or can't be loaded)")
 	if(is.null(layout)) {
 		ngrids <- 1
 		nspots <- length(M)
@@ -257,7 +257,7 @@ normalizeForPrintorder.rg <- function(R,G,printorder,method="loess",separate.cha
 	if(method=="plate") {
 		# Correct for plate pack (usually four 384-well plates)
 		plate <- 1 + (printorder-0.5) %/% plate.size
-		if(!requireNamespace("MASS",quietly=TRUE)) stop("MASS package required but is not available")
+		if(!requireNamespace("MASS",quietly=TRUE)) stop("MASS package required but is not installed (or can't be loaded)")
 		hubermu <- function(...) MASS::huber(...)$mu
 		if(separate.channels) {
 			plate.mR <- tapply(Rf,plate,hubermu)
@@ -424,8 +424,8 @@ normalizeBetweenArrays <- function(object, method=NULL, targets=NULL, cyclic.met
 
 normalizeVSN <- function(x,...)
 {
-	if(!requireNamespace("Biobase",quietly=TRUE)) stop("Biobase package required but is not available")
-	if(!requireNamespace("vsn",quietly=TRUE)) stop("vsn package required but is not available")
+	if(!requireNamespace("Biobase",quietly=TRUE)) stop("Biobase package required but is not installed (or can't be loaded)")
+	if(!requireNamespace("vsn",quietly=TRUE)) stop("vsn package required but is not installed (or can't be loaded)")
 	UseMethod("normalizeVSN")
 }
 
