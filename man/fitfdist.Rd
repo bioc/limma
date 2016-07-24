@@ -60,7 +60,7 @@ PhD Thesis. University of Melbourne, Australia.
 
 Phipson, B, Lee, S, Majewski, IJ, Alexander, WS, and Smyth, GK (2016).
 Robust hyperparameter estimation protects against hypervariable genes and improves power to detect differential expression.
-\emph{Annals of Applied Statistics} 10.
+\emph{Annals of Applied Statistics} 10, 946-963.
 \url{http://arxiv.org/abs/1602.08678}
 }
 
