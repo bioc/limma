@@ -96,7 +96,7 @@ Loennstedt, I., and Speed, T. P. (2002). Replicated microarray data. \emph{Stati
 Phipson, B, Lee, S, Majewski, IJ, Alexander, WS, and Smyth, GK (2016).
 Robust hyperparameter estimation protects against hypervariable genes and improves power to detect differential expression.
 \emph{Annals of Applied Statistics} 10, 946-963.
-\url{http://arxiv.org/abs/1602.08678}
+\url{http://projecteuclid.org/euclid.aoas/1469199900}
 
 Smyth, G. K. (2004). Linear models and empirical Bayes methods for assessing differential expression in microarray experiments.
 \emph{Statistical Applications in Genetics and Molecular Biology} 3, Article 3.

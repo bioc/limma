@@ -34,6 +34,11 @@ The function \code{\link{changeLog}} displays the record of changes to the packa
 \author{Gordon Smyth, with contributions from many colleagues}
 
 \references{
+Phipson, B, Lee, S, Majewski, IJ, Alexander, WS, and Smyth, GK (2016).
+Robust hyperparameter estimation protects against hypervariable genes and improves power to detect differential expression.
+\emph{Annals of Applied Statistics} 10, 946-963.
+\url{http://projecteuclid.org/euclid.aoas/1469199900}
+
 Ritchie, ME, Phipson, B, Wu, D, Hu, Y, Law, CW, Shi, W, and Smyth, GK (2015).
 limma powers differential expression analyses for RNA-sequencing and microarray studies.
 \emph{Nucleic Acids Research} 43, e47.

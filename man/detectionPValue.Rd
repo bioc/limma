@@ -24,6 +24,8 @@ Particularly useful for Illumina BeadChips.}
 The rows of \code{x} for which \code{status == negctrl} are assumed to correspond to negative control probes.
 
 For each column of \code{x}, the detection p-values are defined as \code{(N.eq/2 + N.gt) / N.neg}, where \code{N.gt} is the number of negative controls with expression greater than the observed value, \code{N.eq} is the number of negative controls with expression equal to the observed value, and \code{N.neg} is the total number of negative controls.
+
+When used on Illumina BeadChip data, this function produces essentially the same detection p-values as returned by Illumina's GenomeStudio software.
 }
 
 \value{numeric matrix of same dimensions as \code{x} containing detection p-values.}
