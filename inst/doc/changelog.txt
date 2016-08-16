@@ -1,4 +1,9 @@
-24 Jul 2016: limma 3.28.17
+16 Aug 2016: limma 3.28.18
+
+- new function cumOverlap() to analyse the overlap between two
+  ordered lists.
+
+24 Jul 2016: limma 3.29.17
 
 - Update Phipson et al (2016) reference for robust empirical Bayes.
 

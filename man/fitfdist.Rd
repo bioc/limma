@@ -24,7 +24,7 @@ The parameters are estimated using the method of moments, specifically from the 
 
 \code{fitFDistRobustly} is similar to \code{fitFDist} except that it computes the moments of the Winsorized values of \code{x}, making it robust against left and right outliers.
 Larger values for \code{winsor.tail.p} produce more robustness but less efficiency.
-The robust method is described by Phipson (2013) and Phipson et al (2016).
+The robust method is described by Phipson et al (2016).
 
 As well as estimating the F-distribution for the bulk of the cases, i.e., with outliers discounted, \code{fitFDistRobustly} also returns an estimated F-distribution with reduced df2 that might be appropriate for each outlier case.
 }
@@ -53,15 +53,10 @@ Smyth, G. K. (2004). Linear models and empirical Bayes methods for
      No. 1, Article 3.
      \url{http://www.statsci.org/smyth/pubs/ebayes.pdf}
 
-Phipson, B. (2013).
-\emph{Empirical Bayes modelling of expression profiles and their associations}.
-PhD Thesis. University of Melbourne, Australia.
-\url{http://repository.unimelb.edu.au/10187/17614}
-
 Phipson, B, Lee, S, Majewski, IJ, Alexander, WS, and Smyth, GK (2016).
 Robust hyperparameter estimation protects against hypervariable genes and improves power to detect differential expression.
 \emph{Annals of Applied Statistics} 10, 946-963.
-\url{http://arxiv.org/abs/1602.08678}
+\url{http://projecteuclid.org/euclid.aoas/1469199900}
 }
 
 \seealso{

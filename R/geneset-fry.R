@@ -19,7 +19,7 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid=NU
 	if(is.null(Dots$trend)) Dots$trend <- FALSE
 	if(is.null(Dots$robust)) Dots$robust <- FALSE
 	if(Dots$robust & is.null(Dots$winsor.tail.p)) Dots$winsor.tail.p <- c(0.05,0.1)
-	if(!is.null(Dots$block) & is.null(Dots$correlation)) stop("correlation must be set")
+	if(!is.null(Dots$block) & is.null(Dots$correlation)) stop("Intra-block correlation must be specified")
 
 #	Covariate for trended eBayes
 	covariate <- NULL

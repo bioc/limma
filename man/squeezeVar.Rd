@@ -56,7 +56,7 @@ A list with components
 Phipson, B, Lee, S, Majewski, IJ, Alexander, WS, and Smyth, GK (2016).
 Robust hyperparameter estimation protects against hypervariable genes and improves power to detect differential expression.
 \emph{Annals of Applied Statistics} 10, 946-963.
-\url{http://arxiv.org/abs/1602.08678}
+\url{http://projecteuclid.org/euclid.aoas/1469199900}
 
 Sartor MA, Tomlinson CR, Wesselkamper SC, Sivaganesan S, Leikauf GD, Medvedovic M (2006).
 Intensity-based hierarchical Bayes method improves testing for differentially expressed genes in microarray experiments.
