@@ -33,7 +33,7 @@ uniquegenelist <- function(genelist,ndups=2,spacing=1) {
 duplicateCorrelation <- function(object,design=NULL,ndups=2,spacing=1,block=NULL,trim=0.15,weights=NULL)
 #	Estimate the correlation between duplicates given a series of arrays
 #	Gordon Smyth
-#	25 Apr 2002. Last revised 14 January 2015.
+#	25 Apr 2002. Last revised 17 Aug 2016.
 {
 #	Extract components from y
 	y <- getEAWP(object)
@@ -65,10 +65,9 @@ duplicateCorrelation <- function(object,design=NULL,ndups=2,spacing=1,block=NULL
 
 #	Check weights
 	if(!is.null(weights)) {
-		weights <- as.matrix(weights)
-		if(any(dim(weights) != dim(M))) weights <- array(weights,dim(M))
-		M[weights < 1e-15 ] <- NA
-		weights[weights < 1e-15] <- NA
+		weights <- asMatrixWeights(weights,dim(M))
+		weights[weights <= 0] <- NA
+		M[!is.finite(weights)] <- NA
 	}
 
 #	Setup spacing or blocking arguments

@@ -1,3 +1,8 @@
+18 Aug 2016: limma 3.28.19
+
+- duplicateCorrelation() now expands weights using explandAsWeights(),
+  making it consistent with lmFit().
+
 16 Aug 2016: limma 3.28.18
 
 - new function cumOverlap() to analyse the overlap between two
