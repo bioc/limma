@@ -55,7 +55,7 @@ With \code{interGeneCorrelation=0.01}, \code{camera} will rank biologically inte
 This gives a useful compromise between strict error rate control and interpretable gene set rankings.
 }
 
-\note{The default settings for \code{inter.gene.cor} and \code{allow.neg.cor} were changed to the current values in limma 3.29.6.
+\note{The default settings for \code{inter.gene.cor} and \code{allow.neg.cor} were changed to the current values in limma 3.28.6.
 Previously, the default was to estimate an inter-gene correlation for each set.
 To reproduce the earlier default, use \code{allow.neg.cor=TRUE} and \code{inter.gene.cor=NA}.}
 
