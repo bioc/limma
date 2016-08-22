@@ -3,7 +3,7 @@ fitFDistRobustly <- function(x,df1,covariate=NULL,winsor.tail.p=c(0.05,0.1),trac
 #	given the first degrees of freedom, using first and second
 #	moments of Winsorized z-values
 #	Gordon Smyth and Belinda Phipson
-#	Created 7 Oct 2012.  Last revised 20 November 2015.
+#	Created 7 Oct 2012.  Last revised 22 August 2016.
 {
 #	Check x
 	n <- length(x)
@@ -191,24 +191,24 @@ fitFDistRobustly <- function(x,df1,covariate=NULL,winsor.tail.p=c(0.05,0.1),trac
 		o <- order(TailP)
 
 #		Old calculation for df2.outlier
-		VarOutlier <- max(zresid)^2
-		VarOutlier <- VarOutlier-trigamma(df1/2)
-		if(trace) cat("VarOutlier",VarOutlier,"\n")
-		if(VarOutlier > 0) {
-			df2.outlier.old <- 2*trigammaInverse(VarOutlier)
-			if(trace) cat("df2.outlier.old",df2.outlier.old,"\n")
-			if(df2.outlier.old < df2) {
-				df2.shrunk.old <- ProbNotOutlier*df2+ProbOutlier*df2.outlier.old
+#		VarOutlier <- max(zresid)^2
+#		VarOutlier <- VarOutlier-trigamma(df1/2)
+#		if(trace) cat("VarOutlier",VarOutlier,"\n")
+#		if(VarOutlier > 0) {
+#			df2.outlier.old <- 2*trigammaInverse(VarOutlier)
+#			if(trace) cat("df2.outlier.old",df2.outlier.old,"\n")
+#			if(df2.outlier.old < df2) {
+#				df2.shrunk.old <- ProbNotOutlier*df2+ProbOutlier*df2.outlier.old
 #				Make df2.shrunk.old monotonic in TailP
-				df2.ordered <- df2.shrunk.old[o]
-				df2.ordered[1] <- min(df2.ordered[1],NonRobust$df2)
-				m <- cumsum(df2.ordered)
-				m <- m/(1:n)
-				imin <- which.min(m)
-				df2.ordered[1:imin] <- m[imin]
-				df2.shrunk.old[o] <- cummax(df2.ordered)
-			}
-		}
+#				df2.ordered <- df2.shrunk.old[o]
+#				df2.ordered[1] <- min(df2.ordered[1],NonRobust$df2)
+#				m <- cumsum(df2.ordered)
+#				m <- m/(1:n)
+#				imin <- which.min(m)
+#				df2.ordered[1:imin] <- m[imin]
+#				df2.shrunk.old[o] <- cummax(df2.ordered)
+#			}
+#		}
 
 #		New calculation for df2.outlier
 #		Find df2.outlier to make maxFstat the median of the distribution
@@ -230,15 +230,15 @@ fitFDistRobustly <- function(x,df1,covariate=NULL,winsor.tail.p=c(0.05,0.1),trac
 		df2.shrunk[o] <- cummax(df2.ordered)
 
 #		Use isoreg() instead. This gives similar results.
-		df2.shrunk.iso <- rep.int(df2,n)
-		o <- o[1:(n/2)]
-		df2.shrunk.iso[o] <- ProbNotOutlier[o]*df2+ProbOutlier[o]*df2.outlier
-		df2.shrunk.iso[o] <- isoreg(TailP[o],df2.shrunk.iso[o])$yf
+#		df2.shrunk.iso <- rep.int(df2,n)
+#		o <- o[1:(n/2)]
+#		df2.shrunk.iso[o] <- ProbNotOutlier[o]*df2+ProbOutlier[o]*df2.outlier
+#		df2.shrunk.iso[o] <- isoreg(TailP[o],df2.shrunk.iso[o])$yf
 
 	} else {
 		df2.outlier <- df2.outlier2 <- df2
 		df2.shrunk2 <- df2.shrunk <- rep.int(df2,n)
 	}
 
-	list(scale=s20,df2=df2,tail.p.value=TailP,prob.outlier=ProbOutlier,df2.outlier=df2.outlier,df2.outlier.old=df2.outlier.old,df2.shrunk=df2.shrunk,df2.shrunk.old=df2.shrunk.old,df2.shrunk.iso=df2.shrunk.iso)
+	list(scale=s20,df2=df2,tail.p.value=TailP,prob.outlier=ProbOutlier,df2.outlier=df2.outlier,df2.shrunk=df2.shrunk)
 }
