@@ -1,4 +1,10 @@
-18 Aug 2016: limma 3.28.19
+23 Aug 2016: limma 3.28.20
+
+- bug fix to fitFDistRobustly(), which in some circumstances was
+  trying to save extra (undocumented) results that had not been
+  computed.
+
+17 Aug 2016: limma 3.28.19
 
 - duplicateCorrelation() now expands weights using explandAsWeights(),
   making it consistent with lmFit().
