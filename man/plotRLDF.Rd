@@ -5,24 +5,27 @@
 Plot regularized linear discriminant functions for classifying samples based on expression data.
 }
 \usage{
-plotRLDF(y, design=NULL, z=NULL, labels.y=NULL, labels.z=NULL,
-         col.y="black", col.z="black", show.dimensions=c(1,2),
-         ndim=max(show.dimensions), nprobes=100, plot=TRUE,
-         var.prior=NULL, df.prior=NULL, trend=FALSE, robust=FALSE, \dots)
+plotRLDF(y, design = NULL, z = NULL, nprobes = 100, plot = TRUE,
+         labels.y = NULL, labels.z = NULL, pch.y = NULL, pch.z = NULL,
+         col.y = "black", col.z = "black",
+         show.dimensions = c(1,2), ndim = max(show.dimensions),
+         var.prior = NULL, df.prior = NULL, trend = FALSE, robust = FALSE, \dots)
 }
 \arguments{
  \item{y}{the training dataset. Can be any data object which can be coerced to a matrix, such as \code{ExpressionSet} or \code{EList}.}
  \item{design}{design matrix defining the training groups to be distinguished. The first column is assumed to represent the intercept.
  Defaults to \code{model.matrix(~factor(labels.y))}.}
  \item{z}{the dataset to be classified.  Can be any data object which can be coerced to a matrix, such as \code{ExpressionSet} or \code{EList}.  Rows must correspond to rows of \code{y}.}
+ \item{nprobes}{number of probes to be used for the calculations. The probes will be selected by moderated F statistic.}
+ \item{plot}{logical, should a plot be created?}
  \item{labels.y}{character vector of sample names or labels in \code{y}. Defaults to \code{colnames(y)} or failing that to \code{1:n}.}
  \item{labels.z}{character vector of sample names or labels in \code{z}. Defaults to \code{colnames(z)} or failing that to \code{letters[1:n]}.}
+ \item{pch.y}{plotting symbol or symbols for \code{y}. See \code{\link{points}} for possible values. Takes precedence over \code{labels.y} if both are specified.}
+ \item{pch.z}{plotting symbol or symbols for \code{y}. See \code{\link{points}} for possible values. Takes precedence over \code{labels.z} if both are specified.}
  \item{col.y}{colors for the plotting \code{labels.y}.}
  \item{col.z}{colors for the plotting \code{labels.z}.}
  \item{show.dimensions}{integer vector of length two indicating which two discriminant functions to plot. Functions are in decreasing order of discriminatory power.}
  \item{ndim}{number of discriminant functions to compute}
- \item{nprobes}{number of probes to be used for the calculations. The probes will be selected by moderated F statistic.}
- \item{plot}{logical, should a plot be created?}
  \item{var.prior}{prior variances, for regularizing the within-group covariance matrix. By default is estimated by \code{squeezeVar}.}
  \item{df.prior}{prior degrees of freedom for regularizing the within-group covariance matrix. By default is estimated by \code{squeezeVar}.}
  \item{trend}{logical, should a trend be estimated for \code{var.prior}?  See \code{eBayes} for details.  Only used if \code{var.prior} or \code{df.prior} are \code{NULL}.}
@@ -42,7 +45,9 @@ The \code{ndim} argument allows all required LDFs to be computed even though onl
 }
 
 \note{
-Default values for \code{df.prior} and \code{var.prior} were changed in limma 3.27.10.
+The default values for \code{df.prior} and \code{var.prior} were changed in limma 3.27.10.
+Previously these were preset values.
+Now the default is to estimate them using \code{squeezeVar}.
 }
 
 \value{
