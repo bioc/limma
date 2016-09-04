@@ -14,10 +14,10 @@ plotMDS.MDS <- function(x,labels=NULL,pch=NULL,cex=1,dim.plot=NULL,xlab=NULL,yla
 #	Method for MDS objects
 #	Create a new plot using MDS coordinates or distances previously created
 #	Gordon Smyth and Yifang Hu
-#	21 May 2011.  Last modified 29 December 2014
+#	21 May 2011.  Last modified 4 September 2016
 {
 #	Check labels
-	if(is.null(labels) & is.null(pch)) {
+	if(is.null(labels) && is.null(pch)) {
 		labels <- colnames(x$distance.matrix)
 		if(is.null(labels)) labels <- 1:length(x$x)
 	}

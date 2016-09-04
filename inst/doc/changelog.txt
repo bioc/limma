@@ -1,7 +1,12 @@
+ 6 Sep 2016: limma 3.29.21
+
+- new arguments 'pch.y' and 'pch.z' for plotRLDF.
+
 22 Aug 2016: limma 3.29.20
 
 - bug fix to fitFDistRobustly(), which in some circumstances was
-  trying to save legacy results that had not been computed.
+  trying to save extra (undocumented) results that had not been
+  computed.
 
 17 Aug 2016: limma 3.29.19
 

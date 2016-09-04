@@ -1,9 +1,9 @@
 #  Plot regularized linear discriminant functions
 
-plotRLDF <- function(y,design=NULL,z=NULL,labels.y=NULL,labels.z=NULL,col.y="black",col.z="black",show.dimensions=c(1,2),ndim=max(show.dimensions),nprobes=100,plot=TRUE,var.prior=NULL,df.prior=NULL,trend=FALSE,robust=FALSE,...)
+plotRLDF <- function(y,design=NULL,z=NULL,nprobes=100,plot=TRUE,labels.y=NULL,labels.z=NULL,pch.y=NULL,pch.z=NULL,col.y="black",col.z="black",show.dimensions=c(1,2),ndim=max(show.dimensions),var.prior=NULL,df.prior=NULL,trend=FALSE,robust=FALSE,...)
 #	Regularized linear discriminant function
 #	Di Wu and Gordon Smyth
-#	29 June 2009.  Last revised 26 Jan 2016.
+#	29 June 2009.  Last revised 4 Sep 2016.
 {
 #	Check y
 	y <- as.matrix(y)
@@ -11,9 +11,9 @@ plotRLDF <- function(y,design=NULL,z=NULL,labels.y=NULL,labels.z=NULL,col.y="bla
 	n <- ncol(y)
 
 #	Check labels.y
-	if(is.null(labels.y))
+	if(is.null(labels.y)) {
 		labels.y <- colnames(y)
-	else {
+	} else {
 		if(length(labels.y) != n) stop("length(labels.y) doesn't agree with ncol(y)")
 		labels.y <- as.character(labels.y)
 	}
@@ -138,8 +138,18 @@ plotRLDF <- function(y,design=NULL,z=NULL,labels.y=NULL,labels.z=NULL,col.y="bla
 #	Make plot
 	if(plot) {
 		plot(c(d1.y,d1.z),c(d2.y,d2.z),type="n", xlab=paste("Discriminant Function",d1), ylab=paste("Discriminant Function",d2))
-		text(d1.y,d2.y,labels=labels.y,col=col.y,...)
-		if(!is.null(z)) text(d1.z,d2.z,labels=labels.z,col=col.z,...)
+		if(is.null(pch.y)) {
+			text(d1.y,d2.y,labels=labels.y,col=col.y,...)
+		} else {
+			points(d1.y,d2.y,pch=pch.y,col=col.y,...)
+		}
+		if(!is.null(z)) {
+			if(is.null(pch.z)) {
+				text(d1.z,d2.z,labels=labels.z,col=col.z,...)
+			} else {
+				points(d1.z,d2.z,pch=pch.z,col=col.z,...)
+			}
+		}
 	}
 
 #	Output
