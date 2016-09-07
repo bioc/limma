@@ -26,7 +26,7 @@ getKEGGPathwayNames(species.KEGG = NULL, remove.qualifier = FALSE)
 }
 
 \arguments{
-  \item{de}{a vector of Entrez Gene IDs, or a list of such vectors, or an \code{MArrayLM} fit object.}
+  \item{de}{a character vector of Entrez Gene IDs, or a list of such vectors, or an \code{MArrayLM} fit object.}
   \item{coef}{column number or column name specifying for which coefficient or contrast differential expression should be assessed.}
   \item{geneid}{Entrez Gene identifiers. Either a vector of length \code{nrow(de)} or the name of the column of \code{de$genes} containing the Entrez Gene IDs.}
   \item{FDR}{false discovery rate cutoff for differentially expressed genes. Numeric value between 0 and 1.}
@@ -54,25 +54,28 @@ getKEGGPathwayNames(species.KEGG = NULL, remove.qualifier = FALSE)
 }
 
 \details{
-These functions performs a over-representation analysis for Gene Ontology terms or KEGG pathways in a list of Entrez Gene IDs.
-The default method accepts the gene list as a vector of gene IDs,
-while the \code{MArrayLM} method extracts the gene lists automatically from a linear model fit object.
+These functions perform over-representation analyses for Gene Ontology terms or KEGG pathways in one or more vectors of Entrez Gene IDs.
+The default method accepts a gene set as a vector of gene IDs or multiple gene sets as a list of vectors.
+An over-represention analysis is then done for each set.
+The \code{MArrayLM} method extracts the gene sets automatically from a linear model fit object.
 
 \code{goana} uses annotation from the appropriate Bioconductor organism package.
-The \code{species} can be any character string XX for which an organism package org.XX.eg.db exists and is installed.
+The \code{species} can be any character string XX for which an organism package org.XX.eg.db is installed.
+Examples are \code{"Hs"} for human for {"Mm"} for mousse.
 See \code{\link{alias2Symbol}} for other possible values for \code{species}.
 
 \code{kegga} reads KEGG pathway annotation from the KEGG website.
-Note that the species name can be provided in either Bioconductor or KEGG format.
+For \code{kegga}, the species name can be provided in either Bioconductor or KEGG format.
+Examples of KEGG format are \code{"hsa"} for human or \code{"mmu"} for mouse.
 \code{kegga} can be used for any species supported by KEGG, of which there are more than 14,000 possibilities.
 By default, \code{kegga} obtains the KEGG annotation for the specified species from the \url{http://rest.kegg.jp} website.
 Alternatively one can supply the required pathway annotation to \code{kegga} in the form of two data.frames.
 If this is done, then an internet connection is not required.
 
-The ability to supply data.frame annotation to \code{kegga} means that \code{kegga} can in principle be used to analyze any user-supplied gene sets.
+The ability to supply data.frame annotation to \code{kegga} means that \code{kegga} can in principle be used in conjunction with any user-supplied set of annotation terms.
 
 The default \code{goana} and \code{kegga} methods accept a vector \code{prior.prob} giving the prior probability that each gene in the universe appears in a gene set.
-This vector can be used to correct for unwanted trends in the differential expression analysis associated with gene length, gene abundance or any other covariate.
+This vector can be used to correct for unwanted trends in the differential expression analysis associated with gene length, gene abundance or any other covariate (Young et al, 2010).
 The \code{MArrayLM} object computes the \code{prior.prob} vector automatically when \code{trend} is non-\code{NULL}.
 
 If \code{prior.prob=NULL}, the function computes one-sided hypergeometric tests equivalent to Fisher's exact test.
@@ -150,22 +153,25 @@ fit <- lmFit(y, design)
 fit <- eBayes(fit)
 
 # Standard GO analysis
+
 go.fisher <- goana(fit, species="Hs")
 topGO(go.fisher, sort = "up")
 topGO(go.fisher, sort = "down")
 
 # GO analysis adjusting for gene abundance
+
 go.abund <- goana(fit, geneid = "GeneID", trend = TRUE)
 topGO(go.abund, sort = "up")
 topGO(go.abund, sort = "down")
 
 # GO analysis adjusting for gene length bias
 # (assuming that y$genes$Length contains gene lengths)
+
 go.len <- goana(fit, geneid = "GeneID", trend = "Length")
 topGO(go.len, sort = "up")
 topGO(go.len, sort = "down")
 
-## Default usage with a gene list:
+## Default usage with a list of gene sets:
 
 go.de <- goana(list(DE1 = EG.DE1, DE2 = EG.DE2, DE3 = EG.DE3))
 topGO(go.de, sort = "DE1")
@@ -175,6 +181,7 @@ topGO(go.de, ontology = "CC", sort = "DE3")
 topGO(go.de, ontology = "MF", sort = "DE3")
 
 ## Standard KEGG analysis
+
 k <- kegga(fit, species="Hs")
 k <- kegga(fit, species.KEGG="hsa") # equivalent to previous
 }
