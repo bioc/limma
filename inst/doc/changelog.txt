@@ -1,3 +1,10 @@
+14 Oct 2016: limma 3.29.22
+
+- NEWS.Rd updated for Bioconductor 3.4 release.
+
+- more informative error message from voom() when there is only one
+  row of data.
+
  6 Sep 2016: limma 3.29.21
 
 - new arguments 'pch.y' and 'pch.z' for plotRLDF.
@@ -10,7 +17,7 @@
 
 17 Aug 2016: limma 3.29.19
 
-- duplicateCorrelation() now expands weights using explandAsWeights(),
+- duplicateCorrelation() now expands weights using expandAsWeights(),
   making it consistent with lmFit().
 
 16 Aug 2016: limma 3.29.18

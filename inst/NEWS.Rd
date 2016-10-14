@@ -3,6 +3,111 @@
 \encoding{UTF-8}
 
 
+\section{Version 3.30.0}{\itemize{
+
+\item
+  New function cumOverlap() to analyse the overlap between two
+  ordered lists.
+
+\item
+  New function detectionPValues() to compute detection p-values from
+  negative control probes.
+
+\item
+  New function fitmixture() to estimate genewise fold changes and
+  expression values from mixture experiments.  Previously this
+  funtion was only available as part of the illumina package available
+  from http://bioinf.wehi.edu.au/illumina
+
+\item
+  New function logcosh() to compute log(cosh(x)) accurately without
+  floating underflow or overflow.
+
+\item
+  The default settings for the 'inter.gene.cor' and 'use.neg.cor'
+  arguments of camera() have been changed.  camera() now uses by
+  default a preset value for the inter-gene correlation. This has the
+  effect that it tends to rank highly co-regulated,
+  biologically-interpretable more highly than before.
+
+\item
+  New flexibility for the roast() and mroast() functions, similar to
+  that previously implemented for fry().  The index vector for each
+  gene set can now be a data.frame, allowing each gene set to have
+  its own set of gene weights.  The indices can now optionally be a
+  vector of gene names instead of a vector of indices.  roast() and
+  mroast() now support the robust empirical Bayes option of
+  squeezeVar().  roast() and mroast() can now accept, via '...', any
+  argument that would be normally passed to lmFit() or eBayes().
+
+\item
+  Slight change to the standardize="posterior.sd" method for fry().
+
+\item
+  goana(), alias2Symbol() and alias2SymbolTable() now work for any species for which an Entrez Gene based
+  organism package exists.
+
+\item
+  The 'species' argument of kegga() can now accept any Bioconductor
+  species abbreviation.
+
+\item
+  topGO() now breaks ties by the number of genes in the GO Term and
+  by the name of the Term if the p-values are equal. (This is the
+  same behavior as topKEGG.)
+
+\item
+  New arguments 'annotation' and 'verbose' for read.idat().
+  The first of these to allows users to read
+  any required columns from the manifest file.
+
+\item
+  New arguments 'pch.y' and 'pch.z' for plotRLDF.
+
+\item
+  Unnecessary argument 'design' removed from fitted.MArrayLM.
+
+\item
+  normalizeBetweenArrays() now checks whether the input 'object' is a
+  data.frame, and converts to a matrix if possible.
+
+\item
+  duplicateCorrelation() now expands weights using expandAsWeights(),
+  making it consistent with lmFit().
+
+\item
+  The lowess line drawn by plotSA() is now more robust with respect
+  to NA variances.
+
+\item
+  More informative error message from voom() when there is only one
+  row of data.
+
+\item
+  More informative error message from getEAWP() and lmFit() when
+  'object' is a non-normalized data object.
+
+\item
+  Update Phipson et al (2016) reference for robust empirical Bayes.
+
+\item
+  Bug fix to fitFDistRobustly(), which in some circumstances was
+  trying to save extra (undocumented) results that had not been
+  computed.
+
+\item
+  Bug fixes for fry() with robust=TRUE or when 'index' has NULL names.
+
+\item
+  Bug fix to propTrueNull() when method="hist" and all the p-values
+  are less than 1/nbins.
+
+\item
+  Bug fix to alias2Symbol() with expand.symbol=TRUE.
+
+}}
+
+
 \section{Version 3.28.0}{\itemize{
 
 \item
@@ -60,7 +165,7 @@
   a vector of genewise values.
 
 \item
-  new argument 'save.plot' for voom().
+  New argument 'save.plot' for voom().
 
 \item
   diffSplice() now returns genewise residual variances.
