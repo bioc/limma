@@ -40,8 +40,10 @@ This function is intended to process RNA-Seq data prior to linear modelling in l
 It combines observational-level weights from \code{voom} with sample-specific weights estimated using the \code{arrayWeights} function.
 }
 \value{
-A numeric matrix of same dimension as \code{counts} containing consolidated voom and sample-specific weights.
-If \code{replace.weights=TRUE}, then an \code{\link[limma:EList]{EList}} object is returned with the \code{weights} component containing the consolidated weights.
+If \code{replace.weights=TRUE}, then an \code{\link[limma:EList]{EList}} object is returned similar to that from \code{\link{voom}}.
+The \code{sample.weights} component contains the vector of sample quality factors and the \code{weights} component contains the matrix of weights consolidating both the voom precision weights and the sample quality factors.
+
+If \code{replace.weights=FALSE} then just the matrix of weights is returned.
 }
 
 \author{Matthew Ritchie and Cynthia Liu}
@@ -54,8 +56,8 @@ Voom: precision weights unlock linear model analysis tools for RNA-seq read coun
 
 Liu, R., Holik, A. Z., Su, S., Jansz, N., Chen, K., Leong, H. S., Blewitt, M. E., Asselin-Labat, M.-L., Smyth, G. K., Ritchie, M. E. (2015).
 Why weight? Combining voom with estimates of sample quality improves power in RNA-seq analyses.
-\emph{Nucleic Acids Research} 43.
-(Accepted 17 April 2015)
+\emph{Nucleic Acids Research} 43, e97.
+\url{http://nar.oxfordjournals.org/content/43/15/e97}
 
 Ritchie, M. E., Diyagama, D., Neilson, van Laar, R., J., Dobrovic, A., Holloway, A., and Smyth, G. K. (2006).
 Empirical array quality weights in the analysis of microarray data.

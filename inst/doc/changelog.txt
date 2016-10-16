@@ -1,3 +1,7 @@
+16 Oct 2016: limma 3.29.24
+
+- Update section on RNA-seq in User's Guide.
+
 16 Oct 2016: limma 3.29.23
 
 - new 'plot' argument for plotMDS(), to optionally return an MDS
