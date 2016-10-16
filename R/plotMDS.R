@@ -14,10 +14,10 @@ plotMDS.MDS <- function(x,labels=NULL,pch=NULL,cex=1,dim.plot=NULL,xlab=NULL,yla
 #	Method for MDS objects
 #	Create a new plot using MDS coordinates or distances previously created
 #	Gordon Smyth and Yifang Hu
-#	21 May 2011.  Last modified 4 September 2016
+#	21 May 2011.  Last modified 29 December 2014
 {
 #	Check labels
-	if(is.null(labels) && is.null(pch)) {
+	if(is.null(labels) & is.null(pch)) {
 		labels <- colnames(x$distance.matrix)
 		if(is.null(labels)) labels <- 1:length(x$x)
 	}
@@ -55,13 +55,13 @@ plotMDS.MDS <- function(x,labels=NULL,pch=NULL,cex=1,dim.plot=NULL,xlab=NULL,yla
 		text(x$x, x$y, labels = labels, cex = cex, ...)
 	}
 
-	return(invisible(x))
+	invisible(x)
 }
 
-plotMDS.default <- function(x,top=500,labels=NULL,pch=NULL,cex=1,dim.plot=c(1,2),ndim=max(dim.plot),gene.selection="pairwise",xlab=NULL,ylab=NULL,...)
+plotMDS.default <- function(x,top=500,labels=NULL,pch=NULL,cex=1,dim.plot=c(1,2),ndim=max(dim.plot),gene.selection="pairwise",xlab=NULL,ylab=NULL,plot=TRUE,...)
 #	Multi-dimensional scaling with top-distance
 #	Di Wu and Gordon Smyth
-#	19 March 2009.  Last modified 14 Jan 2015
+#	19 March 2009.  Last modified 6 Oct 2016
 {
 #	Check x
 	x <- as.matrix(x)
@@ -133,5 +133,8 @@ plotMDS.default <- function(x,top=500,labels=NULL,pch=NULL,cex=1,dim.plot=c(1,2)
 		mds$y <- a1[,dim.plot[2]]
 	mds$top <- top
 	mds$axislabel <- axislabel
-	plotMDS(mds,labels=labels,pch=pch,cex=cex,xlab=xlab,ylab=ylab,...)
+	if(plot)
+		plotMDS(mds,labels=labels,pch=pch,cex=cex,xlab=xlab,ylab=ylab,...)
+	else
+		mds
 }

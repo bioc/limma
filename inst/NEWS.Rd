@@ -57,6 +57,10 @@
   same behavior as topKEGG.)
 
 \item
+  New argument 'plot' for plotMDS(), to optionally allow an MDS object
+  to be returned without making a plot.
+
+\item
   New arguments 'annotation' and 'verbose' for read.idat().
   The first of these to allows users to read
   any required columns from the manifest file.

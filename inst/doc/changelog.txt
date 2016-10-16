@@ -1,3 +1,8 @@
+16 Oct 2016: limma 3.29.23
+
+- new 'plot' argument for plotMDS(), to optionally return an MDS
+  object without making a plot.
+
 14 Oct 2016: limma 3.29.22
 
 - NEWS.Rd updated for Bioconductor 3.4 release.

@@ -13,7 +13,7 @@ Plot samples on a two-dimensional scatterplot so that distances on the plot appr
 \usage{
 \method{plotMDS}{default}(x, top = 500, labels = NULL, pch = NULL, cex = 1,
      dim.plot = c(1,2), ndim = max(dim.plot), gene.selection = "pairwise",
-     xlab = NULL, ylab = NULL, \dots)
+     xlab = NULL, ylab = NULL, plot = TRUE, \dots)
 \method{plotMDS}{MDS}(x, labels = NULL, pch = NULL, cex = 1, dim.plot = NULL,
      xlab = NULL, ylab = NULL, \dots)
 }
@@ -29,6 +29,7 @@ Plot samples on a two-dimensional scatterplot so that distances on the plot appr
   \item{gene.selection}{character, \code{"pairwise"} to choose the top genes separately for each pairwise comparison between the samples or \code{"common"} to select the same genes for all comparisons.}
   \item{xlab}{title for the x-axis.}
   \item{ylab}{title for the y-axis.}
+  \item{plot}{logical. If \code{TRUE} then a plot is produced. If not, an \code{"MDS"} object is returned.}
   \item{\dots}{any other arguments are passed to \code{plot}, and also to \code{text} (if \code{pch} is \code{NULL}).}
 }
 
@@ -42,13 +43,16 @@ If \code{gene.selection} is \code{"common"}, then the top genes are those with t
 If \code{gene.selection} is \code{"pairwise"}, then a different set of top genes is selected for each pair of samples.
 The pairwise feature selection may be appropriate for microarray data when different molecular pathways are relevant for distinguishing different pairs of samples.
 
+If \code{pch=NULL}, then each sample is represented by a text label, defaulting to the column names of \code{x}.
+If \code{pch} is not \code{NULL}, then plotting symbols are used.
+
 See \code{\link[graphics]{text}} for possible values for \code{col} and \code{cex}.
 }
 
 \value{
-A plot is created on the current graphics device.
+If \code{plot=TRUE}, a plot is created on the current graphics device.
 
-An object of class \code{"MDS"} is invisibly returned.
+An object of class \code{"MDS"} is also returned (invisibly if \code{plot=TRUE}).
 This is a list containing the following components:
 \item{distance.matrix}{numeric matrix of pairwise distances between columns of \code{x}}
 \item{cmdscale.out}{output from the function \code{cmdscale} given the distance matrix}
