@@ -1,26 +1,32 @@
+17 Oct 2016: limma 3.29.25
+
+- Update help page of id2indices() to use MSigDB version 5.2.
+
+- Revise help page for voom().
+
 16 Oct 2016: limma 3.29.24
 
 - Update section on RNA-seq in User's Guide.
 
 16 Oct 2016: limma 3.29.23
 
-- new 'plot' argument for plotMDS(), to optionally return an MDS
+- New 'plot' argument for plotMDS(), to optionally return an MDS
   object without making a plot.
 
 14 Oct 2016: limma 3.29.22
 
 - NEWS.Rd updated for Bioconductor 3.4 release.
 
-- more informative error message from voom() when there is only one
+- More informative error message from voom() when there is only one
   row of data.
 
  6 Sep 2016: limma 3.29.21
 
-- new arguments 'pch.y' and 'pch.z' for plotRLDF.
+- New arguments 'pch.y' and 'pch.z' for plotRLDF.
 
 22 Aug 2016: limma 3.29.20
 
-- bug fix to fitFDistRobustly(), which in some circumstances was
+- Bug fix to fitFDistRobustly(), which in some circumstances was
   trying to save extra (undocumented) results that had not been
   computed.
 
@@ -31,7 +37,7 @@
 
 16 Aug 2016: limma 3.29.18
 
-- new function cumOverlap() to analyse the overlap between two
+- New function cumOverlap() to analyse the overlap between two
   ordered lists.
 
 24 Jul 2016: limma 3.29.17

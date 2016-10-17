@@ -31,10 +31,10 @@ There is a topic page on \link{10.GeneSetTests}.
 
 \dontrun{
 
-download.file("http://bioinf.wehi.edu.au/software/MSigDB/human_c2_v5p1.rdata", 
-	      "human_c2_v5p1.rdata", mode = "wb")
+download.file("http://bioinf.wehi.edu.au/software/MSigDB/human_c2_v5p2.rdata", 
+	      "human_c2_v5p2.rdata", mode = "wb")
 
-load("human_c2_v5p1.rdata")
+load("human_c2_v5p2.rdata")
 c2.indices <- ids2indices(Hs.c2, y$genes$GeneID)
 camera(y, c2.indices, design)
 
