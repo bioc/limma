@@ -7,7 +7,7 @@ Combine voom observational-level weights with sample-specific quality weights in
 \usage{
 voomWithQualityWeights(counts, design=NULL, lib.size=NULL, normalize.method="none",
              plot=FALSE, span=0.5, var.design=NULL, method="genebygene", maxiter=50,
-             tol=1e-10, trace=FALSE, replace.weights=TRUE, col=NULL, ...) 
+             tol=1e-10, trace=FALSE, col=NULL, ...) 
 }
 \arguments{
  \item{counts}{a numeric \code{matrix} containing raw counts, or an \code{ExpressionSet} containing raw counts, or a \code{DGEList} object.}
@@ -28,9 +28,6 @@ voomWithQualityWeights(counts, design=NULL, lib.size=NULL, normalize.method="non
  \item{trace}{logical variable. If true then output diagnostic information
           at each iteration of the '"reml"' algorithm, or at every 1000th iteration of the 
           \code{"genebygene"} algorithm.}
- \item{replace.weights}{logical variable. If TRUE then the weights in the voom object will be replaced with 
-       the combined voom and sample-specific weights and the \code{\link[limma:EList]{EList}} object from voom is returned.
-       If FALSE, then a matrix of combined weights is returned.}
  \item{col}{colours to use in the barplot of sample-specific weights (only used if \code{plot=TRUE}). If \code{NULL}, bars are plotted in grey.}
  \item{\dots}{other arguments are passed to \code{lmFit}.}
 }
@@ -40,10 +37,8 @@ This function is intended to process RNA-Seq data prior to linear modelling in l
 It combines observational-level weights from \code{voom} with sample-specific weights estimated using the \code{arrayWeights} function.
 }
 \value{
-If \code{replace.weights=TRUE}, then an \code{\link[limma:EList]{EList}} object is returned similar to that from \code{\link{voom}}.
-The \code{sample.weights} component contains the vector of sample quality factors and the \code{weights} component contains the matrix of weights consolidating both the voom precision weights and the sample quality factors.
-
-If \code{replace.weights=FALSE} then just the matrix of weights is returned.
+An \code{\link[limma:EList]{EList}} object similar to that from \code{\link{voom}}, but with one extra component: the \code{sample.weights} component containing the vector of sample quality factors.
+The \code{weights} component combines the sample weights and the usuall voom precision weights.
 }
 
 \author{Matthew Ritchie and Cynthia Liu}
