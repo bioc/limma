@@ -90,8 +90,8 @@ If \code{trend=TRUE} or a covariate is supplied, then a trend is fitted to the d
 The statistical approach provided here is the same as that provided by the goseq package, with one methodological difference and a few restrictions.
 Unlike the goseq package, the gene identifiers here must be Entrez Gene IDs and the user is assumed to be able to supply gene lengths if necessary.
 The goseq package has additional functionality to convert gene identifiers and to provide gene lengths.
-The only methodological difference is that \code{goana} and \code{kegga} computes gene length or abundance bias using \code{tricubeMovingAverage} instead of monotonic regression.
-While \code{tricubeMovingAverage} does not enforce monotonicity, it has the advantage of numerical stability when \code{de} contains only a small number of genes.
+The only methodological difference is that \code{goana} and \code{kegga} computes gene length or abundance bias using \code{\link{tricubeMovingAverage}} instead of monotonic regression.
+While \code{\link{tricubeMovingAverage}} does not enforce monotonicity, it has the advantage of numerical stability when \code{de} contains only a small number of genes.
 }
 
 \note{
@@ -184,6 +184,9 @@ topGO(go.de, ontology = "MF", sort = "DE3")
 
 k <- kegga(fit, species="Hs")
 k <- kegga(fit, species.KEGG="hsa") # equivalent to previous
+topKEGG(k, sort = "up")
+topKEGG(k, sort = "down")
+
 }
 }
 
