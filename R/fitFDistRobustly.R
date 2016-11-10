@@ -3,7 +3,7 @@ fitFDistRobustly <- function(x,df1,covariate=NULL,winsor.tail.p=c(0.05,0.1),trac
 #	given the first degrees of freedom, using first and second
 #	moments of Winsorized z-values
 #	Gordon Smyth and Belinda Phipson
-#	Created 7 Oct 2012.  Last revised 22 August 2016.
+#	Created 7 Oct 2012.  Last revised 10 November 2016.
 {
 #	Check x
 	n <- length(x)
@@ -147,7 +147,7 @@ fitFDistRobustly <- function(x,df1,covariate=NULL,winsor.tail.p=c(0.05,0.1),trac
 			o <- order(TailP)
 			df2.shrunk[o] <- cummax(df2.shrunk[o])
 		}
-		return(list(scale=s20,df2=df2,df2.shrunk=df2.shrunk))
+		return(list(scale=s20,df2=df2,tail.p.value=TailP,df2.shrunk=df2.shrunk))
 	}
 
 #	Estimate df2 by matching variance of zwins
@@ -182,13 +182,15 @@ fitFDistRobustly <- function(x,df1,covariate=NULL,winsor.tail.p=c(0.05,0.1),trac
 #	Posterior df for outliers
 	zresid <- z-ztrendcorrected
 	Fstat <- exp(zresid)
-	TailP <- pf(Fstat,df1=df1,df2=df2,lower.tail=FALSE)
+	LogTailP <- pf(Fstat,df1=df1,df2=df2,lower.tail=FALSE,log.p=TRUE)
+	TailP <- exp(LogTailP)
 	r <- rank(Fstat)
-	EmpiricalTailProb <- (n-r+0.5)/n
-	ProbNotOutlier <- pmin(TailP/EmpiricalTailProb,1)
-	ProbOutlier <- 1-ProbNotOutlier
-	if(any(ProbNotOutlier<1)) {
-		o <- order(TailP)
+	LogEmpiricalTailProb <- log(n-r+0.5)-log(n)
+	LogProbNotOutlier <- pmin(LogTailP-LogEmpiricalTailProb,0)
+	ProbNotOutlier <- exp(LogProbNotOutlier)
+	ProbOutlier <- -expm1(LogProbNotOutlier)
+	if(any(LogProbNotOutlier < 0)) {
+		o <- order(LogTailP)
 
 #		Old calculation for df2.outlier
 #		VarOutlier <- max(zresid)^2
@@ -214,14 +216,20 @@ fitFDistRobustly <- function(x,df1,covariate=NULL,winsor.tail.p=c(0.05,0.1),trac
 #		Find df2.outlier to make maxFstat the median of the distribution
 #		Exploit fact that log(TailP) is nearly linearly with positive 2nd deriv as a function of df2
 #		Note that minTailP and NewTailP are always less than 0.5
-		df2.outlier <- log(0.5)/log(min(TailP))*df2
-#		Iterate for accuracy
-		NewTailP <- pf(max(Fstat),df1=df1,df2=df2.outlier,lower.tail=FALSE)
-		df2.outlier <- log(0.5)/log(NewTailP)*df2.outlier
-		df2.shrunk <- ProbNotOutlier*df2+ProbOutlier*df2.outlier
+		minLogTailP <- min(LogTailP)
+		if(minLogTailP == -Inf) {
+			df2.outlier <- 0
+			df2.shrunk <- ProbNotOutlier*df2
+		} else {
+			df2.outlier <- log(0.5)/minLogTailP*df2
+#			Iterate for accuracy
+			NewLogTailP <- pf(max(Fstat),df1=df1,df2=df2.outlier,lower.tail=FALSE,log.p=TRUE)
+			df2.outlier <- log(0.5)/NewLogTailP*df2.outlier
+			df2.shrunk <- ProbNotOutlier*df2+ProbOutlier*df2.outlier
+		}
 
 #		Force df2.shrunk to be monotonic in TailP
-		o <- order(TailP)
+		o <- order(LogTailP)
 		df2.ordered <- df2.shrunk[o]
 		m <- cumsum(df2.ordered)
 		m <- m/(1:n)
