@@ -1,3 +1,7 @@
+16 Nov 2016: limma 3.31.4
+
+- Bug fix for kegga() when the universe is explicitly specified.
+
 10 Nov 2016: limma 3.31.3
 
 - Bug fix for fitFDistRobustly() when there is an extreme outlier.
