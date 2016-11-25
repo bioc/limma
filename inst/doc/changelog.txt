@@ -1,3 +1,8 @@
+25 Nov 2016: limma 3.31.5
+
+- Clearer error message from fitFDistRobustly() when some variances
+  are zero.
+
 16 Nov 2016: limma 3.31.4
 
 - Bug fix for kegga() when the universe is explicitly specified.

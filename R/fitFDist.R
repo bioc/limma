@@ -42,7 +42,7 @@ fitFDist <- function(x,df1,covariate=NULL)
 		warning("More than half of residual variances are exactly zero: eBayes unreliable")
 		m <- 1
 	} else {
-		if(any(x==0)) warning("Zero sample variances detected, have been offset",call.=FALSE)
+		if(any(x==0)) warning("Zero sample variances detected, have been offset away from zero",call.=FALSE)
 	}
 	x <- pmax(x, 1e-5 * m)
 
