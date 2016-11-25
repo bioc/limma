@@ -3,7 +3,7 @@ fitFDistRobustly <- function(x,df1,covariate=NULL,winsor.tail.p=c(0.05,0.1),trac
 #	given the first degrees of freedom, using first and second
 #	moments of Winsorized z-values
 #	Gordon Smyth and Belinda Phipson
-#	Created 7 Oct 2012.  Last revised 10 November 2016.
+#	Created 7 Oct 2012.  Last revised 25 November 2016.
 {
 #	Check x
 	n <- length(x)
@@ -48,10 +48,14 @@ fitFDistRobustly <- function(x,df1,covariate=NULL,winsor.tail.p=c(0.05,0.1),trac
 
 #	Avoid zero or negative x values
 	m <- median(x)
-	if(m<=0)	stop("x values are mostly <= 0")
+	if(m<=0)	stop("Variances are mostly <= 0")
 	i <- (x < m*1e-12)
 	if(any(i)) {
-		warning("small x values have been offset away from zero")
+		nzero <- sum(i)
+		if(nzero==1)
+			warning("One very small variance detected, has been offset away from zero", call.=FALSE)
+		else
+			warning(nzero," very small variances detected, have been offset away from zero", call.=FALSE)
 		x[i] <- m*1e-12
 	}
 
