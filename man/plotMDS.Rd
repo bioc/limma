@@ -29,7 +29,7 @@ Plot samples on a two-dimensional scatterplot so that distances on the plot appr
   \item{gene.selection}{character, \code{"pairwise"} to choose the top genes separately for each pairwise comparison between the samples or \code{"common"} to select the same genes for all comparisons.}
   \item{xlab}{title for the x-axis.}
   \item{ylab}{title for the y-axis.}
-  \item{plot}{logical. If \code{TRUE} then a plot is produced. If not, an \code{"MDS"} object is returned.}
+  \item{plot}{logical. If \code{TRUE} then a plot is created on the current graphics device.}
   \item{\dots}{any other arguments are passed to \code{plot}, and also to \code{text} (if \code{pch} is \code{NULL}).}
 }
 
@@ -52,7 +52,7 @@ See \code{\link[graphics]{text}} for possible values for \code{col} and \code{ce
 \value{
 If \code{plot=TRUE}, a plot is created on the current graphics device.
 
-An object of class \code{"MDS"} is also returned (invisibly if \code{plot=TRUE}).
+An object of class \code{"MDS"} is also invisibly returned.
 This is a list containing the following components:
 \item{distance.matrix}{numeric matrix of pairwise distances between columns of \code{x}}
 \item{cmdscale.out}{output from the function \code{cmdscale} given the distance matrix}

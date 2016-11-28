@@ -30,7 +30,7 @@ Rotation gene set testing for linear models.
         If either \code{var.prior} or \code{df.prior} are \code{NULL}, then \code{y} should contain values for all genes on the arrays. If both prior parameters are given, then only \code{y} values for the test set are required.}
   \item{index}{index vector specifying which rows (probes) of \code{y} are in the test set.
         Can be a vector of integer indices, or a logical vector of length \code{nrow(y)}, or a vector of gene IDs corresponding to entries in \code{geneid}.
-        Alternatively it can be a data.frame with the first column containing the index vector and the second column containing gene weights.
+        Alternatively it can be a data.frame with the first column containing the index vector and the second column containing directional gene weights.
         For \code{mroast} or \code{fry}, \code{index} is a list of index vectors or a list of data.frames. }
   \item{design}{design matrix}
   \item{contrast}{contrast for which the test is required.
@@ -39,7 +39,7 @@ Rotation gene set testing for linear models.
         Can be either a vector of length \code{nrow(y)} or the name of the column of \code{y$genes} containing the gene identifiers.
         Defaults to \code{rownames(y)}.}
   \item{set.statistic}{summary set statistic. Possibilities are \code{"mean"},\code{"floormean"},\code{"mean50"} or \code{"msq"}.}
-  \item{gene.weights}{numeric vector of (positive or negative) probewise weights.
+  \item{gene.weights}{numeric vector of directional (positive or negative) probewise weights.
         For \code{mroast} or \code{fry}, this vector must have length equal to \code{nrow(y)}.
         For \code{roast}, can be of length \code{nrow(y)} or of length equal to the number of genes in the test set.} 
   \item{var.prior}{prior value for residual variances. If not provided, this is estimated from all the data using \code{squeezeVar}.}
