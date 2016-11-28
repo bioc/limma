@@ -181,18 +181,28 @@ heatdiagram <- function(stat,coef,primary=1,names=NULL,treatments=colnames(stat)
 	invisible(out)
 }
 
-plotSA <- function(fit, xlab="Average log-expression", ylab="log2(sigma)", zero.weights=FALSE, pch=16, cex=0.2, ...)
+plotSA <- function(fit, xlab="Average log-expression", ylab="log2(sigma)", zero.weights=FALSE, pch=16, cex=0.3, ...)
 #	Plot log-residual variance vs intensity
 #	Gordon Smyth
-#	Created 14 Jan 2009. Last modified 26 June 2016.
+#	Created 14 Jan 2009. Last modified 28 November 2016.
 {
-	if(!is(fit,"MArrayLM")) stop("fit must be a MArrayLM object")
+	if(!is(fit,"MArrayLM")) stop("fit must be an MArrayLM object")
 	x <- fit$Amean
 	y <- log2(fit$sigma)
-	if(!is.null(fit$weights) && !zero.weights) {
+	if(!(is.null(fit$weights) || zero.weights)) {
 		allzero <- rowSums(fit$weights>0,na.rm=TRUE) == 0
 		y[allzero] <- NA
 	}
+
+#	Check for outlier variances as indicated by low prior.df
+	if(length(fit$df.prior)>1L) {
+		Outlier <- fit$df.prior < 0.75*max(fit$df.prior)
+		pch <- rep_len(pch,nrow(fit))
+		pch[Outlier] <- 1
+		cex <- rep_len(cex,nrow(fit))
+		cex[Outlier] <- 1
+	}
+
 	plot(x,y,xlab=xlab,ylab=ylab,pch=pch,cex=cex,...)
 	if(anyNA(x) || anyNA(y)) {
 		ok <- !(is.na(x) | is.na(y))

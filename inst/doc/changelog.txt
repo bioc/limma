@@ -1,3 +1,8 @@
+28 Nov 2016: limma 3.30.6
+
+- plotSA() now indicates, by way of an open plotting symbol, any
+  points that have low robust df.prior values.
+
 25 Nov 2016: limma 3.30.5
 
 - Clearer error message from fitFDistRobustly() when some variances
