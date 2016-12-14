@@ -14,7 +14,8 @@ contrastAsCoef(design, contrast=NULL, first=TRUE)
 }
 
 \details{
-If \code{contrast} doesn't have full column rank, then superfluous columns are dropped.
+If the contrasts contained in the columns of \code{contrast} are not linearly dependent, then superfluous columns are dropped until the remaining matrix has full column rank.
+The number of retained contrasts is stored in \code{qr$rank} and the retained columns are given by \code{qr$pivot}.
 }
 
 \value{
@@ -42,6 +43,7 @@ y <- rnorm(6)
 fit1 <- lm(y~0+design)
 fit2 <- lm(y~0+design2)
 coef(fit1)
+coef(fit1) %*% cont
 coef(fit2)
 }
 
