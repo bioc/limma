@@ -1,3 +1,9 @@
+14 Dec 2016: limma 3.30.7
+
+- Bug fix for contrastAsCoef() when there is more than one contrast.
+  Previously the coefficients for the transformed design matrix were
+  correct only for the first contrast.
+
 28 Nov 2016: limma 3.30.6
 
 - plotSA() now indicates, by way of an open plotting symbol, any
