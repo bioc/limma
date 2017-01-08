@@ -8,9 +8,11 @@ Identify which genes are significantly differentially expressed for each contras
 A number of different multiple testing strategies are offered that adjust for multiple testing down the genes as well as across contrasts for each gene.
 }
 \usage{
-\method{decideTests}{MArrayLM}(object, method = "separate", adjust.method = "BH", p.value = 0.05, lfc = 0, \dots)
-\method{decideTests}{default}(object, method = "separate", adjust.method = "BH", p.value = 0.05, lfc = 0,
-           coefficients = NULL, cor.matrix = NULL, tstat = NULL, df = Inf, genewise.p.value = NULL, \dots)
+\method{decideTests}{MArrayLM}(object, method = "separate", adjust.method = "BH", p.value = 0.05,
+            lfc = 0, \dots)
+\method{decideTests}{default}(object, method = "separate", adjust.method = "BH", p.value = 0.05,
+            lfc = 0, coefficients = NULL, cor.matrix = NULL, tstat = NULL, df = Inf,
+            genewise.p.value = NULL, \dots)
 }
 \arguments{
   \item{object}{a numeric matrix of p-values or an \code{MArrayLM} object from which p-values and t-statistics can be extracted.}
