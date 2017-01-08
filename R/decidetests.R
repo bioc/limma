@@ -4,13 +4,14 @@ setClass("TestResults",representation("matrix"))
 
 summary.TestResults <- function(object,...)
 #	Gordon Smyth
-#	26 Feb 2004.  Last modified 31 Jan 2005.
+#	Created 26 Feb 2004.  Last modified 6 Jan 2017.
 {
-#	apply(object,2,table)
-	tab <- array(0,c(3,ncol(object)),dimnames=list(c("-1","0","1"),colnames(object)))
-	tab[1,] <- colSums(object== -1,na.rm=TRUE)
-	tab[2,] <- colSums(object== 0,na.rm=TRUE)
-	tab[3,] <- colSums(object== 1,na.rm=TRUE)
+	Levels <- attr(object,"levels")
+	if(is.null(Levels)) Levels <- c(-1L,0L,1L)
+	nlevels <- length(Levels)
+	tab <- matrix(0L,nlevels,ncol(object))
+	dimnames(tab) <- list(as.character(Levels),colnames(object))
+	for (i in 1:nlevels) tab[i,] <- colSums(object==Levels[i],na.rm=TRUE)
 	class(tab) <- "table"
 	tab
 }
@@ -20,12 +21,84 @@ setMethod("show","TestResults",function(object) {
 	printHead(object@.Data)
 })
 
-decideTests <- function(object,method="separate",adjust.method="BH",p.value=0.05,lfc=0)
+decideTests <- function(object,...) UseMethod("decideTests")
+
+decideTests.default <- function(object,method="separate",adjust.method="BH",p.value=0.05,lfc=0,coefficients=NULL,cor.matrix=NULL,tstat=NULL,df=Inf,genewise.p.value=NULL,...)
 #	Accept or reject hypothesis tests across genes and contrasts
 #	Gordon Smyth
-#	17 Aug 2004. Last modified 13 August 2010.
+#	17 Aug 2004. Last modified 8 Jan 2017.
 {
-	if(!is(object,"MArrayLM")) stop("Need MArrayLM object")
+	method <- match.arg(method,c("separate","global","hierarchical","nestedF"))
+	if(method=="nestedF") stop("nestedF adjust method requires an MArrayLM object",call.=FALSE)
+
+	adjust.method <- match.arg(adjust.method,c("none","bonferroni","holm","BH","fdr","BY"))
+	if(adjust.method=="fdr") adjust.method <- "BH"
+
+	p <- as.matrix(object)
+	if(any(p>1) || any(p<0)) stop("object doesn't appear to be a matrix of p-values")
+
+	switch(method,
+
+	  separate={
+		for (i in 1:ncol(p)) p[,i] <- p.adjust(p[,i],method=adjust.method)
+
+	},global={
+		p[] <- p.adjust(p[],method=adjust.method)
+
+	},hierarchical={
+		if(is.null(genewise.p.value)) {
+#			Apply Simes' method by rows to get genewise p-values
+			genewise.p.value <- rep_len(1,nrow(p))
+			ngenes <- nrow(p)
+			ncontrasts <- ncol(p)
+			Simes.multiplier <- ncontrasts/(1:ncontrasts)
+			for (g in 1:ngenes) {
+				op <- sort(p[g,],na.last=TRUE)
+				genewise.p.value[g] <- min(op*Simes.multiplier,na.rm=TRUE)
+			}
+		}
+#		Adjust genewise p-values
+		DEgene <- p.adjust(genewise.p.value,method=adjust.method) <= p.value
+#		Adjust row-wise p-values
+		p[!DEgene,] <- 1
+		gDE <- which(DEgene)
+		for (g in gDE) p[g,] <- p.adjust(p[g,],method=adjust.method)
+#		Adjust p-value cutoff for number of DE genes
+		nDE <- length(gDE)
+		a <- switch(adjust.method,
+			none=1,
+			bonferroni=1/ngenes,
+			holm=1/(ngenes-nDE+1),
+			BH=nDE/ngenes,
+			BY=nDE/ngenes/sum(1/(1:ngenes))
+		)
+		p.value <- a*p.value
+	},nestedF={
+		stop("nestedF adjust method requires an MArrayLM object",call.=FALSE)
+	})
+
+	isDE <- array(0L,dim(p),dimnames=dimnames(p))
+	isDE[p <= p.value] <- 1L
+	if(is.null(coefficients)) coefficients <- tstat
+	if(is.null(coefficients)) {
+		attr(isDE,"levels") <- c(0L,1L)
+	} else {
+		attr(isDE,"levels") <- c(-1L,0L,1L)
+		coefficients <- as.matrix(coefficients)
+		if( !all(dim(coefficients)==dim(p)) ) stop("dim(object) disagrees with dim(coefficients)")
+		i <- coefficients<0
+		isDE[i] <- -isDE[i]
+		if(lfc>0) isDE[ abs(coefficients)<lfc ] <- 0L
+	}
+
+	new("TestResults",isDE)
+}
+
+decideTests.MArrayLM <- function(object,method="separate",adjust.method="BH",p.value=0.05,lfc=0,...)
+#	Accept or reject hypothesis tests across genes and contrasts
+#	Gordon Smyth
+#	17 Aug 2004. Last modified 8 Jan 2017.
+{
 	if(is.null(object$p.value)) object <- eBayes(object)
 	method <- match.arg(method,c("separate","global","hierarchical","nestedF"))
 	adjust.method <- match.arg(adjust.method,c("none","bonferroni","holm","BH","fdr","BY"))
