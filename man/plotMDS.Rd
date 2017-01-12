@@ -19,7 +19,7 @@ Plot samples on a two-dimensional scatterplot so that distances on the plot appr
 }
 
 \arguments{
-  \item{x}{any data object which can be coerced to a matrix, such as \code{ExpressionSet} or \code{EList}.}
+  \item{x}{any data object which can be coerced to a matrix, for example an \code{ExpressionSet} or an \code{EList}.}
   \item{top}{number of top genes used to calculate pairwise distances.}
   \item{labels}{character vector of sample names or labels. Defaults to \code{colnames(x)}.}
   \item{pch}{plotting symbol or symbols. See \code{\link{points}} for possible values. Ignored if \code{labels} is non-\code{NULL}.}

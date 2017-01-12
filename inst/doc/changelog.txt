@@ -1,3 +1,23 @@
+12 Jan 2016: limma 3.30.8
+
+- Bug fix to fitFDist() when 'covariate' is not NULL. The new
+  estimate for df2 will usually be slightly lower than before.  This
+  affects the eBayes(trend=TRUE) pipeline.  The difference will have
+  an appreciable effect on downstream results when the number of
+  genes is small.
+
+- fitFDist() now estimates the scale by mean(x) when df2 is estimated
+  to be Inf.  This will make the results from eBayes() less
+  conservative than before when df.prior=Inf.
+
+- Bug fix to fitFDist() when 'x' contains NA values and 'df1' has
+  length 1.  When 'covariate' is non-NULL, fitFDist() will now return
+  an NA result without an error if there are too few observations to 
+  do the estimation.
+
+ - decideTests() is now an S3 generic function with a default method
+  and a method for MArrayLM objects.
+
 14 Dec 2016: limma 3.30.7
 
 - Bug fix for contrastAsCoef() when there is more than one contrast.
