@@ -18,12 +18,15 @@ fitFDistRobustly(x, df1, covariate=NULL, winsor.tail.p=c(0.05,0.1), trace=FALSE)
   \item{trace}{logical value indicating whether a trace of the iteration progress should be printed.}
 }
 \details{
-\code{fitFDist} implements an algorithm proposed by Smyth (2004).
+\code{fitFDist} implements an algorithm proposed by Smyth (2004) and Phipson et al (2016).
 It estimates \code{scale} and \code{df2} under the assumption that \code{x} is distributed as \code{scale} times an F-distributed random variable on \code{df1} and \code{df2} degrees of freedom.
 The parameters are estimated using the method of moments, specifically from the mean and variance of the \code{x} values on the log-scale.
 
+When \code{covariate} is supplied, a spline curve trend will be estimated for the \code{x} values and the estimation will be adjusted for this trend (Phipson et al, 2016).
+
 \code{fitFDistRobustly} is similar to \code{fitFDist} except that it computes the moments of the Winsorized values of \code{x}, making it robust against left and right outliers.
 Larger values for \code{winsor.tail.p} produce more robustness but less efficiency.
+When \code{covariate} is supplied, a loess trend is estimated for the \code{x} values.
 The robust method is described by Phipson et al (2016).
 
 As well as estimating the F-distribution for the bulk of the cases, i.e., with outliers discounted, \code{fitFDistRobustly} also returns an estimated F-distribution with reduced df2 that might be appropriate for each outlier case.
