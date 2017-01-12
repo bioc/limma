@@ -48,7 +48,7 @@ fitFDistRobustly <- function(x,df1,covariate=NULL,winsor.tail.p=c(0.05,0.1),trac
 
 #	Avoid zero or negative x values
 	m <- median(x)
-	if(m<=0)	stop("Variances are mostly <= 0")
+	if(m<=0) stop("Variances are mostly <= 0")
 	i <- (x < m*1e-12)
 	if(any(i)) {
 		nzero <- sum(i)
