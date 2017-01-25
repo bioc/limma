@@ -2,11 +2,11 @@ fitFDist <- function(x,df1,covariate=NULL)
 #	Moment estimation of the parameters of a scaled F-distribution.
 #	The numerator degrees of freedom are given, the denominator is to be estimated.
 #	Gordon Smyth and Belinda Phipson
-#	8 Sept 2002.  Last revised 12 Jan 2017.
+#	8 Sept 2002.  Last revised 25 Jan 2017.
 {
 #	Check x
 	n <- length(x)
-	if(n==0) return(list(scale=NA,df2=NA))
+	if(n <= 1L) return(list(scale=NA,df2=NA))
 
 #	Check df1
 	ok <- is.finite(df1) & df1 > 1e-15
@@ -28,16 +28,21 @@ fitFDist <- function(x,df1,covariate=NULL)
 		if(anyNA(covariate)) stop("NA covariate values not allowed")
 		isfin <- is.finite(covariate)
 		if(!all(isfin)) {
-			if(!any(isfin))
-				covariate <- sign(covariate)
-			else {
+			if(any(isfin)) {
 				r <- range(covariate[isfin])
 				covariate[covariate == -Inf] <- r[1]-1
 				covariate[covariate == Inf] <- r[2]+1
+			} else {
+				covariate <- sign(covariate)
 			}
 		}
 		splinedf <- min(4L,length(unique(covariate)))
-		if(splinedf < 2L) covariate <- NULL
+#		If covariate takes only one value, recall with NULL covariate
+		if(splinedf < 2L) {
+			out <- Recall(x=x,df1=df1)
+			out$scale <- rep_len(out$scale,n)
+			return(out)
+		}
 	}
 
 #	Remove missing or infinite values and zero degrees of freedom
@@ -46,15 +51,19 @@ fitFDist <- function(x,df1,covariate=NULL)
 	notallok <- !all(ok)
 	if(notallok) {
 		x <- x[ok]
-		if(length(df1)>1) df1 <- df1[ok]
+		if(length(df1)>1L) df1 <- df1[ok]
 		if(!is.null(covariate)) {
-			covariate2 <- covariate[!ok]
+			covariate.notok <- covariate[!ok]
 			covariate <- covariate[ok]
 		}
 	}
 
-#	Need enough observations to estimate variance around trend
-	if(nok <= splinedf) return(list(scale=NA,df2=NA))
+#	Check whether enough observations to estimate variance around trend
+	if(nok <= splinedf) {
+		s20 <- NA
+		if(!is.null(covariate)) s20 <- rep_len(s20,n)
+		return(list(scale=s20,df2=NA))
+	}
 
 #	Avoid exactly zero values
 	x <- pmax(x,0)
@@ -73,14 +82,14 @@ fitFDist <- function(x,df1,covariate=NULL)
 
 	if(is.null(covariate)) {
 		emean <- mean(e)
-		evar <- sum((e-emean)^2)/(nok-1)
+		evar <- sum((e-emean)^2)/(nok-1L)
 	} else {
 		if(!requireNamespace("splines",quietly=TRUE)) stop("splines package required but is not available")
 		design <- try(splines::ns(covariate,df=splinedf,intercept=TRUE),silent=TRUE)
 		if(is(design,"try-error")) stop("Problem with covariate")
 		fit <- lm.fit(design,e)
 		if(notallok) {
-			design2 <- predict(design,newx=covariate2)
+			design2 <- predict(design,newx=covariate.notok)
 			emean <- rep_len(0,n)
 			emean[ok] <- fit$fitted
 			emean[!ok] <- design2 %*% fit$coefficients
@@ -97,9 +106,12 @@ fitFDist <- function(x,df1,covariate=NULL)
 		s20 <- exp(emean+digamma(df2/2)-log(df2/2))
 	} else {
 		df2 <- Inf
-#		Use simple pooled variance, which is MLE of the scale in this case.
-#		Versions of limma before Jan 2017 returned the limiting value of the evar>0 estimate, which is larger.
-		s20 <- mean(x)
+		if(is.null(covariate))
+#			Use simple pooled variance, which is MLE of the scale in this case.
+#			Versions of limma before Jan 2017 returned the limiting value of the evar>0 estimate, which is larger.
+			s20 <- mean(x)
+		else
+			s20 <- exp(emean)
 	}
 
 	list(scale=s20,df2=df2)
