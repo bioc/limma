@@ -1,6 +1,6 @@
 25 Jan 2016: limma 3.30.9
 
-- Fix two bugs in fitFDist() introduced in version 3.31.9. If the
+- Fix two bugs in fitFDist() introduced in version 3.30.8. If the
   estimated 'df2' was infinite, and 'covariate' was not NULL, a
   scalar 'scale' value was returned instead of a vector. Similarly,
   if the 'covariate' vector took on only one unique value, a scalar
