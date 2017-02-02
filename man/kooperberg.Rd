@@ -7,7 +7,7 @@ background correct GenePix microarray data.
 }
 
 \usage{
-kooperberg(RG, a=TRUE, layout=RG$printer, verbose=TRUE)
+kooperberg(RG, a = TRUE, layout = RG$printer, verbose = TRUE)
 }
 \arguments{
 \item{RG}{an RGList of GenePix data, read in using \code{read.maimages}, with \code{other.columns=c("F635 SD","B635 SD","F532 SD","B532 SD","B532 Mean","B635 Mean","F Pixels","B Pixels")}.}
@@ -44,7 +44,7 @@ Improved background correction for spotted DNA microarrays.
 Ritchie, M. E., Silver, J., Oshlack, A., Silver, J., Holmes, M., Diyagama, D., Holloway, A., and Smyth, G. K. (2007).
 A comparison of background correction methods for two-colour microarrays.
 \emph{Bioinformatics} 23, 2700-2707.
-\url{http://bioinformatics.oxfordjournals.org/cgi/content/abstract/btm412}
+\url{https://www.ncbi.nlm.nih.gov/pubmed/17720982}
 }
 	
 \seealso{

@@ -33,8 +33,8 @@ When used on Illumina BeadChip data, this function produces essentially the same
 \references{
 Shi, W, de Graaf, C, Kinkel, S, Achtman, A, Baldwin, T, Schofield, L, Scott, H, Hilton, D, Smyth, GK (2010).
 Estimating the proportion of microarray probes expressed in an RNA sample.
-\emph{Nucleic Acids Research} 38, 2168-2176.
-\url{http://nar.oxfordjournals.org/content/38/7/2168}
+\emph{Nucleic Acids Research} 38(7), 2168-2176.
+\url{https://www.ncbi.nlm.nih.gov/pubmed/20056656}
 }
 
 \author{Gordon Smyth}

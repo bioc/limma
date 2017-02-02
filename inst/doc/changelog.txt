@@ -1,4 +1,10 @@
-25 Jan 2016: limma 3.30.9
+02 Feb 2017: limma 3.30.10
+
+- New argument 'col' for plotSA().  plotSA() now longer plots a
+  lowess curve trend, but if appropriate both high and low outlier
+  variances are highlighted in a different color.
+
+25 Jan 2017: limma 3.30.9
 
 - Fix two bugs in fitFDist() introduced in version 3.30.8. If the
   estimated 'df2' was infinite, and 'covariate' was not NULL, a
@@ -7,7 +13,7 @@
   'scale' was returned instead of a vector. The function now returns
   a vector 'scale' whenever covariate is not NULL.
 
-12 Jan 2016: limma 3.30.8
+12 Jan 2017: limma 3.30.8
 
 - Bug fix to fitFDist() when 'covariate' is not NULL. The new
   estimate for df2 will usually be slightly lower than before.  This
