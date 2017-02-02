@@ -1,4 +1,4 @@
-02 Feb 2016: limma 3.31.11
+02 Feb 2017: limma 3.31.11
 
 - New argument 'col' for plotSA().  plotSA() now longer plots a
   lowess curve trend, but if appropriate both high and low outlier
