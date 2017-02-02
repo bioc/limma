@@ -1,4 +1,10 @@
-25 Jan 2016: limma 3.31.10
+02 Feb 2016: limma 3.31.11
+
+- New argument 'col' for plotSA().  plotSA() now longer plots a
+  lowess curve trend, but if appropriate both high and low outlier
+  variances are highlighted in a different color.
+
+25 Jan 2017: limma 3.31.10
 
 - Fix two bugs in fitFDist() introduced in version 3.31.9. If the
   estimated 'df2' was infinite, and 'covariate' was not NULL, a
@@ -7,7 +13,7 @@
   'scale' was returned instead of a vector. The function now returns
   a vector 'scale' whenever covariate is not NULL.
 
-12 Jan 2016: limma 3.31.9
+12 Jan 2017: limma 3.31.9
 
 - Bug fix to fitFDist() when 'covariate' is not NULL. The new
   estimate for df2 will usually be slightly lower than before.  This
@@ -24,7 +30,7 @@
   an NA result without an error if there are too few observations to 
   do the estimation.
 
- 8 Jan 2016: limma 3.31.8
+ 8 Jan 2017: limma 3.31.8
 
 - decideTests() is now an S3 generic function with a default method
   and a method for MArrayLM objects.

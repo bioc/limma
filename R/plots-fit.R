@@ -181,10 +181,10 @@ heatdiagram <- function(stat,coef,primary=1,names=NULL,treatments=colnames(stat)
 	invisible(out)
 }
 
-plotSA <- function(fit, xlab="Average log-expression", ylab="log2(sigma)", zero.weights=FALSE, pch=16, cex=0.3, ...)
+plotSA <- function(fit, xlab="Average log-expression", ylab="log2(sigma)", zero.weights=FALSE, pch=16, cex=0.3, col=c("black","red"),...)
 #	Plot log-residual variance vs intensity
 #	Gordon Smyth
-#	Created 14 Jan 2009. Last modified 28 November 2016.
+#	Created 14 Jan 2009. Last modified 2 February 2017.
 {
 	if(!is(fit,"MArrayLM")) stop("fit must be an MArrayLM object")
 	x <- fit$Amean
@@ -193,31 +193,36 @@ plotSA <- function(fit, xlab="Average log-expression", ylab="log2(sigma)", zero.
 		allzero <- rowSums(fit$weights>0,na.rm=TRUE) == 0
 		y[allzero] <- NA
 	}
+	colv <- rep_len(col[1],nrow(fit))
 
-#	Check for outlier variances as indicated by low prior.df
+#	Check for outlier variances
 	if(length(fit$df.prior)>1L) {
-		Outlier <- fit$df.prior < 0.75*max(fit$df.prior)
-		pch <- rep_len(pch,nrow(fit))
-		pch[Outlier] <- 1
-		cex <- rep_len(cex,nrow(fit))
-		cex[Outlier] <- 1
+		df2 <- max(fit$df.prior)
+		s2 <- fit$sigma^2 / fit$s2.prior
+		pdn <- pf(s2, df1=fit$df.residual, df2=df2)
+		pup <- pf(s2, df1=fit$df.residual, df2=df2, lower.tail=FALSE)
+		FDR <- p.adjust(2*pmin(pdn,pup),method="BH")
+		colv[FDR <= 0.5] <- col[2]
 	}
 
-	plot(x,y,xlab=xlab,ylab=ylab,pch=pch,cex=cex,...)
-	if(anyNA(x) || anyNA(y)) {
-		ok <- !(is.na(x) | is.na(y))
-		lines(lowess(x[ok],y[ok],f=0.4),col="red")
-	} else {
-		lines(lowess(x,y,f=0.4),col="red")
-	}
+	plot(x,y,xlab=xlab,ylab=ylab,pch=pch,cex=cex,col=colv,...)
+#	if(anyNA(x) || anyNA(y)) {
+#		ok <- !(is.na(x) | is.na(y))
+#		lines(lowess(x[ok],y[ok],f=0.4),col="red")
+#	} else {
+#		lines(lowess(x,y,f=0.4),col="red")
+#	}
 	if(!is.null(fit$s2.prior)) {
-		if(length(fit$s2.prior)==1) {
+		if(length(fit$s2.prior)==1L) {
 			abline(h=log2(fit$s2.prior)/2,col="blue")
 		} else {
 			o <- order(x)
 			lines(x[o],log2(fit$s2.prior[o])/2,col="blue")
-			legend("topright",legend=c("lowess","prior"),col=c("red","blue"),lty=1)
+#			legend("topright",legend=c("lowess","prior"),col=c("red","blue"),lty=1)
 		}
 	}
+
+	if(length(fit$df.prior)>1L) legend("topright",legend=c("Normal","Outlier"),col=col,pch=pch)
+
 	invisible()
 }
