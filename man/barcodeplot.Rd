@@ -6,7 +6,7 @@ Display the enrichment of one or two gene sets in a ranked gene list.
 }
 \usage{
 barcodeplot(statistics, index = NULL, index2 = NULL, gene.weights = NULL,
-            weights.label = "Weight", labels = c("Up","Down"),
+            weights.label = "Weight", labels = c("Down","Up"),
             quantiles = c(-1,1)*sqrt(2), col.bars = NULL, alpha = 0.4,
             worm = TRUE, span.worm=0.45, \dots)
 }
@@ -22,7 +22,7 @@ barcodeplot(statistics, index = NULL, index2 = NULL, gene.weights = NULL,
   Positive and negative weights correspond to positive and negative genes.
   Ignored if \code{index2} is non-null.}
   \item{weights.label}{label describing the entries in \code{gene.weights}.}
-  \item{labels}{character vector of labels for high and low statistics.  First label is associated with high statistics and is displayed at the left end of the plot.  Second label is associated with low or negative statistics and is displayed at the right end of the plot.}
+  \item{labels}{character vector of labels for low and high statistics.  First label is associated with low statistics or negative statistics and is displayed at the left end of the plot.  Second label is associated with high or positive statistics and is displayed at the right end of the plot.}
   \item{quantiles}{numeric vector of length 2, giving cutoff values for \code{statistics} considered small or large respectively.  Used to color the rectangle of the barcodeplot.}
   \item{col.bars}{character vector of colors for the vertical bars of the barcodeplot showing the ranks of the gene set members.
   Defaults to \code{"black"} for one set or \code{c("red","blue")} for two sets.}
@@ -42,7 +42,7 @@ If there are two sets, then one is considered to be the positive set and the oth
 For example, the first set and second sets often correspond to genes that are expected to be up- or down-regulated respectively.
 The function can optionally display varying weights for different genes, for example log-fold-changes from a previous experiment.
 
-The statistics are ranked left to right from largest to smallest.
+The statistics are ranked left to right from smallest to largest.
 The ranked statistics are represented by a shaded bar or bed, and the positions of the specified subsets are marked by vertical bars, forming a pattern like a barcode.
 An enrichment worm optionally shows the relative enrichment of the vertical bars in each part of the plot.
 

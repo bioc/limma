@@ -5,7 +5,7 @@ plotWithHighlights <- function(x, y, status=NULL, values=NULL, hl.pch=16, hl.col
 #	created by Gordon Smyth 7 April 2003 and modified by James Wettenhall 27 June 2003.
 
 #	Gordon Smyth
-#	Last modified 7 May 2015.
+#	Last modified 8 Feb 2017.
 {
 #	If no status information, just plot all points normally
 	if(is.null(status) || all(is.na(status))) {

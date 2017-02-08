@@ -1,9 +1,9 @@
 ##  BARCODEPLOT.R
 
-barcodeplot <- function (statistics, index = NULL, index2 = NULL, gene.weights = NULL, weights.label = "Weight", labels = c("Up", "Down"), quantiles = c(-1,1)*sqrt(2), col.bars = NULL, alpha = 0.4, worm = TRUE, span.worm = 0.45,...)
+barcodeplot <- function (statistics, index = NULL, index2 = NULL, gene.weights = NULL, weights.label = "Weight", labels = c("Down", "Up"), quantiles = c(-1,1)*sqrt(2), col.bars = NULL, alpha = 0.4, worm = TRUE, span.worm = 0.45,...)
 #	Barcode plot of one or two gene sets.
 #	Gordon Smyth, Di Wu and Yifang Hu
-#	20 October 2008.  Last revised 26 October 2015.
+#	20 October 2008.  Last revised 20 May 2016.
 {
 #	Check statistics
 	if(!is.vector(statistics, mode = "numeric")) stop("statistics should be a numeric vector")
@@ -110,7 +110,7 @@ barcodeplot <- function (statistics, index = NULL, index2 = NULL, gene.weights =
 	}
 
 #	Sort statistics and indexes
-	ostat <- order(statistics, na.last = TRUE, decreasing=TRUE)
+	ostat <- order(statistics, na.last = TRUE, decreasing=FALSE)
 	statistics <- statistics[ostat]
 	set1 <- set1[ostat,]
 	if(TWO) set2 <- set2[ostat,]
@@ -272,9 +272,9 @@ barcodeplot <- function (statistics, index = NULL, index2 = NULL, gene.weights =
 		rect.yb <- 0.5
 		rect.yt <- 1
 
-		rect(npos + 0.5, rect.yb, n - nneg + 0.5, rect.yt, col = "lightgray", border = NA)
-		if (npos) rect(0.5, rect.yb, npos + 0.5, rect.yt, col = "pink", border = NA)
-		if (nneg) rect(n - nneg + 0.5, rect.yb, n + 0.5, rect.yt, col = "lightblue", border = NA)
+		rect(nneg + 0.5, rect.yb, n - npos + 0.5, rect.yt, col = "lightgray", border = NA)
+		if (nneg) rect(0.5, rect.yb, nneg + 0.5, rect.yt, col = "lightblue", border = NA)
+		if (npos) rect(n - npos + 0.5, rect.yb, n + 0.5, rect.yt, col = "pink", border = NA)
 		
 		segments(r, barlim[2]/2, r, barlim[2], lwd = lwd, col = col.bars.alpha[1])
 		segments(r, barlim[2]/2-shift, r, barlim[2]/2*(1+len.up)-shift, lwd = lwd, col = col.bars[1])
@@ -286,9 +286,9 @@ barcodeplot <- function (statistics, index = NULL, index2 = NULL, gene.weights =
 		if(!TWO) rect.yb <- 0
 		rect.yt <- 0.5
 		
-		rect(npos + 0.5, rect.yb, n - nneg + 0.5, rect.yt, col = "lightgray", border = NA)
-		if (npos) rect(0.5, rect.yb, npos + 0.5, rect.yt, col = "pink", border = NA)
-		if (nneg) rect(n - nneg + 0.5, rect.yb, n + 0.5, rect.yt, col = "lightblue", border = NA)
+		rect(nneg + 0.5, rect.yb, n - npos + 0.5, rect.yt, col = "lightgray", border = NA)
+		if (nneg) rect(0.5, rect.yb, nneg + 0.5, rect.yt, col = "lightblue", border = NA)
+		if (npos) rect(n - npos + 0.5, rect.yb, n + 0.5, rect.yt, col = "pink", border = NA)
 
 		segments(r, barlim[1], r, barlim[2]/2, lwd = lwd, col = col.bars.alpha[1])
 		segments(r, barlim[2]/2+shift, r, barlim[2]/2*(1+len.up)+shift, lwd = lwd, col = col.bars[1])
@@ -308,7 +308,7 @@ barcodeplot <- function (statistics, index = NULL, index2 = NULL, gene.weights =
 	axis(side = 4, at = lab.at, padj = -3.8, cex.axis = 0.85, labels = labels[2], tick = FALSE)
 
 	# label statistics on x axis
-	prob <- (10:0)/10
+	prob <- (0:10)/10
 	axis(at = seq(1,n,len=11), side = 1, cex.axis = 0.7, las = 2, labels = format(quantile(statistics, p = prob), digits = 1))
 
 	# create worm

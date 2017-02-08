@@ -1,3 +1,9 @@
+08 Feb 2017: limma 3.31.13
+
+- barcodeplot() now ranks statistics from low to high, instead of
+  from high to low, following the usual style of axes in R plots.
+  This means that left and right are now interchanged.
+
 08 Feb 2017: limma 3.31.12
 
 - Default for 'legend' argument of plotWithHighlights() changed from
