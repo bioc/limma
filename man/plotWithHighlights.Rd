@@ -7,7 +7,7 @@ This is the engine for \code{plotMD} and \code{plotMA}.
 }
 \usage{
 plotWithHighlights(x, y, status = NULL, values = NULL,
-                   hl.pch = 16, hl.col = NULL, hl.cex = 1, legend = "topleft",
+                   hl.pch = 16, hl.col = NULL, hl.cex = 1, legend = "topright",
                    bg.pch = 16, bg.col = "black", bg.cex = 0.3,
                    pch = NULL, col = NULL, cex = NULL, \dots)
 }
