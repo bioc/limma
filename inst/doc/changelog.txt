@@ -1,3 +1,8 @@
+08 Feb 2017: limma 3.31.12
+
+- Default for 'legend' argument of plotWithHighlights() changed from
+  "topleft" to "topright".
+
 02 Feb 2017: limma 3.31.11
 
 - New argument 'col' for plotSA().  plotSA() now longer plots a

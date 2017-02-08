@@ -1,11 +1,11 @@
-plotWithHighlights <- function(x, y, status=NULL, values=NULL, hl.pch=16, hl.col=NULL, hl.cex=1, legend="topleft", bg.pch=16, bg.col="black", bg.cex=0.3, pch=NULL, col=NULL, cex=NULL, ...)
+plotWithHighlights <- function(x, y, status=NULL, values=NULL, hl.pch=16, hl.col=NULL, hl.cex=1, legend="topright", bg.pch=16, bg.col="black", bg.cex=0.3, pch=NULL, col=NULL, cex=NULL, ...)
 #	Scatterplot with color coding for special points
 
 #	Replaces the earlier function .plotMAxy, which in turn was based on the original plotMA
 #	created by Gordon Smyth 7 April 2003 and modified by James Wettenhall 27 June 2003.
 
 #	Gordon Smyth
-#	Last modified 20 May 2015.
+#	Last modified 7 May 2015.
 {
 #	If no status information, just plot all points normally
 	if(is.null(status) || all(is.na(status))) {
