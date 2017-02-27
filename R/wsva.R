@@ -1,23 +1,41 @@
-wsva <- function(y, design, n.sv=1L, weight.by.sd=FALSE, ...)
+wsva <- function(y, design, n.sv=1L, weight.by.sd=FALSE, plot=FALSE, ...)
 #	Weighted surrogate variable analysis
 #	Yifang Hu and Gordon Smyth
-#	Created 26 Nov 2015.  Last modified 17 Aug 2016.
+#	Created 26 Nov 2015.  Last modified 27 Aug 2017.
 {
 	ngenes <- nrow(y)
 	narrays <- ncol(y)
 	p <- ncol(design)
-	for(i in 1L:n.sv) {
-		Effects <- .lmEffects(y, design, ...)[,-1L]
-		if(weight.by.sd) {
+	d <- narrays-p
+	n.sv <- max(n.sv,1L)
+	n.sv <- min(n.sv, d)
+	if(n.sv <= 0L) stop("No residual df")
+
+	if(weight.by.sd) {
+		if(plot) message("Plot not available with weight.by.sd=TRUE")
+		for(i in 1L:n.sv) {
+			Effects <- .lmEffects(y, design, ...)[,-1L]
 			s <- sqrt(rowMeans(Effects^2))
 			Effects <- s * Effects
+			u <- drop(svd(Effects,nu=1L,nv=0L)$u)
+			u <- u*s
+			sv <- colSums(u*y)
+			design <- cbind(design, sv)
 		}
-		u <- drop(svd(Effects,nu=1L,nv=0L)$u)
-		if(weight.by.sd) u <- u*s
-		sv <- colSums(u*y)
-		design <- cbind(design, sv)
+		SV <- t(design[,-(1:p),drop=FALSE])
+	} else {
+		Effects <- .lmEffects(y, design, ...)[,-1L]
+		SVD <- svd(Effects,nu=n.sv,nv=0L)
+		SV <- crossprod(SVD$u,y)
+		if(plot) {
+			lambda <- SVD$d^2
+			lambda <- lambda/sum(lambda)
+			plot(lambda,xlab="Surrogate variable number",ylab="Proportion variance explained")
+		}
 	}
-	j <- 1L:n.sv
-	colnames(design)[p+j] <- paste0("SV",j)
-	design
+
+	A <- rowMeans(SV^2)
+	SV <- t( SV / sqrt(A) )
+	colnames(SV) <- paste0("SV",1L:n.sv)
+	SV
 }
