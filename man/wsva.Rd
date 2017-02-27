@@ -6,7 +6,7 @@ Calculate surrogate variables from the singular vectors of the linear model resi
 }
 
 \usage{
-wsva(y, design, n.sv = 1L, weight.by.sd = FALSE, ...)
+wsva(y, design, n.sv = 1L, weight.by.sd = FALSE, plot = FALSE, ...)
 }
 
 \arguments{
@@ -15,6 +15,7 @@ wsva(y, design, n.sv = 1L, weight.by.sd = FALSE, ...)
   \item{design}{design matrix}
   \item{n.sv}{number of surrogate variables required.}
   \item{weight.by.sd}{logical, should the surrogate variables be especially tuned to the more variable genes?}
+  \item{plot}{logical. If \code{TRUE}, plots the proportion of variance explained by each surrogate variable.}
   \item{\dots}{other arguments can be included that would be suitable for \code{lmFit}.}
 }
 
