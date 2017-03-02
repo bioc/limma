@@ -28,7 +28,7 @@ Aliases are mapped via NCBI Entrez Gene identity numbers using Bioconductor orga
 \code{alias2Symbol} maps a set of aliases to a set of symbols, without necessarily preserving order.
 The output vector may be longer or shorter than the original vector, because some aliases might not be found and some aliases may map to more than one symbol.
 \code{alias2SymbolTable} maps each alias to a gene symbol and returns a table with one row for each alias.
-If an alias maps to more than one symbol, then the first one found is returned.
+If an alias maps to more than one symbol, then the one with the lowest Entrez ID number is returned.
 
 \code{species} can be any character string XX for which an organism package org.XX.eg.db exists and is installed.
 The only requirement of the organism package is that it contains objects \code{org.XX.egALIAS2EG} and \code{org.XX.egSYMBOL} linking the aliases and symbols to Entrez Gene Ids.
@@ -53,17 +53,17 @@ At the time of writing (June 2016), the following organism packages are availabl
 \tab org.Xl.eg.db \tab  Xenopus
 }
 
-\code{alias2SymbolUsingNCBI} uses a gene-info file from NCBI instead of a Bioconductor organism package.
+\code{alias2SymbolUsingNCBI} is analogous to \code{alias2SymbolTable} but uses a gene-info file from NCBI instead of a Bioconductor organism package.
+It also gives the option of returning multiple columns from the gene-info file.
 NCBI gene-info files can be downloaded from \url{ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO}.
 For example, the human file is \url{ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Mammalia/Homo_sapiens.gene_info.gz} and the mouse file is \url{ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Mammalia/Mus_musculus.gene_info.gz}.
 }
 \value{
 \code{alias2Symbol} and \code{alias2SymbolTable} produce a character vector of gene symbols.
-
 \code{alias2SymbolTable} returns a vector of the same length and order as \code{alias}, including \code{NA} values where no gene symbol was found.
 \code{alias2Symbol} returns an unordered vector that may be longer or shorter than \code{alias}.
 
-\code{alias2SymbolUsingNCBI} returns a data.frame with columns as specified by \code{required.columns}.
+\code{alias2SymbolUsingNCBI} returns a data.frame with rows corresponding to the entries of \code{alias} and columns as specified by \code{required.columns}.
 }
 \author{Gordon Smyth and Yifang Hu}
 \seealso{
