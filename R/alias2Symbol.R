@@ -88,3 +88,23 @@ alias2SymbolTable <- function(alias,species="Hs")
 
 	Symbol
 }
+
+alias2SymbolUsingNCBI <- function(alias,gene.info.file,required.columns=c("Symbol","GeneID","description"))
+{
+	alias <- as.character(alias)
+	gene.info.file <- as.character(gene.info.file)
+    NCBI <- read.delim(gene.info.file,comment.char="",quote="",colClasses="character")
+	m <- match(alias,NCBI$Symbol)
+	EntrezID <- NCBI$GeneID[m]
+	i <- which(is.na(EntrezID))
+	if(any(i)) {
+		S <- strsplit(NCBI$Synonyms,split="\\|")
+		N <- vapply(S,length,1)
+		Index <- rep(1:nrow(NCBI),N)
+		IS <- data.frame(Index=Index,Synonym=unlist(S),stringsAsFactors=FALSE)
+		m <- match(alias[i],IS$Synonym)
+		EntrezID[i] <- NCBI$GeneID[IS$Index[m]]
+		m <- match(EntrezID,NCBI$GeneID)
+    }
+    NCBI[m,required.columns]
+}

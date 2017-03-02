@@ -1,3 +1,9 @@
+ 2 Mar 2017: limma 3.31.16
+
+- new function alias2SymbolUsingNCBI(), which converts gene aliases
+  or synonyms into official gene symbols using an NCBI gene-info
+  file.
+
 27 Feb 2017: limma 3.31.15
 
 - C functions are now registered using R_registerRoutines.
