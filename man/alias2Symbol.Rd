@@ -1,6 +1,7 @@
 \name{alias2Symbol}
 \alias{alias2Symbol}
 \alias{alias2SymbolTable}
+\alias{alias2SymbolUsingNCBI}
 \title{Convert Gene Aliases to Official Gene Symbols}
 \description{
 Maps gene alias names to official gene symbols.
@@ -8,7 +9,7 @@ Maps gene alias names to official gene symbols.
 \usage{
 alias2Symbol(alias, species = "Hs", expand.symbols = FALSE)
 alias2SymbolTable(alias, species = "Hs")
-alias2SymbolUsingNCBI(alias, gene.info.file, required.columns=c("Symbol","GeneID","description"))
+alias2SymbolUsingNCBI(alias, gene.info.file, required.columns = c("Symbol","GeneID","description"))
 }
 \arguments{
   \item{alias}{character vector of gene aliases}
@@ -18,6 +19,8 @@ alias2SymbolUsingNCBI(alias, gene.info.file, required.columns=c("Symbol","GeneID
   This affects those elements of \code{alias} that are the official gene symbol for one gene and also an alias for another gene.
   If \code{FALSE}, then these elements will just return themselves.
   If \code{TRUE}, then all the genes for which they are aliases will be returned.}
+  \item{gene.info.file}{name of gene information file downloaded from the NCBI.}
+  \item{required.columns}{character vector of columns from the gene information file that are required in the output.}
 }
 \details{
 Aliases are mapped via NCBI Entrez Gene identity numbers using Bioconductor organism packages.
@@ -55,7 +58,7 @@ NCBI gene-info files can be downloaded from \url{ftp://ftp.ncbi.nlm.nih.gov/gene
 For example, the human file is \url{ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Mammalia/Homo_sapiens.gene_info.gz} and the mouse file is \url{ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Mammalia/Mus_musculus.gene_info.gz}.
 }
 \value{
-Character vector of gene symbols.
+\code{alias2Symbol} and \code{alias2SymbolTable} produce a character vector of gene symbols.
 
 \code{alias2SymbolTable} returns a vector of the same length and order as \code{alias}, including \code{NA} values where no gene symbol was found.
 \code{alias2Symbol} returns an unordered vector that may be longer or shorter than \code{alias}.
