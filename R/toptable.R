@@ -135,7 +135,7 @@ topTableF <- function(fit,number=10,genelist=fit$genes,adjust.method="BH",sort.b
 toptable <- function(fit,coef=1,number=10,genelist=NULL,A=NULL,eb=NULL,adjust.method="BH",sort.by="B",resort.by=NULL,p.value=1,lfc=0,confint=FALSE,...)
 #	Summary table of top genes
 #	Gordon Smyth
-#	21 Nov 2002. Last revised 7 Dec 2013.
+#	21 Nov 2002. Last revised 2 March 2017.
 {
 #	Check fit
 	fit$coefficients <- as.matrix(fit$coefficients)
@@ -216,7 +216,7 @@ toptable <- function(fit,coef=1,number=10,genelist=NULL,A=NULL,eb=NULL,adjust.me
 
 #	Thin out fit by p.value and lfc thresholds	
 	if(p.value < 1 | lfc > 0) {
-		sig <- (adj.P.Value < p.value) & (abs(M) > lfc)
+		sig <- (adj.P.Value <= p.value) & (abs(M) >= lfc)
 		if(any(is.na(sig))) sig[is.na(sig)] <- FALSE
 		if(all(!sig)) return(data.frame())
 		genelist <- genelist[sig,,drop=FALSE]

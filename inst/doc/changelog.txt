@@ -1,3 +1,9 @@
+ 4 Mar 2017: limma 3.30.12
+ 
+- Bug fix to printHead() for arrays with 1 column.
+
+- C functions are now registered using R_registerRoutines.
+
 08 Feb 2017: limma 3.30.11
 
 - Default for 'legend' argument of plotWithHighlights() changed from
@@ -35,8 +41,9 @@
   an NA result without an error if there are too few observations to 
   do the estimation.
 
- - decideTests() is now an S3 generic function with a default method
-  and a method for MArrayLM objects.
+- decideTests() is now an S3 generic function with a default method
+  and a method for MArrayLM objects.  decideTests() now selects all
+  null hypotheses as rejected if p.value=1.
 
 14 Dec 2016: limma 3.30.7
 
