@@ -1,6 +1,10 @@
+ 4 Mar 2017: limma 3.31.17
+ 
+- Bug fix to printHead() for arrays with 1 column.
+
  2 Mar 2017: limma 3.31.16
 
-- new function alias2SymbolUsingNCBI(), which converts gene aliases
+- New function alias2SymbolUsingNCBI(), which converts gene aliases
   or synonyms into official gene symbols using an NCBI gene-info
   file.
 

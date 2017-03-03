@@ -28,7 +28,7 @@ representation("list")
 printHead <- function(x)
 #  Print leading 5 elements or rows of atomic object
 #  Gordon Smyth
-#  May 2003.  Last modified 14 April 2009.
+#  May 2003.  Last modified 4 March 2017.
 {
 	if(is.atomic(x)) {
 		d <- dim(x)
@@ -62,7 +62,7 @@ printHead <- function(x)
 	TwoD={
 		n <- d[1]
 		if(n > 10) {
-			print(x[1:5,])
+			print(x[1:5,,drop=FALSE])
 			cat(n-5,"more rows ...\n")
 		} else
 			print(x)
@@ -72,7 +72,7 @@ printHead <- function(x)
 		if(n > 10) {
 			dn <- dimnames(x)
 			dim(x) <- c(d[1],prod(d[-1]))
-			x <- x[1:5,]
+			x <- x[1:5,,drop=FALSE]
 			dim(x) <- c(5,d[-1])
 			if(!is.null(dn[[1]])) dn[[1]] <- dn[[1]][1:5]
 			dimnames(x) <- dn
