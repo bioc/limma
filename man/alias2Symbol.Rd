@@ -9,7 +9,7 @@ Maps gene alias names to official gene symbols.
 \usage{
 alias2Symbol(alias, species = "Hs", expand.symbols = FALSE)
 alias2SymbolTable(alias, species = "Hs")
-alias2SymbolUsingNCBI(alias, gene.info.file, required.columns = c("Symbol","GeneID","description"))
+alias2SymbolUsingNCBI(alias, gene.info.file, required.columns = c("GeneID","Symbol","description"))
 }
 \arguments{
   \item{alias}{character vector of gene aliases}

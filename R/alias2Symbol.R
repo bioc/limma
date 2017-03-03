@@ -89,7 +89,7 @@ alias2SymbolTable <- function(alias,species="Hs")
 	Symbol
 }
 
-alias2SymbolUsingNCBI <- function(alias,gene.info.file,required.columns=c("Symbol","GeneID","description"))
+alias2SymbolUsingNCBI <- function(alias,gene.info.file,required.columns=c("GeneID","Symbol","description"))
 {
 	alias <- as.character(alias)
 	gene.info.file <- as.character(gene.info.file)
