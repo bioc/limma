@@ -131,7 +131,7 @@ dim.RGList <- function(x) if(is.null(x$R)) c(0,0) else dim(as.matrix(x$R))
 dim.MAList <- function(x) if(is.null(x$M)) c(0,0) else dim(as.matrix(x$M))
 dim.EListRaw <- dim.EList <- function(x) if(is.null(x$E)) c(0,0) else dim(as.matrix(x$E))
 dim.MArrayLM <- function(x) if(is.null(x$coefficients)) c(0,0) else dim(as.matrix(x$coefficients))
-length.RGList <- length.MAList <- length.EListRaw <- length.EList <- length.MArrayLM <- function(x) prod(dim(x))
+#length.RGList <- length.MAList <- length.EListRaw <- length.EList <- length.MArrayLM <- function(x) prod(dim(x))
 
 dimnames.RGList <- function(x) dimnames(x$R)
 dimnames.MAList <- function(x) dimnames(x$M)

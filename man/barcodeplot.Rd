@@ -8,7 +8,7 @@ Display the enrichment of one or two gene sets in a ranked gene list.
 barcodeplot(statistics, index = NULL, index2 = NULL, gene.weights = NULL,
             weights.label = "Weight", labels = c("Down","Up"),
             quantiles = c(-1,1)*sqrt(2), col.bars = NULL, alpha = 0.4,
-            worm = TRUE, span.worm=0.45, \dots)
+            worm = TRUE, span.worm = 0.45, xlab = "Statistic", \dots)
 }
 \arguments{
   \item{statistics}{numeric vector giving the values of statistics to rank genes by.}
@@ -29,6 +29,7 @@ barcodeplot(statistics, index = NULL, index2 = NULL, gene.weights = NULL,
   \item{alpha}{transparency for vertical bars.  When \code{gene.weights} are not \code{NULL}, values \code{0<alpha<1} give semitransparent colors for the vertical bars inside the rectangle.  This helps distinguish position bars from the weighted bars and also helps to show the density of the bars when there are many bars.  Ignored if \code{gene.weights=NULL}.}
   \item{worm}{logical, should enrichment worms be plotted?}
   \item{span.worm}{loess span for enrichment worms.  Larger spans give smoother worms.}
+  \item{xlab}{x-axis label for \code{statistics}.}
   \item{\ldots}{other arguments are passed to \code{plot}.}
 }
 

@@ -1,4 +1,13 @@
- 5 Mar 2017: limma 3.31.18
+ 5 Mar 2017: limma 3.31.19
+
+- New argument 'xlab' for barcodeplot().
+
+- length() methods removed all limma data objects (objects of class
+  EList, EListRaw, RGList, MAList or MArrayLM). length(x) will now
+  return the number of list components in the object rather than the
+  number of elements in the expression matrix.
+
+ 4 Mar 2017: limma 3.31.18
 
 - Bug fix to mroast(), which was ignoring 'geneid' argument.
 

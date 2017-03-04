@@ -4,18 +4,12 @@
 \alias{dim.EListRaw}
 \alias{dim.EList}
 \alias{dim.MArrayLM}
-\alias{length.RGList}
-\alias{length.MAList}
-\alias{length.EListRaw}
-\alias{length.EList}
-\alias{length.MArrayLM}
 \title{Retrieve the Dimensions of an RGList, MAList or MArrayLM Object}
 \description{
 Retrieve the number of rows (genes) and columns (arrays) for an RGList, MAList or MArrayLM object.
 }
 \usage{
 \method{dim}{RGList}(x)
-\method{length}{RGList}(x)
 }
 \arguments{
   \item{x}{an object of class \code{RGList}, \code{MAList} or \code{MArrayLM}}
@@ -44,6 +38,5 @@ MA <- new("MAList",list(M=M,A=A))
 dim(M)
 ncol(M)
 nrow(M)
-length(M)
 }
 \keyword{array}
