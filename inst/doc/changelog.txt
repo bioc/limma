@@ -1,3 +1,7 @@
+ 5 Mar 2017: limma 3.31.18
+
+- Bug fix to mroast(), which was ignoring 'geneid' argument.
+
  4 Mar 2017: limma 3.31.17
  
 - Bug fix to printHead() for arrays with 1 column.
