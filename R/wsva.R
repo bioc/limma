@@ -1,8 +1,9 @@
 wsva <- function(y, design, n.sv=1L, weight.by.sd=FALSE, plot=FALSE, ...)
 #	Weighted surrogate variable analysis
 #	Yifang Hu and Gordon Smyth
-#	Created 26 Nov 2015.  Last modified 27 Aug 2017.
+#	Created 26 Nov 2015.  Last modified 2 Mar 2017.
 {
+	y <- as.matrix(y)
 	ngenes <- nrow(y)
 	narrays <- ncol(y)
 	p <- ncol(design)

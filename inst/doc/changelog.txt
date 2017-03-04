@@ -65,7 +65,8 @@
  8 Jan 2017: limma 3.31.8
 
 - decideTests() is now an S3 generic function with a default method
-  and a method for MArrayLM objects.
+  and a method for MArrayLM objects.  decideTests() now selects all
+  null hypotheses as rejected if p.value=1.
 
 14 Dec 2016: limma 3.31.7
 
