@@ -8,7 +8,7 @@ Display the enrichment of one or two gene sets in a ranked gene list.
 barcodeplot(statistics, index = NULL, index2 = NULL, gene.weights = NULL,
             weights.label = "Weight", labels = c("Up","Down"),
             quantiles = c(-1,1)*sqrt(2), col.bars = NULL, alpha = 0.4,
-            worm = TRUE, span.worm=0.45, \dots)
+            worm = TRUE, span.worm = 0.45, xlab = "Statistic", \dots)
 }
 \arguments{
   \item{statistics}{numeric vector giving the values of statistics to rank genes by.}
@@ -29,6 +29,7 @@ barcodeplot(statistics, index = NULL, index2 = NULL, gene.weights = NULL,
   \item{alpha}{transparency for vertical bars.  When \code{gene.weights} are not \code{NULL}, values \code{0<alpha<1} give semitransparent colors for the vertical bars inside the rectangle.  This helps distinguish position bars from the weighted bars and also helps to show the density of the bars when there are many bars.  Ignored if \code{gene.weights=NULL}.}
   \item{worm}{logical, should enrichment worms be plotted?}
   \item{span.worm}{loess span for enrichment worms.  Larger spans give smoother worms.}
+  \item{xlab}{x-axis label for \code{statistics}.}
   \item{\ldots}{other arguments are passed to \code{plot}.}
 }
 
@@ -66,7 +67,7 @@ The function can be used with any of four different calling sequences:
 There is a topic page on \link{10.GeneSetTests}.
 }
 
-\author{Gordon Smyth, Di Wu and Yifang Hu}
+\author{Yifang Hu, Gordon Smyth and Di Wu}
 
 \references{
 Ng, AP, Hu, Y, Metcalf, D, Hyland, CD, Ierino, H, Phipson, B, Wu, D, Baldwin, TM, Kauppi, M, Kiu, H, Di, Rago, L, Hilton, DJ, Smyth, GK, Alexander, WS (2015).
@@ -76,7 +77,7 @@ Early lineage priming by trisomy of Erg leads to myeloproliferation in a down sy
 
 Lim E, Vaillant F, Wu D, Forrest NC, Pal B, Hart AH, Asselin-Labat ML, Gyorki DE, Ward T, Partanen A, Feleppa F, Huschtscha LI, Thorne HJ; kConFab; Fox SB, Yan M, French JD, Brown MA, Smyth GK, Visvader JE, and Lindeman GJ (2009).
 Aberrant luminal progenitors as the candidate target population for basal tumor development in BRCA1 mutation carriers.
-\emph{Nat Med}, 15, 907-913.
+\emph{Nature Medicine} 15, 907-913.
 
 Liu, GJ, Cimmino, L, Jude, JG, Hu, Y, Witkowski, MT, McKenzie, MD, Kartal-Kaess, M, Best, SA, Tuohey, L, Liao, Y, Shi, W, Mullighan, CG, Farrar, MA, Nutt, SL, Smyth, GK, Zuber, J, and Dickins, RA (2014).
 Pax5 loss imposes a reversible differentiation block in B progenitor acute lymphoblastic leukemia.
@@ -85,16 +86,16 @@ Pax5 loss imposes a reversible differentiation block in B progenitor acute lymph
 
 Sheikh, B, Lee, S, El-saafin, F, Vanyai, H, Hu, Y, Pang, SHM, Grabow, S, Strasser, A, Nutt, SL, Alexander, WS, Smyth, GK, Voss, AK, and Thomas, T (2015). 
 MOZ regulates B cell progenitors in mice, consequently, Moz haploinsufficiency dramatically retards MYC-induced lymphoma development. 
-\emph{Blood}, 125, 1910-1921.
+\emph{Blood} 125, 1910-1921.
 \url{http://www.ncbi.nlm.nih.gov/pubmed/25605372}
 
 Subramanian A, Tamayo P, Mootha VK, Mukherjee S, Ebert BL, Gillette MA, Paulovich A, Pomeroy SL, Golub TR, Lander ES, and Mesirov JP (2005).
 Gene set enrichment analysis: a knowledge-based approach for interpreting genome-wide expression profiles.
-\emph{Proc Natl Acad Sci USA}, 102, 15545-15550.
+\emph{Proc Natl Acad Sci USA} 102, 15545-15550.
 
 Witkowski, MT, Cimmino, L, Hu, Y, Trimarchi, T, Tagoh, H, McKenzie, MD, Best, SA, Tuohey, L, Willson, TA, Nutt, SL, Meinrad Busslinger, M, Aifantis, I, Smyth, GK, and Dickins, RA (2015). 
 Activated Notch counteracts Ikaros tumor suppression in mouse and human T cell acute lymphoblastic leukemia.
-\emph{Leukemia}.
+\emph{Leukemia} 29, 1301-1311.
 \url{http://www.ncbi.nlm.nih.gov/pubmed/25655195}
 }
 

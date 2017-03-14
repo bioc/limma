@@ -123,7 +123,6 @@ mroast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid
 		correlation=Dots$correlation)
 	ngenes <- nrow(Effects)
 	df.residual <- ncol(Effects)-1L
-	geneid <- rownames(Effects)
 
 #	Empirical Bayes posterior variances
 	s2 <- rowMeans(Effects[,-1L,drop=FALSE]^2)

@@ -1,9 +1,9 @@
 ##  BARCODEPLOT.R
 
-barcodeplot <- function (statistics, index = NULL, index2 = NULL, gene.weights = NULL, weights.label = "Weight", labels = c("Up", "Down"), quantiles = c(-1,1)*sqrt(2), col.bars = NULL, alpha = 0.4, worm = TRUE, span.worm = 0.45,...)
+barcodeplot <- function (statistics, index = NULL, index2 = NULL, gene.weights = NULL, weights.label = "Weight", labels = c("Up", "Down"), quantiles = c(-1,1)*sqrt(2), col.bars = NULL, alpha = 0.4, worm = TRUE, span.worm = 0.45, xlab = "Statistic",...)
 #	Barcode plot of one or two gene sets.
 #	Gordon Smyth, Di Wu and Yifang Hu
-#	20 October 2008.  Last revised 26 October 2015.
+#	20 October 2008.  Last revised 14 March 2017.
 {
 #	Check statistics
 	if(!is.vector(statistics, mode = "numeric")) stop("statistics should be a numeric vector")
@@ -235,7 +235,7 @@ barcodeplot <- function (statistics, index = NULL, index2 = NULL, gene.weights =
 	# worm plot setting
 	ylim.worm <- ylim <- c(-1, 1)
 	ylab.worm <- ""
-	xlab.worm <- "statistics"
+	xlab.worm <- xlab
 
 	if(!TWO) ylim.worm <- c(0, 1)
 

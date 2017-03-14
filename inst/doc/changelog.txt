@@ -1,3 +1,13 @@
+14 Mar 2017: limma 3.30.13
+
+- New argument 'xlab' for barcodeplot().
+
+- Bug fix to mroast(), which was ignoring 'geneid' argument.
+
+- New function alias2SymbolUsingNCBI(), which converts gene aliases
+  or synonyms into official gene symbols using an NCBI gene-info
+  file.
+
  4 Mar 2017: limma 3.30.12
  
 - Bug fix to printHead() for arrays with 1 column.
