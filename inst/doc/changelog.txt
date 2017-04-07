@@ -1,3 +1,10 @@
+ 7 Apr 2017: limma 3.31.20
+
+- New argument 'style' for volcanoplot(). The default is now to use
+  -log10(p-value) for the y-axis instead of the B-statistic.
+
+- NEWS.Rd updated to contain changes since version 3.30.0.
+
  5 Mar 2017: limma 3.31.19
 
 - New argument 'xlab' for barcodeplot().

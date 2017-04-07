@@ -2,16 +2,17 @@
 \name{volcanoplot}
 \alias{volcanoplot}
 \description{
-Creates a volcano plot of log-fold changes versus log-odds of differential expression.
+Creates a volcano plot for a specified coefficient of a linear model.
 }
 \usage{
-volcanoplot(fit, coef=1, highlight=0, names=fit$genes$ID,
-            xlab="Log Fold Change", ylab="Log Odds", pch=16, cex=0.35, \dots)
+volcanoplot(fit, coef = 1L, style = "p", highlight = 0, names = fit$genes$ID,
+            xlab = "Log2 Fold Change", ylab = NULL, pch=16, cex=0.35, \dots)
 }
 \arguments{
-  \item{fit}{an \code{MArrayLM} fitted linear model object}
-  \item{coef}{integer giving the coefficient}
-  \item{highlight}{number of top genes to be highlighted}
+  \item{fit}{an \code{MArrayLM} fitted linear model object.}
+  \item{coef}{index indicating which coefficient of the linear model is to be plotted.}
+  \item{style}{character string indicating which significance statistic to plot on the y-axis. Possibilities are \code{"p-value"} or \code{"B-statistic"}.}
+  \item{highlight}{number of top genes to be highlighted by name.}
   \item{names}{character vector giving text labels for the probes to be used in highlighting}
   \item{xlab}{character string giving label for x-axis}
   \item{ylab}{character string giving label for y-axis}
@@ -21,10 +22,13 @@ volcanoplot(fit, coef=1, highlight=0, names=fit$genes$ID,
 }
 
 \details{
-A volcano plot is any plot which displays fold changes versus a measure of statistical significance of the change.
+A volcano plot displays log fold changes on the x-axis versus a measure of statistical significance on the y-axis.
+Here the significance measure can be -log(p-value) or the B-statistics, which give the posterior log-odds of differential expression.
+
+The plot is optionally annotated with the names of the most significant genes.
 }
 
-\value{A plot is created on the current graphics device.}
+\value{No value is returned but a plot is created on the current graphics device.}
 \author{Gordon Smyth}
 \seealso{
 An overview of presentation plots following the fitting of a linear model in LIMMA is given in \link{06.LinearModels}.

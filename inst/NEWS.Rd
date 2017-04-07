@@ -3,6 +3,95 @@
 \encoding{UTF-8}
 
 
+\section{Version 3.32.0}{\itemize{
+
+\item
+New function alias2SymbolUsingNCBI(), which converts gene aliases
+  or synonyms into official gene symbols using an NCBI gene-info
+  file.
+
+\item
+New function wsva() for weighted surrogate variable analysis.
+
+\item
+New function coolmap(). This is essentially a wrapper for the
+  heatmap.2() function in the ggplots package, but with sensible
+  default settings for genomic log-expression data.
+
+\item
+decideTests() is now an S3 generic function with a default method
+  and a method for MArrayLM objects.  decideTests() now selects all
+  null hypotheses as rejected if p.value=1.
+
+\item
+length() methods removed all limma data objects (objects of class
+  EList, EListRaw, RGList, MAList or MArrayLM). length(x) will now
+  return the number of list components in the object rather than the
+  number of elements in the expression matrix.
+
+\item
+New argument 'style' for volcanoplot(). The default is now to use
+  -log10(p-value) for the y-axis instead of the B-statistic.
+
+\item
+New argument 'xlab' for barcodeplot().
+
+\item
+New argument 'col' for plotSA().  plotSA() now longer plots a
+  lowess curve trend, but if appropriate both high and low outlier
+  variances are highlighted in a different color.
+
+\item
+Argument 'replace.weights' removed from voomWithQualityWeights().
+  The function now always produces an EList, similar to voom(). The
+  default behavior of the function is unchanged.
+
+\item
+barcodeplot() now ranks statistics from low to high, instead of
+  from high to low, following the usual style of axes in R plots.
+  This means that left and right are now interchanged.
+
+\item
+Default for 'legend' argument of plotWithHighlights() changed from
+  "topleft" to "topright".
+
+\item
+fitFDist() now estimates the scale by mean(x) when df2 is estimated
+  to be Inf.  This will make the results from eBayes() less
+  conservative than before when df.prior=Inf.
+
+\item
+plotSA() now indicates, by way of an open plotting symbol, any
+  points that have low robust df.prior values.
+
+\item
+Clearer error message from fitFDistRobustly() when some variances
+  are zero.
+
+\item
+C functions are now registered using R_registerRoutines.
+
+\item
+Bug fix for contrastAsCoef() when there is more than one contrast.
+  Previously the coefficients for the transformed design matrix were
+  correct only for the first contrast.
+
+\item
+Bug fix for kegga() when the universe is explicitly specified.
+
+\item
+Bug fix for fitFDistRobustly() when there is an extreme outlier.
+  Previously floating point underflow for the outlier p-value could
+  cause an error.
+
+\item
+Bug fix to mroast(), which was ignoring 'geneid' argument.
+
+\item
+Bug fix to printHead() for arrays with 1 column.
+}}
+
+
 \section{Version 3.30.0}{\itemize{
 
 \item
