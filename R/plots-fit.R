@@ -190,14 +190,14 @@ heatdiagram <- function(stat,coef,primary=1,names=NULL,treatments=colnames(stat)
 	invisible(out)
 }
 
-plotSA <- function(fit, xlab="Average log-expression", ylab="log2(sigma)", zero.weights=FALSE, pch=16, cex=0.3, col=c("black","red"),...)
+plotSA <- function(fit, xlab="Average log-expression", ylab="sqrt(sigma)", zero.weights=FALSE, pch=16, cex=0.3, col=c("black","red"),...)
 #	Plot log-residual variance vs intensity
 #	Gordon Smyth
-#	Created 14 Jan 2009. Last modified 2 February 2017.
+#	Created 14 Jan 2009. Last modified 12 April 2017.
 {
 	if(!is(fit,"MArrayLM")) stop("fit must be an MArrayLM object")
 	x <- fit$Amean
-	y <- log2(fit$sigma)
+	y <- sqrt(fit$sigma)
 	if(!(is.null(fit$weights) || zero.weights)) {
 		allzero <- rowSums(fit$weights>0,na.rm=TRUE) == 0
 		y[allzero] <- NA
@@ -223,10 +223,10 @@ plotSA <- function(fit, xlab="Average log-expression", ylab="log2(sigma)", zero.
 #	}
 	if(!is.null(fit$s2.prior)) {
 		if(length(fit$s2.prior)==1L) {
-			abline(h=log2(fit$s2.prior)/2,col="blue")
+			abline(h=sqrt(sqrt(fit$s2.prior)),col="blue")
 		} else {
 			o <- order(x)
-			lines(x[o],log2(fit$s2.prior[o])/2,col="blue")
+			lines(x[o],sqrt(sqrt(fit$s2.prior[o])),col="blue")
 #			legend("topright",legend=c("lowess","prior"),col=c("red","blue"),lty=1)
 		}
 	}

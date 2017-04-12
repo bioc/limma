@@ -52,6 +52,10 @@ barcodeplot() now ranks statistics from low to high, instead of
   This means that left and right are now interchanged.
 
 \item
+plotSA() now plots quarter-root variances instead of
+  log2(variances).
+
+\item
 Default for 'legend' argument of plotWithHighlights() changed from
   "topleft" to "topright".
 

@@ -2,10 +2,10 @@
 \name{plotSA}
 \alias{plotSA}
 \description{
-Plot log residual standard deviation versus average log expression for a fitted microarray linear model.
+Plot residual standard deviation versus average log expression for a fitted microarray linear model.
 }
 \usage{
-plotSA(fit, xlab = "Average log-expression", ylab = "log2(sigma)", zero.weights = FALSE,
+plotSA(fit, xlab = "Average log-expression", ylab = "sqrt(sigma)", zero.weights = FALSE,
        pch = 16, cex = 0.3, col = c("black","red"), \dots)
 }
 \arguments{
@@ -21,8 +21,13 @@ plotSA(fit, xlab = "Average log-expression", ylab = "log2(sigma)", zero.weights 
 
 \details{
 This plot is used to check the mean-variance relationship of the expression data, after fitting a linear model.
-A scatterplot of log-residual-variances vs average log-expression is created.
+A scatterplot of residual-variances vs average log-expression is created.
 If robust empirical Bayes was used to create \code{fit}, then outlier variances are highlighted in the color given by \code{col[2]}.
+
+The y-axis is square-root \code{fit$sigma}, where \code{sigma} is the estimated residual standard deviation.
+The y-axis therefore corresponds to quarter-root variances.
+The y-axis was changed from log2-variance to quarter-root variance in limma version 3.31.21.
+The quarter-root scale matches the similar plot produced by the \code{voom} function and gives a better plot when some of the variances are close to zero.
 
 See \code{\link[graphics]{points}} for possible values for \code{pch} and \code{cex}.
 }

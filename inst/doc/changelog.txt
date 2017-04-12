@@ -1,3 +1,8 @@
+12 Apr 2017: limma 3.31.21
+
+- plotSA() now plots quarter-root variances instead of
+  log2(variances).
+
  7 Apr 2017: limma 3.31.20
 
 - New argument 'style' for volcanoplot(). The default is now to use
