@@ -44,7 +44,7 @@ By contrast, a \emph{self-contained} gene set test such as \code{\link{roast}} t
 Because it is based on permuting genes, \code{geneSetTest} assumes that the different genes (or probes) are statistically independent.
 (Strictly speaking, it assumes that the genes in the set are no more correlated on average than randomly chosen genes.)
 If inter-gene correlations are present, then a statistically significant result from \code{geneSetTest} indicates either that the set is highly ranked or that the genes in the set are positively correlated on average (Wu and Smyth, 2012).
-Unless gene sets with positive correlations are particularly of interest, it may be advisable to use \code{\link{camera}} instead to adjust the test for inter-gene correlations.
+Unless gene sets with positive correlations are particularly of interest, it may be advisable to use \code{\link{camera}} or \code{\link{cameraPR}} instead to adjust the test for inter-gene correlations.
 Inter-gene correlations are likely to be present in differential expression experiments with biologically heterogeneous experimental units.
 On the other hand, the assumption of independence between genes should hold when the replicates are purely technical, i.e., when there is no biological variability between the replicate arrays in each experimental condition.
 
@@ -61,7 +61,7 @@ There are four possible alternatives to test for.
 \code{alternative=="mixed"} test whether the genes in the set tend to be differentially expressed, without regard for direction.
 In this case, the test will be significant if the set contains mostly large test statistics, even if some are positive and some are negative.
 
-The latter three alternatives are appropriate if you have a prior expection that all the genes in the set will react in the same direction.
+The latter three alternatives are appropriate when there is a prior expection that all the genes in the set will react in the same direction.
 The \code{"mixed"} alternative is appropriate if you know only that the genes are involved in the relevant pathways, possibly in different directions.
 The \code{"mixed"} is the only meaningful alternative with F-like statistics.
 
@@ -72,12 +72,12 @@ If \code{ranks.only} is \code{FALSE}, then the p-value is obtained by simulation
 }
 
 \note{
-This function does not does correct for inter-gene correlation, so it is more likely to assign small p-values to sets containing positive correlated genes.
-For this reason, the alternative \code{camera} is now recommended over \code{geneSetTest} in those contexts for which \code{camera} is applicable.
+Wu and Smyth (2012) show that \code{geneSetTest} does not does correct for inter-gene correlations and is more likely to assign small p-values to sets containing positive correlated genes.
+The function \code{\link{cameraPR}} is recommended as a alternative.
 }
 
 \seealso{
-\code{\link{camera}}, \code{\link{roast}}, \code{\link{romer}}, \code{\link{wilcox.test}}, \code{\link{barcodeplot}}
+\code{\link{cameraPR}}, \code{\link{camera}}, \code{\link{roast}}, \code{\link{barcodeplot}}, \code{\link{wilcox.test}}.
 
 There is a topic page on \link{10.GeneSetTests}.
 }
