@@ -6,6 +6,10 @@
 \section{Version 3.32.0}{\itemize{
 
 \item
+New function cameraPR(), which implemented a pre-ranked version
+of camera().
+
+\item
 New function alias2SymbolUsingNCBI(), which converts gene aliases
   or synonyms into official gene symbols using an NCBI gene-info
   file.

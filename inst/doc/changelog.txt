@@ -1,3 +1,7 @@
+18 Apr 2017: limma 3.31.22
+
+- New function cameraPR() giving a pre-ranked version of camera().
+
 12 Apr 2017: limma 3.31.21
 
 - plotSA() now plots quarter-root variances instead of

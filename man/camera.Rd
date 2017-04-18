@@ -2,6 +2,8 @@
 \alias{camera}
 \alias{camera.default}
 \alias{interGeneCorrelation}
+\alias{cameraPR}
+\alias{cameraPR.default}
 \title{Competitive Gene Set Test Accounting for Inter-gene Correlation}
 \description{
 Test whether a set of genes is highly ranked relative to other genes in terms of differential expression, accounting for inter-gene correlation.
@@ -10,6 +12,7 @@ Test whether a set of genes is highly ranked relative to other genes in terms of
 \method{camera}{default}(y, index, design, contrast = ncol(design), weights = NULL,
        use.ranks = FALSE, allow.neg.cor=FALSE, inter.gene.cor=0.01, trend.var = FALSE,
        sort = TRUE, \dots)
+\method{cameraPR}{default}(statistic, index, use.ranks = FALSE, inter.gene.cor=0.01, sort = TRUE, \dots)
 interGeneCorrelation(y, design)
 }
 \arguments{
@@ -26,6 +29,7 @@ interGeneCorrelation(y, design)
   \item{inter.gene.cor}{numeric, optional preset value for the inter-gene correlation within tested sets.  If \code{NA} or \code{NULL}, then an inter-gene correlation will be estimated for each tested set.}
   \item{trend.var}{logical, should an empirical Bayes trend be estimated?  See \code{\link{eBayes}} for details.}
   \item{sort}{logical, should the results be sorted by p-value?}
+  \item{statistic}{a numeric vector of genewise statistics}
   \item{\dots}{other arguments are not currently used}
 }
 
@@ -53,6 +57,8 @@ However, in this mode, highly co-regulated gene sets that are biological interpr
 
 With \code{interGeneCorrelation=0.01}, \code{camera} will rank biologically interpetable sets more highly.
 This gives a useful compromise between strict error rate control and interpretable gene set rankings.
+
+\code{cameraPR} is a "pre-ranked" version of \code{camera} where the genes are pre-ranked according to a pre-computed statistic.
 }
 
 \note{The default settings for \code{inter.gene.cor} and \code{allow.neg.cor} were changed to the current values in limma 3.29.6.
@@ -60,7 +66,7 @@ Previously, the default was to estimate an inter-gene correlation for each set.
 To reproduce the earlier default, use \code{allow.neg.cor=TRUE} and \code{inter.gene.cor=NA}.}
 
 \value{
-\code{camera} returns a data.frame with a row for each set and the following columns:
+\code{camera} and \code{cameraPR} return a data.frame with a row for each set and the following columns:
 \item{NGenes}{number of genes in set.}
 \item{Correlation}{inter-gene correlation (only included if the \code{inter.gene.cor} was not preset).}
 \item{Direction}{direction of change (\code{"Up"} or \code{"Down"}).}
@@ -113,6 +119,10 @@ camera(y, index2, design)
 
 camera(y, list(set1=index1,set2=index2), design, inter.gene.cor=NA)
 camera(y, list(set1=index1,set2=index2), design, inter.gene.cor=0.01)
+
+# Pre-ranked version
+fit <- eBayes(lmFit(y, design))
+cameraPR(fit$t[,2], list(set1=index1,set2=index2))
 }
 
 \keyword{gene set test}
