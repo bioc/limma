@@ -19,7 +19,7 @@ coolmap(x, cluster.by="de pattern", col=NULL,
   \item{col}{choices are \code{"redblue"}, \code{"redgreen"} or \code{"yellowblue"}.
   The default is \code{"redblue"} for \code{cluster.by="de pattern"} and \code{"yellowblue"} if \code{cluster.by="expression level"}.}
   \item{linkage.row}{linkage criterion used to cluster the rows.
-  Choices are \code{"none"}, \code{"ward.D"}, \code{"single"}, \code{"complete"}, \code{"average"}, \code{"mcquitty"}, \code{"median"}, \code{"centroid"} or \code{"ward.D2"}, with \code{"ward"} is treated as \code{"ward.D2"}.}
+  Choices are \code{"none"}, \code{"ward"}, \code{"ward.D"}, \code{"ward.D2", \code{"single"}, \code{"complete"}, \code{"average"}, \code{"mcquitty"}, \code{"median"} or \code{"centroid"}, with \code{"ward"} treated as \code{"ward.D2"}.}
   \item{linkage.col}{linkage criterion used to cluster the columns.
   Choices are the same as for \code{linkage.row}.}
   \item{show.dendrogram}{choices are \code{"row"}, \code{"column"}, \code{"both"} or \code{"none"}.}
@@ -27,8 +27,8 @@ coolmap(x, cluster.by="de pattern", col=NULL,
 }
 
 \details{
-This function is essentially a wrapper for the \code{heatmap.2} function in the ggplots package, with sensible settings for genomic log-expression data.
-Unfortunately, the default settings for \code{heatmap.2} are often not ideal for expression data, and overriding the defaults requires explicit calls to \code{hclust} and \code{as.dendrogram} as well as prior standardization of the data values.
+This function calls the \code{heatmap.2} function in the ggplots package with sensible argument settings for genomic log-expression data.
+The default settings for \code{heatmap.2} are often not ideal for expression data, and overriding the defaults requires explicit calls to \code{hclust} and \code{as.dendrogram} as well as prior standardization of the data values.
 The \code{coolmap} function implements our preferred defaults for the two most common types of heatmaps.
 When clustering by relative expression (\code{cluster.by="de pattern"}), it implements a row standardization that takes account of \code{NA} values and standard deviations that might be zero.
 }
