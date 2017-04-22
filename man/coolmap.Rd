@@ -19,7 +19,7 @@ coolmap(x, cluster.by="de pattern", col=NULL,
   \item{col}{choices are \code{"redblue"}, \code{"redgreen"} or \code{"yellowblue"}.
   The default is \code{"redblue"} for \code{cluster.by="de pattern"} and \code{"yellowblue"} if \code{cluster.by="expression level"}.}
   \item{linkage.row}{linkage criterion used to cluster the rows.
-  Choices are \code{"none"}, \code{"ward"}, \code{"ward.D"}, \code{"ward.D2", \code{"single"}, \code{"complete"}, \code{"average"}, \code{"mcquitty"}, \code{"median"} or \code{"centroid"}, with \code{"ward"} treated as \code{"ward.D2"}.}
+  Choices are \code{"none"}, \code{"ward"}, \code{"ward.D"}, \code{"ward.D2"}, \code{"single"}, \code{"complete"}, \code{"average"}, \code{"mcquitty"}, \code{"median"} or \code{"centroid"}, with \code{"ward"} treated as \code{"ward.D2"}.}
   \item{linkage.col}{linkage criterion used to cluster the columns.
   Choices are the same as for \code{linkage.row}.}
   \item{show.dendrogram}{choices are \code{"row"}, \code{"column"}, \code{"both"} or \code{"none"}.}

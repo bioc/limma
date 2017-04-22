@@ -1,4 +1,6 @@
-18 Apr 2017: limma 3.31.22
+22 Apr 2017: limma 3.31.22
+
+- Minor edits to coolmap.Rd.
 
 - New function cameraPR() giving a pre-ranked version of camera().
 
