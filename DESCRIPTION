@@ -1,5 +1,5 @@
 Package: limma
-Version: 3.31.22
+Version: 3.32.0
 Date: 2017-04-22
 Title: Linear Models for Microarray Data
 Description: Data analysis, linear models and differential expression for microarray data.
