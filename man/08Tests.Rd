@@ -38,13 +38,13 @@ Self-contained gene set testing for an individual set is provided by \code{\link
 Gene set enrichment analysis for a large database of gene sets is provided by \code{\link{romer}}.
 \code{\link{topRomer}} is used to rank results from \code{romer}.
 
-The functions \code{\link{alias2Symbol}} and \code{\link{alias2SymbolTable}} are provided to help match gene sets with microarray probes by way of official gene symbols.
+The functions \code{\link{alias2Symbol}}, \code{\link{alias2SymbolTable}} and \code{\link{alias2SymbolUsingNCBI}} are provided to help match gene sets with microarray probes by way of official gene symbols.
 }
 
 \section{Global Tests}{
 The function \code{\link{genas}} can test for associations between two contrasts in a linear model.
 
-Given a set of p-values, the function \code{\link{convest}} can be used to estimate the proportion of true null hypotheses.
+Given a set of p-values, the function \code{\link{propTrueNull}} can be used to estimate the proportion of true null hypotheses.
 
 When evaluating test procedures with simulated or known results, the utility function \code{\link{auROC}} can be used to compute the area under the Receiver Operating Curve for the test results for a given probe.
 }

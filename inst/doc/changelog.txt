@@ -1,3 +1,11 @@
+25 Apr 2017: limma 3.33.1
+
+- diffSplice() now treats any NA geneid as a separate gene with one
+  exon. Previously all NA geneids were treated as the same gene.
+
+25 Apr 2017: limma 3.33.0 (Bioconductor 3.6 Developmental Branch)
+25 Apr 2017: limma 3.32.0 (Bioconductor 3.5 Release Branch)
+
 22 Apr 2017: limma 3.31.22
 
 - Minor edits to coolmap.Rd.
