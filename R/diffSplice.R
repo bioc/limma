@@ -2,7 +2,7 @@ diffSplice <- function(fit,geneid,exonid=NULL,robust=FALSE,verbose=TRUE)
 #	Test for splicing variants between conditions
 #	using linear model fit of exon data.
 #	Gordon Smyth and Charity Law
-#	Created 13 Dec 2013.  Last modified 18 Jan 2016.
+#	Created 13 Dec 2013.  Last modified 20 April 2017.
 {
 #	Make sure there is always an annotation frame
 	exon.genes <- fit$genes
@@ -26,6 +26,12 @@ diffSplice <- function(fit,geneid,exonid=NULL,robust=FALSE,verbose=TRUE)
 			exon.genes$ExonID <- exonid
 			exoncolname <- "ExonID"
 		}
+	}
+
+#	Treat NA geneids as genes with one exon
+	if(anyNA(geneid)) {
+		isna <- which(is.na(geneid))
+		geneid[isna] <- paste0("NA",1:length(isna))
 	}
 
 #	Sort by geneid

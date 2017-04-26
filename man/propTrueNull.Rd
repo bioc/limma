@@ -47,7 +47,6 @@ Numeric value in the interval [0,1] representing the estimated proportion of tru
 Langaas, M, Ferkingstad, E, and Lindqvist, B (2005).
 Estimating the proportion of true null hypotheses, with application to DNA microarray data.
 \emph{Journal of the Royal Statistical Society Series} B 67, 555-572.
-Preprint at \url{http://www.math.ntnu.no/~mettela/pi0.imf}
 
 Mosig MO, Lipkin E, Khutoreskaya G, Tchourzyna E, Soller M, Friedmann A (2001).
 A whole genome scan for quantitative trait loci affecting milk protein percentage in Israeli-Holstein cattle, by means of selective milk DNA pooling in a daughter design, using an adjusted false discovery rate criterion.
@@ -68,7 +67,7 @@ limma powers differential expression analyses for RNA-sequencing and microarray 
 \url{http://nar.oxfordjournals.org/content/43/7/e47}
 }
 
-\author{Belinda Phipson and Gordon Smyth for \code{propTrueNull}; Egil Ferkingstad, Mette Langaas and Marcus Davy for \code{convest}}
+\author{Belinda Phipson and Gordon Smyth for \code{propTrueNull}. Egil Ferkingstad, Mette Langaas and Marcus Davy for \code{convest}.}
 
 \seealso{
 See \link{08.Tests} for other functions for producing or interpreting p-values.
