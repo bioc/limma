@@ -1,4 +1,9 @@
-26 Apr 2017: limma 3.32.1
+ 1 May 2017: limma 3.32.2
+
+- The gene.info.file argument of alias2SymbolUsingNCBI() will now
+  optionally accept a data.frame instead of a file name.
+
+25 Apr 2017: limma 3.32.1
 
 - diffSplice() now treats any NA geneid as a separate gene with one
   exon. Previously all NA geneids were treated as the same gene.
