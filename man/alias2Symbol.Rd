@@ -19,8 +19,8 @@ alias2SymbolUsingNCBI(alias, gene.info.file,
   \item{expand.symbols}{logical.
   This affects those elements of \code{alias} that are the official gene symbol for one gene and also an alias for another gene.
   If \code{FALSE}, then these elements will just return themselves.
-  If \code{TRUE}, then all the genes for which they are aliases will be returned.}
-  \item{gene.info.file}{name of gene information file downloaded from the NCBI.}
+  If \code{TRUE}, then all the genes for which they are aliases will also be returned.}
+  \item{gene.info.file}{either the name of a gene information file downloaded from the NCBI or a data.frame resulting from reading such a file.}
   \item{required.columns}{character vector of columns from the gene information file that are required in the output.}
 }
 \details{
