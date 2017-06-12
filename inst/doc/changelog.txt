@@ -1,3 +1,8 @@
+12 May 2017: limma 3.33.3
+
+- plotWithHighlights() checks whether 'status' is a factor and
+  converts to character.
+
  1 May 2017: limma 3.33.2
 
 - The gene.info.file argument of alias2SymbolUsingNCBI() will now
