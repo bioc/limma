@@ -1,3 +1,13 @@
+15 Jul 2017: limma 3.33.4
+
+- New argument 'restrict.universe' for the default kegga() method.
+  The default is now not to the restrict the universe to genes with
+  KEGG annotation.
+
+- Bug fix for kegga() when trend=TRUE or a prior.prob or covariate is
+  specified. Previously the Down p-values were substantially too small
+  and the Up p-values were too large.
+
 12 May 2017: limma 3.33.3
 
 - plotWithHighlights() checks whether 'status' is a factor and
