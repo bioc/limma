@@ -15,11 +15,11 @@ Test for over-representation of gene ontology (GO) terms or KEGG pathways in one
 
 \usage{
 \method{goana}{MArrayLM}(de, coef = ncol(de), geneid = rownames(de), FDR = 0.05, trend = FALSE, \dots)
+\method{kegga}{MArrayLM}(de, coef = ncol(de), geneid = rownames(de), FDR = 0.05, trend = FALSE, \dots)
 \method{goana}{default}(de, universe = NULL, species = "Hs", prior.prob = NULL, covariate=NULL,
       plot=FALSE, \dots)
-\method{kegga}{MArrayLM}(de, coef = ncol(de), geneid = rownames(de), FDR = 0.05, trend = FALSE, \dots)
-\method{kegga}{default}(de, universe = NULL, species = "Hs", species.KEGG = NULL, convert = FALSE,
-      gene.pathway = NULL, pathway.names = NULL,
+\method{kegga}{default}(de, universe = NULL, restrict.universe = TRUE, species = "Hs", species.KEGG = NULL,
+      convert = FALSE, gene.pathway = NULL, pathway.names = NULL,
       prior.prob = NULL, covariate=NULL, plot=FALSE, \dots)
 getGeneKEGGLinks(species.KEGG = "hsa", convert = FALSE)
 getKEGGPathwayNames(species.KEGG = NULL, remove.qualifier = FALSE)
@@ -27,30 +27,47 @@ getKEGGPathwayNames(species.KEGG = NULL, remove.qualifier = FALSE)
 
 \arguments{
   \item{de}{a character vector of Entrez Gene IDs, or a list of such vectors, or an \code{MArrayLM} fit object.}
+
   \item{coef}{column number or column name specifying for which coefficient or contrast differential expression should be assessed.}
+
   \item{geneid}{Entrez Gene identifiers. Either a vector of length \code{nrow(de)} or the name of the column of \code{de$genes} containing the Entrez Gene IDs.}
+
   \item{FDR}{false discovery rate cutoff for differentially expressed genes. Numeric value between 0 and 1.}
+
   \item{species}{character string specifying the species.
   Possible values include \code{"Hs"} (human), \code{"Mm"} (mouse), \code{"Rn"} (rat), \code{"Dm"} (fly) or \code{"Pt"} (chimpanzee), but other values are possible if the corresponding organism package is available.
   See \code{\link{alias2Symbol}} for other possible values.
   Ignored if \code{species.KEGG} or is not \code{NULL} or if \code{gene.pathway} and \code{pathway.names} are not \code{NULL}.}
+
   \item{species.KEGG}{three-letter KEGG species identifier. See \url{http://www.kegg.jp/kegg/catalog/org_list.html} or \url{http://rest.kegg.jp/list/organism} for possible values. Ignored if \code{gene.pathway} and \code{pathway.names} are not \code{NULL}.}
+
   \item{convert}{if \code{TRUE} then KEGG gene identifiers will be converted to NCBI Entrez Gene identifiers.  Note that KEGG IDs are the same as Entrez Gene IDs for most species anyway.}
+
   \item{gene.pathway}{data.frame linking genes to pathways.  First column gives gene IDs, second column gives pathway IDs. By default this is obtained automatically by \code{getGeneKEGGLinks(species.KEGG)}.}
+
   \item{remove.qualifier}{if \code{TRUE}, the species qualifier will be removed from the pathway names.}
+
   \item{pathway.names}{data.frame giving full names of pathways. First column gives pathway IDs, second column gives pathway names. By default this is obtained automatically using \code{getKEGGPathwayNames(species.KEGG, remove=TRUE)}.}
+
   \item{trend}{adjust analysis for gene length or abundance?
   Can be logical, or a numeric vector of covariate values, or the name of the column of \code{de$genes} containing the covariate values.
   If \code{TRUE}, then \code{de$Amean} is used as the covariate.}
+
   \item{universe}{vector specifying the set of Entrez Gene identifiers to be the background universe.
   If \code{NULL} then all Entrez Gene IDs associated with any gene ontology term will be used as the universe.}
+
+  \item{restrict.universe}{logical, should the \code{universe} be restricted to gene identifiers found in \code{gene.pathway}?}
+
   \item{prior.prob}{optional numeric vector of the same length as \code{universe} giving the prior probability that each gene in the universe appears in a gene set.
   Will be computed from \code{covariate} if the latter is provided.
   Ignored if \code{universe} is \code{NULL}.}
+
   \item{covariate}{optional numeric vector of the same length as \code{universe} giving a covariate against which \code{prior.prob} should be computed.
   Ignored if \code{universe} is \code{NULL}.}
+
   \item{plot}{logical, should the \code{prior.prob} vs \code{covariate} trend be plotted?}
-  \item{\dots}{any other arguments in a call to the \code{MArrayLM} method are passed to the default method.}
+
+  \item{\dots}{any other arguments in a call to the \code{MArrayLM} methods are passed to the corresponding default method.}
 }
 
 \details{
@@ -99,6 +116,9 @@ While \code{\link{tricubeMovingAverage}} does not enforce monotonicity, it has t
 
 The default for \code{kegga} with \code{species="Dm"} changed from \code{convert=TRUE} to \code{convert=FALSE} in limma 3.27.8.
 Users wanting to use Entrez Gene IDs for Drosophila should set \code{convert=TRUE}, otherwise fly-base IDs are assumed.
+
+Bug fix: results from \code{kegga} with \code{trend=TRUE} or with non-NULL \code{covariate} were incorrect prior to limma 3.32.3.
+The results were biased towards significant Down p-values and against significant Up p-values.
 }
 
 \value{

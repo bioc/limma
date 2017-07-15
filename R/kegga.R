@@ -74,10 +74,10 @@ kegga.MArrayLM <- function(de, coef = ncol(de), geneid = rownames(de), FDR = 0.0
 		kegga(de=DEGenes, universe = universe, ...)
 }
 
-kegga.default <- function(de, universe=NULL, species="Hs", species.KEGG=NULL, convert=FALSE, gene.pathway=NULL, pathway.names = NULL, prior.prob=NULL, covariate=NULL, plot=FALSE, ...)
+kegga.default <- function(de, universe=NULL,  restrict.universe=TRUE, species="Hs", species.KEGG=NULL, convert=FALSE, gene.pathway=NULL, pathway.names = NULL,prior.prob=NULL, covariate=NULL, plot=FALSE, ...)
 #	KEGG (Kyoto Encyclopedia of Genes and Genomes) pathway analysis of DE genes
 #	Gordon Smyth and Yifang Hu
-#	Created 18 May 2015.  Modified 16 Nov 2016.
+#	Created 18 May 2015.  Modified 14 Jul 2016.
 {
 #	Ensure de is a list
 	if(!is.list(de)) de <- list(DE = de)
@@ -86,11 +86,10 @@ kegga.default <- function(de, universe=NULL, species="Hs", species.KEGG=NULL, co
 #	Stop if components of de are not vectors
 	if(!all(vapply(de,is.vector,TRUE))) stop("components of de should be vectors")
 
-#	Ensure gene IDs are of character mode
+#	Ensure de gene IDs are unique and of character mode
 	for (s in 1:nsets) de[[s]] <- unique(as.character(de[[s]]))
-	if(!is.null(universe)) universe <- as.character(universe)
 
-#	Ensure all gene sets have unique names
+#	Ensure de components have unique names
 	names(de) <- trimWhiteSpace(names(de))
 	NAME <- names(de)
 	i <- which(NAME == "" | is.na(NAME))
@@ -104,68 +103,72 @@ kegga.default <- function(de, universe=NULL, species="Hs", species.KEGG=NULL, co
 		species.KEGG <- switch(species, "Ag"="aga", "At"="ath", "Bt"="bta", "Ce"="cel", "Cf"="cfa", "Dm"="dme", "Dr"="dre", "EcK12"="eco", "EcSakai"="ecs", "Gg"="gga", "Hs"="hsa", "Mm"="mmu", "Mmu"="mcc", "Pf"="pfa", "Pt"="ptr", "Rn"="rno", "Ss"="ssc", "Xl"="xla")
 	}
 
+#	Get pathway annotation
+	if(is.null(gene.pathway))
+		GeneID.PathID <- getGeneKEGGLinks(species.KEGG, convert=convert)
+	else {
+		GeneID.PathID <- gene.pathway
+		d <- dim(GeneID.PathID)
+		if(is.null(d)) stop("gene.pathway must be data.frame or matrix")
+		if(d[2] < 2) stop("gene.pathway must have at least 2 columns")
+		isna <- rowSums(is.na(GeneID.PathID[,1:2])) > 0.5
+		GeneID.PathID <- GeneID.PathID[!isna,]
+
+#		Remove repeated rows
+		ID.ID <- paste(GeneID.PathID[,1],GeneID.PathID[,2],sep=".")
+		if(anyDuplicated(ID.ID)) {
+			d <- duplicated(ID.ID)
+			GeneID.PathID <- GeneID.PathID[!d,]
+		}
+	}
+
+#	Get pathway names
+	if(is.null(pathway.names))
+		PathID.PathName <- getKEGGPathwayNames(species.KEGG, remove.qualifier=TRUE)
+	else {
+		PathID.PathName <- pathway.names
+		d <- dim(PathID.PathName)
+		if(is.null(d)) stop("pathway.names must be data.frame or matrix")
+		if(d[2] < 2) stop("pathway.names must have at least 2 columns")
+		isna <- rowSums(is.na(PathID.PathName[,1:2])) > 0.5
+		PathID.PathName <- PathID.PathName[!isna,]
+	}
+
+#	Universe defaults to all annotated genes
 #	prior.prob and covariate must have same length as universe
+#	Ensure universe unique
 	if(is.null(universe)) {
-		if(!is.null(prior.prob)) stop("prior.prob ignored unless universe is specified.")
-		if(!is.null(covariate)) stop("covariate ignored unless universe is specified.")
+		universe <- unique(GeneID.PathID[,1])
 		prior.prob <- covariate <- NULL
 	} else {
+		universe <- as.character(universe)
 		lu <- length(universe)
 		if(!lu) stop("No genes in universe")
 		if(!is.null(prior.prob) && length(prior.prob)!=lu) stop("universe and prior.prob must have same length")
 		if(!is.null(covariate) && length(covariate)!=lu) stop("universe and covariate must have same length")
+		if(restrict.universe) {
+			i <- universe %in% GeneID.PathID[,1]
+			universe <- universe[i]
+			if(!is.null(prior.prob)) prior.prob <- prior.prob[i]
+			if(!is.null(covariate)) covariate <- covariate[i]
+		}
 	}
 
-#	Fit trend in DE with respect to the covariate, combining all de lists
-	if(!is.null(covariate)) {
-		if(!is.null(prior.prob)) warning("prior.prob being recomputed from covariate")
-		covariate <- as.numeric(covariate)
-		isDE <- as.numeric(universe %in% unlist(de))
-		o <- order(covariate)
-		prior.prob <- covariate
-		span <- approx(x=c(20,200),y=c(1,0.5),xout=sum(isDE),rule=2)$y
-		prior.prob[o] <- tricubeMovingAverage(isDE[o],span=span)
-		if(plot) barcodeplot(covariate, index=as.logical(isDE), worm=TRUE, span.worm=span, main="DE status vs covariate")
-	}
-
-#	Get pathway annotation
-	if(is.null(gene.pathway))
-		EG.KEGG <- getGeneKEGGLinks(species.KEGG, convert=convert)
-	else {
-		EG.KEGG <- gene.pathway
-		d <- dim(EG.KEGG)
-		if(is.null(d)) stop("gene.pathway must be data.frame or matrix")
-		if(d[2] < 2) stop("gene.pathway must have at least 2 columns")
-		isna <- rowSums(is.na(EG.KEGG[,1:2])) > 0.5
-		EG.KEGG <- EG.KEGG[!isna,]
-	}
-
-#	Make sure that universe matches annotated genes
-	if(is.null(universe)) {
-		universe <- as.character(unique(EG.KEGG[,1]))
-	} else {
-
-#		Consolidate replicated entries in universe, averaging corresponding prior.probs
-		universe <- as.character(universe)
-		dup <- duplicated(universe)
+#	Consolidate any replicated entries in universe, averaging corresponding prior.probs
+	if(anyDuplicated(universe)) {
+		d <- duplicated(universe)
+		if(!is.null(covariate)) {
+			covariate <- rowsum(covariate,group=universe,reorder=FALSE)
+			n <- rowsum(rep_len(1L,length(universe)),group=universe,reorder=FALSE)
+			covariate <- covariate/n
+		}
 		if(!is.null(prior.prob)) {
 			prior.prob <- rowsum(prior.prob,group=universe,reorder=FALSE)
 			n <- rowsum(rep_len(1L,length(universe)),group=universe,reorder=FALSE)
 			prior.prob <- prior.prob/n
 		}
-		universe <- universe[!dup]
-
-#		Restrict universe to genes with annotation
-		m <- match(EG.KEGG[,1], universe)
-		InUni <- !is.na(m)
-		m <- m[InUni]
-		universe <- unique(universe[m])
-		if(!is.null(prior.prob)) prior.prob <- prior.prob[m]
-
-#		Restrict annotation to genes in universe
-		EG.KEGG <- EG.KEGG[InUni,]
+		universe <- universe[!d]
 	}
-
 	NGenes <- length(universe)
 	if(NGenes<1L) stop("No annotated genes found in universe")
 
@@ -176,33 +179,55 @@ kegga.default <- function(de, universe=NULL, species="Hs", species.KEGG=NULL, co
 		nde[s] <- length(de[[s]])
 	}
 
+#	Restrict pathways to universe
+	i <- GeneID.PathID[,1] %in% universe
+	if(sum(i)==0L) stop("Pathways do not overlap with universe")
+	GeneID.PathID <- GeneID.PathID[i,]
+
+#	Get prior.prob trend in DE with respect to the covariate, combining all de lists
+	if(!is.null(covariate)) {
+		if(!is.null(prior.prob)) message("prior.prob being recomputed from covariate")
+		covariate <- as.numeric(covariate)
+		isDE <- (universe %in% unlist(de))
+		o <- order(covariate)
+		prior.prob <- covariate
+		span <- approx(x=c(20,200),y=c(1,0.5),xout=sum(isDE),rule=2)$y
+		prior.prob[o] <- tricubeMovingAverage(isDE[o],span=span)
+		if(plot) barcodeplot(covariate, index=isDE, worm=TRUE, span.worm=span, main="DE status vs covariate")
+	}
+
 #	Overlap pathways with DE genes
+#	Create incidence matrix (X) of gene.pathway by DE sets
 	if(is.null(prior.prob)) {
-		X <- matrix(1,nrow(EG.KEGG),nsets+1)
+		X <- matrix(1,nrow(GeneID.PathID),nsets+1)
 		colnames(X) <- c("N",names(de))
 	} else {
-		X <- matrix(1,nrow(EG.KEGG),nsets+2)
-		X[,nsets+2] <- prior.prob
+		names(prior.prob) <- universe
+		X <- matrix(1,nrow(GeneID.PathID),nsets+2)
+		X[,nsets+2] <- prior.prob[GeneID.PathID[,1]]
 		colnames(X) <- c("N",names(de),"PP")
 	}
-	for (s in 1:nsets) X[,s+1] <- (EG.KEGG[,1] %in% de[[s]])
+	for (s in 1:nsets) X[,s+1] <- (GeneID.PathID[,1] %in% de[[s]])
 
 #	Count #genes and #DE genes and sum prior.prob for each pathway
-	S <- rowsum(X, group=EG.KEGG[,2], reorder=FALSE)
+	S <- rowsum(X, group=GeneID.PathID[,2], reorder=FALSE)
 
 #	Overlap tests
 	PValue <- matrix(0,nrow=nrow(S),ncol=nsets)
-	if(length(prior.prob)) {
+	colnames(PValue) <- paste("P", names(de), sep=".")
+	if(!is.null(prior.prob)) {
 
-#		Calculate average prior prob for each set
+#		Probability ratio for each pathway vs rest of universe
 		SumPP <- sum(prior.prob)
-		AvePP.set <- S[,"PP"]/S[,"N"]
-		W <- AvePP.set*(NGenes-S[,"N"])/(SumPP-S[,"N"]*AvePP.set)
+		M2 <- NGenes-S[,"N"]
+		Odds <- S[,"PP"] / (SumPP-S[,"PP"]) * M2 / S[,"N"]
 
 #		Wallenius' noncentral hypergeometric test
-		if(!requireNamespace("BiasedUrn",quietly=TRUE)) stop("BiasedUrn package required but is not available")
-		for(j in 1:nsets) for(i in 1:nrow(S))
-			PValue[i,j] <- BiasedUrn::pWNCHypergeo(S[i,1+j], S[i,"N"], NGenes-S[i,"N"], nde[j], W[i], lower.tail=FALSE) + BiasedUrn::dWNCHypergeo(S[i,1+j], S[i,"N"], NGenes-S[i,"N"], nde[j], W[i])
+#		Note that dWNCHypergeo() is more accurate than pWNCHypergeo(), hence use of 2-terms
+		if(!requireNamespace("BiasedUrn",quietly=TRUE)) stop("BiasedUrn package required but is not installed (or can't be loaded)")
+		for(j in seq_len(nsets)) for(i in seq_len(nrow(S)))
+			PValue[i,j] <- BiasedUrn::pWNCHypergeo(S[i,1L+j], S[i,"N"], M2[i], nde[j], Odds[i], lower.tail=FALSE) +
+			               BiasedUrn::dWNCHypergeo(S[i,1L+j], S[i,"N"], M2[i], nde[j], Odds[i])
 
 #		Remove sum of prob column, not needed for output
 		S <- S[,-ncol(S)]
@@ -210,21 +235,8 @@ kegga.default <- function(de, universe=NULL, species="Hs", species.KEGG=NULL, co
 	} else {
 
 #		Fisher's exact test
-		for(j in 1:nsets)
-			PValue[,j] <- phyper(q=S[,1+j]-0.5,m=nde[j],n=NGenes-nde[j], k=S[,"N"],lower.tail=FALSE)
-
-	}
-
-#	Get list of pathway names
-	if(is.null(pathway.names))
-		PathID.PathName <- getKEGGPathwayNames(species.KEGG, remove.qualifier=TRUE)
-	else {
-		PathID.PathName <- pathway.names
-		d <- dim(PathID.PathName)
-		if(is.null(d)) stop("pathway.names must be data.frame or matrix")
-		if(d[2] < 2) stop("pathway.names must have at least 2 columns")
-		isna <- rowSums(is.na(PathID.PathName[,1:2])) > 0.5
-		PathID.PathName <- PathID.PathName[!isna,]
+		for(j in seq_len(nsets))
+			PValue[,j] <- phyper(S[,1L+j]-0.5, nde[j], NGenes-nde[j], S[,"N"], lower.tail=FALSE)
 
 	}
 
@@ -233,9 +245,6 @@ kegga.default <- function(de, universe=NULL, species="Hs", species.KEGG=NULL, co
 	m <- match(g, PathID.PathName[,1])
 	Results <- data.frame(Pathway = PathID.PathName[m,2], S, PValue, stringsAsFactors=FALSE)
 	rownames(Results) <- g
-
-#	Name p-value columns
-	colnames(Results)[2+nsets+(1L:nsets)] <- paste0("P.", names(de))
 
 	Results
 }
