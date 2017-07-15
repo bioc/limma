@@ -116,6 +116,11 @@ While \code{\link{tricubeMovingAverage}} does not enforce monotonicity, it has t
 
 The default for \code{kegga} with \code{species="Dm"} changed from \code{convert=TRUE} to \code{convert=FALSE} in limma 3.27.8.
 Users wanting to use Entrez Gene IDs for Drosophila should set \code{convert=TRUE}, otherwise fly-base IDs are assumed.
+
+The default for \code{restrict.universe=TRUE} in \code{kegga} changed from \code{TRUE} to \code{FALSE} in limma 3.33.4.
+
+Bug fix: results from \code{kegga} with \code{trend=TRUE} or with non-NULL \code{covariate} were incorrect prior to limma 3.32.3.
+The results were biased towards significant Down p-values and against significant Up p-values.
 }
 
 \value{
