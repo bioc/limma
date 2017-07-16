@@ -29,7 +29,7 @@ treat(fit, lfc=0, trend=FALSE, robust=FALSE, winsor.tail.p=c(0.05,0.1))
   \item{df.prior}{degrees of freedom associated with \code{s2.prior}}
   \item{df.total}{numeric vector of total degrees of freedom associated with t-statistics and p-values. Equal to \code{df.prior+df.residual} or \code{sum(df.residual)}, whichever is smaller.}
   \item{s2.post}{numeric vector giving the posterior values for \code{sigma^2}}
-  \item{lods}{numeric vector or matrix giving the log-odds of differential expression}
+  \item{lods}{numeric vector or matrix giving the log-odds of differential expression (natural log scale).}
   \item{var.prior}{estimated prior value for the variance of the log2-fold-change for differentially expressed gene}
   \item{F}{numeric vector of moderated F-statistics for testing all contrasts defined by the columns of \code{fit} simultaneously equal to zero}
   \item{F.p.value}{numeric vector giving p-values corresponding to \code{F}}
