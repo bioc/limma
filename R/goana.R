@@ -77,38 +77,8 @@ goana.MArrayLM <- function(de, coef = ncol(de), geneid = rownames(de), FDR = 0.0
 goana.default <- function(de, universe = NULL, species = "Hs", prior.prob = NULL, covariate=NULL, plot=FALSE, ...)
 #	Gene ontology analysis of DE genes
 #	Gordon Smyth and Yifang Hu
-#	Created 20 June 2014.  Last modified 23 June 2016.
+#	Created 20 June 2014.  Last modified 16 July 2017.
 {
-#	Ensure de is a list
-	if(!is.list(de)) de <- list(DE = de)
-
-#	Stop if components of de are not vectors
-	if(!all(vapply(de,is.vector,TRUE))) stop("components of de should be vectors")
-
-#	Ensure gene IDs are of character mode
-	de <- lapply(de, as.character)
-	if(!is.null(universe)) universe <- as.character(universe)
-
-#	Ensure all gene sets have unique names
-	nsets <- length(de)
-	names(de) <- trimWhiteSpace(names(de))
-	NAME <- names(de)
-	i <- which(NAME == "" | is.na(NAME))
-	NAME[i] <- paste0("DE",i)
-	names(de) <- makeUnique(NAME)
-
-#	Fit trend in DE with respect to the covariate, combining all de lists
-	if(!is.null(covariate)) {
-		covariate <- as.numeric(covariate)
-		if(length(covariate) != length(covariate)) stop("universe and covariate must have same length")
-		isDE <- as.numeric(universe %in% unlist(de))
-		o <- order(covariate)
-		prior.prob <- covariate
-		span <- approx(x=c(20,200),y=c(1,0.5),xout=sum(isDE),rule=2)$y
-		prior.prob[o] <- tricubeMovingAverage(isDE[o],span=span)
-		if(plot) barcodeplot(covariate, index=(isDE==1), worm=TRUE, span.worm=span)
-	}
-
 #	Get access to package of GO terms
 	suppressPackageStartupMessages(OK <- requireNamespace("GO.db",quietly=TRUE))
 	if(!OK) stop("GO.db package required but not installed (or can't be loaded)")
@@ -127,91 +97,126 @@ goana.default <- function(de, universe = NULL, species = "Hs", prior.prob = NULL
 	egGO2ALLEGS <- tryCatch(getFromNamespace(obj,orgPkg), error=function(e) FALSE)
 	if(is.logical(egGO2ALLEGS)) stop("Can't find gene ontology mappings in package ",orgPkg)
 
-#	Convert gene-GOterm mappings to data.frame and remove duplicate entries
+#	Convert gene-GOterm mappings to data.frame
+#	Remove duplicate entries from both mappings and universe
 	if(is.null(universe)) {
-		EG.GO <- AnnotationDbi::toTable(egGO2ALLEGS)
-		d <- duplicated(EG.GO[,c("gene_id", "go_id", "Ontology")])
-		EG.GO <- EG.GO[!d, ]
-		universe <- unique(EG.GO$gene_id)
-		universe <- as.character(universe)
+		GeneID.PathID <- AnnotationDbi::toTable(egGO2ALLEGS)[,c("gene_id","go_id","Ontology")]
+		i <- !duplicated(GeneID.PathID[,c("gene_id", "go_id")])
+		GeneID.PathID <- GeneID.PathID[i, ]
+		universe <- unique(GeneID.PathID[,1])
+		prior.prob <- covariate <- NULL
 	} else {
-
 		universe <- as.character(universe)
-
-		dup <- duplicated(universe)
-		if(!is.null(prior.prob)) {
-			if(length(prior.prob)!=length(universe)) stop("length(prior.prob) must equal length(universe)")
-			prior.prob <- rowsum(prior.prob,group=universe,reorder=FALSE)
-			n <- rowsum(rep_len(1L,length(universe)),group=universe,reorder=FALSE)
-			prior.prob <- prior.prob/n
+		lu <- length(universe)
+		if(!is.null(prior.prob) && length(prior.prob)!=lu) stop("universe and prior.prob must have same length")
+		if(!is.null(covariate) && length(covariate)!=lu) stop("universe and covariate must have same length")
+		if(anyDuplicated(universe)) {
+			i <- !duplicated(universe)
+			if(!is.null(covariate)) covariate <- covariate[i]
+			if(!is.null(prior.prob)) prior.prob <- prior.prob[i]
+			universe <- universe[i]
 		}
-		universe <- universe[!dup]
-
-		m <- match(AnnotationDbi::Lkeys(egGO2ALLEGS),universe,0L)
-		universe <- universe[m]
-		if(!is.null(prior.prob)) prior.prob <- prior.prob[m]
-
+		universe <- intersect(AnnotationDbi::Lkeys(egGO2ALLEGS),universe)
 		AnnotationDbi::Lkeys(egGO2ALLEGS) <- universe
-		EG.GO <- AnnotationDbi::toTable(egGO2ALLEGS)
-		d <- duplicated(EG.GO[,c("gene_id", "go_id", "Ontology")])
-		EG.GO <- EG.GO[!d, ]
+		GeneID.PathID <- AnnotationDbi::toTable(egGO2ALLEGS)[,c("gene_id","go_id","Ontology")]
+		d <- duplicated(GeneID.PathID[,c("gene_id", "go_id")])
+		GeneID.PathID <- GeneID.PathID[!d, ]
 	}
 
-	Total <- length(unique(EG.GO$gene_id))
-	if(Total<1L) stop("No genes found in universe")
+#	From here, code is mostly the same as kegga.default
 
-#	Check prior probabilities
+#	Ensure de is a list
+	if(!is.list(de)) de <- list(DE = de)
+	nsets <- length(de)
+
+#	Stop if components of de are not vectors
+	if(!all(vapply(de,is.vector,TRUE))) stop("components of de should be vectors")
+
+#	Ensure de gene IDs are unique and of character mode
+	for (s in 1:nsets) de[[s]] <- unique(as.character(de[[s]]))
+
+#	Ensure de components have unique names
+	names(de) <- trimWhiteSpace(names(de))
+	NAME <- names(de)
+	i <- which(NAME == "" | is.na(NAME))
+	NAME[i] <- paste0("DE",i)
+	names(de) <- makeUnique(NAME)
+
+#	Check universe isn't empty
+	NGenes <- length(universe)
+	if(NGenes<1L) stop("No annotated genes found in universe")
+
+#	Restrict DE genes to universe
+	for (s in 1:nsets) de[[s]] <- de[[s]][de[[s]] %in% universe]
+
+#	Restrict pathways to universe
+	i <- GeneID.PathID[,1] %in% universe
+	if(sum(i)==0L) stop("Pathways do not overlap with universe")
+	GeneID.PathID <- GeneID.PathID[i,]
+
+#	Get prior.prob trend in DE with respect to the covariate, combining all de lists
+	if(!is.null(covariate)) {
+		if(!is.null(prior.prob)) message("prior.prob being recomputed from covariate")
+		covariate <- as.numeric(covariate)
+		isDE <- (universe %in% unlist(de))
+		o <- order(covariate)
+		prior.prob <- covariate
+		span <- approx(x=c(20,200),y=c(1,0.5),xout=sum(isDE),rule=2)$y
+		prior.prob[o] <- tricubeMovingAverage(isDE[o],span=span)
+		if(plot) barcodeplot(covariate, index=isDE, worm=TRUE, span.worm=span, main="DE status vs covariate")
+	}
+
+#	Overlap pathways with DE genes
+#	Create incidence matrix (X) of gene.pathway by DE sets
+	if(is.null(prior.prob)) {
+		X <- matrix(1,nrow(GeneID.PathID),nsets+1)
+		colnames(X) <- c("N",names(de))
+	} else {
+		names(prior.prob) <- universe
+		X <- matrix(1,nrow(GeneID.PathID),nsets+2)
+		X[,nsets+2] <- prior.prob[GeneID.PathID[,1]]
+		colnames(X) <- c("N",names(de),"PP")
+	}
+	for (s in 1:nsets) X[,s+1] <- (GeneID.PathID[,1] %in% de[[s]])
+
+#	Count #genes and #DE genes and sum prior.prob for each pathway
+	S <- rowsum(X, group=GeneID.PathID[,2], reorder=FALSE)
+
+#	Overlap tests
+	PValue <- matrix(0,nrow=nrow(S),ncol=nsets)
+	colnames(PValue) <- paste("P", names(de), sep=".")
+	nde <- lengths(de, use.names=FALSE)
 	if(!is.null(prior.prob)) {
-		if(length(prior.prob)!=length(universe)) stop("length(prior.prob) must equal length(universe)")
-	}
 
-#	Overlap with DE genes
-	isDE <- lapply(de, function(x) EG.GO$gene_id %in% x)
-	TotalDE <- lapply(isDE, function(x) length(unique(EG.GO$gene_id[x])))
-	nDE <- length(isDE)
-
-	if(length(prior.prob)) {
-	#	Probability weight for each gene
-		m <- match(EG.GO$gene_id, universe)
-		PW2 <- list(prior.prob[m])
-		X <- do.call(cbind, c(N=1, isDE, PW=PW2))
-	} else
-		X <- do.call(cbind, c(N=1, isDE))
-
-	group <- paste(EG.GO$go_id, EG.GO$Ontology, sep=".")
-	S <- rowsum(X, group=group, reorder=FALSE)
-
-	P <- matrix(0, nrow = nrow(S), ncol = nsets)
-
-	if(length(prior.prob)) {
-
-#		Calculate average prior prob for each set
-		PW.ALL <- sum(prior.prob[universe %in% EG.GO$gene_id])
-		AVE.PW <- S[,"PW"]/S[,"N"]
-		W <- AVE.PW*(Total-S[,"N"])/(PW.ALL-S[,"N"]*AVE.PW)
+#		Probability ratio for each pathway vs rest of universe
+		SumPP <- sum(prior.prob)
+		M2 <- NGenes-S[,"N"]
+		Odds <- S[,"PP"] / (SumPP-S[,"PP"]) * M2 / S[,"N"]
 
 #		Wallenius' noncentral hypergeometric test
+#		Note that dWNCHypergeo() is more accurate than pWNCHypergeo(), hence use of 2-terms
 		if(!requireNamespace("BiasedUrn",quietly=TRUE)) stop("BiasedUrn package required but is not installed (or can't be loaded)")
-		for(j in 1:nsets) for(i in 1:nrow(S)) 
-			P[i,j] <- BiasedUrn::pWNCHypergeo(S[i,1+j], S[i,"N"], Total-S[i,"N"], TotalDE[[j]], W[i],lower.tail=FALSE) + BiasedUrn::dWNCHypergeo(S[i,1+j], S[i,"N"], Total-S[i,"N"], TotalDE[[j]], W[i])
+		for(j in seq_len(nsets)) for(i in seq_len(nrow(S)))
+			PValue[i,j] <- BiasedUrn::pWNCHypergeo(S[i,1L+j], S[i,"N"], M2[i], nde[j], Odds[i], lower.tail=FALSE) +
+			               BiasedUrn::dWNCHypergeo(S[i,1L+j], S[i,"N"], M2[i], nde[j], Odds[i])
+
+#		Remove sum of prob column, not needed for output
 		S <- S[,-ncol(S)]
 
 	} else {
 
-	#	Fisher's exact test
-		for(j in 1:nsets)
-			P[,j] <- phyper(q=S[,1+j]-0.5,m=TotalDE[[j]],n=Total-TotalDE[[j]], k=S[,"N"],lower.tail=FALSE)
+#		Fisher's exact test
+		for(j in seq_len(nsets))
+			PValue[,j] <- phyper(S[,1L+j]-0.5, nde[j], NGenes-nde[j], S[,"N"], lower.tail=FALSE)
 
 	}
 
 #	Assemble output
-	g <- strsplit2(rownames(S),split="\\.")
-	TERM <- suppressMessages(AnnotationDbi::select(GO.db::GO.db,keys=g[,1],columns="TERM"))
-	Results <- data.frame(Term = TERM[[2]], Ont = g[,2], S, P, stringsAsFactors=FALSE)
-	rownames(Results) <- g[,1]
-
-#	Name p-value columns
-	colnames(Results)[3+nsets+(1L:nsets)] <- paste0("P.", names(de))
+	GOID <- rownames(S)
+	TERM <- suppressMessages(AnnotationDbi::select(GO.db::GO.db,keys=GOID,columns="TERM"))
+	m <- match(GOID,GeneID.PathID[,2])
+	Ont <- GeneID.PathID[m,3]
+	Results <- data.frame(Term=TERM[,2], Ont=Ont, S, PValue, stringsAsFactors=FALSE)
 
 	Results
 }

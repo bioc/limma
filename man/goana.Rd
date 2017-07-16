@@ -56,7 +56,7 @@ getKEGGPathwayNames(species.KEGG = NULL, remove.qualifier = FALSE)
   \item{universe}{vector specifying the set of Entrez Gene identifiers to be the background universe.
   If \code{NULL} then all Entrez Gene IDs associated with any gene ontology term will be used as the universe.}
 
-  \item{restrict.universe}{logical, should the \code{universe} be restricted to gene identifiers found in \code{gene.pathway}?}
+  \item{restrict.universe}{logical, should the \code{universe} be restricted to gene identifiers found in at least one pathway in \code{gene.pathway}?}
 
   \item{prior.prob}{optional numeric vector of the same length as \code{universe} giving the prior probability that each gene in the universe appears in a gene set.
   Will be computed from \code{covariate} if the latter is provided.

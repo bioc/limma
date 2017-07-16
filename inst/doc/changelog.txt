@@ -1,3 +1,10 @@
+16 Jul 2017: limma 3.33.5
+
+- goana.default() code is rewritten to more closely match
+  kegga.default. Slight speed improvement. Prior probabilities are now
+  computed using the restricted universe with GO annotation instead of
+  the whole universe.
+
 15 Jul 2017: limma 3.33.4
 
 - New argument 'restrict.universe' for the default kegga() method.

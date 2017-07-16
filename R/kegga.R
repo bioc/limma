@@ -173,11 +173,7 @@ kegga.default <- function(de, universe=NULL,  restrict.universe=FALSE, species="
 	if(NGenes<1L) stop("No annotated genes found in universe")
 
 #	Restrict DE genes to universe
-	nde <- rep_len(0L,nsets)
-	for (s in 1:nsets) {
-		de[[s]] <- de[[s]][de[[s]] %in% universe]
-		nde[s] <- length(de[[s]])
-	}
+	for (s in 1:nsets) de[[s]] <- de[[s]][de[[s]] %in% universe]
 
 #	Restrict pathways to universe
 	i <- GeneID.PathID[,1] %in% universe
@@ -215,6 +211,7 @@ kegga.default <- function(de, universe=NULL,  restrict.universe=FALSE, species="
 #	Overlap tests
 	PValue <- matrix(0,nrow=nrow(S),ncol=nsets)
 	colnames(PValue) <- paste("P", names(de), sep=".")
+	nde <- lengths(de, use.names=FALSE)
 	if(!is.null(prior.prob)) {
 
 #		Probability ratio for each pathway vs rest of universe
