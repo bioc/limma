@@ -1,3 +1,11 @@
+25 Jul 2017: limma 3.32.4
+
+- alias2SymbolUsingNCBI() now always produces a data.frame.
+  Previously a single-column data.frame was returned as a vector.
+
+- Default value for 'style' in volcanoplot() changed to "p-value"
+  instead of "p". This doesn't change the behavior of the function.
+
 15 Jul 2017: limma 3.32.3
 
 - New argument 'restrict.universe' for the default kegga() method.
