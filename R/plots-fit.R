@@ -1,9 +1,9 @@
 #  PRESENTATION PLOTS FROM FITTED MODEL OBJECTS
 
-volcanoplot <- function(fit,coef=1,style="p",highlight=0,names=fit$genes$ID,xlab="Log2 Fold Change",ylab=NULL,pch=16,cex=0.35, ...)
+volcanoplot <- function(fit,coef=1,style="p-value",highlight=0,names=fit$genes$ID,xlab="Log2 Fold Change",ylab=NULL,pch=16,cex=0.35, ...)
 #	Volcano plot of log-fold-change and B-statistic
 #	Gordon Smyth
-#	Created 27 Oct 2006. Last modified 7 April 2007.
+#	Created 27 Oct 2006. Last modified 25 July 2017.
 {
 	if(!is(fit,"MArrayLM")) stop("fit must be an MArrayLM")
 	if(is.null(fit$lods)) stop("No B-statistics found, perhaps eBayes() not yet run")

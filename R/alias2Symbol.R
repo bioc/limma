@@ -92,7 +92,7 @@ alias2SymbolTable <- function(alias,species="Hs")
 alias2SymbolUsingNCBI <- function(alias,gene.info.file,required.columns=c("GeneID","Symbol","description"))
 #	Convert gene aliases to current symbols etc using a gene_info file downloaded from the NCBI
 #	Gordon Smyth
-#	Created 2 March 2017. Last modified 30 April 2017.
+#	Created 2 March 2017. Last modified 25 July 2017.
 {
 	alias <- as.character(alias)
 	if(is.data.frame(gene.info.file)) {
@@ -116,5 +116,5 @@ alias2SymbolUsingNCBI <- function(alias,gene.info.file,required.columns=c("GeneI
 		EntrezID[i] <- NCBI$GeneID[IS$Index[m]]
 		m <- match(EntrezID,NCBI$GeneID)
     }
-    NCBI[m,required.columns]
+    NCBI[m,required.columns,drop=FALSE]
 }

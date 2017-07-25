@@ -5,7 +5,7 @@
 Creates a volcano plot for a specified coefficient of a linear model.
 }
 \usage{
-volcanoplot(fit, coef = 1L, style = "p", highlight = 0, names = fit$genes$ID,
+volcanoplot(fit, coef = 1L, style = "p-value", highlight = 0, names = fit$genes$ID,
             xlab = "Log2 Fold Change", ylab = NULL, pch=16, cex=0.35, \dots)
 }
 \arguments{

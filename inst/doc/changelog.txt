@@ -1,3 +1,11 @@
+25 Jul 2017: limma 3.33.6
+
+- alias2SymbolUsingNCBI() now always produces a data.frame.
+  Previously a single-column data.frame was returned as a vector.
+
+- Default value for 'style' in volcanoplot() changed to "p-value"
+  instead of "p". This doesn't change the behavior of the function.
+
 16 Jul 2017: limma 3.33.5
 
 - goana.default() code is rewritten to more closely match
