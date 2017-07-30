@@ -232,6 +232,9 @@ mroast(y=y,list(set1=iset1,set2=iset2),design,contrast=2,array.weights=c(0.5,1,0
 mroast(y=y,list(set1=iset1,set2=iset2),design,contrast=2,weights=w)
 mroast(y=y,list(set1=iset1,set2=iset2),design,contrast=2,weights=w,array.weights=c(0.5,1,0.5,1))
 fry(y=y,list(set1=iset1,set2=iset2),design,contrast=2,weights=w,array.weights=c(0.5,1,0.5,1))
+rownames(y) <- paste0("Gene",1:100)
+iset1A <- rownames(y)[1:5]
+fry(y=y,index=iset1A,design,contrast=2,weights=w,array.weights=c(0.5,1,0.5,1))
 
 ### camera
 
@@ -239,6 +242,7 @@ camera(y=y,iset1,design,contrast=2,weights=c(0.5,1,0.5,1),allow.neg.cor=TRUE,int
 camera(y=y,list(set1=iset1,set2=iset2),design,contrast=2,allow.neg.cor=TRUE,inter.gene.cor=NA)
 camera(y=y,iset1,design,contrast=2,weights=c(0.5,1,0.5,1))
 camera(y=y,list(set1=iset1,set2=iset2),design,contrast=2)
+camera(y=y,iset1A,design,contrast=2)
 
 ### with EList arg
 

@@ -1,3 +1,7 @@
+30 Jul 2017: limma 3.33.7
+
+- Bug fix to camera() when 'index' contains character row names.
+
 25 Jul 2017: limma 3.33.6
 
 - alias2SymbolUsingNCBI() now always produces a data.frame.
