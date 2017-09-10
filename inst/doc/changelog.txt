@@ -1,4 +1,8 @@
- 8 Sep 2017: limma 3.33.8
+10 Sep 2017: limma 3.33.9
+ 
+- read.idat() can now handle idat files in SNP format.
+
+10 Sep 2017: limma 3.33.8
  
 - Bug fix to cameraPR() when 'index' contains character row names.
 
