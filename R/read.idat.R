@@ -1,7 +1,7 @@
 read.idat <- function(idatfiles, bgxfile, dateinfo=FALSE, annotation="Symbol", tolerance=0L, verbose=TRUE)
 #	Read GenomeStudio IDAT files for Illumina gene expression BeadChips
 #	Matt Ritchie and Gordon Smyth
-#	Created 30 September 2013.	Last modified 14 June 2016.
+#	Created 30 September 2013.  Last modified 9 May 2017.
 {
 #	Need illuminaio package
 	OK <- requireNamespace("illuminaio",quietly=TRUE)
@@ -58,7 +58,11 @@ read.idat <- function(idatfiles, bgxfile, dateinfo=FALSE, annotation="Symbol", t
 		if(verbose) cat("\t", idatfiles[j], "... ")
 		tmp <- illuminaio::readIDAT(idatfiles[j])
 		if(verbose) cat("Done\n")
-		ind <- match(elist$genes$Array_Address_Id, tmp$Quants$IllumicodeBinData)
+		if("IllumicodeBinData" %in% colnames(tmp$Quants)) {
+			ind <- match(elist$genes$Array_Address_Id, tmp$Quants$IllumicodeBinData)
+		} else {
+		       ind <- match(elist$genes$Array_Address_Id, rownames(tmp$Quants))
+		}
 
 #		Check for whether values are available for all probes
 		if(anyNA(ind)) {
@@ -68,15 +72,26 @@ read.idat <- function(idatfiles, bgxfile, dateinfo=FALSE, annotation="Symbol", t
 				     " missing - please check that you have the right files, or consider setting \'tolerance\'=", sum(is.na(ind)))
 			i <- which(!is.na(ind))
 			ind <- ind[i]
-			elist$E[i,j] <- tmp$Quants$MeanBinData[ind]
-			elist$other$STDEV[i,j] <- tmp$Quants$DevBinData[ind]
-			elist$other$NumBeads[i,j] <- tmp$Quants$NumGoodBeadsBinData[ind]
-		} else {
-			elist$E[,j] <- tmp$Quants$MeanBinData[ind]
-			elist$other$STDEV[,j] <- tmp$Quants$DevBinData[ind]
-			elist$other$NumBeads[,j] <- tmp$Quants$NumGoodBeadsBinData[ind]
+	                if("MeanBinData" %in% colnames(tmp$Quants) && "DevBinData" %in% colnames(tmp$Quants) && "NumGoodBeadsBinData" %in% colnames(tmp$Quants)) {
+				elist$E[i,j] <- tmp$Quants$MeanBinData[ind]
+                        	elist$other$STDEV[i,j] <- tmp$Quants$DevBinData[ind]
+                        	elist$other$NumBeads[i,j] <- tmp$Quants$NumGoodBeadsBinData[ind]
+			} else { # if idat is in SNP format, use different headings
+                                elist$E[i,j] <- tmp$Quants[ind,"Mean"]
+		     	        elist$other$STDEV[i,j] <- tmp$Quants[ind,"SD"]
+                                elist$other$NumBeads[i,j] <- tmp$Quants[ind,"NBeads"]
+			}
+                } else { # When no data is missing...
+                        if("MeanBinData" %in% colnames(tmp$Quants) && "DevBinData" %in% colnames(tmp$Quants) && "NumGoodBeadsBinData" %in% colnames(tmp$Quants)) {
+                                elist$E[,j] <- tmp$Quants$MeanBinData[ind]
+				elist$other$STDEV[,j] <- tmp$Quants$DevBinData[ind]
+                                elist$other$NumBeads[,j] <- tmp$Quants$NumGoodBeadsBinData[ind]
+			} else { # if idat is in SNP format, use different headings
+                                elist$E[,j] <- tmp$Quants[ind,"Mean"]
+                                elist$other$STDEV[,j] <- tmp$Quants[ind,"SD"]
+                                elist$other$NumBeads[,j] <- tmp$Quants[ind,"NBeads"]
+                        }
 		}
-
 		if(dateinfo) {
 			elist$targets$DecodeInfo[j] = paste(tmp$RunInfo[1,], collapse=" ")
 			elist$targets$ScanInfo[j] = paste(tmp$RunInfo[2,], collapse=" ")
