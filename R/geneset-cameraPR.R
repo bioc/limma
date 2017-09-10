@@ -10,10 +10,11 @@ cameraPR.default <- function(statistic,index,use.ranks=FALSE,inter.gene.cor=0.01
 	if(length(dots)) warning("Extra arguments disregarded: ",sQuote(dots))
 
 #	Check statistic
-	if(anyNA(statistic)) stop("NA values for statistic now allowed")
-	Stat <- as.numeric(statistic)
-	G <- length(Stat)
-	ID <- names(Stat)
+	if(is.list(statistic)) stop("statistic should be a numeric vector")
+	storage.mode(statistic) <- "numeric"
+	if(anyNA(statistic)) stop("NA values for statistic not allowed")
+	G <- length(statistic)
+	ID <- names(statistic)
 	if(G<3) stop("Two few genes in dataset: need at least 3")
 
 #	Check index
@@ -38,18 +39,18 @@ cameraPR.default <- function(statistic,index,use.ranks=FALSE,inter.gene.cor=0.01
 		df.camera <- G-2L
 
 #	Global statistics
-	meanStat <- mean(Stat)
-	varStat <- var(Stat)
+	meanStat <- mean(statistic)
+	varStat <- var(statistic)
 
 	NGenes <- Down <- Up <- rep_len(0,nsets)
 	for (i in 1:nsets) {
 		iset <- index[[i]]
 		if(is.character(iset)) iset <- which(ID %in% iset)
-		StatInSet <- Stat[iset]
+		StatInSet <- statistic[iset]
 		m <- length(StatInSet)
 		NGenes[i] <- m
 		if(use.ranks) {
-			p.value <- rankSumTestWithCorrelation(iset,statistics=Stat,correlation=inter.gene.cor[i],df=df.camera)
+			p.value <- rankSumTestWithCorrelation(iset,statistics=statistic,correlation=inter.gene.cor[i],df=df.camera)
 			Down[i] <- p.value[1]
 			Up[i] <- p.value[2]
 		} else {	

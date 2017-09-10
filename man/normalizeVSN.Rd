@@ -46,7 +46,7 @@ Bioinformatics 18 Supplement 1, S96-S104.
 \seealso{
   An overview of LIMMA functions for normalization is given in \link{05.Normalization}.
 
-  See also \code{\link[vsn:vsn]{vsn}} and \code{\link[vsn:vsn2]{vsnMatrix}} in the vsn package.
+  See also \code{\link[vsn:vsn2]{vsnMatrix}} in the vsn package.
 }
 
 \examples{
