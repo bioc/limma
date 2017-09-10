@@ -1,7 +1,7 @@
 read.idat <- function(idatfiles, bgxfile, dateinfo=FALSE, annotation="Symbol", tolerance=0L, verbose=TRUE)
 #	Read GenomeStudio IDAT files for Illumina gene expression BeadChips
 #	Matt Ritchie and Gordon Smyth
-#	Created 30 September 2013.	Last modified 14 June 2016.
+#	Created 30 September 2013.  Last modified 9 May 2017.
 {
 #	Need illuminaio package
 	OK <- requireNamespace("illuminaio",quietly=TRUE)
