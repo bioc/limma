@@ -1,20 +1,20 @@
 #  PRESENTATION PLOTS FROM FITTED MODEL OBJECTS
 
 volcanoplot <- function(fit,coef=1,style="p-value",highlight=0,names=fit$genes$ID,xlab="Log2 Fold Change",ylab=NULL,pch=16,cex=0.35, ...)
-#	Volcano plot of log-fold-change and B-statistic
+#	Volcano plot of log-fold-change vs significance (p-value or B-statistic)
 #	Gordon Smyth
-#	Created 27 Oct 2006. Last modified 25 July 2017.
+#	Created 27 Oct 2006. Last modified 21 Sep 2017.
 {
 	if(!is(fit,"MArrayLM")) stop("fit must be an MArrayLM")
-	if(is.null(fit$lods)) stop("No B-statistics found, perhaps eBayes() not yet run")
 	x <- as.matrix(fit$coef)[,coef]
-	style <- tolower(style)
-	style <- match.arg(style, c("p-value","b-statistic"))
+	style <- match.arg(tolower(style), c("p-value","b-statistic"))
 	if(style=="p-value") {
+		if(is.null(fit$p.value)) stop("No p-values found in linear model fit object")
 		y <- as.matrix(fit$p.value)[,coef]
 		y <- -log10(y)
 		if(is.null(ylab)) ylab="-log10(P-value)"
 	} else {
+		if(is.null(fit$lods)) stop("No B-statistics found in linear model fit object")
 		y <- as.matrix(fit$lods)[,coef]
 		if(is.null(ylab)) ylab="Log Odds of Differential Expression"
 	}

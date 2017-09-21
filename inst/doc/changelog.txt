@@ -1,3 +1,8 @@
+21 Sep 2017: limma 3.32.7
+ 
+- volcanoplot() didn't work with MArrayLM objects produced by
+  treat(). Now fixed.
+
 10 Sep 2017: limma 3.32.6
  
 - read.idat() can now handle idat files in SNP format.
