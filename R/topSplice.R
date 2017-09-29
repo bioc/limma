@@ -13,8 +13,8 @@ topSplice <- function(fit, coef=ncol(fit), test="simes", number=10L, FDR=1, sort
 	if(test=="f") test <- "F"
 
 	sort.by <- match.arg(sort.by,choices=c("p","none","logFC","NExons"))
-	if(test=="logFC" & test!="t") stop("Sorting by logFC only available with Simes test")
-	if(test=="NExons" & test=="t") stop("Sorting by NExons only available with gene-level test")
+	if(sort.by=="logFC" & test!="t") stop("Sorting by logFC only available with Simes test")
+	if(sort.by=="NExons" & test=="t") stop("Sorting by NExons only available with gene-level tests")
 
 #	Assemble data.frame of results for this coef
 	switch(test,
