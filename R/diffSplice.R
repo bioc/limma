@@ -146,42 +146,6 @@ diffSplice <- function(fit,geneid,exonid=NULL,robust=FALSE,verbose=TRUE)
 	out
 }
 
-topSplice <- function(fit, coef=ncol(fit), test="simes", number=10, FDR=1)
-#	Collate diffSplice results into data.frame, ordered from most significant at top
-#	Gordon Smyth
-#	Created 18 Dec 2013.  Last modified 18 Aug 2014.
-{
-	coef <- coef[1]
-	test <- match.arg(test,c("simes","F","f","t"))
-	if(test=="f") test <- "F"
-	switch(test,
-	"t" = {
-		number <- min(number,nrow(fit$coefficients))
-		P <- fit$p.value[,coef]
-		BH <- p.adjust(P, method="BH")
-		if(FDR<1) number <- min(number,sum(BH<FDR))
-		o <- order(P)[1:number]
-		data.frame(fit$genes[o,,drop=FALSE],logFC=fit$coefficients[o,coef],t=fit$t[o,coef],P.Value=P[o],FDR=BH[o])
-	},
-	F = {
-		number <- min(number,nrow(fit$gene.F))
-		P <- fit$gene.F.p.value[,coef]
-		BH <- p.adjust(P, method="BH")
-		if(FDR<1) number <- min(number,sum(BH<FDR))
-		o <- order(P)[1:number]
-		data.frame(fit$gene.genes[o,,drop=FALSE],F=fit$gene.F[o,coef],P.Value=P[o],FDR=BH[o])
-	},
-	simes = {
-		number <- min(number,nrow(fit$gene.F))
-		P <- fit$gene.simes.p.value[,coef]
-		BH <- p.adjust(P, method="BH")
-		if(FDR<1) number <- min(number,sum(BH<FDR))
-		o <- order(P)[1:number]
-		data.frame(fit$gene.genes[o,,drop=FALSE],P.Value=P[o],FDR=BH[o])
-	}
-	)
-}
-
 plotSplice <- function(fit, coef=ncol(fit), geneid=NULL, genecolname=NULL, rank=1L, FDR = 0.05)
 #	Plot exons of chosen gene
 #	fit is output from diffSplice

@@ -1,3 +1,7 @@
+29 Sep 2017: limma 3.33.11
+ 
+- New argument 'sort.by' for topSplice().
+
 21 Sep 2017: limma 3.33.10
  
 - volcanoplot() didn't work with MArrayLM objects produced by
