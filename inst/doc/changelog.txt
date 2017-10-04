@@ -1,5 +1,16 @@
+ 4 Oct 2017: limma 3.32.8
+
+- Bug fixes for beadCountWeights(). Default is now set correct for
+  'design' and the function now works correctly when 'y' is an EList
+  object contain bead standard errors but not standard deviations.
+
+- Bug fixes for plotSplice() which, in some circumstances, was not
+  highlight significant exons.
+
+- New argument 'sort.by' for topSplice().
+
 21 Sep 2017: limma 3.32.7
- 
+
 - volcanoplot() didn't work with MArrayLM objects produced by
   treat(). Now fixed.
 

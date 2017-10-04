@@ -5,17 +5,23 @@
 Top table ranking the most differentially spliced genes or exons.
 }
 \usage{
-topSplice(fit, coef=ncol(fit), test="simes", number=10, FDR=1)
+topSplice(fit, coef = ncol(fit), test = "simes", number = 10, FDR=1, sort.by = "p")
 }
 \arguments{
   \item{fit}{\code{MArrayLM} fit object produced by \code{diffSplice}.}
   \item{coef}{the coefficient (column) of fit for which differentially splicing is assessed.}
-  \item{test}{character string, possible values are \code{"simes"}, \code{"F"} or \code{"t"}.
+  \item{test}{character string specifying which statistical test to apply.
+    Possible values are \code{"simes"}, \code{"F"} or \code{"t"}.
     \code{"F"} gives F-tests for each gene.
     \code{"t"} gives t-tests for each exon.
-    \code{"simes"} gives genewise p-values derived from the t-tests after Simes adjustment for each gene.}
+    \code{"simes"} gives genewise p-values derived from the t-tests after Simes adjustment for each gene.
+  }
   \item{number}{integer, maximum number of rows to output.}
   \item{FDR}{numeric, only show exons or genes with false discovery rate less than this cutoff.}
+  \item{sort.by}{character string specifying which column to sort results by.
+    Possible values for \code{"p"}, \code{"logFC"}, \code{"NExons"} or \code{"none"}.
+    \code{"logFC"} is only available if \code{test="t"} and \code{"NExons"} is only available if \code{test="simes"} or \code{test="F"}.
+  }
 }
 
 \details{

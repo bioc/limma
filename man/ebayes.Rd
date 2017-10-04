@@ -108,25 +108,31 @@ Smyth, G. K. (2004). Linear models and empirical Bayes methods for assessing dif
 
 #  Simulate gene expression data,
 #  6 microarrays and 100 genes with one gene differentially expressed
-set.seed(2004); invisible(runif(100))
-M <- matrix(rnorm(100*6,sd=0.3),100,6)
-M[1,] <- M[1,] + 1
-fit <- lmFit(M)
+set.seed(2016)
+sigma2 <- 0.05 / rchisq(100, df=10) * 10
+y <- matrix(rnorm(100*6,sd=sqrt(sigma2)),100,6)
+design <- cbind(Intercept=1,Group=c(0,0,0,1,1,1))
+y[1,4:6] <- y[1,4:6] + 1
+fit <- lmFit(y,design)
 
 #  Moderated t-statistic
 fit <- eBayes(fit)
-topTable(fit)
+topTable(fit,coef=2)
 
 #  Ordinary t-statistic
-ordinary.t <- fit$coef / fit$stdev.unscaled / fit$sigma
+ordinary.t <- fit$coef[,2] / fit$stdev.unscaled[,2] / fit$sigma
 
 #  Q-Q plots of t statistics
 #  Points off the line may be differentially expressed
 par(mfrow=c(1,2))
 qqt(ordinary.t, df=fit$df.residual, main="Ordinary t")
 abline(0,1)
-qqt(fit$t, df=fit$df.total,main="Moderated t")
+qqt(fit$t[,2], df=fit$df.total,main="Moderated t")
 abline(0,1)
 par(mfrow=c(1,1))
+
+# Treat
+tfit <- treat(fit,lfc=log2(1.1))
+topTreat(tfit,coef=2)
 }
 \keyword{htest}
