@@ -1,3 +1,9 @@
+ 4 Oct 2017: limma 3.33.13
+ 
+- Bug fixes for beadCountWeights(). Default is now set correct for
+  'design' and the function now works correctly when 'y' is an EList
+  object contain bead standard errors but not standard deviations.
+
 29 Sep 2017: limma 3.33.12
  
 - Bug fixes for plotSplice() which, in some circumstances, was not

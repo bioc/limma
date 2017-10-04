@@ -1,34 +1,51 @@
 beadCountWeights <- function(y, x, design=NULL, bead.stdev=NULL, bead.stderr=NULL, nbeads=NULL, array.cv=TRUE, scale=FALSE)
 #	Compute weights for BeadChips based on bead-level counts and standard deviations
 #	Charity Law and Gordon Smyth
-#	4 August 2010. Last modified 19 Dec 2013.
+#	Created 4 August 2010. Last modified 4 Oct 2017.
 {
+#	Matrix of normalized expression values
 	E <- as.matrix(y)
+	P <- nrow(E)
+	A <- ncol(E)
+
+#	Matrix of non-normalized expression values on unlog scale
 	E.raw <- as.matrix(x)
+	if(nrow(E.raw) != P) stop("dimensions don't match")
+	if(ncol(E.raw) != A) stop("dimensions don't match")
+
+#	Check design matrix
+	if(is.null(design)) design <- y$design
+	if(is.null(design))
+		design <- matrix(1,A,1)
+	else {
+		design <- as.matrix(design)
+		if(mode(design) != "numeric") stop("design must be a numeric matrix")
+		if(nrow(design) != A) stop("row dimension of design doesn't match column dimension of data object")
+	}
+
+#	Number of beads per probe
 	if(is.null(nbeads)) {
 		nbeads <- y$other$Avg_NBEADS
-		if(is.null(nbeads)) stop("NBEADS not found in data object")
+		if(is.null(nbeads)) stop("nbeads not provided and Avg_NBEADS not found in data object")
 	}	
+	if(nrow(nbeads) != P) stop("dimensions don't match")
+	if(ncol(nbeads) != A) stop("dimensions don't match")
+
+#	Standard deviation of beads per probe
 	if(is.null(bead.stdev)) {
-		if (is.null(bead.stderr)) {
-			if (is.null(y$other$BEAD_STDEV)) {
-				y$other$BEAD_STDEV <- y$other$BEAD_STDERR*sqrt(nbeads)
+		if(is.null(bead.stderr)) {
+			if(is.null(y$other$BEAD_STDEV)) {
+				if(is.null(y$other$BEAD_STDERR)) stop("Neither bead.stdev nor bead.stderr were provided (and neither could be found in the data object y). At least one is required.")
+				bead.stdev <- y$other$BEAD_STDERR*sqrt(nbeads)
 			} else {
-			bead.stdev <- y$other$BEAD_STDEV
+				bead.stdev <- y$other$BEAD_STDEV
 			}
 		} else {
 			bead.stdev <- bead.stderr*sqrt(nbeads)
 		}
-	if(is.null(bead.stdev)) stop("BEAD_STDEV and BEAD_STDERR are missing. At least one is required.")	
 	}
-	P <- nrow(E)
-	A <- ncol(E)
-	if(nrow(E.raw) != P) stop("dimensions don't match")
-	if(ncol(E.raw) != A) stop("dimensions don't match")
 	if(nrow(bead.stdev) != P) stop("dimensions don't match")
 	if(ncol(bead.stdev) != A) stop("dimensions don't match")
-	if(nrow(nbeads) != P) stop("dimensions don't match")
-	if(ncol(nbeads) != A) stop("dimensions don't match")
 
 #	Coefficient of variation of bead-level observations
 #	Array-specific or constant. 
