@@ -3,6 +3,68 @@
 \encoding{UTF-8}
 
 
+\section{Version 3.34.0}{\itemize{
+
+\item 
+read.idat() can now handle idat files in SNP format.
+
+\item
+New argument 'sort.by' for topSplice().
+
+\item
+diffSplice() now treats any NA geneid as a separate gene with one
+  exon. Previously all NA geneids were treated as the same gene.
+
+\item 
+Bug fixes for plotSplice() which, in some circumstances, was not
+  highlight significant exons.
+
+\item
+Default value for 'style' in volcanoplot() changed to "p-value"
+  instead of "p". This doesn't change the behavior of the function.
+
+\item
+volcanoplot() didn't work with MArrayLM objects produced by
+  treat(). Now fixed.
+
+\item 
+The gene.info.file argument of alias2SymbolUsingNCBI() will now
+  optionally accept a data.frame instead of a file name.
+
+\item
+alias2SymbolUsingNCBI() now always produces a data.frame.
+  Previously a single-column data.frame was returned as a vector.
+
+\item
+Bug fixes to camera() and cameraPR() when 'index' contains character row names.
+
+\item
+New argument 'restrict.universe' for the default kegga() method.
+  The default is now not to the restrict the universe to genes with
+  KEGG annotation.
+
+\item
+goana.default() code is rewritten to more closely match
+  kegga.default. Slight speed improvement. Prior probabilities are now
+  computed using the restricted universe with GO annotation instead of
+  the whole universe.
+
+\item
+Bug fix for kegga() when trend=TRUE or a prior.prob or covariate is
+  specified. Previously the Down p-values were substantially too small
+  and the Up p-values were too large.
+
+\item
+plotWithHighlights() checks whether 'status' is a factor and
+  converts to character.
+
+\item
+Bug fixes for beadCountWeights(). Default is now set correct for
+  'design' and the function now works correctly when 'y' is an EList
+  object contain bead standard errors but not standard deviations.
+}}
+
+
 \section{Version 3.32.0}{\itemize{
 
 \item
