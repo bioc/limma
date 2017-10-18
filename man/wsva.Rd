@@ -36,5 +36,5 @@ If \code{weight.by.sd=FALSE}, then the method is a simplification of the approac
 \references{
 Leek, JT, Storey, JD (2007).
 Capturing heterogeneity in gene expression studies by surrogate variable analysis.
-PLoS Genetics 3, 1724-1735.
+\emph{PLoS Genetics} 3, 1724-1735.
 }
