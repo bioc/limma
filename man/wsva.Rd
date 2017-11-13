@@ -20,7 +20,7 @@ wsva(y, design, n.sv = 1L, weight.by.sd = FALSE, plot = FALSE, ...)
 }
 
 \value{
-Numeric matrix, same as \code{design} but with \code{n.sv} columns added containing the surrogate variables.
+Numeric matrix with \code{ncol(y)} rows and \code{n.sv} columns containing the surrogate variables.
 }
 
 \details{

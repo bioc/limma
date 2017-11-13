@@ -1,3 +1,14 @@
+13 Nov 2017: limma 3.34.1
+
+- Update wsva.Rd to describe correct number of columns for output.
+
+31 Oct 2017: limma 3.35.0 (Bioconductor 3.7 Developmental Branch)
+31 Oct 2017: limma 3.34.0 (Bioconductor 3.6 Release Branch)
+
+11 Oct 2017: limma 3.33.14
+
+- Update NEWS.Rd for changes since the Bioconductor 3.5 release.
+
  4 Oct 2017: limma 3.33.13
  
 - Bug fixes for beadCountWeights(). Default is now set correct for
