@@ -83,11 +83,18 @@ See \code{\link{alias2Symbol}} for other possible values for \code{species}.
 
 \code{kegga} reads KEGG pathway annotation from the KEGG website.
 For \code{kegga}, the species name can be provided in either Bioconductor or KEGG format.
-Examples of KEGG format are \code{"hsa"} for human or \code{"mmu"} for mouse.
+Examples of KEGG format are \code{"hsa"} for human, \code{"mmu"} for mouse of \code{"dme"} for fly.
 \code{kegga} can be used for any species supported by KEGG, of which there are more than 14,000 possibilities.
 By default, \code{kegga} obtains the KEGG annotation for the specified species from the \url{http://rest.kegg.jp} website.
 Alternatively one can supply the required pathway annotation to \code{kegga} in the form of two data.frames.
 If this is done, then an internet connection is not required.
+
+The gene ID system used by \code{kegga} for each species is determined by KEGG.
+For human and mouse, the default (and only choice) is Entrez Gene ID.
+For Drosophila, the default is FlyBase CG annotation symbol.
+The format of the IDs can be seen by typing \code{head(getGeneKEGGLinks(species))}, for example\code{head(getGeneKEGGLinks("hsa"))} or \code{head(getGeneKEGGLinks("dme"))}.
+Entrez Gene IDs can always be used.
+If Entrez Gene IDs are not the default, then conversion can be done by specifying \code{"convert=TRUE"}.
 
 The ability to supply data.frame annotation to \code{kegga} means that \code{kegga} can in principle be used in conjunction with any user-supplied set of annotation terms.
 
@@ -115,7 +122,7 @@ While \code{\link{tricubeMovingAverage}} does not enforce monotonicity, it has t
 \code{kegga} requires an internet connection unless \code{gene.pathway} and \code{pathway.names} are both supplied.
 
 The default for \code{kegga} with \code{species="Dm"} changed from \code{convert=TRUE} to \code{convert=FALSE} in limma 3.27.8.
-Users wanting to use Entrez Gene IDs for Drosophila should set \code{convert=TRUE}, otherwise fly-base IDs are assumed.
+Users wanting to use Entrez Gene IDs for Drosophila should set \code{convert=TRUE}, otherwise fly-base CG annotation symbol IDs are assumed (for example "Dme1_CG4637").
 
 The default for \code{restrict.universe=TRUE} in \code{kegga} changed from \code{TRUE} to \code{FALSE} in limma 3.33.4.
 

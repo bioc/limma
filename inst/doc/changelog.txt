@@ -1,4 +1,9 @@
-13 Nov 2017: limma 3.34.1
+26 Nov 2017: limma 3.35.1
+
+- Documentation edit: clarify default gene ID system used by kegga()
+  when species="dme".
+
+13 Nov 2017: limma 3.35.1
 
 - Update wsva.Rd to describe correct number of columns for output.
 
