@@ -1,4 +1,9 @@
-26 Nov 2017: limma 3.35.1
+ 3 Dec 2017: limma 3.35.3
+
+- New arguments 'quote' and 'row.names' for write.fit(). Write.fit()
+  now outputs row.names by default, which previously were suppressed.
+
+26 Nov 2017: limma 3.35.2
 
 - Documentation edit: clarify default gene ID system used by kegga()
   when species="dme".
