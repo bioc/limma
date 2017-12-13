@@ -3,6 +3,8 @@
 \alias{TestResults-class}
 \alias{show,TestResults-method}
 \alias{summary.TestResults}
+\alias{levels.TestResults}
+\alias{labels.TestResults}
 \title{Matrix of Test Results - class}
 
 \description{
@@ -12,10 +14,12 @@ A matrix-based class for storing the results of simultanous tests.
 
 \usage{
 \S3method{summary}{TestResults}(object, \dots)
+\S3method{labels}{TestResults}(object, \dots)
+\S3method{levels}{TestResults}(x)
 }
 
 \arguments{
-\item{object}{object of class \code{TestResults}}
+\item{object, x}{object of class \code{TestResults}}
 \item{\dots}{other arguments are not used}
 }
 
@@ -46,8 +50,8 @@ Functions in LIMMA which operate on \code{TestResults} objects include
 }
 
 \examples{\dontrun{
-#  Assume a data object MA and a design matrix
-fit <- lmFit(MA, design)
+#  Assume a data object y and a design matrix
+fit <- lmFit(y, design)
 fit <- eBayes(fit)
 results <- decideTests(fit)
 summary(results)

@@ -10,7 +10,9 @@ summary.TestResults <- function(object,...)
 	if(is.null(Levels)) Levels <- c(-1L,0L,1L)
 	nlevels <- length(Levels)
 	tab <- matrix(0L,nlevels,ncol(object))
-	dimnames(tab) <- list(as.character(Levels),colnames(object))
+	Labels <- attr(object,"labels")
+	if(is.null(Labels)) Labels <- as.character(Levels)
+	dimnames(tab) <- list(Labels,colnames(object))
 	for (i in 1:nlevels) tab[i,] <- colSums(object==Levels[i],na.rm=TRUE)
 	class(tab) <- "table"
 	tab
@@ -21,12 +23,18 @@ setMethod("show","TestResults",function(object) {
 	printHead(object@.Data)
 })
 
+levels.TestResults <- function(x) attr(x,"levels")
+
+labels.TestResults <- function(object,...) attr(object,"labels")
+
+
 decideTests <- function(object,...) UseMethod("decideTests")
 
 decideTests.default <- function(object,method="separate",adjust.method="BH",p.value=0.05,lfc=0,coefficients=NULL,cor.matrix=NULL,tstat=NULL,df=Inf,genewise.p.value=NULL,...)
 #	Accept or reject hypothesis tests across genes and contrasts
+#	from a matrix of p-values
 #	Gordon Smyth
-#	17 Aug 2004. Last modified 8 Jan 2017.
+#	17 Aug 2004. Last modified 13 Dec 2017.
 {
 	method <- match.arg(method,c("separate","global","hierarchical","nestedF"))
 	if(method=="nestedF") stop("nestedF adjust method requires an MArrayLM object",call.=FALSE)
@@ -82,8 +90,10 @@ decideTests.default <- function(object,method="separate",adjust.method="BH",p.va
 	if(is.null(coefficients)) coefficients <- tstat
 	if(is.null(coefficients)) {
 		attr(isDE,"levels") <- c(0L,1L)
+		attr(isDE,"labels") <- c("NotSig","Sig")
 	} else {
 		attr(isDE,"levels") <- c(-1L,0L,1L)
+		attr(isDE,"labels") <- c("Down","NotSig","Up")
 		coefficients <- as.matrix(coefficients)
 		if( !all(dim(coefficients)==dim(p)) ) stop("dim(object) disagrees with dim(coefficients)")
 		i <- coefficients<0
@@ -97,7 +107,7 @@ decideTests.default <- function(object,method="separate",adjust.method="BH",p.va
 decideTests.MArrayLM <- function(object,method="separate",adjust.method="BH",p.value=0.05,lfc=0,...)
 #	Accept or reject hypothesis tests across genes and contrasts
 #	Gordon Smyth
-#	17 Aug 2004. Last modified 8 Jan 2017.
+#	17 Aug 2004. Last modified 13 Dec 2017.
 {
 	if(is.null(object$p.value)) object <- eBayes(object)
 	method <- match.arg(method,c("separate","global","hierarchical","nestedF"))
@@ -154,6 +164,8 @@ decideTests.MArrayLM <- function(object,method="separate",adjust.method="BH",p.v
 		else
 			results@.Data <- results@.Data * (abs(object$coefficients)>lfc)
 	}
+	attr(results,"levels") <- c(-1L,0L,1L)
+	attr(results,"labels") <- c("Down","NotSig","Up")
 	results
 }
 
