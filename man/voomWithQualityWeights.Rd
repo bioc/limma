@@ -37,11 +37,12 @@ This function is intended to process RNA-Seq data prior to linear modelling in l
 It combines observational-level weights from \code{voom} with sample-specific weights estimated using the \code{arrayWeights} function.
 }
 \value{
-An \code{\link[limma:EList]{EList}} object similar to that from \code{\link{voom}}, but with one extra component: the \code{sample.weights} component containing the vector of sample quality factors.
-The \code{weights} component combines the sample weights and the usuall voom precision weights.
+An \code{\link[limma:EList]{EList}} object similar to that from \code{\link{voom}},
+with an extra column \code{sample.weights} containing the vector of sample quality factors added to the \code{targets} data.frame.
+The \code{weights} component combines the sample weights and the usual voom precision weights.
 }
 
-\author{Matthew Ritchie and Cynthia Liu}
+\author{Matthew Ritchie, Cynthia Liu, Gordon Smyth}
 
 \references{
 Law, C. W., Chen, Y., Shi, W., Smyth, G. K. (2014).
