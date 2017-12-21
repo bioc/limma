@@ -1,3 +1,8 @@
+21 Dec 2017: limma 3.34.5
+
+- voomWithQualityWeights() now returns 'sample.weights' as a column
+  of the 'targets' data.frame instead of as a separate vector.
+
 13 Dec 2017: limma 3.34.4
 
 - "TestResults" objects now include a 'labels' attribute, defaulting

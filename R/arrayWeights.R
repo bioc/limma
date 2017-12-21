@@ -185,8 +185,8 @@ arrayWeights <- function(object, design=NULL, weights=NULL, var.design=NULL, met
 
 voomWithQualityWeights <- function(counts, design=NULL, lib.size=NULL, normalize.method="none", plot=FALSE, span=0.5, var.design=NULL, method="genebygene", maxiter=50, tol=1e-10, trace=FALSE, col=NULL, ...)
 #	Combine voom weights with sample-specific weights estimated by arrayWeights() function for RNA-seq data
-#	Matt Ritchie and Cynthia Liu
-#	Created 22 Sept 2014. Last modified 26 Oct 2016.
+#	Matt Ritchie, Cynthia Liu, Gordon Smyth
+#	Created 22 Sept 2014. Last modified 21 Dec 2017.
 {
 	if(plot) {
 		oldpar <- par(mfrow=c(1,2))
@@ -198,7 +198,7 @@ voomWithQualityWeights <- function(counts, design=NULL, lib.size=NULL, normalize
 	aw <- arrayWeights(v, design=design, method=method, maxiter=maxiter, tol=tol, trace=trace, var.design=var.design)
 
 	v$weights <- t(aw * t(v$weights))
-	v$sample.weights <- aw
+	v$targets$sample.weights <- aw
 
 	if(plot) {
 		barplot(aw, names=1:length(aw), main="Sample-specific weights", ylab="Weight", xlab="Sample", col=col)
