@@ -28,12 +28,14 @@ Aliases are mapped via NCBI Entrez Gene identity numbers using Bioconductor orga
 
 \code{alias2Symbol} maps a set of aliases to a set of symbols, without necessarily preserving order.
 The output vector may be longer or shorter than the original vector, because some aliases might not be found and some aliases may map to more than one symbol.
-\code{alias2SymbolTable} maps each alias to a gene symbol and returns a table with one row for each alias.
+
+\code{alias2SymbolTable} returns of vector of the same length as the vector of aliases.
 If an alias maps to more than one symbol, then the one with the lowest Entrez ID number is returned.
+If an alias can't be mapped, then \code{NA} is returned.
 
 \code{species} can be any character string XX for which an organism package org.XX.eg.db exists and is installed.
 The only requirement of the organism package is that it contains objects \code{org.XX.egALIAS2EG} and \code{org.XX.egSYMBOL} linking the aliases and symbols to Entrez Gene Ids.
-At the time of writing (June 2016), the following organism packages are available from Bioconductor:
+At the time of writing, the following organism packages are available from Bioconductor 3.6:
 \tabular{lll}{
 \tab Package \tab Species\cr
 \tab org.Ag.eg.db \tab  Anopheles\cr
