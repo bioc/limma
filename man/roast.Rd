@@ -81,20 +81,23 @@ For \emph{competitive} gene set tests, see \code{\link{camera}}.
 For a gene set enrichment analysis style analysis using a database of gene sets, see \code{\link{romer}}.
 
 \code{roast} and \code{mroast} test whether any of the genes in the set are differentially expressed.
-They can be used for any microarray experiment which can be represented by a linear model.
+They can be used for any microarray experiment that can be represented by a linear model.
 The design matrix for the experiment is specified as for the \code{\link{lmFit}} function, and the contrast of interest is specified as for the \code{\link{contrasts.fit}} function.
 This allows users to focus on differential expression for any coefficient or contrast in a linear model.
 If \code{contrast} is not specified, then the last coefficient in the linear model will be tested.
 
-The argument \code{index} is often made using \link{ids2indices}.
+The argument \code{index} is often made using \link{ids2indices} but does not have to be.
+Each set to be tested is represented by a vector of row numbers or a vector of gene IDs.
+Gene IDs should correspond to either the rownames of \code{y} or the entries of \code{geneid}.
 
 The argument \code{gene.weights} allows directional weights to be set for individual genes in the set.
 This is often useful, because it allows each gene to be flagged as to its direction and magnitude of change based on prior experimentation.
 A typical use is to make the \code{gene.weights} \code{1} or \code{-1} depending on whether the gene is up or down-regulated in the pathway under consideration.
+If there are multiple sets to be tested, then the gene weights can be included as part of the \code{index}.
+If any of the entries of \code{index} are data.frames, then the second column will be assumed to be gene weights.
 
-The arguments \code{array.weights}, \code{block} and \code{correlation} have the same meaning as for the \code{\link{lmFit}} function.
 The arguments \code{df.prior} and \code{var.prior} have the same meaning as in the output of the \code{\link{eBayes}} function.
-If these arguments are not supplied, they are estimated exactly as is done by \code{eBayes}.
+If these arguments are not supplied, then they are estimated exactly as is done by \code{eBayes}.
 
 The gene set statistics \code{"mean"}, \code{"floormean"}, \code{"mean50"} and \code{msq} are defined by Wu et al (2010).
 The different gene set statistics have different sensitivities to small number of genes.

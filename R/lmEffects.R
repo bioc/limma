@@ -1,7 +1,7 @@
 .lmEffects <- function(y,design=NULL,contrast=ncol(design),array.weights=NULL,weights=NULL,block=NULL,correlation)
 #	Compute matrix of effects from genewise linear models
 #	Gordon Smyth
-#	Created 11 Apr 2016.  Last modified 14 April 2016.
+#	Created 11 Apr 2016.  Last modified 23 January 2017.
 {
 #	Extract components from y
 	y <- getEAWP(y)
@@ -48,6 +48,12 @@
 	}
 	CoefName <- colnames(X)[p]
 	if(is.null(CoefName)) CoefName <- "Contrast"
+
+#	Allow array.weights to be alternatively passed via 'weights', as per lmFit documentation
+	if(is.null(array.weights) && length(weights)==n) {
+		array.weights <- weights
+		weights <- NULL
+	}
 
 #	Check array weights
 	if(!is.null(array.weights)) {
