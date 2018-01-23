@@ -1390,4 +1390,4 @@ GO:0043230        extracellular organelle  CC 14  3    4 0.6749330 0.031604687
 > 
 > proc.time()
    user  system elapsed 
-   3.84    0.12    3.96 
+   3.45    0.07    3.54 

@@ -1,3 +1,9 @@
+23 Jan 2018: limma 3.34.6
+
+- Fix to roast(), mroast() and fry(), which were not allowing array
+  weights to be passed via the 'weights' argument. These functions
+  now treat the 'weights' argument as for lmFit().
+
 21 Dec 2017: limma 3.34.5
 
 - voomWithQualityWeights() now returns 'sample.weights' as a column
