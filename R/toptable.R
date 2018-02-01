@@ -188,21 +188,6 @@ topTableF <- function(fit,number=10,genelist=fit$genes,adjust.method="BH",sort.b
 		if(NCOL(A)>1) A <- rowMeans(A,na.rm=TRUE)
 	}
 
-#	If eb is NULL, look for components in fit
-	if(is.null(eb)) {
-		ebcols <- c("t","p.value","lods")
-		if(confint) ebcols <- c("s2.post","df.total",ebcols)
-		eb <- fit[ebcols]
-#		If still NULL, compute using ebayes just for the one column required
-		if(is.null(eb)) {
-			message("Moderated t-statistics and p-values not found in fit, running ebayes() to get them.")
-			fit$coefficients <- fit$coefficients[,coef,drop=FALSE]
-			fit$stdev.unscaled <- as.matrix(fit$stdev.unscaled)[,coef,drop=FALSE]
-			eb <- ebayes(fit,...)
-			coef <- 1
-		}
-	}
-
 #	Check for lods component
 	if(is.null(eb$lods)) {
 		if(sort.by=="B") stop("Trying to sort.by B, but B-statistic (lods) not found in MArrayLM object",call.=FALSE)
