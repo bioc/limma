@@ -790,6 +790,7 @@ Array 2 corrected
 > ### toptable
 > 
 > toptable(fit)
+Argument 'eb' not provided, so running ebayes() to get moderated t-statistics and p-values.
          logFC          t      P.Value    adj.P.Val         B
 1   1.77602021 10.0852546 1.511047e-12 1.511047e-11 43.333655
 7   0.30852468  1.7519789 8.744151e-02 4.372076e-01 -5.763144
@@ -1390,4 +1391,4 @@ GO:0043230        extracellular organelle  CC 14  3    4 0.6749330 0.031604687
 > 
 > proc.time()
    user  system elapsed 
-   3.45    0.07    3.54 
+   4.53    0.26    5.00 

@@ -1,3 +1,7 @@
+ 1 Feb 2018: limma 3.35.7
+
+- toptable() is now officially deprecated in favor of topTable().
+
 23 Jan 2018: limma 3.35.6
 
 - Fix to roast(), mroast() and fry(), which were not allowing array
