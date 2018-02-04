@@ -1,3 +1,10 @@
+ 4 Feb 2018: limma 3.34.8
+
+- Fix to roast(), mroast() and fry(), which were not allowing gene-
+  level precision weights to be passed via the 'weights' argument.
+  These functions now allow 'weights' to be a vector equal to nrow(y),
+  same as for lmFit().
+
  1 Feb 2018: limma 3.34.7
 
 - toptable() is now officially deprecated in favor of topTable().
@@ -5,8 +12,9 @@
 23 Jan 2018: limma 3.34.6
 
 - Fix to roast(), mroast() and fry(), which were not allowing array
-  weights to be passed via the 'weights' argument. These functions
-  now treat the 'weights' argument as for lmFit().
+  weights (or sample weights) to be passed via the 'weights' argument.
+  These functions now allow 'weights' to be a vector equal to ncol(y),
+  same as for lmFit().
 
 21 Dec 2017: limma 3.34.5
 
@@ -386,10 +394,13 @@
   that previously implemented for fry().  The index vector for each
   gene set can now be a data.frame, allowing each gene set to have
   its own set of gene weights.  The indices can now optionally be a
-  vector of gene names instead of a vector of indices.  roast() and
-  mroast() now support the robust empirical Bayes option of
-  squeezeVar().  roast() and mroast() can now accept, via '...', any
+  vector of gene names instead of a vector of indices.  The
+  'array.weights' and 'trend.var' arguments have been removed, but
+  instead roast() and mroast() can now accept, via '...', any
   argument that would be normally passed to lmFit() or eBayes().
+  In particular, roast() and mroast() now support the robust empirical
+  Bayes option of squeezeVar(). Array weights can still be set using
+  the 'weights' argument, as for lmFit().
 
 - bug fix to propTrueNull() when method="hist" and all the p-values
   are less than 1/nbins.

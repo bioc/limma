@@ -8,15 +8,21 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid=NU
 #	Created 30 January 2015.  Last modified 11 May 2016
 {
 #	Partial matching of extra arguments
+#	array.weights and trend.var included for (undocumented) backward compatibility with code before 9 May 2016.
 	Dots <- list(...)
-	PossibleArgs <- c("array.weights","weights","block","correlation","trend","robust","winsor.tail.p")
+	PossibleArgs <- c("array.weights","weights","block","correlation","trend.var","robust","winsor.tail.p")
 	if(!is.null(names(Dots))) {
 		i <- pmatch(names(Dots),PossibleArgs)
 		names(Dots) <- PossibleArgs[i]
 	}
 
 #	Defaults for extra arguments
-	if(is.null(Dots$trend)) Dots$trend <- FALSE
+	if(is.null(Dots$trend.var)) {
+		Dots$trend <- FALSE
+	} else {
+		Dots$trend <- Dots$trend.var
+		Dots$trend.var <- NULL
+	}
 	if(is.null(Dots$robust)) Dots$robust <- FALSE
 	if(Dots$robust & is.null(Dots$winsor.tail.p)) Dots$winsor.tail.p <- c(0.05,0.1)
 	if(!is.null(Dots$block) & is.null(Dots$correlation)) stop("Intra-block correlation must be specified")
