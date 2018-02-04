@@ -14,7 +14,7 @@ lmFit(object, design=NULL, ndups=1, spacing=1, block=NULL, correlation, weights=
   \item{spacing}{positive integer giving the spacing between duplicate occurrences of the same probe, \code{spacing=1} for consecutive rows.}
   \item{block}{vector or factor specifying a blocking variable on the arrays. Has length equal to the number of arrays. Must be \code{NULL} if \code{ndups>2}.}
   \item{correlation}{the inter-duplicate or inter-technical replicate correlation}
-  \item{weights}{non-negative observation weights.  Can be a numeric matrix of individual weights, of same size as the object expression matrix, or a numeric vector of array weights with length equal to \code{ncol} of the expression matrix, or a numeric vector of gene weights with length equal to \code{nrow} of the expression matrix.}
+  \item{weights}{non-negative precision weights.  Can be a numeric matrix of individual weights of same size as the object expression matrix, or a numeric vector of array weights with length equal to \code{ncol} of the expression matrix, or a numeric vector of gene weights with length equal to \code{nrow} of the expression matrix.}
   \item{method}{fitting method; \code{"ls"} for least squares or \code{"robust"} for robust regression}
   \item{\dots}{other optional arguments to be passed to \code{lm.series}, \code{gls.series} or \code{mrlm}}
 }
@@ -35,7 +35,7 @@ The expression data should be log-ratios for two-color array platforms or log-ex
 The coefficients of the fitted models describe the differences between the RNA sources hybridized to the arrays.
 The probe-wise fitted model results are stored in a compact form suitable for further processing by other functions in the limma package.
 
-The function allows for missing values and accepts quantitative weights through the \code{weights} argument.
+The function allows for missing values and accepts quantitative precision weights through the \code{weights} argument.
 It also supports two different correlation structures.
 If \code{block} is not \code{NULL} then different arrays are assumed to be correlated.
 If \code{block} is \code{NULL} and \code{ndups} is greater than one then replicate spots on the same array are assumed to be correlated.  

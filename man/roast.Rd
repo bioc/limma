@@ -30,7 +30,7 @@ Rotation gene set testing for linear models.
         If either \code{var.prior} or \code{df.prior} are \code{NULL}, then \code{y} should contain values for all genes on the arrays. If both prior parameters are given, then only \code{y} values for the test set are required.}
   \item{index}{index vector specifying which rows (probes) of \code{y} are in the test set.
         Can be a vector of integer indices, or a logical vector of length \code{nrow(y)}, or a vector of gene IDs corresponding to entries in \code{geneid}.
-        Alternatively it can be a data.frame with the first column containing the index vector and the second column containing directional gene weights.
+        Alternatively it can be a data.frame with the first column containing the index vector and the second column containing directional gene contribution weights.
         For \code{mroast} or \code{fry}, \code{index} is a list of index vectors or a list of data.frames. }
   \item{design}{design matrix}
   \item{contrast}{contrast for which the test is required.
@@ -39,8 +39,8 @@ Rotation gene set testing for linear models.
         Can be either a vector of length \code{nrow(y)} or the name of the column of \code{y$genes} containing the gene identifiers.
         Defaults to \code{rownames(y)}.}
   \item{set.statistic}{summary set statistic. Possibilities are \code{"mean"},\code{"floormean"},\code{"mean50"} or \code{"msq"}.}
-  \item{gene.weights}{numeric vector of directional (positive or negative) probewise weights.
-        For \code{mroast} or \code{fry}, this vector must have length equal to \code{nrow(y)}.
+  \item{gene.weights}{numeric vector of directional (positive or negative) contribution weights specifying the size and direction of the contribution of each probe to the gene set statistics.
+        For \code{mroast}, this vector must have length equal to \code{nrow(y)}.
         For \code{roast}, can be of length \code{nrow(y)} or of length equal to the number of genes in the test set.} 
   \item{var.prior}{prior value for residual variances. If not provided, this is estimated from all the data using \code{squeezeVar}.}
   \item{df.prior}{prior degrees of freedom for residual variances. If not provided, this is estimated using \code{squeezeVar}.}
@@ -90,11 +90,18 @@ The argument \code{index} is often made using \link{ids2indices} but does not ha
 Each set to be tested is represented by a vector of row numbers or a vector of gene IDs.
 Gene IDs should correspond to either the rownames of \code{y} or the entries of \code{geneid}.
 
-The argument \code{gene.weights} allows directional weights to be set for individual genes in the set.
+The argument \code{gene.weights} allows directional contribution weights to be set for individual genes in the set.
 This is often useful, because it allows each gene to be flagged as to its direction and magnitude of change based on prior experimentation.
 A typical use is to make the \code{gene.weights} \code{1} or \code{-1} depending on whether the gene is up or down-regulated in the pathway under consideration.
-If there are multiple sets to be tested, then the gene weights can be included as part of the \code{index}.
-If any of the entries of \code{index} are data.frames, then the second column will be assumed to be gene weights.
+Probes with directional weights of opposite signs are expected to have expression changes in opposite directions.
+If there are multiple sets to be tested, then set-specific gene weights can be included as part of the \code{index}.
+If any of the entries of \code{index} are data.frames, then the second column will be assumed to be gene contribution weights.
+All three functions (\code{roast}, \code{mroast} and \code{fry}) support set-specific gene contribution weights as part of an \code{index} data.frame.
+
+Note that the contribution weights set by \code{gene.weights} are different in nature and purpose to the precision weights set by the \code{weights} argument to \code{lmFit}.
+\code{gene.weights} control the contribution of each gene to the formation of the gene set statistics, and can be positive or negative.
+\code{weights} indicate the precision of the expression measurements and should be positive.
+The \code{weights} are used to construct genewise test statistics whereas \code{gene.weights} are used to combine the genewise test statistics.
 
 The arguments \code{df.prior} and \code{var.prior} have the same meaning as in the output of the \code{\link{eBayes}} function.
 If these arguments are not supplied, then they are estimated exactly as is done by \code{eBayes}.

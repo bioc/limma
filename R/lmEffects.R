@@ -1,7 +1,7 @@
-.lmEffects <- function(y,design=NULL,contrast=ncol(design),array.weights=NULL,weights=NULL,block=NULL,correlation)
+.lmEffects <- function(y,design=NULL,contrast=ncol(design),array.weights=NULL,gene.weights=NULL,weights=NULL,block=NULL,correlation)
 #	Compute matrix of effects from genewise linear models
 #	Gordon Smyth
-#	Created 11 Apr 2016.  Last modified 23 January 2017.
+#	Created 11 Apr 2016.  Last modified 4 Feb 2018.
 {
 #	Extract components from y
 	y <- getEAWP(y)
@@ -55,11 +55,24 @@
 		weights <- NULL
 	}
 
-#	Check array weights
+#	Check array.weights
 	if(!is.null(array.weights)) {
-		if(length(array.weights) != n) stop("Length of array.weights doesn't match number of array")
+		if(length(array.weights) != n) stop("Length of array.weights doesn't match number of arrays")
 		AnyNeg <- any(array.weights <= 0)
 		if(anyNA(AnyNeg) || AnyNeg) stop("array.weights must be positive")
+	}
+
+#	Allow gene.weights to be alternatively passed via 'weights', as per lmFit documentation
+	if(is.null(gene.weights) && length(weights)==ngenes) {
+		gene.weights <- weights
+		weights <- NULL
+	}
+
+#	Check gene.weights
+	if(!is.null(gene.weights)) {
+		if(length(gene.weights) != ngenes) stop("Length of gene.weights doesn't match number of genes")
+		AnyNeg <- any(gene.weights <= 0)
+		if(anyNA(AnyNeg) || AnyNeg) stop("gene.weights must be positive")
 	}
 
 #	Check observation weights
@@ -135,6 +148,9 @@
 #		Preserve sign of estimated effect
 		Effects[,1] <- signc*Effects[,1]
 	}
+
+#	Apply gene weights
+	if(!is.null(gene.weights)) Effects <- sqrt(gene.weights) * Effects
 
 #	Dimension names
 	EffectNames <- p:n

@@ -23,7 +23,7 @@ interGeneCorrelation(y, design)
   \item{index}{an index vector or a list of index vectors.  Can be any vector such that \code{y[index,]} of \code{statistic[index]} selects the rows corresponding to the test set.  The list can be made using \code{\link{ids2indices}}.}
   \item{design}{design matrix.}
   \item{contrast}{contrast of the linear model coefficients for which the test is required. Can be an integer specifying a column of \code{design}, or else a numeric vector of same length as the number of columns of \code{design}.}
-  \item{weights}{numeric matrix of observation weights of same size as \code{y}, or a numeric vector of array weights with length equal to \code{ncol(y)}, or a numeric vector of gene weights with length equal to \code{nrow(y)}.}
+  \item{weights}{numeric matrix of precision weights. Can be a matrix of the same size as \code{y}, or a numeric vector of array weights with length equal to \code{ncol(y)}, or a numeric vector of gene weights with length equal to \code{nrow(y)}.}
   \item{use.ranks}{do a rank-based test (\code{TRUE}) or a parametric test (\code{FALSE})?}
   \item{allow.neg.cor}{should reduced variance inflation factors be allowed for negative correlations?}
   \item{inter.gene.cor}{numeric, optional preset value for the inter-gene correlation within tested sets.  If \code{NA} or \code{NULL}, then an inter-gene correlation will be estimated for each tested set.}
