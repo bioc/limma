@@ -1,3 +1,10 @@
+16 Feb 2018: limma 3.35.9
+
+- In the past, contrasts.fit() always returned NA contrasts for genes
+  with any NA fitted coefficients. contrasts.fit() will now ignore an
+  NA coefficient if the contrast multiplier is zero for that
+  coefficient.
+
  4 Feb 2018: limma 3.35.8
 
 - Fix to roast(), mroast() and fry(), which were not allowing gene-
