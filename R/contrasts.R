@@ -85,7 +85,17 @@ contrasts.fit <- function(fit,contrasts=NULL,coefficients=NULL)
 #	Created 16 Feb 2018.
 {
 	HasZero <- (rowSums(B==0) > 0L)
-	if(any(HasZero) && anyNA(A[,HasZero])) {
+	if(any(HasZero)) {
+		if(mean(HasZero) > 0.4) {
+#			If the matrix is big, it's much quicker to check the whole matrix than to subset it
+			HasNA <- anyNA(A)
+		} else {
+			HasNA <- anyNA(A[,HasZero])
+		}
+	} else {
+		HasNA <- FALSE
+	}
+	if(HasZero && HasNA) {
 		D <- matrix(0,nrow(A),ncol(B))
 		for (j in 1:ncol(B)) {
 			z <- B[,j]==0
