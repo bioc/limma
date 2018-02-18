@@ -1,7 +1,7 @@
 coolmap <- function(x, cluster.by="de pattern", col=NULL, linkage.row="complete", linkage.col="complete", show.dendrogram="both", ...)
 #	Interface to heatmap.2 with useful defaults for log2-expression data
 #	Gordon Smyth
-#	Created 23 Sep 2016. Last modified 24 Sep 2016.
+#	Created 23 Sep 2016. Last modified 18 Feb 2018.
 {
 #	Check arguments
 	x <- as.matrix(x)
@@ -11,7 +11,7 @@ coolmap <- function(x, cluster.by="de pattern", col=NULL, linkage.row="complete"
 	if(is.null(col)) {
 		if(cluster.by=="de pattern") col <- "redblue" else col <- "yellowblue"
 	} else {
-		col <- match.arg(col, c("redblue","redgreen","yellowblue"))
+		if(length(col)==1L) col <- match.arg(col, c("redblue","redgreen","yellowblue","whitered"))
 	}
 	show.dendrogram <- match.arg(show.dendrogram, c("both","row","column","none"))
 
@@ -70,10 +70,11 @@ coolmap <- function(x, cluster.by="de pattern", col=NULL, linkage.row="complete"
 	}
 
 #	Set color pallate
-	col <- switch(col,
+	if(length(col)==1L) col <- switch(col,
 		"redblue"=gplots::colorpanel(256,"blue","white","red"),
 		"redgreen"=gplots::colorpanel(256,"green","black","red"),
-		"yellowblue"=gplots::colorpanel(256,"blue","white","yellow")
+		"yellowblue"=gplots::colorpanel(256,"blue","white","yellow"),
+		"whitered"=gplots::colorpanel(256,low="white",high="red")
 	)
 
 #	Plot heatmap

@@ -16,8 +16,10 @@ coolmap(x, cluster.by="de pattern", col=NULL,
   \item{cluster.by}{choices are \code{"de pattern"} or \code{"expression level"}.
   In the former case, the intention is to cluster by relative changes in expression, so genes are clustered by Pearson correlation and log-expression values are mean-corrected by rows for the plot.
   In the latter case, the intention is to cluster by absolute expression, so genes are clustered by Euclidean and log-expression values are not mean-corrected.}
-  \item{col}{choices are \code{"redblue"}, \code{"redgreen"} or \code{"yellowblue"}.
-  The default is \code{"redblue"} for \code{cluster.by="de pattern"} and \code{"yellowblue"} if \code{cluster.by="expression level"}.}
+  \item{col}{character vector specifying the color panel.
+  Can be either the name of the panel or a vector of R colors that can be passed directly to the \code{heatmap.2} function.
+  Possible panel names are \code{"redblue"}, \code{"redgreen"}, \code{"yellowblue"} or \code{"whitered"}.
+  Defaults to \code{"redblue"} if \code{cluster.by="de pattern"} or \code{"yellowblue"} if \code{cluster.by="expression level"}.}
   \item{linkage.row}{linkage criterion used to cluster the rows.
   Choices are \code{"none"}, \code{"ward"}, \code{"ward.D"}, \code{"ward.D2"}, \code{"single"}, \code{"complete"}, \code{"average"}, \code{"mcquitty"}, \code{"median"} or \code{"centroid"}, with \code{"ward"} treated as \code{"ward.D2"}.}
   \item{linkage.col}{linkage criterion used to cluster the columns.
