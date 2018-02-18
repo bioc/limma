@@ -29,8 +29,8 @@ voom(counts, design = NULL, lib.size = NULL, normalize.method = "none",
 This function is intended to process RNA-Seq or ChIP-Seq data prior to linear modelling in limma.
 
 \code{voom} is an acronym for mean-variance modelling at the observational level.
-The key concern is to estimate the mean-variance relationship in the data, then use this to compute appropriate weights for each observation.
-Count data almost show non-trivial mean-variance relationships.
+The idea is to estimate the mean-variance relationship in the data, then use this to compute an appropriate precision weight for each observation.
+Count data always show marked mean-variance relationships.
 Raw counts show increasing variance with increasing count size, while log-counts typically show a decreasing mean-variance trend.
 This function estimates the mean-variance trend for log-counts, then assigns a weight to each observation based on its predicted variance.
 The weights are then used in the linear modelling process to adjust for heteroscedasticity. 
@@ -41,6 +41,19 @@ The matrix of logCPM values is then optionally normalized.
 The \code{lmFit} function is used to fit row-wise linear models.
 The \code{lowess} function is then used to fit a trend to the square-root-standard-deviations as a function of average logCPM.
 The trend line is then used to predict the variance of each logCPM value as a function of its fitted value, and the inverse variances become the estimated precision weights.
+
+For good results, the \code{counts} matrix should be filtered to remove remove rows with very low counts before running voom().
+The \code{filterByExpr} function in the edgeR package can be used for that purpose.
+
+If \code{counts} is a \code{DGEList} object from the edgeR package, then voom will use the normalization factors found in the object when computing the logCPM values.
+In other words, the logCPM values are computed from the effective library sizes rather than the raw library sizes.
+If the \code{DGEList} object has been scale-normalized in edgeR, then it is usual to leave \code{normalize.method="none"} in voom, i.e., the logCPM values should not usually be re-normalized in the \code{voom} call.
+
+The \code{voom} method is similar in purpose to the limma-trend method, which uses \code{\link{eBayes}} or \code{\link{treat}} with \code{trend=TRUE}.
+The voom method incorporates the mean-variance trend into the precision weights, whereas limma-trend incorporates the trend into the empirical Bayes moderation.
+The voom method takes into account the sequencing depths (library sizes) of the individual columns of \code{counts} and applies the mean-variance trend on an individual observation basis.
+limma-trend, on the other hand, assumes that the library sizes are not wildly different and applies the mean-variance trend on a genewise basis.
+As noted by Law et al (2014), voom should be more powerful than limma-trend if the library sizes are very different but, otherwise, the two methods should give similar results.
 }
 
 \value{
@@ -64,10 +77,17 @@ Voom: precision weights unlock linear model analysis tools for RNA-seq read coun
 }
 
 \seealso{
+\code{\link{eBayes}},
 \code{\link{voomWithQualityWeights}}.
 \code{\link{vooma}} is similar to \code{voom} but for microarrays instead of RNA-seq.
 
 A summary of functions for RNA-seq analysis is given in \link{11.RNAseq}.
 }
-
+\examples{
+\dontrun{
+keep <- filterByExpr(counts, design)
+v <- voom(counts[keep,], design, plot=TRUE)
+fit <- lmFit(v, design)
+fit <- eBayes(fit, robust=TRUE)}
+}
 \keyword{rna-seq}

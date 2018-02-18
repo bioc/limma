@@ -1,12 +1,9 @@
-\name{ebayes}
-\alias{ebayes}
+\name{eBayes}
 \alias{eBayes}
 \alias{treat}
 \title{Empirical Bayes Statistics for Differential Expression}
 \description{Given a microarray linear model fit, compute moderated t-statistics, moderated F-statistic, and log-odds of differential expression by empirical Bayes moderation of the standard errors towards a common value.}
 \usage{
-ebayes(fit, proportion=0.01, stdev.coef.lim=c(0.1,4),
-       trend=FALSE, robust=FALSE, winsor.tail.p=c(0.05,0.1))
 eBayes(fit, proportion=0.01, stdev.coef.lim=c(0.1,4),
        trend=FALSE, robust=FALSE, winsor.tail.p=c(0.05,0.1))
 treat(fit, lfc=0, trend=FALSE, robust=FALSE, winsor.tail.p=c(0.05,0.1))
@@ -34,44 +31,47 @@ treat(fit, lfc=0, trend=FALSE, robust=FALSE, winsor.tail.p=c(0.05,0.1))
   \item{F}{numeric vector of moderated F-statistics for testing all contrasts defined by the columns of \code{fit} simultaneously equal to zero}
   \item{F.p.value}{numeric vector giving p-values corresponding to \code{F}}
 \code{treat} a produces an \code{MArrayLM} object similar to \code{eBayes} but without \code{lods}, \code{var.prior}, \code{F} or \code{F.p.value}.
-\code{ebayes} produces an ordinary list containing the above components except for \code{F} and \code{F.p.value}.
 }
 \details{
 These functions are used to rank genes in order of evidence for differential expression.
-They use an empirical Bayes method to shrink the probe-wise sample variances towards a common value and to augmenting the degrees of freedom for the individual variances (Smyth, 2004).
-The functions accept as input argument \code{fit} a fitted model object from the functions \code{lmFit}, \code{lm.series}, \code{mrlm} or \code{gls.series}.
-The fitted model object may have been processed by \code{contrasts.fit} before being passed to \code{eBayes} to convert the coefficients of the design matrix into an arbitrary number of contrasts which are to be tested equal to zero.
+They use an empirical Bayes method to squeeze the genewise-wise residual variances towards a common value (or towards a global trend) (Smyth, 2004; Phipson et al, 2016).
+The degrees of freedom for the individual variances are increased to reflect the extra information gained from the empirical Bayes moderation, resulting in increased statistical power to detect differential expression.
+
+Theese functions accept as input an \code{MArrayLM} fitted model object \code{fit} produced by \code{lmFit}.
 The columns of \code{fit} define a set of contrasts which are to be tested equal to zero.
+The fitted model object may have been processed by \code{contrasts.fit} before being passed to \code{eBayes} to convert the coefficients of the original design matrix into an arbitrary number of contrasts.
 
 The empirical Bayes moderated t-statistics test each individual contrast equal to zero.
-For each probe (row), the moderated F-statistic tests whether all the contrasts are zero.
+For each gene (row), the moderated F-statistic tests whether all the contrasts are zero.
 The F-statistic is an overall test computed from the set of t-statistics for that probe.
-This is exactly analogous the relationship between t-tests and F-statistics in conventional anova, except that the residual mean squares and residual degrees of freedom have been moderated between probes.
+This is exactly analogous the relationship between t-tests and F-statistics in conventional anova, except that the residual mean squares have been moderated between genes.
 
 The estimates \code{s2.prior} and \code{df.prior} are computed by \code{fitFDist}.
 \code{s2.post} is the weighted average of \code{s2.prior} and \code{sigma^2} with weights proportional to \code{df.prior} and \code{df.residual} respectively.
-The \code{lods} is sometimes known as the B-statistic.
+The log-odds of differential expression \code{lods} was called the \emph{B-statistic} by Loennstedt and Speed (2002).
 The F-statistics \code{F} are computed by \code{classifyTestsF} with \code{fstat.only=TRUE}.
 
-\code{eBayes} doesn't compute ordinary (unmoderated) t-statistics by default, but these can be easily extracted from 
-the linear model output, see the example below.
-
-\code{ebayes} is the earlier and leaner function, kept for backwards compatibility, while
-\code{eBayes} is the later more object-orientated version.
-The difference is that \code{ebayes} outputs only the empirical Bayes statistics whereas \code{eBayes} adds them to the fitted model object \code{fit}.
-\code{eBayes} is recommended for routine use as it produces objects containing all the necessary components for downstream analysis
+\code{eBayes} does not compute ordinary t-statistics because they always have worse performance than the moderated versions.
+The ordinary (unmoderated) t-statistics can, however, can be easily extracted from the linear model output for comparison purposes---see the example code below.
 
 \code{treat} computes empirical Bayes moderated-t p-values relative to a minimum required fold-change threshold.
-Use \code{\link{topTreat}} to summarize output from \code{treat}.
 Instead of testing for genes which have log-fold-changes different from zero, it tests whether the log2-fold-change is greater than \code{lfc} in absolute value (McCarthy and Smyth, 2009).
 \code{treat} is concerned with p-values rather than posterior odds, so it does not compute the B-statistic \code{lods}.
 The idea of thresholding doesn't apply to F-statistics in a straightforward way, so moderated F-statistics are also not computed.
+Output from \code{treat} can be summarized using \code{\link{topTreat}}.
 
-If \code{trend=TRUE} then an intensity-dependent trend is fitted to the prior variances \code{s2.prior}.
-Specifically, \code{squeezeVar} is called with the \code{covariate} equal to \code{Amean}, the average log2-intensity for each gene.
-See \code{\link{squeezeVar}} for more details.
+The use of \code{eBayes} or \code{treat} with \code{trend=TRUE} is known as the \emph{limma-trend} method (Law et al, 2014; Phipson et al, 2016).
+With this option, an intensity-dependent trend is fitted to the prior variances \code{s2.prior}.
+Specifically, \code{\link{squeezeVar}} is called with the \code{covariate} equal to \code{Amean}, the average log2-intensity for each gene.
+limma-trend is useful for processing expression values that show a mean-variance relationship.
+This is often useful for microarray data, and it can also be applied to RNA-seq counts that have been converted to log2-counts per million (logCPM) values (Law et al, 2014).
+When applied to RNA-seq logCPM values, limma-trend give similar results to the \code{\link{voom}} method.
+The voom method incorporates the mean-variance trend into the precision weights, whereas limma-trend incorporates the trend into the empirical Bayes moderation.
+limma-trend is somewhat simpler than \code{voom} because it assumes that the sequencing depths (library sizes) are not wildly different between the samples and it applies the mean-variance trend on a genewise basis instead to individual observations.
+limma-trend is recommended for RNA-seq analysis when the library sizes are reasonably consistent (less than 3-fold difference from smallest to largest) because of its simplicity and speed.
 
 If \code{robust=TRUE} then the robust empirical Bayes procedure of Phipson et al (2016) is used.
+This is frequently useful to protect the empirical Bayes procedure against hyper-variable or hypo-variable genes, especially when analysing RNA-seq data.
 See \code{\link{squeezeVar}} for more details.
 }
 \note{
@@ -86,12 +86,17 @@ An overview of linear model functions in limma is given by \link{06.LinearModels
 \author{Gordon Smyth and Davis McCarthy}
 
 \references{
+Law, CW, Chen, Y, Shi, W, Smyth, GK (2014).
+Voom: precision weights unlock linear model analysis tools for RNA-seq read counts.
+\emph{Genome Biology} 15, R29.
+\url{http://genomebiology.com/2014/15/2/R29}
+
+Loennstedt, I., and Speed, T. P. (2002). Replicated microarray data. \emph{Statistica Sinica} \bold{12}, 31-46.
+
 McCarthy, D. J., and Smyth, G. K. (2009).
 Testing significance relative to a fold-change threshold is a TREAT.
 \emph{Bioinformatics} 25, 765-771.
 \url{http://bioinformatics.oxfordjournals.org/content/25/6/765}
-
-Loennstedt, I., and Speed, T. P. (2002). Replicated microarray data. \emph{Statistica Sinica} \bold{12}, 31-46.
 
 Phipson, B, Lee, S, Majewski, IJ, Alexander, WS, and Smyth, GK (2016).
 Robust hyperparameter estimation protects against hypervariable genes and improves power to detect differential expression.
@@ -122,16 +127,7 @@ topTable(fit,coef=2)
 #  Ordinary t-statistic
 ordinary.t <- fit$coef[,2] / fit$stdev.unscaled[,2] / fit$sigma
 
-#  Q-Q plots of t statistics
-#  Points off the line may be differentially expressed
-par(mfrow=c(1,2))
-qqt(ordinary.t, df=fit$df.residual, main="Ordinary t")
-abline(0,1)
-qqt(fit$t[,2], df=fit$df.total,main="Moderated t")
-abline(0,1)
-par(mfrow=c(1,1))
-
-# Treat
+# Treat relative to a 10% fold-change
 tfit <- treat(fit,lfc=log2(1.1))
 topTreat(tfit,coef=2)
 }

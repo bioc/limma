@@ -340,7 +340,7 @@ toptable <- function(fit,coef=1,number=10,genelist=NULL,A=NULL,eb=NULL,adjust.me
 			message("Argument 'eb' not provided, so running ebayes() to get moderated t-statistics and p-values.")
 			fit$coefficients <- fit$coefficients[,coef,drop=FALSE]
 			fit$stdev.unscaled <- as.matrix(fit$stdev.unscaled)[,coef,drop=FALSE]
-			eb <- ebayes(fit,...)
+			eb <- .ebayes(fit,...)
 			coef <- 1
 		}
 	}
