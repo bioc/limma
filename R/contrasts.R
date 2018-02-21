@@ -1,27 +1,33 @@
 #  CONTRASTS
 
-contrasts.fit <- function(fit,contrasts=NULL,coefficients=NULL) {
+contrasts.fit <- function(fit,contrasts=NULL,coefficients=NULL)
 #	Convert coefficients and std deviations in fit object to reflect contrasts of interest
 #	Note: does not completely take probe-wise weights into account
 #	because this would require refitting the linear model for each probe
 #	Gordon Smyth
-#	13 Oct 2002.  Last modified 10 Oct 2012.
+#	13 Oct 2002.  Last modified 16 Feb 2018.
+{
+#	Check number of arguments
+	if(is.null(contrasts) == is.null(coefficients)) stop("Must specify exactly one of contrasts or coefficients")
 
+#	Number of coefficients in fit
 	ncoef <- NCOL(fit$coefficients)
-	if(is.null(contrasts) == is.null(coefficients)) stop("Must specify only one of contrasts or coefficients")
+
+#	Check contrasts. If coefficients are specified, convert into contrast matrix.
 	if(!is.null(contrasts)) {
 		contrasts <- as.matrix(contrasts)
 		rn <- rownames(contrasts)
 		cn <- colnames(fit$coefficients)
 		if(!is.null(rn) && !is.null(cn) && any(rn != cn)) warning("row names of contrasts don't match col names of coefficients")
-	}
-	if(!is.null(coefficients)) {
+	} else {
 		ncont <- length(coefficients)
 		contrasts <- diag(ncoef)
 		rownames(contrasts) <- colnames(contrasts) <- colnames(fit$coefficients)
 		contrasts <- contrasts[,coefficients,drop=FALSE]
 	}
-	if(NROW(contrasts)!=ncoef) stop("Number of rows of contrast matrix must match number of coefficients")
+	if(nrow(contrasts)!=ncoef) stop("Number of rows of contrast matrix must match number of coefficients in fit")
+	if(anyNA(contrasts)) stop("NAs not allowed in contrasts")
+
 	fit$contrasts <- contrasts
 	if(is.null(fit$cov.coefficients)) {
 		warning("no coef correlation matrix found in fit - assuming orthogonal")
@@ -40,7 +46,8 @@ contrasts.fit <- function(fit,contrasts=NULL,coefficients=NULL) {
 		fit$stdev.unscaled <- fit$stdev.unscaled[,est,drop=FALSE]
 		ncoef <- r
 	}
-	fit$coefficients <- fit$coefficients %*% contrasts
+#	fit$coefficients <- fit$coefficients %*% contrasts
+	fit$coefficients <- .zeroDominantMatrixMult(fit$coefficients,contrasts)
 
 #	Test whether design was orthogonal
 	if(length(cormatrix) < 2) {
@@ -71,47 +78,35 @@ contrasts.fit <- function(fit,contrasts=NULL,coefficients=NULL) {
 	fit
 }
 
-#contrasts.fit0 <- function(fit,contrasts,design=NULL) {
-##	Convert coefficients and std deviations in fit object to reflect contrasts of interest
-##	Gordon Smyth
-##	13 Oct 2002.  Last modified 20 May 2004.
-#
-#	ncoef <- NCOL(fit$coefficients)
-#	if(nrow(contrasts)!=ncoef) stop("Number of rows of contrast matrix must match number of coefficients")
-#	fit$coefficients <- fit$coefficients %*% contrasts
-#	if(is.null(design)) design <- fit$design
-#	if(!is.null(design) && ncoef > 1) {
-#		A <- crossprod( abs(design) > 1e-14 )
-#		orthog <- all(A[lower.tri(A)]==0) 
-#	}
-#	if(is.null(design) || ncoef==1 || orthog)
-#		fit$stdev.unscaled <- sqrt(fit$stdev.unscaled^2 %*% contrasts^2)
-#	else {
-#		A <- chol2inv(chol(crossprod(design)))
-#		s <- sqrt(diag(A))
-#		R <- chol(t(A/s)/s)
-#		ngenes <- NROW(fit$stdev.unscaled)
-#		ncont <- NCOL(contrasts)
-#		U <- matrix(1,ngenes,ncont,dimnames=list(rownames(fit$stdev.unscaled),colnames(contrasts)))
-#		o <- array(1,c(1,ncoef))
-#		for (i in 1:ngenes) {
-#			RUC <- R %*% .vecmat(fit$stdev.unscaled[i,],contrasts)
-#			U[i,] <- sqrt(o %*% RUC^2)
-#		}
-#		fit$stdev.unscaled <- U
-#	}
-#	fit$contrasts <- contrasts
-#	fit
-#}
-
-#contrasts.fit <- function(fit,contrasts) {
-##	Extract contrast information from oneway linear model fit
-##	Gordon Smyth
-##	13 Oct 2002.  Last modified 1 July 2003.
-#
-#	fit$coefficients <- fit$coefficients %*% contrasts
-#	fit$stdev.unscaled <- sqrt(fit$stdev.unscaled^2 %*% contrasts^2)
-#	fit$contrasts <- contrasts
-#	fit
-#}
-
+.zeroDominantMatrixMult <- function(A,B)
+#	Computes A %*% B, except that a zero in B will always produce
+#	zero even when multiplied by an NA in A
+#	Gordon Smyth
+#	Created 16 Feb 2018.
+{
+	HasZero <- (rowSums(B==0) > 0L)
+	if(any(HasZero)) {
+		if(mean(HasZero) > 0.4) {
+#			If the matrix is big, it's much quicker to check the whole matrix than to subset it
+			HasNA <- anyNA(A)
+		} else {
+			HasNA <- anyNA(A[,HasZero])
+		}
+	} else {
+		HasNA <- FALSE
+	}
+	if(HasZero && HasNA) {
+		D <- matrix(0,nrow(A),ncol(B))
+		for (j in 1:ncol(B)) {
+			z <- B[,j]==0
+			if(any(z))
+				D[,j] <- A[,!z,drop=FALSE] %*% B[!z,j,drop=FALSE]
+			else
+				D[,j] <- A %*% B[,j]
+		}
+		dimnames(D) <- list(rownames(A),colnames(B))
+	} else {
+		D <- A %*% B
+	}
+	D
+}

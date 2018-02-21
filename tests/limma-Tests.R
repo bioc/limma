@@ -101,31 +101,13 @@ unwrapdups(M,ndups=2,spacing=3)
 
 trigammaInverse(c(1e-6,NA,5,1e6))
 
-### lm.series, contrasts.fit, ebayes
+### lmFit, eBayes, topTable
 
 M <- matrix(rnorm(10*6,sd=0.3),10,6)
+rownames(M) <- LETTERS[1:10]
 M[1,1:3] <- M[1,1:3] + 2
 design <- cbind(First3Arrays=c(1,1,1,0,0,0),Last3Arrays=c(0,0,0,1,1,1))
-fit <- lm.series(M,design=design)
 contrast.matrix <- cbind(First3=c(1,0),Last3=c(0,1),"Last3-First3"=c(-1,1))
-fit2 <- contrasts.fit(fit,contrasts=contrast.matrix)
-eb <- ebayes(fit2)
-
-eb$t
-eb$s2.prior
-eb$s2.post
-eb$df.prior
-eb$lods
-eb$p.value
-eb$var.prior
-
-### toptable
-
-toptable(fit)
-
-### topTable
-
-rownames(M) <- LETTERS[1:10]
 fit <- lmFit(M,design)
 fit2 <- eBayes(contrasts.fit(fit,contrasts=contrast.matrix))
 topTable(fit2)

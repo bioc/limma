@@ -1,13 +1,13 @@
 #  EMPIRICAL BAYES FUNCTIONS
 
 eBayes <- function(fit,proportion=0.01,stdev.coef.lim=c(0.1,4),trend=FALSE,robust=FALSE,winsor.tail.p=c(0.05,0.1))
-#	Empirical Bayes statistics to select differentially expressed genes
-#	Object orientated version
+#	Empirical Bayes statistics to select differentially expressed genes.
+#	Accepts and returns an MArrayLM object.
 #	Gordon Smyth
-#	4 August 2003.  Last modified 20 November 2012.
+#	4 August 2003.  Last modified 18 Feb 2018.
 {
 	if(trend) if(is.null(fit$Amean)) stop("Need Amean component in fit to estimate trend")
-	eb <- ebayes(fit=fit,proportion=proportion,stdev.coef.lim=stdev.coef.lim,trend=trend,robust=robust,winsor.tail.p=winsor.tail.p)
+	eb <- .ebayes(fit=fit,proportion=proportion,stdev.coef.lim=stdev.coef.lim,trend=trend,robust=robust,winsor.tail.p=winsor.tail.p)
 	fit$df.prior <- eb$df.prior
 	fit$s2.prior <- eb$s2.prior
 	fit$var.prior <- eb$var.prior
@@ -30,10 +30,11 @@ eBayes <- function(fit,proportion=0.01,stdev.coef.lim=c(0.1,4),trend=FALSE,robus
 	fit
 }
 
-ebayes <- function(fit,proportion=0.01,stdev.coef.lim=c(0.1,4),trend=FALSE,robust=FALSE,winsor.tail.p=c(0.05,0.1))
+.ebayes <- function(fit,proportion=0.01,stdev.coef.lim=c(0.1,4),trend=FALSE,robust=FALSE,winsor.tail.p=c(0.05,0.1))
 #	Empirical Bayes statistics to select differentially expressed genes
 #	Gordon Smyth
 #	8 Sept 2002.  Last revised 1 May 2013.
+#	Made a non-exported function 18 Feb 2018.
 {
 	coefficients <- fit$coefficients
 	stdev.unscaled <- fit$stdev.unscaled
@@ -84,6 +85,16 @@ ebayes <- function(fit,proportion=0.01,stdev.coef.lim=c(0.1,4),trend=FALSE,robus
 		kernel <- (1+df.total)/2*log((t2+df.total) / (t2/r+df.total))
 	out$lods <- log(proportion/(1-proportion))-log(r)/2+kernel
 	out
+}
+
+ebayes <- function(fit,proportion=0.01,stdev.coef.lim=c(0.1,4),trend=FALSE,robust=FALSE,winsor.tail.p=c(0.05,0.1))
+#	Old function to compute Empirical Bayes statistics.
+#	Replaced by eBayes() in August 2003, which returns an MArrayLM object.
+#	Deprecated 18 February 2018
+#	Gordon Smyth
+{
+	.Deprecated("eBayes")
+	.ebayes(fit=fit,proportion=proportion,stdev.coef.lim=stdev.coef.lim,trend=trend,robust=robust,winsor.tail.p=winsor.tail.p)
 }
 
 tmixture.matrix <- function(tstat,stdev.unscaled,df,proportion,v0.lim=NULL)

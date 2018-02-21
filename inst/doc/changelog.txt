@@ -1,3 +1,26 @@
+22 Feb 2018: limma 3.34.9
+
+- kegga() and goana() now check whether a data.frame has been input
+  by mistake and generates an error. Previously a data.frame value
+  for 'de' was interpreted as a list of gene sets without any error.
+
+- bug fix for goana() when 'covariate' is specified and some of the
+  'universe' genes don't have GO annotation.
+
+- coolmap() will now accept an arbitrary vector of colors. A new
+  preset "whitered" panel is now also supported.
+
+- ebayes(), which was replaced by eBayes() in 2003, is now formally
+  deprecated.
+
+- Comments added to voom.Rd and eBayes.Rd to clarify the relationship
+  between limma-trend and voom.
+
+- In the past, contrasts.fit() always returned NA contrasts for genes
+  with any NA fitted coefficients. contrasts.fit() will now ignore an
+  NA coefficient if the contrast multiplier is zero for that
+  coefficient.
+
  4 Feb 2018: limma 3.34.8
 
 - Fix to roast(), mroast() and fry(), which were not allowing gene-
