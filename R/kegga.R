@@ -77,10 +77,14 @@ kegga.MArrayLM <- function(de, coef = ncol(de), geneid = rownames(de), FDR = 0.0
 kegga.default <- function(de, universe=NULL,  restrict.universe=FALSE, species="Hs", species.KEGG=NULL, convert=FALSE, gene.pathway=NULL, pathway.names = NULL,prior.prob=NULL, covariate=NULL, plot=FALSE, ...)
 #	KEGG (Kyoto Encyclopedia of Genes and Genomes) pathway analysis of DE genes
 #	Gordon Smyth and Yifang Hu
-#	Created 18 May 2015.  Modified 14 Jul 2016.
+#	Created 18 May 2015.  Modified 21 Feb 2018.
 {
 #	Ensure de is a list
-	if(!is.list(de)) de <- list(DE = de)
+	if(is.list(de)) {
+		if(is.data.frame(de)) stop("de should be a list of character vectors. It should not be a data.frame.")
+	} else {
+		de <- list(DE = de)
+	}
 	nsets <- length(de)
 
 #	Stop if components of de are not vectors

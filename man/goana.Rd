@@ -39,7 +39,9 @@ getKEGGPathwayNames(species.KEGG = NULL, remove.qualifier = FALSE)
   See \code{\link{alias2Symbol}} for other possible values.
   Ignored if \code{species.KEGG} or is not \code{NULL} or if \code{gene.pathway} and \code{pathway.names} are not \code{NULL}.}
 
-  \item{species.KEGG}{three-letter KEGG species identifier. See \url{http://www.kegg.jp/kegg/catalog/org_list.html} or \url{http://rest.kegg.jp/list/organism} for possible values. Ignored if \code{gene.pathway} and \code{pathway.names} are not \code{NULL}.}
+  \item{species.KEGG}{three-letter KEGG species identifier. See \url{http://www.kegg.jp/kegg/catalog/org_list.html} or \url{http://rest.kegg.jp/list/organism} for possible values.
+  Alternatively, if \code{de} contains KEGG ortholog Ids (\code{"k00001"} etc) instead of gene Ids, then set \code{species.KEGG="ko"}.
+  This argument is ignored if \code{gene.pathway} and \code{pathway.names} are both not \code{NULL}.}
 
   \item{convert}{if \code{TRUE} then KEGG gene identifiers will be converted to NCBI Entrez Gene identifiers.  Note that KEGG IDs are the same as Entrez Gene IDs for most species anyway.}
 
@@ -95,6 +97,9 @@ For Drosophila, the default is FlyBase CG annotation symbol.
 The format of the IDs can be seen by typing \code{head(getGeneKEGGLinks(species))}, for example\code{head(getGeneKEGGLinks("hsa"))} or \code{head(getGeneKEGGLinks("dme"))}.
 Entrez Gene IDs can always be used.
 If Entrez Gene IDs are not the default, then conversion can be done by specifying \code{"convert=TRUE"}.
+
+Another possibility is to use KEGG orthology IDs as the gene IDs, and these can be used for any species.
+In that case, set \code{species.KEGG="ko"}.
 
 The ability to supply data.frame annotation to \code{kegga} means that \code{kegga} can in principle be used in conjunction with any user-supplied set of annotation terms.
 

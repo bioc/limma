@@ -77,7 +77,7 @@ goana.MArrayLM <- function(de, coef = ncol(de), geneid = rownames(de), FDR = 0.0
 goana.default <- function(de, universe = NULL, species = "Hs", prior.prob = NULL, covariate=NULL, plot=FALSE, ...)
 #	Gene ontology analysis of DE genes
 #	Gordon Smyth and Yifang Hu
-#	Created 20 June 2014.  Last modified 16 July 2017.
+#	Created 20 June 2014.  Last modified 22 Feb 2018.
 {
 #	Get access to package of GO terms
 	suppressPackageStartupMessages(OK <- requireNamespace("GO.db",quietly=TRUE))
@@ -116,8 +116,13 @@ goana.default <- function(de, universe = NULL, species = "Hs", prior.prob = NULL
 			if(!is.null(prior.prob)) prior.prob <- prior.prob[i]
 			universe <- universe[i]
 		}
-		universe <- intersect(AnnotationDbi::Lkeys(egGO2ALLEGS),universe)
+#		Make universe and set of all annotated genes agree
+		i <- (universe %in% AnnotationDbi::Lkeys(egGO2ALLEGS))
+		universe <- universe[i]
+		if(!is.null(covariate)) covariate <- covariate[i]
+		if(!is.null(prior.prob)) prior.prob <- prior.prob[i]
 		AnnotationDbi::Lkeys(egGO2ALLEGS) <- universe
+#		Convert GO annotation to data.frame
 		GeneID.PathID <- AnnotationDbi::toTable(egGO2ALLEGS)[,c("gene_id","go_id","Ontology")]
 		d <- duplicated(GeneID.PathID[,c("gene_id", "go_id")])
 		GeneID.PathID <- GeneID.PathID[!d, ]
@@ -126,7 +131,11 @@ goana.default <- function(de, universe = NULL, species = "Hs", prior.prob = NULL
 #	From here, code is mostly the same as kegga.default
 
 #	Ensure de is a list
-	if(!is.list(de)) de <- list(DE = de)
+	if(is.list(de)) {
+		if(is.data.frame(de)) stop("de should be a list of character vectors. It should not be a data.frame.")
+	} else {
+		de <- list(DE = de)
+	}
 	nsets <- length(de)
 
 #	Stop if components of de are not vectors

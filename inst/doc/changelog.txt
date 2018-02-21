@@ -1,3 +1,12 @@
+22 Feb 2018: limma 3.35.12
+
+- kegga() and goana() now check whether a data.frame has been input
+  by mistake and generates an error. Previously a data.frame value
+  for 'de' was interpreted as a list of gene sets without any error.
+
+- bug fix for goana() when 'covariate' is specified and some of the
+  'universe' genes don't have GO annotation.
+
 18 Feb 2018: limma 3.35.11
 
 - coolmap() will now accept an arbitrary vector of colors. A new
