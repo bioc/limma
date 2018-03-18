@@ -23,6 +23,7 @@ neqc(x, status=NULL, negctrl="negative", regular="regular", offset=16,
 \details{
 \code{neqc} performs background correction followed by quantile normalization, using negative control probes for background correction and both negative and positive controls for normalization (Shi et al, 2010).
 \code{nec} is similar but performs background correction only.
+These methods are particularly designed for Illumina BeadChip microarrays, but could be useful for other platforms for which good quality negative control probes or detection p-values are available.
 
 When control data are available, these function call \code{\link{normexp.fit.control}} to estimate the parameters required by normal+exponential(normexp) convolution model with the help of negative control probes, followed by \code{\link{normexp.signal}} to perform the background correction.
 If \code{x} contains background intensities \code{x$Eb}, then these are first subtracted from the foreground intensities, prior to normexp background correction.
@@ -78,7 +79,8 @@ x.b <- nec(x)
 y <- normalizeBetweenArrays(x.b,method="quantile")
 y <- y[y$genes$Status=="regular",]
 
-# neqc normalization for data which do not include control probes
+# neqc normalization for data without control probes
+# neqc can process detection p-values in lieu of control probes
 xr <- read.ilmn(files="sample probe profile.txt")
 yr <- neqc(xr)
 }
