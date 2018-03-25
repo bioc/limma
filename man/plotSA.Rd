@@ -22,6 +22,9 @@ plotSA(fit, xlab = "Average log-expression", ylab = "sqrt(sigma)", zero.weights 
 \details{
 This plot is used to check the mean-variance relationship of the expression data, after fitting a linear model.
 A scatterplot of residual-variances vs average log-expression is created.
+The plot is especially useful for examining the mean-variance trend estimated by \code{\link{eBayes}} or \code{\link{treat}} with \code{trend=TRUE}.
+It can be considered as a routine diagnostic plot in the limma-trend pipeline.
+
 If robust empirical Bayes was used to create \code{fit}, then outlier variances are highlighted in the color given by \code{col[2]}.
 
 The y-axis is square-root \code{fit$sigma}, where \code{sigma} is the estimated residual standard deviation.
@@ -35,6 +38,8 @@ See \code{\link[graphics]{points}} for possible values for \code{pch} and \code{
 \value{A plot is created on the current graphics device.}
 \author{Gordon Smyth}
 \seealso{
+\code{\link{eBayes}}
+
 An overview of diagnostic functions available in LIMMA is given in \link{09.Diagnostics}.
 }
 \keyword{hplot}

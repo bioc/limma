@@ -4,9 +4,9 @@
 \title{Empirical Bayes Statistics for Differential Expression}
 \description{Given a microarray linear model fit, compute moderated t-statistics, moderated F-statistic, and log-odds of differential expression by empirical Bayes moderation of the standard errors towards a common value.}
 \usage{
-eBayes(fit, proportion=0.01, stdev.coef.lim=c(0.1,4),
-       trend=FALSE, robust=FALSE, winsor.tail.p=c(0.05,0.1))
-treat(fit, lfc=0, trend=FALSE, robust=FALSE, winsor.tail.p=c(0.05,0.1))
+eBayes(fit, proportion = 0.01, stdev.coef.lim = c(0.1,4),
+       trend = FALSE, robust = FALSE, winsor.tail.p = c(0.05,0.1))
+treat(fit, lfc = log2(1.2), trend = FALSE, robust = FALSE, winsor.tail.p = c(0.05,0.1))
 }
 \arguments{
   \item{fit}{an \code{MArrayLM} fitted model object produced by \code{lmFit} or \code{contrasts.fit}.
@@ -54,15 +54,21 @@ The F-statistics \code{F} are computed by \code{classifyTestsF} with \code{fstat
 \code{eBayes} does not compute ordinary t-statistics because they always have worse performance than the moderated versions.
 The ordinary (unmoderated) t-statistics can, however, can be easily extracted from the linear model output for comparison purposes---see the example code below.
 
-\code{treat} computes empirical Bayes moderated-t p-values relative to a minimum required fold-change threshold.
-Instead of testing for genes which have log-fold-changes different from zero, it tests whether the log2-fold-change is greater than \code{lfc} in absolute value (McCarthy and Smyth, 2009).
+\code{treat} computes empirical Bayes moderated-t p-values relative to a minimum meaningful fold-change threshold.
+Instead of testing for genes that have true log-fold-changes different from zero, it tests whether the true log2-fold-change is greater than \code{lfc} in absolute value (McCarthy and Smyth, 2009).
+In other words, it uses an interval null hypothesis, where the interval is [-lfc,lfc].
+When the number of DE genes is large, \code{treat} is often useful for giving preference to larger fold-changes and for prioritizing genes that are biologically important.
 \code{treat} is concerned with p-values rather than posterior odds, so it does not compute the B-statistic \code{lods}.
 The idea of thresholding doesn't apply to F-statistics in a straightforward way, so moderated F-statistics are also not computed.
-Output from \code{treat} can be summarized using \code{\link{topTreat}}.
+When \code{lfc=0}, \code{treat} is identical to \code{eBayes}, except that F-statistics and B-statistics are not computed.
+The \code{lfc} threshold is usually chosen relatively small, because significantly DE genes must  all have fold changes substantially greater than the testing threshold.
+Typical values for \code{lfc} are \code{log2(1.1)}, \code{log2(1.2)} or \code{log2(1.5)}.
+The top genes chosen by \code{treat} can be examined using \code{\link{topTreat}}.
 
 The use of \code{eBayes} or \code{treat} with \code{trend=TRUE} is known as the \emph{limma-trend} method (Law et al, 2014; Phipson et al, 2016).
 With this option, an intensity-dependent trend is fitted to the prior variances \code{s2.prior}.
 Specifically, \code{\link{squeezeVar}} is called with the \code{covariate} equal to \code{Amean}, the average log2-intensity for each gene.
+The trend that is fitted can be examined by \code{\link{plotSA}}.
 limma-trend is useful for processing expression values that show a mean-variance relationship.
 This is often useful for microarray data, and it can also be applied to RNA-seq counts that have been converted to log2-counts per million (logCPM) values (Law et al, 2014).
 When applied to RNA-seq logCPM values, limma-trend give similar results to the \code{\link{voom}} method.
@@ -79,7 +85,7 @@ The algorithm used by \code{eBayes} and \code{treat} with \code{robust=TRUE} was
 The minimum \code{df.prior} returned may be slightly smaller than previously.
 }
 \seealso{
-\code{\link{squeezeVar}}, \code{\link{fitFDist}}, \code{\link{tmixture.matrix}}.
+\code{\link{squeezeVar}}, \code{\link{fitFDist}}, \code{\link{tmixture.matrix}}, \code{\link{plotSA}}.
 
 An overview of linear model functions in limma is given by \link{06.LinearModels}.
 }

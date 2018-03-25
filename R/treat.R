@@ -1,9 +1,9 @@
 ###  treat.R
 
-treat <- function(fit, lfc=0, trend=FALSE, robust=FALSE, winsor.tail.p=c(0.05,0.1))
+treat <- function(fit, lfc=log2(1.2), trend=FALSE, robust=FALSE, winsor.tail.p=c(0.05,0.1))
 #	Moderated t-statistics with threshold
 #	Davis McCarthy, Gordon Smyth
-#	25 July 2008.  Last revised 27 February 2014.
+#	25 July 2008.  Last revised 25 March 2018.
 {
 #	Check fit
 	if(!is(fit,"MArrayLM")) stop("fit must be an MArrayLM object")
