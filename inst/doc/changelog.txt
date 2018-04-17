@@ -1,3 +1,8 @@
+18 Apr 2018: limma 3.3.15
+
+- Update the User's Guide case study that analyses Lrp- E. Coli
+  samples and profiled by Affymetrix arrays.
+
 25 Mar 2018: limma 3.35.14
 
 - The treat() default for 'lfc' changed from lfc=0 to lfc=log2(1.2).
@@ -9,8 +14,8 @@
 
 18 Mar 2018: limma 3.35.13
 
-- Update the Agilent rat case study in Section 17.4 of the Users'
-  Guide to use the Agilent gIsWellAboveBG detection column.
+- Update the Agilent single-channel case study in Section 17.4 of the
+  Users' Guide to use the Agilent gIsWellAboveBG detection column.
 
 22 Feb 2018: limma 3.35.12
 
