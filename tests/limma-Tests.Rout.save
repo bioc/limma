@@ -1,6 +1,6 @@
 
-R version 3.4.3 (2017-11-30) -- "Kite-Eating Tree"
-Copyright (C) 2017 The R Foundation for Statistical Computing
+R version 3.5.0 (2018-04-23) -- "Joy in Playing"
+Copyright (C) 2018 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -1300,6 +1300,7 @@ Gene50  1.034777  0.01608433  2.063663 0.0635275235 0.60439978 -4.4204731
                                      Term Ont N Up Down        P.Up      P.Down
 GO:0055082 cellular chemical homeostas...  BP 2  0    2 1.000000000 0.009090909
 GO:0006915              apoptotic process  BP 5  4    1 0.009503355 0.416247633
+GO:0098609             cell-cell adhesion  BP 5  4    0 0.009503355 1.000000000
 GO:0040011                     locomotion  BP 5  4    0 0.009503355 1.000000000
 GO:0012501          programmed cell death  BP 5  4    1 0.009503355 0.416247633
 GO:0042981 regulation of apoptotic pro...  BP 5  4    1 0.009503355 0.416247633
@@ -1307,7 +1308,6 @@ GO:0043067 regulation of programmed ce...  BP 5  4    1 0.009503355 0.416247633
 GO:0097190    apoptotic signaling pathway  BP 3  3    0 0.010952381 1.000000000
 GO:0031252              cell leading edge  CC 3  3    0 0.010952381 1.000000000
 GO:0006897                    endocytosis  BP 3  3    0 0.010952381 1.000000000
-GO:0098657               import into cell  BP 3  3    0 0.010952381 1.000000000
 > topGO(go,n=10,truncate.term=30,sort="down")
                                      Term Ont  N Up Down      P.Up      P.Down
 GO:0055082 cellular chemical homeostas...  BP  2  0    2 1.0000000 0.009090909
@@ -1323,4 +1323,4 @@ GO:0043230        extracellular organelle  CC 14  3    4 0.6749330 0.031604687
 > 
 > proc.time()
    user  system elapsed 
-   3.70    0.15    3.87 
+   2.10    0.12    2.25 
