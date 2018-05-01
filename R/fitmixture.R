@@ -1,15 +1,3 @@
-logcosh <- function(x)
-#	Compute log(cosh(x)) without floating over or underflow
-#	Gordon Smyth  8 April 2007
-{
-	y <- abs(x)-log(2)
-	i <- abs(x) < 1e-4
-	y[i] <- 0.5*x[i]^2
-	i <- !i & (abs(x) < 17)
-	y[i] <- log(cosh(x[i]))
-	y
-}
-
 fitmixture <- function(log2e,mixprop,niter=4,trace=FALSE)
 #	Fit mixture model by non-linear least squares
 #	Gordon Smyth  9 April 2007
