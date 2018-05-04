@@ -18,9 +18,12 @@ For intermediate arguments, \code{log(cosh(x))} is returned.
 
 \author{Gordon K Smyth}
 
+\seealso{
+\code{\link{logsumexp}}
+}
+
 \examples{
 x <- c(1e-8,1e-7,1e-6,1e-5,1e-4,1,3,50,800)
 logcosh(x)
 log(cosh(x))
 }
-
