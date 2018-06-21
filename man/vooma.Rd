@@ -16,7 +16,7 @@ voomaByGroup(y, group, design=NULL, correlation, block=NULL,
 }
 
 \arguments{
-  \item{y}{numeric \code{matrix}, \code{EList} object, or any similar object containing expression data that can be coerced to a matrix.}
+  \item{y}{a numeric \code{matrix}, \code{EList} object, or any object containing log-expression data that can be coerced to a matrix.}
   \item{design}{design matrix with rows corresponding to samples and columns to coefficients to be estimated.  Defaults to the unit vector meaning that samples are treated as replicates.}
   \item{block}{vector or factor specifying a blocking variable on the arrays. Has length equal to the number of arrays.}
   \item{correlation}{intra-block correlation}

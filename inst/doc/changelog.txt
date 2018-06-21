@@ -1,6 +1,10 @@
+21 June 2018: limma 3.36.2
+
+- Add advice on how to choose 'lfc' to the treat() help page.
+
  4 May 2018: limma 3.36.1
 
-- new function logmeansum().
+- new function logsumexp().
 
  1 May 2018: limma 3.36.0 (Bioconductor 3.7 Release Branch)
 
