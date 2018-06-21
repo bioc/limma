@@ -65,6 +65,10 @@ The \code{lfc} threshold is usually chosen relatively small, because significant
 Typical values for \code{lfc} are \code{log2(1.1)}, \code{log2(1.2)} or \code{log2(1.5)}.
 The top genes chosen by \code{treat} can be examined using \code{\link{topTreat}}.
 
+Note that the \code{lfc} testing threshold used by \code{treat} to the define the null hypothesis is not the same as a log2-fold-change cutoff, as the observed log2-fold-change needs to substantially larger than \code{lfc} for the gene to be called as significant.
+In practice, modest values for \code{lfc} such as \code{log2(1.1)}, \code{log2(1.2)} or \code{log2(1.5)} are usually the most useful.
+In practice, setting \code{lfc=log2(1.2)} or \code{lfc=log2(1.5)} will usually cause most differentially expressed genes to have estimated fold-changes of 2-fold or greater, depending on the sample size and precision of the experiment.
+
 The use of \code{eBayes} or \code{treat} with \code{trend=TRUE} is known as the \emph{limma-trend} method (Law et al, 2014; Phipson et al, 2016).
 With this option, an intensity-dependent trend is fitted to the prior variances \code{s2.prior}.
 Specifically, \code{\link{squeezeVar}} is called with the \code{covariate} equal to \code{Amean}, the average log2-intensity for each gene.
