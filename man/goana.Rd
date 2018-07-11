@@ -73,10 +73,14 @@ getKEGGPathwayNames(species.KEGG = NULL, remove.qualifier = FALSE)
 }
 
 \details{
-These functions perform over-representation analyses for Gene Ontology terms or KEGG pathways in one or more vectors of Entrez Gene IDs.
-The default method accepts a gene set as a vector of gene IDs or multiple gene sets as a list of vectors.
+These functions perform over-representation analyses for Gene Ontology terms or KEGG pathways.
+The default methods accept a gene set as a vector of Entrez Gene IDs or multiple gene sets as a list of such vectors.
 An over-represention analysis is then done for each set.
 The \code{MArrayLM} method extracts the gene sets automatically from a linear model fit object.
+
+The p-values returned by \code{goana} and \code{kegga} are unadjusted for multiple testing.
+The authors have chosen not to correct automatically for multiple testing because GO terms and KEGG pathways are often overlapping, so standard methods of p-value adjustment may be very conservative.
+Users should be aware though that p-values are unadjusted, meaning that only very small p-values should be used for published results.
 
 \code{goana} uses annotation from the appropriate Bioconductor organism package.
 The \code{species} can be any character string XX for which an organism package org.XX.eg.db is installed.
@@ -151,8 +155,8 @@ The \code{goana} method for \code{MArrayLM} objects produces a data frame with a
   \item{N}{number of genes in the GO term.}
   \item{Up}{number of up-regulated differentially expressed genes.}
   \item{Down}{number of down-regulated differentially expressed genes.}
-  \item{P.Up}{p-value for over-representation of GO term in up-regulated genes. Not adjusted for multiple testing.}
-  \item{P.Down}{p-value for over-representation of GO term in down-regulated genes. Not adjusted for multiple testing.}
+  \item{P.Up}{p-value for over-representation of GO term in up-regulated genes.}
+  \item{P.Down}{p-value for over-representation of GO term in down-regulated genes.}
 
 The row names of the data frame give the GO term IDs.
 

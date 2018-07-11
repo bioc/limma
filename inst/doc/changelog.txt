@@ -1,3 +1,11 @@
+11 July 2018: limma 3.37.3
+
+- goana.Rd now explains more explicitly that p-values are unadjusted
+  for multiple testing.
+
+- arrayWeights.Rd now mentions minimum dimensions for expression
+  object.
+
 21 June 2018: limma 3.37.2
 
 - Add advice on how to choose 'lfc' to the treat() help page.
