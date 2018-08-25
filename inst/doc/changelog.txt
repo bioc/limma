@@ -1,4 +1,9 @@
-11 July 2018: limma 3.37.3
+25 Aug 2018: limma 3.37.4
+
+- Minor bug fix to the mixed p-value from roast() and mroast() when
+  set.statistic="floormean".
+
+11 Jul 2018: limma 3.37.3
 
 - goana.Rd now explains more explicitly that p-values are unadjusted
   for multiple testing.

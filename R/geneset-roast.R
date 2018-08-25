@@ -255,7 +255,7 @@ mroast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid
 #	Rotation gene set testing, given effects matrix for one set
 #	Rows are genes.  First column is primary effect.  Other columns are residual effects.
 #	Gordon Smyth and Di Wu
-#	Created 24 Apr 2008.  Last modified 7 May 2016.
+#	Created 24 Apr 2008.  Last modified 28 Aug 2018.
 {
 	nset <- nrow(effects)
 	neffects <- ncol(effects)
@@ -333,7 +333,7 @@ mroast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid
 
 	"floormean" = { 
 #		Observed statistics
-		chimed <- qchisq(0.5,df=1)
+		chimed <- qnorm(0.25,lower.tail=FALSE)
 		amodt <- pmax(abs(modt),chimed)
 		if(!is.null(gene.weights)) {
 			amodt <- gene.weights*amodt
