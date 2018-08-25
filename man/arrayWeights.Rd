@@ -14,15 +14,16 @@ arrayWeightsSimple(object, design = NULL,
 }
 \arguments{
  \item{object}{object of class \code{numeric}, \code{matrix}, \code{MAList}, \code{marrayNorm},
-           \code{ExpressionSet} or \code{PLMset} containing log-ratios or log-values of
-            expression for a series of microarrays.}
+           \code{ExpressionSet} or \code{PLMset} containing log-expression-ratios or log-expression values
+            for a series of microarrays.
+            Most contain at least 3 columns and at least as many rows as columns.}
  \item{design}{the design matrix of the microarray experiment, with rows
            corresponding to arrays and columns to coefficients to be
            estimated.  Defaults to the unit vector meaning that the
            arrays are treated as replicates.}
  \item{weights}{optional numeric matrix containing prior weights for each spot.}
  \item{var.design}{design matrix for the variance model. Defaults to the sample-specific model 
-           (i.e. each sample has a distinct variance) when \code{NULL}.}
+           whereby each sample has a distinct variance when \code{NULL}.}
  \item{method}{character string specifying the estimating algorithm to be used. Choices
           are \code{"genebygene"} and \code{"reml"}.}
  \item{maxiter}{maximum number of iterations allowed.}
@@ -71,7 +72,7 @@ An overview of linear model functions in limma is given by \link{06.LinearModels
 # Subset of data from ApoAI case study in Limma User's Guide
 RG <- backgroundCorrect(RG, method="normexp")
 MA <- normalizeWithinArrays(RG)
-targets <- data.frame(Cy3=I(rep("Pool",6)),Cy5=I(c("WT","WT","WT","KO","KO","KO")))
+targets <- data.frame(Cy3=rep("Pool",6), Cy5=rep(c("WT","KO"),each=3)), stringsAsFactors=FALSE)
 design <- modelMatrix(targets, ref="Pool")
 arrayw <- arrayWeightsSimple(MA, design)
 fit <- lmFit(MA, design, weights=arrayw)
