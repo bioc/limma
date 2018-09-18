@@ -1,3 +1,8 @@
+18 Sep 2018: limma 3.37.5
+
+- The colors "blue", "red" and "yellow" used by coolmap() changed to
+  "blue2", "red2" and "yellow2" when used in a color panel with white.
+
 25 Aug 2018: limma 3.37.4
 
 - Minor bug fix to the mixed p-value from roast() and mroast() when
