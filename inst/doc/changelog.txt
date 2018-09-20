@@ -1,3 +1,9 @@
+20 Sep 2018: limma 3.36.4
+
+- Bug fix for cumOverlap(), which was under-counting overlaps in some
+  cases. cumOverlap() now uses Holm's method for p-value adjustment
+  and computes an overall p-values by Simes method.
+
 25 Aug 2018: limma 3.36.3
 
 - Minor bug fix to the mixed p-value from roast() and mroast() when
