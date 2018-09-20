@@ -1,18 +1,18 @@
 cumOverlap <- function(ol1, ol2)
-#	Cumulative overlap analysis
+#	Cumulative overlap analysis.
+#	Test whether two ordered lists of IDs are significantly overlapped. 
 #	Di Wu and Gordon Smyth
-#	Createdin 2007. Last modified 16 April 2010
-#	Based on hypergeometric distribution. Test whether two ordered lists of genes are significantly overlapped. 
+#	Createdin 2007. Last modified 20 Sep 2018
 {
 #	Check for duplicates
 	if(anyDuplicated(ol1)) stop("Duplicate IDs found in ol1")
 	if(anyDuplicated(ol2)) stop("Duplicate IDs found in ol2")
 
 #	Reduce to IDs found in both lists
-	m1 <- match(ol1,ol2)
+	m <- match(ol1,ol2)
 	redo <- FALSE
-	if(anyNA(m1)) {
-		ol1 <- ol1[!is.na(m1)]
+	if(anyNA(m)) {
+		ol1 <- ol1[!is.na(m)]
 		redo <- TRUE
 	}
 	m2 <- match(ol2,ol1)
@@ -22,24 +22,26 @@ cumOverlap <- function(ol1, ol2)
 	}
 
 #	Match ol1 to ol2
-	if(redo) m1 <- match(ol1,ol2)
+	if(redo) m <- match(ol1,ol2)
 
 #	Count overlaps
 	ngenes <- length(ol1)
-	i <- 1L:ngenes
-	inoverlap <- m1 <= i
-	noverlap <- cumsum(inoverlap)
+	if(ngenes == 0L) return(list(n.total=0L))
+	i <- noverlap <- 1:ngenes
+	for (j in i) noverlap[j] <- sum(m[1:j] <= j)
 
 #	Hypergeometric p-valules
 	p <- phyper(noverlap-0.5,m=i,n=ngenes-i,k=i,lower.tail=FALSE)
+	nmin <- which.min(p)
 
-#	Bonferroni
-	p.b <- p*i
-	nmin <- which.min(p.b)
-	p.b <- pmin(p.b,1)
+#	Which ids contribute to overlap?
+	idoverlap <- ol1[which(m[1:nmin] <= nmin)]
 
-#	Which are ids contribute to overlap
-	idoverlap <- ol1[(1:nmin)[inoverlap[1:nmin]]]
+#	Holm adjustment
+	p.b <- p.adjust(p,method="holm")
 
-	list(n.min=nmin,p.min=p.b[nmin],n.overlap=noverlap,id.overlap=idoverlap,p.value=p,adj.p.value=p.b)
+#	Overall p-value by Simes method
+	p.simes <- min(sort(p[-ngenes]) * (ngenes-1L) / i[-ngenes])
+
+	list(n.total=ngenes,n.min=nmin,p.simes=p.simes,n.overlap=noverlap,id.overlap=idoverlap,p.value=p,adj.p.value=p.b)
 }
