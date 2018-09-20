@@ -50,7 +50,7 @@ GeneIds <- paste0("Gene",1:50)
 ol1 <- GeneIds
 ol2 <- c(sample(GeneIds[1:5]), sample(GeneIds[6:50]))
 coa <- cumOverlap(ol1, ol2)
-coa$p.simes
+coa$p.min
 coa$id.overlap
 }
 
