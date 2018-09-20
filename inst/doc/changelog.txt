@@ -1,7 +1,16 @@
+20 Sep 2018: limma 3.36.5
+
+- Reverting the p-value adjustment in cumOverlap() back to the
+  original directed Bonferroni method, because it is more powerful
+  when the number of Ids contributing to the significant overlap is
+  small.
+
 20 Sep 2018: limma 3.36.4
 
 - Bug fix for cumOverlap(), which was under-counting overlaps in some
-  cases. cumOverlap() now uses Holm's method for p-value adjustment
+  cases.
+
+- cumOverlap() now uses Holm's method for p-value adjustment
   and computes an overall p-values by Simes method.
 
 25 Aug 2018: limma 3.36.3

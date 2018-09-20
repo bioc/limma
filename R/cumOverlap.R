@@ -32,16 +32,14 @@ cumOverlap <- function(ol1, ol2)
 
 #	Hypergeometric p-valules
 	p <- phyper(noverlap-0.5,m=i,n=ngenes-i,k=i,lower.tail=FALSE)
-	nmin <- which.min(p)
+
+#	Directed Bonferroni adjustment, starting from top of list
+	p.b <- p*i
+	nmin <- which.min(p.b)
+	p.b <- pmin(p.b,1)
 
 #	Which ids contribute to overlap?
 	idoverlap <- ol1[which(m[1:nmin] <= nmin)]
 
-#	Holm adjustment
-	p.b <- p.adjust(p,method="holm")
-
-#	Overall p-value by Simes method
-	p.simes <- min(sort(p[-ngenes]) * (ngenes-1L) / i[-ngenes])
-
-	list(n.total=ngenes,n.min=nmin,p.simes=p.simes,n.overlap=noverlap,id.overlap=idoverlap,p.value=p,adj.p.value=p.b)
+	list(n.total=ngenes,n.min=nmin,p.min=p.b[nmin],n.overlap=noverlap,id.overlap=idoverlap,p.value=p,adj.p.value=p.b)
 }
