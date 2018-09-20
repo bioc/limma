@@ -17,16 +17,19 @@ cumOverlap(ol1, ol2)
 List containing the following components:
 \item{n.total}{integer, total number of values in common between \code{ol1} and \code{ol2}.}
 \item{n.min}{integer, top table length leading to smallest adjusted p-value.}
-\item{p.simes}{overall p-value by Simes method.}
+\item{p.min}{smallest adjusted p-value.}
 \item{n.overlap}{integer, number of overlapping IDs in first \code{n.min}.}
 \item{id.overlap}{vector giving the overlapping IDs in first \code{n.min}.}
 \item{p.value}{numeric, vector of p-values for each possible top table length.}
-\item{adj.p.value}{numeric, vector of Holm adjusted p-values for each possible top table length.}
+\item{adj.p.value}{numeric, vector of Bonferroni adjusted p-values for each possible top table length.}
 }
 
 \details{
 The function compares the top \code{n} members of each list, for every possible \code{n}, and conducts an hypergeometric test for overlap.
 The function returns the value of \code{n} giving the smallest p-value.
+
+The p-values are adjusted for multiple testing in a similar way to Bonferroni's method, but starting from the top of th e ranked list instead of from the smallest p-values.
+This approach is designed to be sensitive to contexts where the number of Ids involved in the significant overlap are a small proportion of the total.
 
 The vectors \code{ol1} and \code{ol2} do not need to be of the same length, but only values in common between the two vectors will be used in the calculation.
 
@@ -47,7 +50,7 @@ GeneIds <- paste0("Gene",1:50)
 ol1 <- GeneIds
 ol2 <- c(sample(GeneIds[1:5]), sample(GeneIds[6:50]))
 coa <- cumOverlap(ol1, ol2)
-coa$p.simes
+coa$p.min
 coa$id.overlap
 }
 
