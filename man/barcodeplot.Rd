@@ -46,6 +46,7 @@ The function can optionally display varying weights for different genes, for exa
 The statistics are ranked left to right from smallest to largest.
 The ranked statistics are represented by a shaded bar or bed, and the positions of the specified subsets are marked by vertical bars, forming a pattern like a barcode.
 An enrichment worm optionally shows the relative enrichment of the vertical bars in each part of the plot.
+The worm is computed by the \code{tricubeMovingAverage} function.
 
 Barcode plots are often used in conjunction with gene set tests, and show the enrichment of gene sets amongst high or low ranked genes.
 They were inspired by the set location plot of Subramanian et al (2005), with a number of enhancements, especially the ability to plot positive and negative sets simultaneously.

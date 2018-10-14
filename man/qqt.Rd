@@ -1,7 +1,7 @@
 \name{qqt}
 \alias{qqt}
 \alias{qqf}
-\title{Student's t Quantile-Quantile Plot}
+\title{Student's t or Fisher's F Quantile-Quantile Plot}
 \description{Plots the quantiles of a data sample against the theoretical quantiles of a Student's t distribution.}
 \usage{qqt(y, df = Inf, ylim = range(y), main = "Student's t Q-Q Plot", 
     xlab = "Theoretical Quantiles", ylab = "Sample Quantiles", plot.it = TRUE, \dots) 
