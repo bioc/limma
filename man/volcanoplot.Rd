@@ -5,7 +5,7 @@
 Creates a volcano plot for a specified coefficient of a linear model.
 }
 \usage{
-volcanoplot(fit, coef = 1L, style = "p-value", highlight = 0, names = fit$genes$ID,
+volcanoplot(fit, coef = 1, style = "p-value", highlight = 0, names = fit$genes$ID, hl.col="blue",
             xlab = "Log2 Fold Change", ylab = NULL, pch=16, cex=0.35, \dots)
 }
 \arguments{
@@ -13,11 +13,12 @@ volcanoplot(fit, coef = 1L, style = "p-value", highlight = 0, names = fit$genes$
   \item{coef}{index indicating which coefficient of the linear model is to be plotted.}
   \item{style}{character string indicating which significance statistic to plot on the y-axis. Possibilities are \code{"p-value"} or \code{"B-statistic"}.}
   \item{highlight}{number of top genes to be highlighted by name.}
-  \item{names}{character vector giving text labels for the probes to be used in highlighting}
+  \item{names}{character vector of length \code{nrow(fit)} giving gene names. Only used if \code{highlight > 0}.}
+  \item{hl.col}{color for the gene names. Only used if \code{highlight > 0}.}
   \item{xlab}{character string giving label for x-axis}
   \item{ylab}{character string giving label for y-axis}
-  \item{pch}{vector or list of plotting characters. Default is integer code 16 which gives a solid circle.}
-  \item{cex}{numeric vector of plot symbol expansions. Default is 0.35.}
+  \item{pch}{vector or list of plotting characters.}
+  \item{cex}{numeric vector of plot symbol expansions.}
   \item{\dots}{any other arguments are passed to \code{plot}}
 }
 

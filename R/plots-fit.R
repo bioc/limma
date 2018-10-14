@@ -1,9 +1,9 @@
 #  PRESENTATION PLOTS FROM FITTED MODEL OBJECTS
 
-volcanoplot <- function(fit,coef=1,style="p-value",highlight=0,names=fit$genes$ID,xlab="Log2 Fold Change",ylab=NULL,pch=16,cex=0.35, ...)
+volcanoplot <- function(fit,coef=1L,style="p-value",highlight=0L,names=fit$genes$ID,hl.col="blue",xlab="Log2 Fold Change",ylab=NULL,pch=16,cex=0.35, ...)
 #	Volcano plot of log-fold-change vs significance (p-value or B-statistic)
 #	Gordon Smyth
-#	Created 27 Oct 2006. Last modified 21 Sep 2017.
+#	Created 27 Oct 2006. Last modified 14 Oct 2018.
 {
 	if(!is(fit,"MArrayLM")) stop("fit must be an MArrayLM")
 	x <- as.matrix(fit$coef)[,coef]
@@ -24,7 +24,7 @@ volcanoplot <- function(fit,coef=1,style="p-value",highlight=0,names=fit$genes$I
 		names <- as.character(names)
 		o <- order(y,decreasing=TRUE)
 		i <- o[1:highlight]
-		text(x[i],y[i],labels=substring(names[i],1,8),cex=0.8,col="blue")
+		text(x[i],y[i],labels=substring(names[i],1,8),cex=0.8,col=hl.col)
 	}
 	invisible()
 }

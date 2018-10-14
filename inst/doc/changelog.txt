@@ -1,3 +1,12 @@
+14 Oct 2018: limma 3.37.9
+
+- New argument hl.col for volcanoplot(), allowing users to specify
+  the color for the gene names when highlight > 0.
+
+14 Oct 2018: limma 3.37.8
+
+- Minor additions to the barcodeplot() and qqt() help pages.
+
 20 Sep 2018: limma 3.37.7
 
 - Reverting the p-value adjustment in cumOverlap() back to the
