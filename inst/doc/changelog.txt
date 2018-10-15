@@ -1,3 +1,9 @@
+14 Oct 2018: limma 3.37.10
+
+- Edit to barcodeplot() so that it no longer assumes that 'statistic'
+  has unique names. Previously it returned an error if
+  names(statistic) contained any duplicated values.
+
 14 Oct 2018: limma 3.37.9
 
 - New argument hl.col for volcanoplot(), allowing users to specify
