@@ -3,6 +3,116 @@
 \encoding{UTF-8}
 
 
+\section{Version 3.38.0}{\itemize{
+
+\item
+New function plotExonJunc() to plot results from diffSplice().
+
+\item
+New function logsumexp().
+
+\item
+New argument hl.col for volcanoplot(), allowing users to specify
+  the color for the gene names when highlight > 0.
+
+\item
+barcodeplot() no longer assumes that 'statistic'
+  has unique names. Previously it returned an error if
+  names(statistic) contained any duplicated values.
+
+\item
+The colors "blue", "red" and "yellow" used by coolmap() changed to
+  "blue2", "red2" and "yellow2" when used in a color panel with white.
+
+\item
+goana.Rd now explains more explicitly that p-values are unadjusted
+  for multiple testing.
+
+\item
+arrayWeights.Rd now mentions minimum dimensions for expression
+  object.
+
+\item
+More advice on how to choose 'lfc' added to the treat() help page.
+
+\item
+Minor bug fix to the mixed p-value from roast() and mroast() when
+  set.statistic="floormean".
+
+\item
+Bug fix for cumOverlap(), which was under-counting overlaps in some
+  cases.
+
+}}
+
+
+\section{Version 3.36.0}{\itemize{
+
+\item
+New arguments 'quote' and 'row.names' for write.fit(). Write.fit()
+  now outputs row.names by default, which previously were suppressed.
+
+\item
+coolmap() will now accept an arbitrary vector of colors. A new
+  preset "whitered" panel is now also supported.
+
+\item
+In the past, contrasts.fit() always returned NA contrasts for genes
+  with any NA fitted coefficients. contrasts.fit() will now ignore an
+  NA coefficient if the contrast multiplier is zero for that
+  coefficient.
+
+\item
+The treat() default for 'lfc' changed from lfc=0 to lfc=log2(1.2).
+
+\item
+kegga() and goana() now check whether a data.frame has been input
+  by mistake and generates an error. Previously a data.frame value
+  for 'de' was interpreted as a list of gene sets without any error.
+
+\item
+voomWithQualityWeights() now returns 'sample.weights' as a column
+  of the 'targets' data.frame instead of as a separate vector.
+
+\item
+"TestResults" objects now include a 'labels' attribute, defaulting
+  to c("Down","NotSig","Up").
+
+\item
+Functions ebayes() and toptable(), long ago replaced by eBayes() and
+topTable(), are now formally deprecated.
+
+\item
+Update the User's Guide case study that analyses Lrp- E. Coli
+  samples and profiled by Affymetrix arrays.
+
+\item
+Update the Agilent single-channel case study in Section 17.4 of the
+  Users' Guide to use the Agilent gIsWellAboveBG detection column.
+
+\item
+Comments added to voom.Rd and eBayes.Rd to clarify the relationship
+  between limma-trend and voom.
+
+\item
+In the kegga help page, clarify default gene ID system used by
+kegga() when species="dme".
+
+\item
+Update wsva() help page to describe correct number of columns for output.
+
+\item
+bug fix for goana() when 'covariate' is specified and some of the
+  'universe' genes don't have GO annotation.
+
+\item
+Fix to how roast(), mroast() and fry() handle weights. The 'weight' argument
+can now be a matrix, or a vector of length nrow(y), or a vector of length ncol(y).
+This allows the functions to accept precision weights, or gene weights, or sample weights.
+
+}}
+
+
 \section{Version 3.34.0}{\itemize{
 
 \item 
@@ -62,6 +172,7 @@ plotWithHighlights() checks whether 'status' is a factor and
 Bug fixes for beadCountWeights(). Default is now set correct for
   'design' and the function now works correctly when 'y' is an EList
   object contain bead standard errors but not standard deviations.
+
 }}
 
 

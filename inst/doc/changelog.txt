@@ -1,3 +1,11 @@
+29 Oct 2018: limma 3.37.11
+
+- New function plotExonJunc() to plot results from diffSplice() when
+  exon-exon junctions as well as exons are included in the count
+  matrix.
+
+- Update NEWS.Rd for Bioconductor 3.8 Release.
+
 14 Oct 2018: limma 3.37.10
 
 - Edit to barcodeplot() so that it no longer assumes that 'statistic'
