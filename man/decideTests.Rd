@@ -49,7 +49,7 @@ The setting \code{method="separate"} is equivalent to using \code{topTable} sepa
 Please see the limma User's Guide for a discussion of the statistical properties of these methods.
 }
 \note{
-Although this function enables users to set p-value and lfc cutoffs simultaneously, this combination criterion not usually recommended.
+Although this function enables users to set p-value and lfc cutoffs simultaneously, this combination criterion is not generally recommended.
 Unless the fold changes and p-values are very highly correlated, the addition of a fold change cutoff can increase the family-wise error rate or false discovery rate above the nominal level.
 Users wanting to use fold change thresholding are recommended to use \code{treat} instead of \code{eBayes} and to leave \code{lfc} at the default value when using \code{decideTests}.
 }
