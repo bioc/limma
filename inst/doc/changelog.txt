@@ -1,3 +1,13 @@
+02 Nov 2018: limma 3.39.2
+
+- Add more details to the warning about approximations in the
+  contrasts.fit() help page.
+
+- Update package tests output file to match the Bioconductor 3.8
+  release of the org.Hs.eg.db package.
+
+- Convert src/init.c to use LF (Unix) line endings.
+
 01 Nov 2018: limma 3.39.1
 
 - Minor edit to decideTests() help page.

@@ -29,11 +29,15 @@ Unlike the design matrix input to \code{lmFit}, which normally has one column fo
 Methods of assessing differential expression, such as \code{eBayes} or \code{classifyTestsF}, can then be applied to fitted model object.
 
 The \code{coefficients} argument provides a simpler way to specify the \code{contrasts} matrix when the desired contrasts are just a subset of the original coefficients.
-
-Warning. For efficiency reasons, this function does not re-factorize the design matrix for each probe.
-A consequence is that, if the design matrix is non-orthogonal and the original fit included quality weights or missing values, then the unscaled standard deviations produced by this function are approximate rather than exact.
+}
+\note{
+For efficiency reasons, this function does not re-factorize the design matrix for each probe.
+A consequence is that, if the design matrix is non-orthogonal and the original fit included precision weights or missing values, then the unscaled standard deviations produced by this function are approximate rather than exact.
 The approximation is usually acceptable.
-The results are always exact if the original fit was a oneway model.
+If not, then the issue can be avoided by redefining the design matrix to fit the contrasts directly.
+
+Even with precision weights, the results from \code{contrasts.fit} are always exact if the coefficients being compared are statistically independent.
+This will always be true, for example, if the original fit was a oneway model and the group-means (no-intercept) parametrization was used for the design matrix.
 }
 \seealso{
 An overview of linear model functions in limma is given by \link{06.LinearModels}.
