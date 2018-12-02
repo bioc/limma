@@ -1,3 +1,10 @@
+02 Dec 2018: limma 3.38.3
+
+- Add Research Fields to the biocViews entry in the package
+  DESCRIPTION file.
+
+- Add two references to the voom help page.
+
 02 Nov 2018: limma 3.38.2
 
 - Add more details to the warning about approximations in the

@@ -73,7 +73,17 @@ An \code{\link[limma:EList]{EList}} object with the following components:
 Law, CW, Chen, Y, Shi, W, Smyth, GK (2014).
 Voom: precision weights unlock linear model analysis tools for RNA-seq read counts.
 \emph{Genome Biology} 15, R29.
-\url{http://genomebiology.com/2014/15/2/R29}
+See also the Preprint Version at \url{http://www.statsci.org/smyth/pubs/VoomPreprint.pdf} incorporating some notational corrections.
+
+Law, CW, Alhamdoosh, M, Su, S, Smyth, GK, Ritchie, ME (2016).
+RNA-seq analysis is easy as 1-2-3 with limma, Glimma and edgeR.
+\emph{F1000Research} 5, 1408.
+\url{https://f1000research.com/articles/5-1408}
+
+Law, CW, Alhamdoosh, M, Su, S, Dong, X, Tian, L, Smyth, GK, Ritchie, ME (2018).
+RNA-seq analysis is easy as 1-2-3 with limma, Glimma and edgeR.
+\emph{Bioconductor Workflow Package}.
+\url{https://www.bioconductor.org/packages/RNAseq123/}
 }
 
 \seealso{
