@@ -1,7 +1,13 @@
+23 Jan 2019: limma 3.39.4
+
+- Rewrite Filtering chapter of User's Guide.
+
 02 Dec 2018: limma 3.39.3
 
 - Add Research Fields to the biocViews entry in the package
   DESCRIPTION file.
+
+- Add two references to the voom help page.
 
 02 Nov 2018: limma 3.39.2
 
