@@ -52,6 +52,7 @@ the call; if any of these are set in the call then they will over-ride
 the slots or components in the data \code{object}.
 
 \code{arrayWeightsSimple} is a fast version of \code{arrayWeights} with \code{method="reml"}, no prior weights and no missing values.
+It uses an adaption of the algorithm of Smyth (2002).
 }
 \value{
 	A vector of array weights.
@@ -59,8 +60,12 @@ the slots or components in the data \code{object}.
 \references{
 Ritchie, M. E., Diyagama, D., Neilson, van Laar, R., J., Dobrovic, A., Holloway, A., and Smyth, G. K. (2006).
 Empirical array quality weights in the analysis of microarray data.
-\emph{BMC Bioinformatics} 7, 261.
+\emph{BMC Bioinformatics} \bold{7}, 261.
 \url{http://www.biomedcentral.com/1471-2105/7/261}
+
+Smyth, G. K. (2002).
+An efficient algorithm for REML in heteroscedastic regression.
+\emph{Journal of Computational and Graphical Statistics} \bold{11}, 836-847.
 }
 \seealso{
 \code{\link{arrayWeightsQuick}}, \code{\link{voomWithQualityWeights}}
