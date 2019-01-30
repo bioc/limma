@@ -8,9 +8,9 @@ experiment.
 }
 \usage{
 arrayWeights(object, design = NULL, weights = NULL, var.design = NULL,
-     method = "genebygene", maxiter = 50, tol = 1e-10, trace=FALSE)
+     method = "genebygene", maxiter = 50, tol = 1e-10, trace = FALSE)
 arrayWeightsSimple(object, design = NULL,
-     maxiter = 100, tol = 1e-6, maxratio = 100, trace=FALSE)
+     maxiter = 100, tol = 1e-6, maxratio = 100, trace = FALSE)
 }
 \arguments{
  \item{object}{object of class \code{numeric}, \code{matrix}, \code{MAList}, \code{marrayNorm},
@@ -59,11 +59,11 @@ the slots or components in the data \code{object}.
 \references{
 Ritchie, M. E., Diyagama, D., Neilson, van Laar, R., J., Dobrovic, A., Holloway, A., and Smyth, G. K. (2006).
 Empirical array quality weights in the analysis of microarray data.
-BMC Bioinformatics 7, 261.
+\emph{BMC Bioinformatics} 7, 261.
 \url{http://www.biomedcentral.com/1471-2105/7/261}
 }
 \seealso{
-\code{\link{voomWithQualityWeights}}
+\code{\link{arrayWeightsQuick}}, \code{\link{voomWithQualityWeights}}
 
 An overview of linear model functions in limma is given by \link{06.LinearModels}.
 }

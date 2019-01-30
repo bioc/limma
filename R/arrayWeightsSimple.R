@@ -10,24 +10,28 @@ arrayWeightsQuick <- function(y, fit)
 	1/colMeans(res*res/mures2,na.rm=TRUE)
 }
 
-arrayWeightsSimple <- function(object,design=NULL,maxiter=100,tol=1e-6,maxratio=100,trace=FALSE)
+arrayWeightsSimple <- function(object,design=NULL,maxiter=100L,tol=1e-6,maxratio=100L,trace=FALSE)
 #	Array weights by REML
 #	Assumes no spot weights
-#	Any probes with missing values are removed
-#	Gordon Smyth, 13 Dec 2005
-#	Last revised 20 May 2009.
+#	Any probes with missing or infinite values are removed
+#	Gordon Smyth
+#	Created 13 Dec 2005. Last revised 30 Jan 2019.
 {
 	M <- as.matrix(object)
-	allfin <- apply(is.finite(M),1,all)
+	narrays <- ncol(M)
+	if(narrays < 3L) stop("too few arrays")
+
+#	Remove rows with missing or infinite values
+	allfin <- is.finite(rowSums(M))
 	if(!all(allfin)) {
 		nrowna <- sum(!allfin)
 		M <- M[allfin,,drop=FALSE]
-		warning(paste(as.integer(nrowna),"rows with missing values removed"))
+		message(as.integer(nrowna)," rows with missing or inf values removed")
 	}
 	ngenes <- nrow(M)
-	narrays <- ncol(M)
-	if(narrays < 3) stop("too few arrays")
 	if(ngenes < narrays) stop("too few probes")
+
+#	Default design is just an intercept
 	if(is.null(design)) design <- matrix(1,narrays,1)
 	p <- ncol(design)
 
@@ -40,14 +44,14 @@ arrayWeightsSimple <- function(object,design=NULL,maxiter=100,tol=1e-6,maxratio=
 
 #	Starting values
 	gam <- rep(0,narrays-1)
-	w <- drop(exp(Z1 %*% (-gam)))
+	w <- rep(1,narrays)
 	if(trace) cat("iter convcrit w\n")
 
-	iter <- 0
+	iter <- 0L
 	p2 <- p*(p+1)/2
 	Q2 <- array(0,c(narrays,p2))
 	repeat {
-		iter <- iter+1
+		iter <- iter+1L
 		fitm <- lm.wfit(design, t(M), w)
 		Q <- qr.qy(fitm$qr,diag(1,nrow=narrays,ncol=p))
 		j0 <- 0
