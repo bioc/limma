@@ -10,10 +10,10 @@ arrayWeightsQuick <- function(y, fit)
 	1/colMeans(res*res/mures2,na.rm=TRUE)
 }
 
-arrayWeightsSimple <- function(object,design=NULL,maxiter=100L,tol=1e-6,maxratio=100L,trace=FALSE)
-#	Array weights by REML.
-#	Assumes no spot weights and any probes with missing or infinite values are removed.
-#	Algorithm is a nested iterations adaption of statmod::remlscor
+arrayWeightsSimple <- function(object,design=NULL,var.group=NULL,maxiter=100L,tol=1e-6,maxratio=100L,trace=FALSE)
+#	Estimate array weights by REML.
+#	Assumes no prior weights and any probes with missing or infinite values are removed.
+#	Uses an exact Fisher scoring algorithm similar to statmod::remlscor.
 #	Gordon Smyth
 #	Created 13 Dec 2005. Last revised 31 Jan 2019.
 {
@@ -35,17 +35,25 @@ arrayWeightsSimple <- function(object,design=NULL,maxiter=100L,tol=1e-6,maxratio
 	if(is.null(design)) design <- matrix(1,narrays,1)
 	p <- ncol(design)
 
-#	Ratio of genes to arrays, for use with convergence criterion
+#	Setup genewise variance design matrices, with and without intercept
+	if(is.null(var.group)) {
+		Z1 <- contr.sum(narrays)
+		Z <- cbind(1,Z1)
+	} else {
+		var.group <- droplevels(as.factor(var.group))
+		if(length(var.group) != narrays) stop("var.group has wrong length")
+		contrasts(var.group) <- contr.sum(levels(var.group))
+		Z <- model.matrix(~var.group)
+		Z1 <- Z[,-1,drop=FALSE]
+	}
+
+#	Ratio of genes to arrays, used for convergence criterion
 #	The sqrt is used to reduce iterations with very large datasets
 	m <- sqrt(ngenes)/narrays
 
-#	Setup genewise variance design matrices, with and without intercept
-	Z1 <- contr.sum(narrays)
-	Z <- cbind(1,Z1)
-
 #	Starting values
-	gam <- rep(0,narrays-1)
-	w <- rep(1,narrays)
+	gam <- rep_len(0,ncol(Z1))
+	w <- rep_len(1,narrays)
 	if(trace) cat("iter convcrit range(w)\n")
 
 	iter <- 0L

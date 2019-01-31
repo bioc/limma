@@ -9,30 +9,31 @@ experiment.
 \usage{
 arrayWeights(object, design = NULL, weights = NULL, var.design = NULL,
      method = "genebygene", maxiter = 50, tol = 1e-10, trace = FALSE)
-arrayWeightsSimple(object, design = NULL,
+arrayWeightsSimple(object, design = NULL, var.group = NULL,
      maxiter = 100, tol = 1e-6, maxratio = 100, trace = FALSE)
 }
 \arguments{
- \item{object}{object of class \code{numeric}, \code{matrix}, \code{MAList}, \code{marrayNorm},
+  \item{object}{object of class \code{numeric}, \code{matrix}, \code{MAList}, \code{marrayNorm},
            \code{ExpressionSet} or \code{PLMset} containing log-expression-ratios or log-expression values
             for a series of microarrays.
             Most contain at least 3 columns and at least as many rows as columns.}
- \item{design}{the design matrix of the microarray experiment, with rows
+  \item{design}{the design matrix of the microarray experiment, with rows
            corresponding to arrays and columns to coefficients to be
            estimated.  Defaults to the unit vector meaning that the
            arrays are treated as replicates.}
- \item{weights}{optional numeric matrix containing prior weights for each spot.}
- \item{var.design}{design matrix for the variance model. Defaults to the sample-specific model 
-           whereby each sample has a distinct variance when \code{NULL}.}
- \item{method}{character string specifying the estimating algorithm to be used. Choices
+  \item{weights}{optional numeric matrix containing prior weights for each spot.}
+  \item{var.design}{design matrix for the variance model. Defaults to the sample-specific model 
+           whereby each sample has a distinct variance.}
+  \item{var.group}{vector or factor indicating groups to have different variances. This is another way to specify \code{var.design} for multigroup variance models.}
+  \item{method}{character string specifying the estimating algorithm to be used. Choices
           are \code{"genebygene"} and \code{"reml"}.}
- \item{maxiter}{maximum number of iterations allowed.}
- \item{tol}{convergence tolerance.}
- \item{maxratio}{maximum ratio between largest and smallest weights before iteration stops}
- \item{trace}{logical variable. If true then output diagnostic information
+  \item{maxiter}{maximum number of iterations allowed.}
+  \item{tol}{convergence tolerance.}
+  \item{maxratio}{maximum ratio between largest and smallest weights before iteration stops}
+  \item{trace}{logical variable. If true then output diagnostic information
           at each iteration of the '"reml"' algorithm, or at every 1000th iteration of the 
           '"genebygene"' algorithm.}
-  }
+}
 \details{
 The relative reliability of each array is estimated by measuring how
 well the expression values for that array follow the linear model.
