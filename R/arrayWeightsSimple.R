@@ -11,11 +11,11 @@ arrayWeightsQuick <- function(y, fit)
 }
 
 arrayWeightsSimple <- function(object,design=NULL,maxiter=100L,tol=1e-6,maxratio=100L,trace=FALSE)
-#	Array weights by REML
-#	Assumes no spot weights
-#	Any probes with missing or infinite values are removed
+#	Array weights by REML.
+#	Assumes no spot weights and any probes with missing or infinite values are removed.
+#	Algorithm is a nested iterations adaption of statmod::remlscor
 #	Gordon Smyth
-#	Created 13 Dec 2005. Last revised 30 Jan 2019.
+#	Created 13 Dec 2005. Last revised 31 Jan 2019.
 {
 	M <- as.matrix(object)
 	narrays <- ncol(M)
@@ -35,24 +35,31 @@ arrayWeightsSimple <- function(object,design=NULL,maxiter=100L,tol=1e-6,maxratio
 	if(is.null(design)) design <- matrix(1,narrays,1)
 	p <- ncol(design)
 
-#	For use with convergence criterion
+#	Ratio of genes to arrays, for use with convergence criterion
 #	The sqrt is used to reduce iterations with very large datasets
 	m <- sqrt(ngenes)/narrays
 
+#	Setup genewise variance design matrices, with and without intercept
 	Z1 <- contr.sum(narrays)
 	Z <- cbind(1,Z1)
 
 #	Starting values
 	gam <- rep(0,narrays-1)
 	w <- rep(1,narrays)
-	if(trace) cat("iter convcrit w\n")
+	if(trace) cat("iter convcrit range(w)\n")
 
 	iter <- 0L
-	p2 <- p*(p+1)/2
+	p2 <- p * (p+1L) %/% 2L
 	Q2 <- array(0,c(narrays,p2))
 	repeat {
 		iter <- iter+1L
+
+#		Fit weighted linear models and extract residual variances
 		fitm <- lm.wfit(design, t(M), w)
+		Effects <- fitm$effects[(fitm$rank+1):narrays,,drop=FALSE]
+		s2 <- colMeans(Effects^2)
+
+#		Fisher information matrix for variance parameters (including intercept)
 		Q <- qr.qy(fitm$qr,diag(1,nrow=narrays,ncol=p))
 		j0 <- 0
 		for (k in 0:(p-1)) {
@@ -62,20 +69,35 @@ arrayWeightsSimple <- function(object,design=NULL,maxiter=100L,tol=1e-6,maxratio
 		if(p > 1) Q2[,(p+1):p2] <- sqrt(2)*Q2[,(p+1):p2]
 		h <- rowSums(Q2[,1:p,drop=FALSE])
 		info <- crossprod(Z,(1-2*h)*Z) + crossprod(crossprod(Q2,Z))
+
+#		Fisher information excluding intercept (i.e., for gam)
 		info1 <- info[-1,-1,drop=FALSE] - (info[-1,1,drop=FALSE]/info[1,1]) %*% info[1,-1,drop=FALSE]
-		s2 <- colSums(fitm$effects[(fitm$rank+1):narrays,]^2) / fitm$df.residual
+
+#		Score vector (log-lik derivative) for gam
 		fitvald <- matrix(1/w,narrays,1)%*%s2
 		dl1 <- crossprod(Z1, rowMeans(fitm$residuals^2/fitvald - (1-h)) )
-#		print(cbind(info1,dl1))
-#		cat(iter,drop(crossprod(ngenes*dl1)),"\n")
+
+#		Fisher scoring
 		gamstep <- solve(info1,dl1)
 		gam <- gam + gamstep
+
+#		Update array weights
 		w <- drop(exp(Z1 %*% (-gam)))
+
+#		Test for convergence
 		convcrit <- m*crossprod(dl1,gamstep)
-		if(trace) cat(iter,convcrit,w,"\n")
-		if(is.na(convcrit)) stop("tol not achievable, try trace or a larger tol value")
+		if(trace) cat(iter,convcrit,range(w),"\n")
+		if(is.na(convcrit)) {
+			warning("convergence tolerance not achievable, stopping prematurely")
+			break
+		}
 		if(convcrit < tol) break
-		if(max(w)/min(w) > maxratio) break
+
+#		Check for other exceedences
+		if(max(w)/min(w) > maxratio) {
+			warning("maximum divergence of weights reached, stopping before convergence")
+			break
+		}
 		if(iter==maxiter) {
 			warning("iteration limit reached")
 			break
