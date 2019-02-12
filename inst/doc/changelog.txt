@@ -1,3 +1,9 @@
+12 Feb 2019: limma 3.39.7
+
+- The fitted() and residuals() methods for MArrayLM objects now give
+  an informative error message if the object contains contrasts
+  instead of the original coefficients.
+
 12 Feb 2019: limma 3.39.6
 
 - Major rewrite of arrayWeights() to improve speed and stability.

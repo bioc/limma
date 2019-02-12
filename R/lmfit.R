@@ -386,8 +386,9 @@ nonEstimable <- function(x)
 fitted.MArrayLM <- function(object,...)
 #	Fitted values from MArray linear model fit
 #	Gordon Smyth
-#	29 November 2005.  Last modified 4 May 2016.
+#	29 November 2005.  Last modified 12 Feb 2019.
 {
+	if(!is.null(object$contrasts)) stop("Object contains contrasts rather than coefficients, so fitted values cannot be computed.")
 	object$coefficients %*% t(object$design)
 }
 
