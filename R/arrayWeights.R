@@ -1,184 +1,100 @@
-arrayWeights <- function(object, design=NULL, weights=NULL, var.design=NULL, method="genebygene", maxiter=50, tol=1e-10, trace=FALSE)
-#	Estimate array quality weights
+arrayWeights <- function(object, design=NULL, weights=NULL, var.design=NULL, var.group=NULL, prior.n=10, method="genebygene", maxiter=50L, tol=1e-5, trace=FALSE)
+#	Estimate array quality weights.
+#
 #	Created by Matt Ritchie 7 Feb 2005.
 #	Gordon Smyth simplified argument checking to use getEAWP, 9 Mar 2008.
-#	Cynthia Liu added var.design argument so that variance model can be modified by user, 22 Sep 2014
-#	Last modified 19 Oct 2016.
+#	Cynthia Liu added var.design argument 22 Sep 2014.
+#	Rewrite by Gordon Smyth 12 Feb 2019.
+#	Last modified 12 Feb 2019.
 {
 #	Check object
 	y <- getEAWP(object)
-	M <- y$exprs
-	ngenes <- nrow(M)
-	narrays <- ncol(M)
-	if(narrays < 3L) stop("too few arrays")
-	if(ngenes < narrays) stop("too few probes")
+	E <- y$exprs
+	ngenes <- nrow(E)
+	narrays <- ncol(E)
+
+#	Need at least 2 rows and 3 columns
+	if(ngenes < 2L || narrays < 3L) {
+		w <- rep_len(1,narrays)
+		names(w) <- colnames(E)
+		return(w)
+	}
 
 #	Check design
-	if(is.null(design))
+	if(is.null(design)) {
 		design <- matrix(1,narrays,1)
-	else {
+	} else {
 		design <- as.matrix(design)
 		if(mode(design) != "numeric") stop("design must be a numeric matrix")
+		QR <- qr(design)
+
+#		If not full rank, remove superfluous columns
+		if(QR$rank <- ncol(design)) design <- design[,QR$pivot[1:QR$rank],drop=FALSE]
 	}
-	nparams <- qr(design)$rank
 
 #	Check weights
-	if(is.null(weights) && !is.null(y$weights)) weights <- y$weights
+	if(is.null(weights)) weights <- y$weights
+	if(!is.null(weights)) {
+		weights <- as.matrix(weights)
+		if(nrow(weights)!=ngenes || ncol(weights)!=narrays) stop("dimensions of weights should match those of expression object")
+		r <- range(weights)
+		if(is.na(r[1])) stop("NA weights not allowed")
+		if(r[1] < 0) stop("Negative weights not allowed")
+		if(is.infinite(r[2])) stop("Infinite weights not allowed")
+		if(r[1]==0) {
+			E[weights==0] <- NA
+			weights[weights==0] <- 1
+		}
+	}
 
-#	Check var.design
+#	var.group takes precedence over var.design
+	if(!is.null(var.group)) {
+		var.group <- droplevels(as.factor(var.group))
+		if(length(var.group) != narrays) stop("var.group has wrong length")
+		if(nlevels(var.group) < 2L) stop("Need at least two variance groups")
+		contrasts(var.group) <- contr.sum(levels(var.group))
+		var.design <- model.matrix(~var.group)
+		var.design <- var.design[,-1,drop=FALSE]
+	}
+
+#	Setup variance design matrix
+#	First column must be an intercept and other columns must add to zero
 	if(is.null(var.design)) {
-#		Set up design matrix for array variance model
-		Z <- contr.sum(narrays)
+		Z2 <- contr.sum(narrays)
 	} else {
-		if(ncol(var.design)<2) stop("var.design must have at least 2 columns")
-		Z <- var.design
+		Z2 <- var.design
+		Z2 <- t(t(Z2) - colMeans(Z2))
+		QR <- qr(Z2)
+		Z2 <- Z2[,QR$pivot[1:QR$rank],drop=FALSE]
+	}
+
+#	Detect NA and infinite values. Convert latter into NAs.
+	r <- range(E)
+	if(!all(is.finite(r))) {
+		E[is.infinite(E)] <- NA
+		HasNA <- TRUE
+	} else {
+		HasNA <- FALSE
 	}
 
 #	Check method
 	method <- match.arg(method,c("genebygene","reml"))
 
-#	Intialise array variances to zero
-	arraygammas <- rep_len(0, ncol(Z))
-
-	if(method=="genebygene") {
-#		Estimate array variances via gene-by-gene update algorithm
-		Zinfo <- 10*(narrays-nparams)/narrays*crossprod(Z, Z)
-		for(i in 1:ngenes) {
-			if(!all(is.finite(arraygammas))) stop("convergence problem at gene ", i, ": array weights not estimable")
-		 	vary <- exp(Z%*%arraygammas)
-			if(!is.null(weights)) {
-#				combine spot weights with running weights 
-				if(max(weights[i,], na.rm=TRUE) > 1) weights[i,] <- weights[i,]/max(weights[i,])
-				w <- as.vector(1/vary*weights[i,])
-			} else {
-				w <- as.vector(1/vary)
-			}
-			y <- as.vector(M[i,])
-			obs <- is.finite(y) & w!=0
-			if (sum(obs) > 1) {
-				if(sum(obs) == narrays)	{
-					X <- design
-				} else {
-#					remove missing/infinite values
-					X <- design[obs, , drop = FALSE]
-					y <- y[obs]
-					vary <- vary[obs]
-					Z2 <- Z[obs,]
-				}
-				out <- lm.wfit(X, y, w[obs])
-				d <- rep(0, narrays)
-				d[obs] <- w[obs]*out$residuals^2
-				s2 <- sum(d[obs])/out$df.residual
-				Q <- qr.Q(out$qr)
-				if(ncol(Q)!=out$rank) Q <- Q[,-((out$rank+1):ncol(Q)),drop=FALSE]
-				h <- rep_len(1, narrays)
-				h[obs] <- rowSums(Q^2)
-				Agam <- crossprod(Z, (1-h)*Z)
-				Agam.del <- crossprod(t(rep(h[narrays], length(arraygammas))-h[1:(length(narrays)-1)]))
-				Agene.gam <- (Agam - 1/out$df.residual*Agam.del) # 1/(narrays-nparams)
-				if(is.finite(sum(Agene.gam)) && sum(obs) == narrays) {
-					Zinfo <- Zinfo + Agene.gam
-					R <- chol(Zinfo)
-					Zinfoinv <- chol2inv(R)
-					zd <- d/s2 - 1 + h
-					Zzd <- crossprod(Z, zd)
-					gammas.iter <- Zinfoinv%*%Zzd
-					arraygammas <- arraygammas + gammas.iter
-				}
-				if(is.finite(sum(Agene.gam)) && sum(obs) < narrays && sum(obs) > 2) { 
-					Zinfo <- Zinfo + Agene.gam
-					A1 <- (diag(1, sum(obs))-1/sum(obs)*matrix(1, sum(obs), sum(obs)))%*%Z2
-					A1 <- A1[-sum(obs),] # remove last row
-					R <- chol(Zinfo)
-					Zinfoinv <- chol2inv(R)
-					zd <- d/s2 - 1 + h
-					Zzd <- A1%*%crossprod(Z, zd)
-					Zinfoinv.A1 <- A1%*%Zinfoinv%*%t(A1)
-					alphas.old <- A1%*%arraygammas
-					alphas.iter <- Zinfoinv.A1%*%Zzd
-					alphas.new <- alphas.old + alphas.iter
-					Us <- rbind(diag(1, sum(obs)-1), -1)
-					Usalphas <- Us%*%(alphas.new-alphas.old)
-					Usgammas <- Z%*%arraygammas
-					Usgammas[obs] <- Usgammas[obs] + Usalphas
-					arraygammas <- Usgammas[1:(narrays-1)]
-				}
-
-				if(trace && (i==1 || i%%1001==0)) {
-					x2 <- crossprod(Zzd, gammas.iter) / narrays
-					cat("Iter =", i, " X2 =", x2, " Array gammas", arraygammas, "\n")
-				}
-			}
-		}
-	}
+	if(method=="genebygene")
+		return(.arrayWeightsGeneByGene(E, design=design, weights=weights, var.design=Z2, trace=trace))
 
 	if(method=="reml") {
-#		Estimate array variances via reml
-		iter <- 0
-		dev <- 0
-		repeat {
-			iter <- iter + 1
-			zd <- matrix(0, narrays, 1L)
-			sum1minush <- matrix(0, narrays, 1L)
-			K <- matrix(0, ngenes, narrays)
-
-			for(i in 1:ngenes) {
-				vary <- exp(Z%*%arraygammas)
-
-				if(!is.null(weights)) {
-#					combine spot weights with running weights
-					if(max(weights[i,], na.rm=TRUE) > 1) weights[i,] <- weights[i,]/max(weights[i,])
-					w <- as.vector(1/vary*weights[i,])
-				} else {
-					w <- as.vector(1/vary)
-				}
-
-				y <- as.vector(M[i,])
-				obs <- is.finite(y) & w!=0
-				n <- sum(obs)
-				if (n > 0) {
-					if(n == narrays)	{
-						X <- design
-					} else {
-#						remove missing/infinite values
-						X <- design[obs, , drop = FALSE]
-						y <- y[obs]
-						vary <- vary[obs]
-						w <- w[obs]
-						const <- sum(obs) * log(2 * pi)
-					}
-					out <- lm.wfit(X, y, w)
-					d <- rep(0, narrays)
-					d[obs] <- w*out$residuals^2
-					s2 <- sum(d[obs])/out$df.residual
-					Q <- qr.Q(out$qr)
-					if(ncol(Q)!=out$rank) Q <- Q[,-((out$rank+1):ncol(Q)),drop=FALSE]
-					h <- rowSums(Q^2)
-					zd[obs] <- zd[obs] + d[obs]/s2 - 1 + h
-					sum1minush[obs,1] <- sum1minush[obs,1] + 1-h
-					K[i,][obs] <- as.vector(h[n]-h)
-				}
-			}
-			Zzd <- crossprod(Z, zd)
-			Zinfo <- diag(sum1minush[1:(length(arraygammas))]) + sum1minush[length(arraygammas)] - crossprod(K[,])[1:length(arraygammas),1:length(arraygammas)]/out$df.residual
-
-			R <- chol(Zinfo)
-			Zinfoinv <- chol2inv(R)
-			gammas.iter <- Zinfoinv%*%Zzd
-			arraygammas <- arraygammas + gammas.iter
-			x2 <- crossprod(Zzd, gammas.iter) / narrays
-
-			if(trace) cat("Iter =", iter, " X2 =", x2, " Array gammas", arraygammas, "\n")
-			if(!all(is.finite(arraygammas))) stop("convergence problem at iteration ", iter, ": array weights not estimable")
-
-			if (x2  < tol) break
-
-			if (iter == maxiter) {
-				warning("Maximum iterations ", maxiter, " reached", sep="")
-				break
-			}
+		if(HasNA) {
+			iNA <- is.na(rowMeans(E))
+			message("removing ",sum(iNA)," rows with missing or infinite values")
+			E <- E[!iNA,]
+			if(!is.null(weights)) weights <- weights[!iNA,]
+		}
+		if(is.null(weights)) {
+			return(.arrayWeightsREML(E, design=design, var.design=Z2, maxiter=maxiter, tol=tol, trace=trace))
+		} else {
+			return(.arrayWeightsPrWtsREML(E, design=design, weights=weights, var.design=Z2, maxiter=maxiter, tol=tol, trace=trace))
 		}
 	}
 
-	drop(exp(Z %*% (-arraygammas)))
 }

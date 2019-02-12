@@ -1,3 +1,11 @@
+12 Feb 2019: limma 3.39.6
+
+- Major rewrite of arrayWeights() to improve speed and stability.
+  The arrayWeightsSimple() function has been removed and its
+  functionality incorporated into arrayWeights(), including the
+  new 'var.group' argument to simplify specification of the 
+  variance design matrix.
+
 31 Jan 2019: limma 3.39.5
 
 - New argument 'var.group' for arrayWeightsSimple().
