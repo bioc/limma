@@ -72,7 +72,7 @@
 		gam <- gam + gamstep
 		w <- drop(exp(Z2 %*% (-gam)))
 		if(trace) cat(iter,convcrit,range(w),"\n")
-		if(trace) cat("gamstep sd ",sqrt(sum(gamstep^2)),"\n")
+#		if(trace) cat("gamstep sd ",sqrt(sum(gamstep^2)),"\n")
 
 #		Test for convergence
 		if(convcrit < tol) break

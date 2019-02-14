@@ -1,7 +1,15 @@
+14 Feb 2019: limma 3.39.8
+
+- Further simplifications and improvements to the arrayWeights() code
+  when method="genebygene".
+
+- New argument 'prior.n' for arrayWeights() to control the prior
+  weight with which the array weights are squeezed towards unity.
+
 12 Feb 2019: limma 3.39.7
 
 - The fitted() and residuals() methods for MArrayLM objects now give
-  an informative error message if the object contains contrasts
+  informative error messagew if the object contains contrasts
   instead of the original coefficients.
 
 12 Feb 2019: limma 3.39.6

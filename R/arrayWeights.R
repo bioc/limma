@@ -5,7 +5,7 @@ arrayWeights <- function(object, design=NULL, weights=NULL, var.design=NULL, var
 #	Gordon Smyth simplified argument checking to use getEAWP, 9 Mar 2008.
 #	Cynthia Liu added var.design argument 22 Sep 2014.
 #	Rewrite by Gordon Smyth 12 Feb 2019.
-#	Last modified 12 Feb 2019.
+#	Last modified 13 Feb 2019.
 {
 #	Check object
 	y <- getEAWP(object)
@@ -13,24 +13,29 @@ arrayWeights <- function(object, design=NULL, weights=NULL, var.design=NULL, var
 	ngenes <- nrow(E)
 	narrays <- ncol(E)
 
-#	Need at least 2 rows and 3 columns
-	if(ngenes < 2L || narrays < 3L) {
-		w <- rep_len(1,narrays)
-		names(w) <- colnames(E)
-		return(w)
-	}
+#	Initial values for array weights
+	w <- rep_len(1,narrays)
+	names(w) <- colnames(E)
+
+#	Require at least 2 rows for estimates to be useful
+	if(ngenes < 2L) return(w)
 
 #	Check design
 	if(is.null(design)) {
 		design <- matrix(1,narrays,1)
+		p <- 1L
 	} else {
 		design <- as.matrix(design)
 		if(mode(design) != "numeric") stop("design must be a numeric matrix")
 		QR <- qr(design)
+		p <- QR$rank
 
 #		If not full rank, remove superfluous columns
-		if(QR$rank <- ncol(design)) design <- design[,QR$pivot[1:QR$rank],drop=FALSE]
+		if(p < ncol(design)) design <- design[,QR$pivot[1:p],drop=FALSE]
 	}
+
+#	Require at least 2 residual df.
+	if(narrays - p < 2L) return(w)
 
 #	Check weights
 	if(is.null(weights)) weights <- y$weights
@@ -81,7 +86,7 @@ arrayWeights <- function(object, design=NULL, weights=NULL, var.design=NULL, var
 	method <- match.arg(method,c("genebygene","reml"))
 
 	if(method=="genebygene")
-		return(.arrayWeightsGeneByGene(E, design=design, weights=weights, var.design=Z2, trace=trace))
+		return(.arrayWeightsGeneByGene(E, design=design, weights=weights, var.design=Z2, prior.n=prior.n, trace=trace))
 
 	if(method=="reml") {
 		if(HasNA) {
@@ -91,9 +96,9 @@ arrayWeights <- function(object, design=NULL, weights=NULL, var.design=NULL, var
 			if(!is.null(weights)) weights <- weights[!iNA,]
 		}
 		if(is.null(weights)) {
-			return(.arrayWeightsREML(E, design=design, var.design=Z2, maxiter=maxiter, tol=tol, trace=trace))
+			return(.arrayWeightsREML(E, design=design, var.design=Z2, prior.n=prior.n, maxiter=maxiter, tol=tol, trace=trace))
 		} else {
-			return(.arrayWeightsPrWtsREML(E, design=design, weights=weights, var.design=Z2, maxiter=maxiter, tol=tol, trace=trace))
+			return(.arrayWeightsPrWtsREML(E, design=design, weights=weights, var.design=Z2, prior.n=prior.n, maxiter=maxiter, tol=tol, trace=trace))
 		}
 	}
 

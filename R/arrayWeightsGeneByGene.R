@@ -1,9 +1,9 @@
 .arrayWeightsGeneByGene <- function(E, design=NULL, weights=NULL, var.design=NULL, prior.n=10, trace=FALSE)
 #	Estimate array variances via gene-by-gene update algorithm
 #	Created by Matt Ritchie 7 Feb 2005.
-#	Gordon Smyth simplified argument checking to use getEAWP, 9 Mar 2008.
-#	Cynthia Liu added var.design argument so that variance model can be modified by user, 22 Sep 2014
-#	Last modified 19 Oct 2016.
+#	Cynthia Liu added var.design argument 22 Sep 2014.
+#	Fixes and speedups by Gordon Smyth 12 Feb 2019.
+#	Last modified 14 Feb 2019.
 {
 	ngenes <- nrow(E)
 	narrays <- ncol(E)
@@ -16,77 +16,57 @@
 	} else {
 		Z2 <- var.design
 	}
+	Z <- cbind(1,Z2)
 
 #	Intialise array gammas to zero (with prior weight of prior.n genes having leverage=0)
 	ngam <- ncol(Z2)
-	arraygammas <- rep_len(0, ngam)
-	Zinfo <- prior.n*crossprod(Z2)
-	if(trace) cat("gene convcrit range(w)\n")
+	gam <- rep_len(0, ngam)
+	aw <- rep_len(1,narrays)
+	info2 <- prior.n*crossprod(Z2)
+
+#	If requested, progess will be output 10 times at equal intervals
+	if(trace) {
+		cat("gene range(w)\n")
+		ReportInterval <- pmax(as.integer(ngenes/10),1L)
+	}
 
 #	Step progressive algorithm once through all genes
+	Zero <- rep_len(0,narrays)
+	One <- rep_len(1,narrays)
 	for(i in 1:ngenes) {
-		if(!all(is.finite(arraygammas))) stop("convergence problem at gene ", i, ": array weights not estimable")
-	 	aw <- drop(exp(Z2 %*% (-arraygammas)))
 		if(is.null(weights)) {
 			w <- aw
 		} else {
 			w <- aw*weights[i,]
 		}
 		y <- E[i,]
-		obs <- is.finite(y)
-		if (sum(obs) > 1) {
-			if(sum(obs) == narrays)	{
-				X <- design
-			} else {
-#				remove missing/infinite values
-				X <- design[obs, , drop = FALSE]
-				y <- y[obs]
-				vary <- vary[obs]
-				Z2obs <- Z2[obs,,drop=FALSE]
-			}
-			out <- lm.wfit(X, y, w[obs])
-			d <- rep(0, narrays)
-			d[obs] <- w[obs]*out$residuals^2
-			s2 <- sum(d[obs])/out$df.residual
-			h <- rep_len(1, narrays)
-			h[obs] <- hat(out$qr)
-			Agam <- crossprod(Z2, (1-h)*Z2)
-			Agam.del <- crossprod(t(rep(h[narrays], length(arraygammas))-h[1:(length(narrays)-1)]))
-			Agene.gam <- (Agam - 1/out$df.residual*Agam.del) # 1/(narrays-nparams)
-			if(is.finite(sum(Agene.gam)) && sum(obs) == narrays) {
-				Zinfo <- Zinfo + Agene.gam
-				R <- chol(Zinfo)
-				Zinfoinv <- chol2inv(R)
-				zd <- d/s2 - 1 + h
-				Zzd <- crossprod(Z2, zd)
-				gammas.iter <- Zinfoinv%*%Zzd
-				arraygammas <- arraygammas + gammas.iter
-			}
-			if(is.finite(sum(Agene.gam)) && sum(obs) < narrays && sum(obs) > 2) { 
-				Zinfo <- Zinfo + Agene.gam
-				A1 <- (diag(1, sum(obs))-1/sum(obs)*matrix(1, sum(obs), sum(obs)))%*%Z2obs
-				A1 <- A1[-sum(obs),] # remove last row
-				R <- chol(Zinfo)
-				Zinfoinv <- chol2inv(R)
-				zd <- d/s2 - 1 + h
-				Zzd <- A1%*%crossprod(Z2, zd)
-				Zinfoinv.A1 <- A1%*%Zinfoinv%*%t(A1)
-				alphas.old <- A1%*%arraygammas
-				alphas.iter <- Zinfoinv.A1%*%Zzd
-				alphas.new <- alphas.old + alphas.iter
-				Us <- rbind(diag(1, sum(obs)-1), -1)
-				Usalphas <- Us%*%(alphas.new-alphas.old)
-				Usgammas <- Z2%*%arraygammas
-				Usgammas[obs] <- Usgammas[obs] + Usalphas
-				arraygammas <- Usgammas[1:(narrays-1)]
-			}
-
-			if(trace && (i%%1000L==1L)) {
-				convcrit <- crossprod(Zzd, gammas.iter) / narrays
-				cat(i,convcrit,range(1/vary),"\n")
-			}
+		if(anyNA(y)) {
+			obs <- is.finite(y)
+			nobs <- sum(obs)
+			if(nobs <= 2L) next
+			X <- design[obs, , drop = FALSE]
+			y <- y[obs]
+			w <- w[obs]
+			fit <- lm.wfit(X, y, w)
+			h1 <- d <- Zero
+			d[obs] <- w*fit$residuals^2
+			h1[obs] <- 1-hat(fit$qr)
+		} else {
+			fit <- lm.wfit(design, y, w)
+			d <- w*fit$residuals^2
+			h1 <- 1-hat(fit$qr)
 		}
+		s2 <- mean(fit$effects[-(1:fit$rank)]^2)
+		info <- crossprod(Z, h1*Z)
+		info2 <- info2 + info[-1,-1,drop=FALSE] - (info[-1,1,drop=FALSE]/info[1,1]) %*% info[1,-1,drop=FALSE]
+		z <- d/s2 - h1
+		dl <- crossprod(Z2, z)
+		gam <- gam + solve(info2, dl)
+	 	aw <- drop(exp(Z2 %*% (-gam)))
+
+#		Progress output
+		if(trace && (i %% ReportInterval==0L)) cat(i,range(aw),"\n")
 	}
 
-	drop(exp(Z2 %*% (-arraygammas)))
+	aw
 }
