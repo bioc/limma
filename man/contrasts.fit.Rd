@@ -17,7 +17,7 @@ contrasts.fit(fit, contrasts=NULL, coefficients=NULL)
   \item{coefficients}{numeric matrix containing the estimated coefficients for each contrast for each probe.}
   \item{stdev.unscaled}{numeric matrix conformal with \code{coef} containing the unscaled standard deviations for the coefficient estimators.}
   \item{\code{cov.coefficients}}{numeric \code{matrix} giving the unscaled covariance matrix of the estimable coefficients.}
-  \item{\dots}{any other components found in \code{fit} are passed through unchanged.}
+Most other components found in \code{fit} are passed through unchanged, but \code{t}, \code{p.value}, \code{lods}, \code{F} and \code{F.p.value} will all be removed.
 }
 \details{
 This function accepts input from any of the functions \code{\link{lmFit}}, \code{lm.series}, \code{mrlm}, \code{gls.series} or \code{lmscFit}.

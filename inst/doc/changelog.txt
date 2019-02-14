@@ -1,3 +1,9 @@
+14 Feb 2019: limma 3.39.11
+
+- contrasts.fit() now removes any test statistics or p-values found
+  in the fit object. This avoids a mis-match between coefficients and
+  test statistics if eBayes() has been run on the object previously.
+
 14 Feb 2019: limma 3.39.10
 
 - arrayWeights() now chooses between the REML and original

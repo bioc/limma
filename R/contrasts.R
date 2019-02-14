@@ -5,10 +5,17 @@ contrasts.fit <- function(fit,contrasts=NULL,coefficients=NULL)
 #	Note: does not completely take probe-wise weights into account
 #	because this would require refitting the linear model for each probe
 #	Gordon Smyth
-#	13 Oct 2002.  Last modified 16 Feb 2018.
+#	Created 13 Oct 2002.  Last modified 14 Feb 2019.
 {
 #	Check number of arguments
 	if(is.null(contrasts) == is.null(coefficients)) stop("Must specify exactly one of contrasts or coefficients")
+
+#	Remove test statistics in case eBayes() has previously been run on the fit object
+	fit$t <- NULL
+	fit$p.value <- NULL
+	fit$lods <- NULL
+	fit$F <- NULL
+	fit$F.p.value <- NULL
 
 #	Number of coefficients in fit
 	ncoef <- NCOL(fit$coefficients)
