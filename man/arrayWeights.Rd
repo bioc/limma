@@ -10,7 +10,7 @@ experiment.
 \usage{
 arrayWeights(object, design = NULL, weights = NULL,
      var.design = NULL, var.group = NULL, prior.n = 10,
-     method = "genebygene", maxiter = 50, tol = 1e-5, trace = FALSE)
+     method = "auto", maxiter = 50, tol = 1e-5, trace = FALSE)
 }
 
 \arguments{
@@ -26,7 +26,7 @@ arrayWeights(object, design = NULL, weights = NULL,
   \item{var.group}{vector or factor indicating groups to have different array weights. This is another way to specify \code{var.design} for groupwise variance models.}
   \item{prior.n}{prior number of genes. Larger values squeeze the array weights more strongly towards equality.}
   \item{method}{character string specifying the estimating algorithm to be used. Choices
-          are \code{"genebygene"} or \code{"reml"}.}
+          are \code{"genebygene"}, \code{"reml"} or \code{"auto"}.}
   \item{maxiter}{maximum number of iterations allowed when \code{method="reml"}.}
   \item{tol}{convergence tolerance when \code{method="reml"}.}
   \item{trace}{logical. If \code{TRUE} then progress information is printed
@@ -41,21 +41,24 @@ Arrays that tend to have larger residuals are assigned lower weights.
 
 The basic method is described by Ritchie et al (2006) and the extension to custom variance models by Liu et al (2015).
 A weighted linear model is fitted to the expression values for 
-each gene.  The variance model 
-is fitted to the squared residuals from the linear model fit, and is updated in either full REML 
-scoring iterations, or using an efficient gene-by-gene update algorithm.  
+each gene.
+The variance model is fitted to the squared residuals from the linear model fit and is updated either by full REML 
+scoring iterations (\code{method="reml"}) or using an efficient gene-by-gene update algorithm (\code{method="genebygene"}).
 The final estimates of these array variances are converted to weights.
-The REML algorithm is an adaption of the algorithm of Smyth (2002).
+The gene-by-gene algorithm is described by Ritchie et al (2006) while the REML algorithm is an adaption of the algorithm of Smyth (2002).
 
-The data object \code{object} is interpreted as for \code{lmFit} and \code{getEAWP}.
+For stability, the array weights are squeezed slightly towards equality.
+This is done by adding a prior likelihood corresponding to unit array weights equivalent to \code{prior.n} genes.
+The gene-by-gene algorithm is started from the prior genes while the REML algorithm adds the prior to the log-likelihood derivatives.
+
+By default, \code{arrayWeights} chooses between the REML and gene-by-gene algorithms automatically (\code{method="auto"}).
+REML is chosen if there are no prior weights or missing values and otherwise the gene-by-gene algorithm is used.
+
+The input \code{object} is interpreted as for \code{lmFit} and \code{getEAWP}.
 In particular, the arguments \code{design} and \code{weights} will be extracted from the data 
 \code{object} if available and do not normally need to be set explicitly in 
 the call; if any of these are set in the call then they will over-ride 
 the slots or components in the data \code{object}.
-
-For stability, the array weights are squeezed slightly towards equality.
-This is done by adding a prior likelihood corresponding to unit array weights equivalent to \code{prior.n} genes.
-The \code{"genebygene"} algorithm is started from the prior genes while the \code{"reml"} algorithm adds the prior to the log-likelihood derivatives.
 }
 
 \value{
@@ -76,6 +79,7 @@ Empirical array quality weights in the analysis of microarray data.
 Smyth, G. K. (2002).
 An efficient algorithm for REML in heteroscedastic regression.
 \emph{Journal of Computational and Graphical Statistics} \bold{11}, 836-847.
+\url{http://www.statsci.org/smyth/pubs/remlalgo.pdf}
 }
 
 \seealso{
@@ -86,11 +90,11 @@ An overview of linear model functions in limma is given by \link{06.LinearModels
 
 \examples{
 ngenes <- 1000
-narrays <- 8
+narrays <- 6
 y <- matrix(rnorm(ngenes*narrays), ngenes, narrays)
-var.group <- c(1,1,1,2,2,2,2,2)
+var.group <- c(1,1,1,2,2,2)
 y[,var.group==1] <- 2*y[,var.group==1]
-arrayWeights(y, var.group=var.group, method="reml")
+arrayWeights(y, var.group=var.group)
 }
 
 \author{Matthew Ritchie and Gordon Smyth}

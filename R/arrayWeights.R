@@ -1,11 +1,11 @@
-arrayWeights <- function(object, design=NULL, weights=NULL, var.design=NULL, var.group=NULL, prior.n=10, method="genebygene", maxiter=50L, tol=1e-5, trace=FALSE)
+arrayWeights <- function(object, design=NULL, weights=NULL, var.design=NULL, var.group=NULL, prior.n=10, method="auto", maxiter=50L, tol=1e-5, trace=FALSE)
 #	Estimate array quality weights.
 #
 #	Created by Matt Ritchie 7 Feb 2005.
 #	Gordon Smyth simplified argument checking to use getEAWP, 9 Mar 2008.
 #	Cynthia Liu added var.design argument 22 Sep 2014.
 #	Rewrite by Gordon Smyth 12 Feb 2019.
-#	Last modified 13 Feb 2019.
+#	Last modified 14 Feb 2019.
 {
 #	Check object
 	y <- getEAWP(object)
@@ -83,7 +83,12 @@ arrayWeights <- function(object, design=NULL, weights=NULL, var.design=NULL, var
 	}
 
 #	Check method
-	method <- match.arg(method,c("genebygene","reml"))
+	method <- match.arg(method,c("auto","genebygene","reml"))
+	if(method=="auto")
+		if(HasNA || !is.null(weights))
+			method <- "genebygene"
+		else
+			method <- "reml"
 
 	if(method=="genebygene")
 		return(.arrayWeightsGeneByGene(E, design=design, weights=weights, var.design=Z2, prior.n=prior.n, trace=trace))
@@ -94,6 +99,7 @@ arrayWeights <- function(object, design=NULL, weights=NULL, var.design=NULL, var
 			message("removing ",sum(iNA)," rows with missing or infinite values")
 			E <- E[!iNA,]
 			if(!is.null(weights)) weights <- weights[!iNA,]
+			if(nrow(E) < 2L) return(w)
 		}
 		if(is.null(weights)) {
 			return(.arrayWeightsREML(E, design=design, var.design=Z2, prior.n=prior.n, maxiter=maxiter, tol=tol, trace=trace))

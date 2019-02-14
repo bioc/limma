@@ -1,3 +1,10 @@
+14 Feb 2019: limma 3.39.10
+
+- arrayWeights() now chooses between the REML and original
+  gene-by-gene algorithm automatically by default. REML is chosen
+  when there are no prior weights or missing values and gene-by-gene
+  is used otherwise.
+
 14 Feb 2019: limma 3.39.9
 
 - The old function ebayes(), which was deprecated a year ago in favor
