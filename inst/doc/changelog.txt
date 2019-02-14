@@ -1,3 +1,8 @@
+14 Feb 2019: limma 3.39.9
+
+- The old function ebayes(), which was deprecated a year ago in favor
+  of eBayes(), is now removed.
+
 14 Feb 2019: limma 3.39.8
 
 - Further simplifications and improvements to the arrayWeights() code

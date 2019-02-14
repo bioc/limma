@@ -87,16 +87,6 @@ eBayes <- function(fit,proportion=0.01,stdev.coef.lim=c(0.1,4),trend=FALSE,robus
 	out
 }
 
-ebayes <- function(fit,proportion=0.01,stdev.coef.lim=c(0.1,4),trend=FALSE,robust=FALSE,winsor.tail.p=c(0.05,0.1))
-#	Old function to compute Empirical Bayes statistics.
-#	Replaced by eBayes() in August 2003, which returns an MArrayLM object.
-#	Deprecated 18 February 2018
-#	Gordon Smyth
-{
-	.Deprecated("eBayes")
-	.ebayes(fit=fit,proportion=proportion,stdev.coef.lim=stdev.coef.lim,trend=trend,robust=robust,winsor.tail.p=winsor.tail.p)
-}
-
 tmixture.matrix <- function(tstat,stdev.unscaled,df,proportion,v0.lim=NULL)
 #	Estimate the prior variance of the coefficients for DE genes
 #	Gordon Smyth

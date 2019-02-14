@@ -63,7 +63,7 @@ Robust hyperparameter estimation protects against hypervariable genes and improv
 }
 
 \seealso{
-This function is called by \code{\link{squeezeVar}}, which in turn is called by \code{\link{ebayes}}, \code{\link{eBayes}} and \code{\link{treat}}.
+This function is called by \code{\link{squeezeVar}}, which in turn is called by \code{\link{eBayes}} and \code{\link{treat}}.
 
 This function calls \code{\link{trigammaInverse}}.
 }

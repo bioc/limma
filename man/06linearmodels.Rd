@@ -55,7 +55,6 @@ This is a way to compute all possible pairwise comparisons between treatments fo
 \section{Assessing Differential Expression}{
 
 After fitting a linear model, the standard errors are moderated using a simple empirical Bayes model using \code{\link{eBayes}} or \code{\link{treat}}.
-\code{\link{ebayes}} is an older version of \code{eBayes}.
 A moderated t-statistic and a log-odds of differential expression is computed for each contrast for each gene.
 \code{treat} tests whether log-fold-changes are greater than a threshold rather than merely different to zero.
 

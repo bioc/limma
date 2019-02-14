@@ -69,7 +69,7 @@ assessing differential expression in microarray experiments.
 }
 
 \seealso{
-This function is called by \code{\link{ebayes}}.
+This function is called by \code{\link{eBayes}}.
 
 This function calls \code{\link{fitFDist}}.
 
