@@ -1,17 +1,22 @@
-.arrayWeightsREML <- function(y,design,var.design,prior.n=10,maxiter=50L,tol=1e-6,trace=FALSE)
+.arrayWeightsREML <- function(y,design=NULL,var.design=NULL,prior.n=10,maxiter=50L,tol=1e-6,trace=FALSE)
 #	Estimate array weights by REML.
 #	Assumes no observation weights, missing values or infinite values.
 #	Uses an exact Fisher scoring algorithm similar to statmod::remlscor.
 #	Gordon Smyth
-#	Created 13 Dec 2005. Last revised 12 Feb 2019.
+#	Created 13 Dec 2005. Last revised 15 Feb 2019.
 {
 #	y should be a numeric matrix
 	narrays <- ncol(y)
 	ngenes <- nrow(y)
+	if(is.null(design)) design <- matrix(1,narrays,1)
 	p <- ncol(design)
 
 #	Columns of var.design should sum to zero, and intercept column should be omitted.
-	Z2 <- var.design
+	if(is.null(var.design)) {
+		Z2 <- contr.sum(narrays)
+	} else {
+		Z2 <- var.design
+	}
 	Z <- cbind(1,Z2)
 	ngam <- ncol(Z2)
 
@@ -22,6 +27,25 @@
 	convcrit.last <- Inf
 	if(trace) cat("iter convcrit range(w)\n")
 
+#	Initial fit of unweighted linear models to check for zero variances
+	fitm <- lm.fit(design, t(y))
+	Effects <- fitm$effects[(fitm$rank+1):narrays,,drop=FALSE]
+	s2 <- colMeans(Effects^2)
+
+#	Remove all rows with no residual variance
+	if(min(s2) < 1e-15) {
+		ok <- which(s2 >= 1e-15)
+		y <- y[ok, ,drop=FALSE]
+		ngenes <- nrow(y)
+		if(ngenes < 2L) {
+			names(w) <- colnames(y)
+			return(w)
+		}
+		Effects <- Effects[,ok,drop=FALSE]
+		fitm$residuals <- fitm$residuals[,ok,drop=FALSE]
+		s2 <- s2[ok]
+	}
+
 #	Fisher scoring iteration
 	p2 <- (p * (p+1L)) %/% 2L
 	Q2 <- array(0,c(narrays,p2))
@@ -29,9 +53,11 @@
 		iter <- iter+1L
 
 #		Fit weighted linear models and extract residual variances
-		fitm <- lm.wfit(design, t(y), w)
-		Effects <- fitm$effects[(fitm$rank+1):narrays,,drop=FALSE]
-		s2 <- colMeans(Effects^2)
+		if(iter > 1L) {
+			fitm <- lm.wfit(design, t(y), w)
+			Effects <- fitm$effects[(fitm$rank+1):narrays,,drop=FALSE]
+			s2 <- colMeans(Effects^2)
+		}
 
 #		Fisher information matrix for variance parameters (including intercept)
 		Q <- qr.qy(fitm$qr,diag(1,nrow=narrays,ncol=p))

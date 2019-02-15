@@ -1,3 +1,8 @@
+15 Feb 2019: limma 3.39.12
+
+- arrayWeights() now checks for and skips over any genes with zero
+  residual variances.
+
 14 Feb 2019: limma 3.39.11
 
 - contrasts.fit() now removes any test statistics or p-values found

@@ -4,7 +4,7 @@
 #	Uses an exact Fisher scoring algorithm similar to statmod::remlscor.
 #	Gordon Smyth
 #	Created 12 Feb 2019 from .arrayWeightsREML.
-#	Last revised 12 Feb 2019.
+#	Last revised 15 Feb 2019.
 {
 #	y should be a numeric matrix
 	narrays <- ncol(y)
@@ -56,7 +56,9 @@
 			info2 <- info2 + info[-1,-1,drop=FALSE] - (info[-1,1,drop=FALSE]/info[1,1]) %*% info[1,-1,drop=FALSE]
 
 #			Variance model residual
-			z <- z + w * weights[g,] * fitm$residuals^2 / s2 - (1-h)
+			if(s2 > 1e-15) {
+				z <- z + w * weights[g,] * fitm$residuals^2 / s2 - (1-h)
+			}
 		}
 
 #		Average information matrix and variance residual per gene

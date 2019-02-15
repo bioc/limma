@@ -2,7 +2,7 @@
 #	Estimate array variances via gene-by-gene update algorithm
 #	Created by Matt Ritchie 7 Feb 2005.
 #	Cynthia Liu added var.design argument 22 Sep 2014.
-#	Fixes and speedups by Gordon Smyth 12 Feb 2019.
+#	Fixes and speedups by Gordon Smyth 15 Feb 2019.
 #	Last modified 14 Feb 2019.
 {
 	ngenes <- nrow(E)
@@ -57,6 +57,7 @@
 			h1 <- 1-hat(fit$qr)
 		}
 		s2 <- mean(fit$effects[-(1:fit$rank)]^2)
+		if(s2 < 1e-15) next
 		info <- crossprod(Z, h1*Z)
 		info2 <- info2 + info[-1,-1,drop=FALSE] - (info[-1,1,drop=FALSE]/info[1,1]) %*% info[1,-1,drop=FALSE]
 		z <- d/s2 - h1
