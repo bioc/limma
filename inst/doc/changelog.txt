@@ -1,3 +1,15 @@
+24 Feb 2019: limma 3.39.14
+
+- The function FStat() is now removed. It was a convenience wrapper
+  for classifyTestsF() with fstat.only=TRUE but is not used often
+  enough to justify itself.
+
+- classifyTestsP() is no longer exported as it is not intended to be
+  called by users.
+
+- The above two changes allow classifyTests.Rd to focus more clearly
+  on nested F-tests.
+
 24 Feb 2019: limma 3.39.13
 
 - The function classifyTestsT() is now removed, having been

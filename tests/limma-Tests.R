@@ -185,8 +185,8 @@ uniquegenelist(letters[1:8],ndups=2,spacing=2)
 
 tstat <- matrix(c(0,5,0, 0,2.5,0, -2,-2,2, 1,1,1), 4, 3, byrow=TRUE)
 classifyTestsF(tstat)
-FStat(tstat)
-classifyTestsP(tstat)
+classifyTestsF(tstat,fstat.only=TRUE)
+limma:::.classifyTestsP(tstat)
 
 ### avereps
 

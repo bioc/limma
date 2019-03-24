@@ -56,7 +56,7 @@ contrast.matrix <- cbind(First3=c(1,0),Last3=c(0,1),"Last3-First3"=c(-1,1))
 fit2 <- contrasts.fit(fit,contrast.matrix)
 fit2 <- eBayes(fit2)
 #  Large values of eb$t indicate differential expression
-results <- classifyTestsF(fit2)
+results <- decideTests(fit2, method="nestedF")
 vennCounts(results)
 }
 \keyword{htest}

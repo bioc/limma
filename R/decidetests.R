@@ -141,7 +141,7 @@ decideTests.MArrayLM <- function(object,method="separate",adjust.method="BH",p.v
 		)
 		results <- new("TestResults",array(0,dim(object$t)))
 		dimnames(results) <- dimnames(object$coefficients)
-		if(any(sel)) results[sel,] <- classifyTestsP(object[sel,],p.value=p.value*a,method=adjust.method)
+		if(any(sel)) results[sel,] <- .classifyTestsP(object[sel,],p.value=p.value*a,method=adjust.method)
 	},nestedF={
 		if(any(is.na(object$F.p.value))) stop("nestedF method can't handle NA p-values",call.=FALSE)
 		sel <- p.adjust(object$F.p.value,method=adjust.method) < p.value
@@ -241,18 +241,18 @@ classifyTestsF <- function(object,cor.matrix=NULL,df=Inf,p.value=0.01,fstat.only
 	new("TestResults",result)
 }
 
-FStat <- function(object,cor.matrix=NULL)
-#	Compute overall F-tests given a matrix of t-statistics
-#	Gordon Smyth
-#	24 February 2004.  Last modified 21 July 2004.
-{
-	m <- as.list(match.call())
-	m[[1]] <- as.name("classifyTestsF")
-	m$fstat.only <- TRUE
-	eval(as.call(m))
-}
+#FStat <- function(object,cor.matrix=NULL)
+##	Compute overall F-tests given a matrix of t-statistics
+##	Gordon Smyth
+##	24 February 2004.  Last modified 21 July 2004.
+#{
+#	m <- as.list(match.call())
+#	m[[1]] <- as.name("classifyTestsF")
+#	m$fstat.only <- TRUE
+#	eval(as.call(m))
+#}
 
-classifyTestsP <- function(object,df=Inf,p.value=0.05,method="holm") {
+.classifyTestsP <- function(object,df=Inf,p.value=0.05,method="holm") {
 #	TestResults by rows for a matrix t-statistics using adjusted p-values
 #	Gordon Smyth
 #	12 July 2003.  Last modified 23 March 2004.

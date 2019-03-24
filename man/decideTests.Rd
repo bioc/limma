@@ -42,16 +42,27 @@ In either case, rows of \code{object} correspond to genes and columns to coeffic
 This function applies a multiple testing procedure and a significance level cutoff to the statistics contained in \code{object}.
 It implements a number of multiple testing procedures for determining whether each statistic should be considered significantly different from zero.
 
-The setting \code{method="separate"} is equivalent to using \code{topTable} separately for each coefficient in the linear model fit, and will identify the same probes as significantly differentially expressed if \code{adjust.method} is the same.
+\code{method="separate"} will apply multiple testing adjustments to each column of p-values separately.
+Setting \code{method="separate"} is equivalent to using \code{topTable} separately for each coefficient in the linear model fit and will identify the same probes as significantly differentially expressed if \code{adjust.method} is the same.
 \code{method="global"} will treat the entire matrix of t-statistics as a single vector of unrelated tests.
 \code{method="hierarchical"} adjusts down genes and then across contrasts.
 \code{method="nestedF"} adjusts down genes and then uses \code{classifyTestsF} to classify contrasts as significant or not for the selected genes.
-Please see the limma User's Guide for a discussion of the statistical properties of these methods.
+
+The default \code{method="separate"} and \code{adjust.method="BH"} settings are appropriate for most analyses.
+\code{method="global"} is useful when it is important that the same t-statistic cutoff should correspond to statistical significance for all the contrasts.
+The \code{"nestedF"} method was proposed by Michaud et al (2008) and achieves better consistency between contrasts than the other methods.
+It provides formal error rate control at the gene level but not for individual contrasts.
+Please see the limma User's Guide for a discussion of the statistical properties of the various methods.
 }
 \note{
 Although this function enables users to set p-value and lfc cutoffs simultaneously, this combination criterion is not generally recommended.
 Unless the fold changes and p-values are very highly correlated, the addition of a fold change cutoff can increase the family-wise error rate or false discovery rate above the nominal level.
 Users wanting to use fold change thresholding are recommended to use \code{treat} instead of \code{eBayes} and to leave \code{lfc} at the default value when using \code{decideTests}.
+}
+\references{
+Michaud, J, Simpson, KM, Escher, R, Buchet-Poyau, K, Beissbarth, T, Carmichael, C, Ritchie, ME, Schutz, F, Cannon, P, Liu, M, Shen, X, Ito, Y, Raskind, WH, Horwitz, MS, Osato, M, Turner, DR, Speed, TP, Kavallaris, M, Smyth, GK, and Scott, HS (2008).
+Integrative analysis of RUNX1 downstream pathways and target genes.
+\emph{BMC Genomics} 9, 363. 
 }
 \seealso{
 An overview of multiple testing functions is given in \link{08.Tests}.
