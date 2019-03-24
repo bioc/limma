@@ -12,7 +12,7 @@ See \link{06.LinearModels} or \link{07.SingleChannel} for details.
 The key function is \code{\link{decideTests}}.
 This function writes an object of class \code{\link[limma:TestResults]{TestResults}}, which is basically a matrix of \code{-1}, \code{0} or \code{1} elements, of the same dimension as \code{fit$coefficients}, indicating whether each coefficient is significantly different from zero.
 A number of different multiple testing strategies are provided.
-The function calls other functions \code{\link{classifyTestsF}}, \code{\link{classifyTestsP}} and \code{\link{classifyTestsT}} which implement particular strategies. 
+\code{decideTests} calls \code{\link{classifyTestsF}} and \code{\link{classifyTestsP}} to implement particular strategies. 
 The function \code{\link{FStat}} provides an alternative interface to \code{classifyTestsF} to extract only the overall moderated F-statistic.
 
 \code{\link{selectModel}} chooses between linear models for each probe using AIC or BIC criteria.

@@ -4,7 +4,7 @@ read.maimages <- function(files=NULL,source="generic",path=NULL,ext=NULL,names=N
 #	Extracts either an RGList object from a set of two-color image analysis output files
 #	or an EListRaw object from a set of one-color files
 #	Gordon Smyth. 
-#	1 Nov 2002.  Last revised 26 August 2014.
+#	1 Nov 2002.  Last revised 26 Feb 2019.
 {
 
 #	Determine type of input file
@@ -261,6 +261,7 @@ read.maimages <- function(files=NULL,source="generic",path=NULL,ext=NULL,names=N
 				})
 			if(verbose && source=="genepix.custom") cat("Custom background:",h$Background,"\n")
 			obj <- read.columns(fullname,required.col,text.to.search,skip=skip,sep=sep,stringsAsFactors=FALSE,quote=quote,fill=TRUE,nrows=nspots,flush=TRUE,...)
+			if(nrow(obj) < nspots) stop("File ",slides[i]," has fewer rows than files previously read")
 		}
 		for (a in cnames) RG[[a]][,i] <- obj[,columns[[a]]]
 		if(!is.null(wt.fun)) RG$weights[,i] <- wt.fun(obj)

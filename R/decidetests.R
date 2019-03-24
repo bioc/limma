@@ -252,29 +252,12 @@ FStat <- function(object,cor.matrix=NULL)
 	eval(as.call(m))
 }
 
-classifyTestsT <- function(object,t1=4,t2=3) {
-#	TestResults by rows for a matrix of t-statistics using step-down cutoffs
-#	Gordon Smyth
-#	1 July 2003.  Last modified 25 Feb 2004.
-
-#	Method intended for MAList objects but accept unclassed lists as well
-	if(is.list(object)) {
-		if(is.null(object$t)) stop("tstat cannot be extracted from object")
-		tstat <- object$t
-	} else {
-		tstat <- object
-	}
-	if(is.null(dim(tstat))) dim(tstat) <- c(1,length(tstat))
-	result <- apply(tstat,1,function(x) any(abs(x)>t1,na.rm=TRUE)) * sign(tstat)*(abs(tstat)>t2)
-	new("TestResults",result)
-}
-
 classifyTestsP <- function(object,df=Inf,p.value=0.05,method="holm") {
 #	TestResults by rows for a matrix t-statistics using adjusted p-values
 #	Gordon Smyth
 #	12 July 2003.  Last modified 23 March 2004.
 
-#	Method intended for MAList objects but accept unclassed lists as well
+#	Method intended for MArrayLM objects but accept unclassed lists as well
 	if(is.list(object)) {
 		if(is.null(object$t)) stop("tstat cannot be extracted from object")
 		tstat <- object$t

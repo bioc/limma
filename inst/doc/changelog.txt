@@ -1,3 +1,8 @@
+24 Feb 2019: limma 3.39.13
+
+- The function classifyTestsT() is now removed, having been
+  superceded by more sophisticated multiple testing methods.
+
 15 Feb 2019: limma 3.39.12
 
 - arrayWeights() now checks for and skips over any genes with zero

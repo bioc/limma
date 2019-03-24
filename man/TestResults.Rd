@@ -9,7 +9,7 @@
 
 \description{
 A matrix-based class for storing the results of simultanous tests.
-\code{TestResults} objects are normally created by \code{\link{decideTests}}, \code{\link{classifyTestsF}}, \code{\link{classifyTestsT}} or \code{\link{classifyTestsP}}.
+\code{TestResults} objects are usually created by \code{\link{decideTests}}.
 }
 
 \usage{
