@@ -1,3 +1,9 @@
+12 Apr 2019: limma 3.39.15
+
+- voom() now checks for experiments that have no replication. In this
+  case it now returns weights that are all 1, with an informative
+  warning but no error.
+
 24 Feb 2019: limma 3.39.14
 
 - The function FStat() is now removed. It was a convenience wrapper

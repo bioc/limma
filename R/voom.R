@@ -2,7 +2,7 @@ voom <- function(counts,design=NULL,lib.size=NULL,normalize.method="none",span=0
 #	Linear modelling of count data with mean-variance modelling at the observational level.
 #	Creates an EList object for entry to lmFit() etc in the limma pipeline.
 #	Gordon Smyth and Charity Law
-#	Created 22 June 2011.  Last modified 9 Mar 2018.
+#	Created 22 June 2011.  Last modified 12 April 2019.
 {
 	out <- list()
 
@@ -42,6 +42,22 @@ voom <- function(counts,design=NULL,lib.size=NULL,normalize.method="none",span=0
 	y <- normalizeBetweenArrays(y,method=normalize.method)
 	fit <- lmFit(y,design,...)
 	if(is.null(fit$Amean)) fit$Amean <- rowMeans(y,na.rm=TRUE)
+
+#	If no replication found, set all weight to 1
+	NWithReps <- sum(fit$df.residual > 0L)
+	if(NWithReps < 2L) {
+		if(NWithReps == 0L) warning("The experimental design has no replication. Setting weights to 1.")
+		if(NWithReps == 1L) warning("Only one gene with any replication. Setting weights to 1.")
+		out$E <- y
+		out$weights <- y
+		out$weights[] <- 1
+		out$design <- design
+		if(is.null(out$targets))
+			out$targets <- data.frame(lib.size=lib.size)
+		else
+			out$targets$lib.size <- lib.size
+		return(new("EList",out))
+	}
 
 #	Fit lowess trend to sqrt-standard-deviations by log-count-size
 	sx <- fit$Amean+mean(log2(lib.size+1))-log2(1e6)
