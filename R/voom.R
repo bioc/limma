@@ -2,7 +2,7 @@ voom <- function(counts,design=NULL,lib.size=NULL,normalize.method="none",span=0
 #	Linear modelling of count data with mean-variance modelling at the observational level.
 #	Creates an EList object for entry to lmFit() etc in the limma pipeline.
 #	Gordon Smyth and Charity Law
-#	Created 22 June 2011.  Last modified 12 April 2019.
+#	Created 22 June 2011.  Last modified 19 April 2019.
 {
 	out <- list()
 
@@ -82,7 +82,7 @@ voom <- function(counts,design=NULL,lib.size=NULL,normalize.method="none",span=0
 #	var0 <- var(log2(0.5*1e6/(lib.size+0.5)))^0.25
 #	var0 <- max(var0,1e-6)
 #	l$y <- c(var0, l$y)
-	f <- approxfun(l, rule=2)
+	f <- approxfun(l, rule=2, ties=list("ordered",mean))
 
 #	Find individual quarter-root fitted counts
 	if(fit$rank < ncol(design)) {

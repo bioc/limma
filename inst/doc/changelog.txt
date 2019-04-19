@@ -1,3 +1,8 @@
+19 Apr 2019: limma 3.39.16
+
+- The approxfun() call in voom() now explicitly sets `ties=mean`.
+  There is no change to the output produced by voom().
+
 12 Apr 2019: limma 3.39.15
 
 - voom() now checks for experiments that have no replication. In this
