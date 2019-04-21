@@ -2,6 +2,63 @@
 \title{limma News}
 \encoding{UTF-8}
 
+\section{Version 3.40.0}{\itemize{
+
+\item
+Major rewrite of arrayWeights() to improve speed and stability.
+  The arrayWeightsSimple() function has been removed and its
+  functionality incorporated into arrayWeights().
+A new 'var.group' argument has been added to simplify specification of the 
+  variance design matrix.
+The weights are now squeezed slightly towards unit and a new argument
+  'prior.n' has been added to control the prior weight with which the array weights are squeezed.
+arrayWeights() now chooses between the REML and gene-by-gene algorithms automatically by default. REML is chosen
+  when there are no prior weights or missing values and gene-by-gene
+  is used otherwise.
+arrayWeights() now checks for and skips over any genes with zero
+  residual variances.
+
+\item
+voom() now checks for experiments that have no replication. In this
+  case it now returns weights that are all 1, with an informative
+  warning but no error.
+Two references have been added to the voom help page.
+
+\item
+classifyTests.Rd now focuses on nested F-tests.
+The function FStat() is now removed. It was a convenience wrapper
+  for classifyTestsF() with fstat.only=TRUE but is not used often
+  enough to justify itself.
+classifyTestsP() is no longer exported as it is not intended to be
+  called by users.
+The function classifyTestsT() is now removed, having been
+  superceded by more sophisticated multiple testing methods.
+
+\item
+contrasts.fit() now removes any test statistics or p-values found
+  in the fit object. This avoids any potential mis-match between coefficients and
+  test statistics if eBayes() has been run on the object previously.
+
+More details have been added to the warning about approximations in the
+  contrasts.fit() help page.
+
+\item
+The old function ebayes(), which was deprecated a year ago in favor
+  of eBayes(), is now removed.
+
+\item
+The fitted() and residuals() methods for MArrayLM objects now give
+an informative error message if the object contains contrasts
+  instead of the original coefficients.
+
+\item
+Rewrite Filtering chapter of User's Guide.
+
+\item
+Add Research Fields to the biocViews entry in the package
+  DESCRIPTION file.
+}}
+
 
 \section{Version 3.38.0}{\itemize{
 
