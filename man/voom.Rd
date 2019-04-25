@@ -39,8 +39,8 @@ The weights are then used in the linear modelling process to adjust for heterosc
 First, the counts are converted to logCPM values, adding 0.5 to all the counts to avoid taking the logarithm of zero.
 The matrix of logCPM values is then optionally normalized.
 The \code{lmFit} function is used to fit row-wise linear models.
-The \code{lowess} function is then used to fit a trend to the square-root-standard-deviations as a function of average logCPM.
-The trend line is then used to predict the variance of each logCPM value as a function of its fitted value, and the inverse variances become the estimated precision weights.
+The \code{lowess} function is then used to fit a trend to the square-root-standard-deviations as a function of an average log-count measure.
+The trend line is then used to predict the variance of each logCPM value as a function of its fitted value on the count scale, and the inverse variances become the estimated precision weights.
 
 For good results, the \code{counts} matrix should be filtered to remove remove rows with very low counts before running voom().
 The \code{filterByExpr} function in the edgeR package can be used for that purpose.
