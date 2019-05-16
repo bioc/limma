@@ -77,7 +77,7 @@ goana.MArrayLM <- function(de, coef = ncol(de), geneid = rownames(de), FDR = 0.0
 goana.default <- function(de, universe = NULL, species = "Hs", prior.prob = NULL, covariate=NULL, plot=FALSE, ...)
 #	Gene ontology analysis of DE genes
 #	Gordon Smyth and Yifang Hu
-#	Created 20 June 2014.  Last modified 22 Feb 2018.
+#	Created 20 June 2014.  Last modified 19 May 2019.
 {
 #	Get access to package of GO terms
 	suppressPackageStartupMessages(OK <- requireNamespace("GO.db",quietly=TRUE))
@@ -170,7 +170,7 @@ goana.default <- function(de, universe = NULL, species = "Hs", prior.prob = NULL
 		isDE <- (universe %in% unlist(de))
 		o <- order(covariate)
 		prior.prob <- covariate
-		span <- approx(x=c(20,200),y=c(1,0.5),xout=sum(isDE),rule=2)$y
+		span <- approx(x=c(20,200),y=c(1,0.5),xout=sum(isDE),rule=2,ties=list("ordered",mean))$y
 		prior.prob[o] <- tricubeMovingAverage(isDE[o],span=span)
 		if(plot) barcodeplot(covariate, index=isDE, worm=TRUE, span.worm=span, main="DE status vs covariate")
 	}

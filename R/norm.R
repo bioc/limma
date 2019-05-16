@@ -468,7 +468,7 @@ normalizeVSN.default <- function(x,...)
 normalizeQuantiles <- function(A, ties=TRUE) {
 #	Normalize columns of a matrix to have the same quantiles, allowing for missing values.
 #	Gordon Smyth
-#	25 June 2002.  Last revised 8 June 2006.
+#	25 June 2002.  Last revised 16 May 2019.
 
 	n <- dim(A)
 	if(is.null(n)) return(A)
@@ -482,7 +482,7 @@ normalizeQuantiles <- function(A, ties=TRUE) {
 		if(nobsj < n[1]) {
 			nobs[j] <- nobsj
 			isna <- is.na(A[,j])
-			S[,j] <- approx((0:(nobsj-1))/(nobsj-1), Si$x, i, ties="ordered")$y
+			S[,j] <- approx((0:(nobsj-1))/(nobsj-1), Si$x, i, ties=list("ordered",mean))$y
 			O[!isna,j] <- ((1:n[1])[!isna])[Si$ix]
 		} else {
 			S[,j] <- Si$x
@@ -495,12 +495,12 @@ normalizeQuantiles <- function(A, ties=TRUE) {
 		if(nobs[j] < n[1]) {
 			isna <- is.na(A[,j])
 			if(ties)
-				A[!isna,j] <- approx(i, m, (r[!isna]-1)/(nobs[j]-1), ties="ordered")$y
+				A[!isna,j] <- approx(i, m, (r[!isna]-1)/(nobs[j]-1), ties=list("ordered",mean))$y
 			else
-				A[O[!isna,j],j] <- approx(i, m, (0:(nobs[j]-1))/(nobs[j]-1), ties="ordered")$y
+				A[O[!isna,j],j] <- approx(i, m, (0:(nobs[j]-1))/(nobs[j]-1), ties=list("ordered",mean))$y
 		} else {
 			if(ties)
-				A[,j] <- approx(i, m, (r-1)/(n[1]-1), ties="ordered")$y
+				A[,j] <- approx(i, m, (r-1)/(n[1]-1), ties=list("ordered",mean))$y
 			else
 				A[O[,j],j] <- m
 		}
