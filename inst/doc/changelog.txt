@@ -1,3 +1,12 @@
+19 May 2019: limma 3.41.1
+
+- All approx() calls now explicitly set `ties=list("ordered",mean)`.
+  This doesn't change the output but avoids an warning message in
+  R >= 3.6.0.
+
+ 3 May 2019: limma 3.41.0 (Bioconductor 3.10 Developmental Branch)
+ 3 May 2019: limma 3.40.0 (Bioconductor 3.9 Release Branch)
+
 27 Apr 2019: limma 3.39.19
 
 - Update tests/limma-Tests.Rout.save for org.Hs.eg.db version 3.8.1.
@@ -15,8 +24,9 @@ org.Hs.eg.db 3.8.1
 
 19 Apr 2019: limma 3.39.16
 
-- The approxfun() call in voom() now explicitly sets `ties=mean`.
-  There is no change to the output produced by voom().
+- The approxfun() call in voom() now explicitly sets
+  `ties=list("ordered",mean)`. This doesn't change the output but
+  avoids an warning message in R >= 3.6.0.
 
 12 Apr 2019: limma 3.39.15
 

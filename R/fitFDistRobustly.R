@@ -41,7 +41,7 @@ fitFDistRobustly <- function(x,df1,covariate=NULL,winsor.tail.p=c(0.05,0.1),trac
 		else {
 			scale <- x
 			scale[ok] <- fit$scale
-			scale[!ok] <- exp(approx(covariate,log(fit$scale),xout=covariate2,rule=2)$y)
+			scale[!ok] <- exp(approx(covariate,log(fit$scale),xout=covariate2,rule=2,ties=list("ordered",mean))$y)
 		}
 		return(list(scale=scale,df2=fit$df2,df2.shrunk=df2.shrunk))
 	}

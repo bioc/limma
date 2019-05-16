@@ -3,13 +3,13 @@
 wtarea <- function(ideal=c(160,170))
 #	Quality weights based on spot area from SPOT output
 #	Gordon Smyth
-#	9 March 2003.  Last revised 11 Mar 2003.
+#	9 March 2003.  Last revised 16 May 2019.
 
 function(spot) {
 	e <- range(ideal)
 	x <- c(-Inf,0,e,sum(e),Inf)
 	y <- c(0,0,1,1,0,0)
-	approx(x,y,xout=spot[,"area"],ties="ordered")$y
+	approx(x,y,xout=spot[,"area"],ties=list("ordered",mean))$y
 }
 
 wtflags <- function(weight=0,cutoff=0)
