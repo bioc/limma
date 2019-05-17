@@ -251,6 +251,16 @@ fit$df.prior
 fit$s2.prior
 summary(fit$s2.post)
 
+### eBayes with robust
+
+fitr <- lmFit(y,design)
+fitr <- eBayes(fitr,robust=TRUE)
+summary(fitr$df.prior)
+topTable(fitr,coef=2)
+fitr <- eBayes(fitr,trend=TRUE,robust=TRUE)
+summary(fitr$df.prior)
+topTable(fitr,coef=2)
+
 ### voom
 
 y <- matrix(rpois(100*4,lambda=20),100,4)

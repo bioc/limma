@@ -2,7 +2,7 @@ vooma <- function(y,design=NULL,correlation,block=NULL,plot=FALSE,span=NULL)
 # Linear modelling of microarray data with mean-variance modelling at the observational level.
 # Creates an EList object for entry to lmFit() etc in the limma pipeline.
 # Gordon Smyth and Charity Law
-# Created 31 July 2012.  Last modified 5 Aug 2012.
+# Created 31 July 2012.  Last modified 17 May 2019.
 {
 #	Check y
 	if(!is(y,"EList")) y <- new("EList",list(E=as.matrix(y)))
@@ -49,7 +49,7 @@ vooma <- function(y,design=NULL,correlation,block=NULL,plot=FALSE,span=NULL)
 	}
 
 #	Make interpolating rule
-	f <- approxfun(l, rule=2)
+	f <- approxfun(l, rule=2, ties=list("ordered",mean))
 
 #	Apply trend to individual observations
 	w <- 1/f(t(mu))^4

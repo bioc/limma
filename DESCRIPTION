@@ -1,12 +1,12 @@
 Package: limma
-Version: 3.40.1
-Date: 2019-05-19
+Version: 3.40.2
+Date: 2019-05-17
 Title: Linear Models for Microarray Data
 Description: Data analysis, linear models and differential expression for microarray data.
 Author: Gordon Smyth [cre,aut], Yifang Hu [ctb], Matthew Ritchie [ctb], Jeremy Silver [ctb], James Wettenhall [ctb], Davis McCarthy [ctb], Di Wu [ctb], Wei Shi [ctb], Belinda Phipson [ctb], Aaron Lun [ctb], Natalie Thorne [ctb], Alicia Oshlack [ctb], Carolyn de Graaf [ctb], Yunshun Chen [ctb], Mette Langaas [ctb], Egil Ferkingstad [ctb], Marcus Davy [ctb], Francois Pepin [ctb], Dongseok Choi [ctb]
 Maintainer: Gordon Smyth <smyth@wehi.edu.au>
 License: GPL (>=2)
-Depends: R (>= 2.3.0)
+Depends: R (>= 3.6.0)
 Imports: grDevices, graphics, stats, utils, methods
 Suggests: affy, AnnotationDbi, BiasedUrn, Biobase, ellipse, GO.db, gplots, illuminaio, locfit, MASS, org.Hs.eg.db, splines, statmod (>= 1.2.2), vsn
 URL: http://bioinf.wehi.edu.au/limma

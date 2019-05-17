@@ -3,25 +3,25 @@
 \alias{wtarea}
 \alias{wtflags}
 \alias{wtIgnore.Filter}
-\title{Spot Quality Weights}
+\title{Spot Quality Weights for Spotted Microarrays}
 \description{
-Functions to calculate quality weights for individual spots based on image analyis output file.
+Functions to calculate quality weights for individual spots based on the image analysis output file for a spotted microarray.
 }
 \usage{
-wtarea(ideal=c(160,170))
-wtflags(weight=0,cutoff=0)
+wtarea(ideal = c(160,170))
+wtflags(weight = 0, cutoff = 0)
 wtIgnore.Filter
 }
 \arguments{
-  \item{ideal}{numeric vector giving the ideal area or range of areas for a spot in pixels}
-  \item{weight}{weight to be given to flagged spots}
-  \item{cutoff}{cutoff value for \code{Flags} below which spots will be downweighted}
+  \item{ideal}{numeric vector giving the ideal range of areas for good quality spots (in pixels). The minimum and maximum values are used to specify the range of ideal values. All values should be positive.}
+  \item{weight}{non-negative weight to be given to flagged spots.}
+  \item{cutoff}{cutoff value for \code{Flags} below which spots will be downweighted.}
 }
 \details{
 These functions can be passed as an argument to \code{read.maimages} to construct quality weights as the microarray data is read in.
 
 \code{wtarea} downweights unusually small or large spots and is designed for SPOT output.
-It gives weight 1 to spots which have areas in the ideal range, given in pixels, and linearly downweights spots which are smaller or larger than this range.
+It gives weight 1 to spots that have areas in the ideal range, given in pixels, and linearly downweights spots that are smaller or larger than this range.
 
 \code{wtflags} is designed for GenePix output and gives the specified weight to spots with \code{Flags} value less than the \code{cutoff} value.
 Choose \code{cutoff=0} to downweight all flagged spots.
@@ -31,7 +31,7 @@ Choose \code{cutoff=-50} to downweight bad or absent spots or \code{cutoff=-75} 
 These weights are 0 for spots to be ignored and 1 otherwise.
 }
 \value{
-A function which takes a dataframe or matrix as argument and produces a numeric vector of weights between 0 and 1
+A function that takes a dataframe or matrix as argument and produces a numeric vector of weights between 0 and 1.
 }
 \author{Gordon Smyth}
 \seealso{
