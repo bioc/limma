@@ -1,8 +1,24 @@
-19 May 2019: limma 3.41.1
+17 May 2019: limma 3.41.2
 
-- All approx() calls now explicitly set `ties=list("ordered",mean)`.
-  This doesn't change the output but avoids an warning message in
-  R >= 3.6.0.
+- The approxfun() call in vooma() now sets
+  `ties=list("ordered",mean)`. This doesn't change the output but
+  is slightly faster and avoids a warning message in R >= 3.6.0.
+
+- limma now depends on R >= 3.6.0 because of the use of a list value
+  for the `ties` argument of approxfun().
+
+- The approx() call in fitFDistRobustly() now uses `ties=mean`
+  instead of `ties=list("ordered",mean)` because the `x` argument is
+  not generally pre-ordered.
+
+16 May 2019: limma 3.41.1
+
+- All uses of the approx() function now set
+  `ties=list("ordered",mean)`. The change was prompted by a change in
+  R 3.6.0 whereby using the default for `ties` generates a warning
+  message whenever ties are present in `x`. The new code gives the
+  same results but is very slightly faster and avoids the warning
+  message.
 
  3 May 2019: limma 3.41.0 (Bioconductor 3.10 Developmental Branch)
  3 May 2019: limma 3.40.0 (Bioconductor 3.9 Release Branch)
@@ -24,9 +40,9 @@ org.Hs.eg.db 3.8.1
 
 19 Apr 2019: limma 3.39.16
 
-- The approxfun() call in voom() now explicitly sets
+- The approxfun() call in voom() now sets
   `ties=list("ordered",mean)`. This doesn't change the output but
-  avoids an warning message in R >= 3.6.0.
+  is slightly faster and avoids a warning message in R >= 3.6.0.
 
 12 Apr 2019: limma 3.39.15
 
