@@ -5,6 +5,7 @@
 \alias{[.EListRaw}
 \alias{[.EList}
 \alias{[.MArrayLM}
+\alias{[.TestResults}
 \alias{subsetListOfArrays}
 \title{Subset RGList, MAList, EListRaw, EList or MArrayLM Objects}
 \description{
@@ -15,7 +16,7 @@ Return an \code{RGList}, \code{MAList}, \code{EListRaw}, \code{EList} or \code{M
 subsetListOfArrays(object, i, j, IJ, IX, I, JX)
 }
 \arguments{
-  \item{object}{object of class \code{RGList}, \code{MAList}, \code{EListRaw}, \code{EList} or \code{MArrayLM}.}
+  \item{object}{object of class \code{RGList}, \code{MAList}, \code{EListRaw}, \code{EList}, \code{MArrayLM} or \code{TestResults}.}
   \item{i,j}{elements to extract. \code{i} subsets the probes or spots while \code{j} subsets the arrays.}
   \item{IJ}{character vector giving names of components that should be subsetted by \code{i} and \code{j}.}
   \item{IX}{character vector giving names of 2-dimensional components that should be subsetted by \code{i} only.}

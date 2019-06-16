@@ -1,3 +1,9 @@
+16 June 2019: limma 3.41.4
+
+- New subsetting method for TestResults objects. Previously a
+  subsetted TestResults object became an ordinary numeric matrix, but
+  now the TestResults class is preserved.
+
  7 June 2019: limma 3.41.3
 
 - Update the arguments of voomWithQualityWeights() to match the

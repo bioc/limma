@@ -157,3 +157,14 @@ function(object, i, j)
 	object
 })
 
+assign("[.TestResults",
+function(object, i, j)
+#  Subsetting for TestResults objects
+#  Gordon Smyth
+#  16 June 2019. Last modified.
+{
+	if(nargs() != 3) stop("Two subscripts required",call.=FALSE)
+	object@.Data <- object@.Data[i,j,drop=FALSE]
+	object
+})
+

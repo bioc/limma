@@ -130,6 +130,7 @@ Mid-p-values are probably a good choice when using false discovery rates (\code{
 In the special case that \code{df.prior} is large and \code{set.statistic="mean"}, \code{fry} gives the same result as \code{mroast} with an infinite number of rotations.
 In other circumstances, when genes have different variances, \code{fry} uses a standardization strategy to approximate the \code{mroast} results.
 Using \code{fry} may be advisable when performing tests for a large number of sets, because it is fast and because the \code{fry} p-values are not limited by the number of rotations performed.
+Note that \code{fry} does not support the \code{gene.weights} argument, although no error message will be given if \code{gene.weights} are included.
 }
 
 \note{
