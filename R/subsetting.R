@@ -163,7 +163,10 @@ function(object, i, j)
 #  Gordon Smyth
 #  16 June 2019. Last modified.
 {
-	if(nargs() != 3) stop("Two subscripts required",call.=FALSE)
+	if(nargs() == 1L) return(object)
+
+	if(nargs() == 2L) return(object@.Data[i])
+
 	object@.Data <- object@.Data[i,j,drop=FALSE]
 	object
 })

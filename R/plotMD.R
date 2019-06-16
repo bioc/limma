@@ -30,7 +30,7 @@ plotMD.MAList <- function(object, column=1, array=NULL, xlab="A", ylab="M", main
 plotMD.MArrayLM <- function(object, column=ncol(object), coef=NULL, xlab="Average log-expression", ylab="log-fold-change", main=colnames(object)[column], status=object$genes$Status, zero.weights=FALSE, ...)
 #	Mean-difference plot with color coding for controls
 #	Gordon Smyth 7 April 2003, James Wettenhall 27 June 2003.
-#	Last modified 24 June 2015.
+#	Last modified 16 June 2019.
 {
 	if(!is.null(coef)) column <- coef
 	if(is.null(object$Amean)) stop("Amean component is absent.")
@@ -38,6 +38,19 @@ plotMD.MArrayLM <- function(object, column=ncol(object), coef=NULL, xlab="Averag
 	if(!zero.weights && !is.null(object$weights)) {
 		w <- as.matrix(object$weights)[,column]
 		logFC[ is.na(w) | (w <= 0) ] <- NA
+	}
+	if(is(status,"TestResults")) {
+		if(ncol(status) > 1L) status <- status[,column]
+		Dots <- list(...)
+#		Set values and colors only if 'values' is not already specified as an argument
+		if(is.null(Dots$values)) {
+			f <- factor(status@.Data,levels=c(-1,0,1))
+			levels(f) <- attr(status,"labels")
+			f <- as.character(f)
+			attr(f,"values") <- c("Up","Down")
+			attr(f,"col") <- c("red","blue")
+			status <- f
+		}
 	}
 	plotWithHighlights(x=object$Amean,y=logFC,xlab=xlab,ylab=ylab,main=main,status=status,...)
 }
