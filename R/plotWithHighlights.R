@@ -5,7 +5,7 @@ plotWithHighlights <- function(x, y, status=NULL, values=NULL, hl.pch=16, hl.col
 #	created by Gordon Smyth 7 April 2003 and modified by James Wettenhall 27 June 2003.
 
 #	Gordon Smyth
-#	Last modified 27 May 2017.
+#	Last modified 17 June 2019.
 {
 #	If no status information, just plot all points normally
 	if(is.null(status) || all(is.na(status))) {
@@ -18,10 +18,22 @@ plotWithHighlights <- function(x, y, status=NULL, values=NULL, hl.pch=16, hl.col
 #	Check values
 	if(is.null(values)) {
 		if(is.null(attr(status,"values"))) {
-#			Default is to set the most frequent status value as background, and to highlight other status values in decreasing order of frequency
-			status.values <- names(sort(table(status),decreasing=TRUE))
-			status <- as.character(status)
-			values <- status.values[-1]
+			if(is(status,"TestResults")) {
+				if(ncol(status) > 1L) stop("status has more than one column")
+				Values <- c(-1L,0L,1L)
+				Labels <- c("Down","NotSig","Up")
+				f <- factor(status@.Data,levels=Values)
+				levels(f) <- Labels
+				status <- as.character(f)
+				values <- c("Up","Down")
+				if(is.null(hl.col)) hl.col <- c("red","blue")
+			} else {
+#				Default is to set the most frequent status value as background,
+#				and to highlight other status values in decreasing order of frequency
+				status.values <- names(sort(table(status),decreasing=TRUE))
+				status <- as.character(status)
+				values <- status.values[-1]
+			}
 		} else {
 #			Use values and graphics parameters set as attributes by controlStatus()
 			values <- attr(status,"values")

@@ -14,12 +14,16 @@ plotWithHighlights(x, y, status = NULL, values = NULL,
 \arguments{
   \item{x}{numeric vector.}
 
-  \item{y}{numeric vector.}
+  \item{y}{numeric vector of same length as \code{x}.}
 
-  \item{status}{character vector giving the control status of each point, of same length as \code{x} and \code{y}.
-  If \code{NULL}, then all points are plotted in the background color, symbol and size.}
+  \item{status}{
+    character vector giving the control status of each point, of same length as \code{x} and \code{y},
+    or else a \code{TestResults} object with one column and number of rows matching the length of \code{x}.
+    If \code{NULL}, then all points are plotted in the background color, symbol and size.
+  }
 
   \item{values}{character vector giving values of \code{status} to be highlighted on the plot.
+  Set automatically if \code{status} contains \code{TestResults}.
   Defaults to unique values of \code{status} in decreasing order of frequency, with the most frequent value set as the background value.
   Ignored if there is no \code{status} vector.}
 
@@ -27,6 +31,7 @@ plotWithHighlights(x, y, status = NULL, values = NULL,
   Ignored is there is no \code{status} vector.}
 
   \item{hl.col}{vector of colors for highlighted points, either of unit length or of same length as \code{values}.
+  Set automatically if \code{status} contains \code{TestResults}.
   Defaults to \code{1+1:length(values)}.
   Ignored if there is no \code{status} vector.}
 

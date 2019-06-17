@@ -5,6 +5,7 @@
 \alias{summary.TestResults}
 \alias{levels.TestResults}
 \alias{labels.TestResults}
+\alias{unique.TestResults}
 \title{Matrix of Test Results - class}
 
 \description{

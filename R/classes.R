@@ -249,3 +249,5 @@ as.data.frame.MArrayLM <- function(x, row.names = NULL, optional = FALSE, ...)
 	if(ncoef==1) x <- lapply(x,drop)
 	as.data.frame(x,row.names=row.names,optional=optional)
 }
+
+unique.TestResults <- function(x,...) unique(x@.Data,...)

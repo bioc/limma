@@ -1,11 +1,13 @@
-16 June 2019: limma 3.41.5
+17 June 2019: limma 3.41.5
 
-- plotMD.MArrayLM now gives special treatment to the case that
-  `status` is a TestResults object.
+- plotWithHighlights and plotMD.MArrayLM now gives special treatment
+  to the case that `status` is a TestResults object.
+
+- new S3 unique() method for TestResults objects.
 
 16 June 2019: limma 3.41.4
 
-- New subsetting method for TestResults objects. Previously a
+- New S3 subsetting method for TestResults objects. Previously a
   subsetted TestResults object became an ordinary numeric matrix, but
   now the TestResults class is preserved. Single index subsetting is
   also allowed but produces a numeric vector.
