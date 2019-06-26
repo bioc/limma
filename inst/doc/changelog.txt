@@ -1,3 +1,12 @@
+26 June 2019: limma 3.40.3
+
+- Bug fix to roast() when `index` is a character vector of geneids or
+  rownames.
+
+- Update the arguments of voomWithQualityWeights() to match the
+  revisions to arrayWeights() in limma versions 3.39.6 and 3.39.10.
+  New argument `var.group`.
+
 17 May 2019: limma 3.40.2
 
 - The approxfun() call in vooma() now sets

@@ -16,7 +16,7 @@ roast <- function(y,...) UseMethod("roast")
 roast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid=NULL,set.statistic="mean",gene.weights=NULL,var.prior=NULL,df.prior=NULL,nrot=999,approx.zscore=TRUE,...)
 # Rotation gene set testing for linear models
 # Gordon Smyth and Di Wu
-# Created 24 Apr 2008.  Last modified 9 May 2016.
+# Created 24 Apr 2008.  Last modified 26 June 2019.
 {
 #	Check index
 	if(is.list(index)) return(mroast(y=y,index=index,design=design,contrast=contrast,set.statistic=set.statistic,gene.weights=gene.weights,var.prior=var.prior,df.prior=df.prior,nrot=nrot,approx.zscore=approx.zscore,...))
@@ -79,7 +79,7 @@ roast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid=
 #	Subset to gene set
 	if(!is.null(index)) {
 		if(is.factor(index)) index <- as.character(index)
-		if(is.character(index)) index <- which(index %in% geneid)
+		if(is.character(index)) index <- which(geneid %in% index)
 		Effects <- Effects[index,,drop=FALSE]
 		if(length(var.prior)>1) var.prior <- var.prior[index]
 		if(length(df.prior)>1) df.prior <- df.prior[index]
