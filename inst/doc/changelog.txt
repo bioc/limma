@@ -1,3 +1,8 @@
+26 June 2019: limma 3.41.5
+
+- Bug fix to roast() when `index` is a character vector of geneids or
+  rownames.
+
 17 June 2019: limma 3.41.5
 
 - plotWithHighlights and plotMD.MArrayLM now gives special treatment

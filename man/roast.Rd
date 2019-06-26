@@ -118,9 +118,13 @@ The output gives p-values three possible alternative hypotheses,
 and \code{"Mixed"} to test whether the genes in the set tend to be differentially expressed, without regard for direction.
 
 \code{roast} estimates p-values by simulation, specifically by random rotations of the orthogonalized residuals (Langsrud, 2005), so p-values will vary slightly from run to run.
-To get more precise p-values, increase the number of rotations \code{nrot}.
 The p-value is computed as \code{(b+1)/(nrot+1)} where \code{b} is the number of rotations giving a more extreme statistic than that observed (Phipson and Smyth, 2010).
-This means that the smallest possible p-value is \code{1/(nrot+1)}.
+This means that the smallest possible mixed or two-sided p-values are \code{1/(nrot+1)}.
+The function uses a symmetry argument to double the effective number of rotations for the one-sided tests, so the smallest possible \code{"Up"} or \code{"Down"} p-value is \code{1/(2*nrot+1)}.
+
+To get more precise p-values from \code{roast} or \code{mroast}, increase the number of rotations \code{nrot}.
+The default \code{nrot} is set low enough to enable quick testing and experiment.
+To get p-values for publication, setting \code{nrot=9999} or higher is recommended.
 
 \code{mroast} does roast tests for multiple sets, including adjustment for multiple testing.
 By default, \code{mroast} reports ordinary p-values but uses mid-p-values (Routledge, 1994) at the multiple testing stage.
