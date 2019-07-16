@@ -1,4 +1,13 @@
-26 June 2019: limma 3.41.5
+16 July 2019: limma 3.41.7
+
+- Improvements to zscoreT() so that `approx=TRUE` works for NA `x`
+  values and `approx=FALSE` works for very large or very small `df`
+  values. A new simple robust approximation from Wallace (1959) was
+  added to handle the latter two cases. Previously `approx=FALSE`
+  treated any `df` greater than 10000 as infinite; this threshold is
+  now raised to 1e300.
+
+26 June 2019: limma 3.41.6
 
 - Bug fix to roast() when `index` is a character vector of geneids or
   rownames.
