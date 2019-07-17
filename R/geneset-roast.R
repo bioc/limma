@@ -255,7 +255,7 @@ mroast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid
 #	Rotation gene set testing, given effects matrix for one set
 #	Rows are genes.  First column is primary effect.  Other columns are residual effects.
 #	Gordon Smyth and Di Wu
-#	Created 24 Apr 2008.  Last modified 28 Aug 2018.
+#	Created 24 Apr 2008.  Last modified 17 July 2019.
 {
 	nset <- nrow(effects)
 	neffects <- ncol(effects)
@@ -278,27 +278,28 @@ mroast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid
 	}
 
 #	Rotated primary effects (neffects by nrot)
-	R <- matrix(rnorm(nrot*neffects),nrot,neffects)
-	R <- R/sqrt(rowSums(R^2))
-	Br <- tcrossprod(effects,R)
+	modtr <- matrix(rnorm(nrot*neffects),nrot,neffects)
+	modtr <- modtr/sqrt(rowSums(modtr^2))
+	modtr <- tcrossprod(effects,modtr)
 
 #	Moderated rotated variances
 	FinDf <- is.finite(df.prior)
 	if(all(FinDf)) {
-		s2r <- (rowSums(effects^2)-Br^2) / df.residual
-		s2postr <- (df.prior*var.prior+df.residual*s2r) / df.total
+		s2r <- (rowSums(effects^2)-modtr^2) / df.residual
+		s2r <- (df.prior*var.prior+df.residual*s2r) / df.total
 	} else {
 		if(any(FinDf)) {
-			s2postr <- s2r <- (rowSums(effects^2)-Br^2) / df.residual
+			s2r <- (rowSums(effects^2)-modtr^2) / df.residual
 			if(length(var.prior)>1L) s20 <- var.prior[FinDf] else s20 <- var.prior
-			s2postr[FinDf,] <- (df.prior[FinDf]*s20+df.residual*s2r[FinDf,]) / df.total[FinDf]
+			s2r[FinDf,] <- (df.prior[FinDf]*s20+df.residual*s2r[FinDf,]) / df.total[FinDf]
 		} else {
-			s2postr <- var.prior
+			s2r <- var.prior
 		}
 	}
 
 #	Rotated z-statistics
-	modtr <- Br/sqrt(s2postr)
+	modtr <- modtr/sqrt(s2r)
+	if(length(df.total) > 1L) df.total <- rep.int(df.total,nrot)
 	modtr <- zscoreT(modtr,df=df.total,approx=approx.zscore)
 
 #	Setup matrices to hold output results

@@ -70,7 +70,7 @@ zscoreT <- function(x, df, approx=FALSE)
 		z <- x
 		VBig <- (df > 1e300)
 		Extreme <- ((df > 1e5) & !VBig) | (df < 1)
-		Mid <- !(Big | VBig) 
+		Mid <- !(Extreme | VBig) 
 		z[Extreme] <- .zscoreTWallace(x=x[Extreme],df=df[Extreme])
 		z[Mid] <- .zscoreTHill(x=x[Mid],df=df[Mid])
 	} else {
@@ -97,13 +97,13 @@ zscoreT <- function(x, df, approx=FALSE)
 .zscoreTHill <- function(x, df)
 #  Z-score equivalents for t distribution deviates using Hill's 1970 approximation:
 #  Hill, G. W. (1970). Algorithm 396: Student's t-quantiles. Communications of the ACM, 13(10), 619-620.
-#  Requires df > 0.5 and is best for large df.
+#  The approx requires df > 0.5 and is best for large df.
 #  Gordon Smyth
 #  Created 3 June 2014. Last modified 15 July 2019.
 {
 	A <- df-0.5
 	B <- 48*A*A
-	z <- A*log1p(x*x/df)
+	z <- A*log1p(x/df*x)
 	z <- (((((-0.4*z-3.3)*z-24)*z-85.5)/(0.8*z*z+100+B)+z+3)/B+1)*sqrt(z)
 	z[x<0] <- -z[x<0]
 	z

@@ -1,3 +1,8 @@
+17 July 2019: limma 3.41.8
+
+- Edits to non-exported function .roastEffects() to reduce the memory
+  usage of roast() and mroast().
+
 16 July 2019: limma 3.41.7
 
 - Improvements to zscoreT() so that `approx=TRUE` works for NA `x`
