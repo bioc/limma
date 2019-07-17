@@ -251,7 +251,7 @@ mroast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid
 }
 
 
-.roastEffects <- function(effects,gene.weights=NULL,set.statistic="mean",var.prior,df.prior,var.post,nrot=999,approx.zscore=TRUE)
+.roastEffects <- function(effects,gene.weights=NULL,set.statistic="mean",var.prior,df.prior,var.post,nrot=999L,approx.zscore=TRUE,chunk=1000L)
 #	Rotation gene set testing, given effects matrix for one set
 #	Rows are genes.  First column is primary effect.  Other columns are residual effects.
 #	Gordon Smyth and Di Wu
@@ -277,63 +277,19 @@ mroast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid
 		a2 <- sum(s*modt < -sqrt(2)) / ss
 	}
 
-#	Rotated primary effects (neffects by nrot)
-	modtr <- matrix(rnorm(nrot*neffects),nrot,neffects)
-	modtr <- modtr/sqrt(rowSums(modtr^2))
-	modtr <- tcrossprod(effects,modtr)
-
-#	Moderated rotated variances
-	FinDf <- is.finite(df.prior)
-	if(all(FinDf)) {
-		s2r <- (rowSums(effects^2)-modtr^2) / df.residual
-		s2r <- (df.prior*var.prior+df.residual*s2r) / df.total
-	} else {
-		if(any(FinDf)) {
-			s2r <- (rowSums(effects^2)-modtr^2) / df.residual
-			if(length(var.prior)>1L) s20 <- var.prior[FinDf] else s20 <- var.prior
-			s2r[FinDf,] <- (df.prior[FinDf]*s20+df.residual*s2r[FinDf,]) / df.total[FinDf]
-		} else {
-			s2r <- var.prior
-		}
-	}
-
-#	Rotated z-statistics
-	modtr <- modtr/sqrt(s2r)
-	if(length(df.total) > 1L) df.total <- rep.int(df.total,nrot)
-	modtr <- zscoreT(modtr,df=df.total,approx=approx.zscore)
-
-#	Setup matrices to hold output results
-	statobs <- p <- rep_len(0,length.out=4)
-	names(statobs) <- names(p) <- c("down","up","upordown","mixed")
-	statrot <- array(0,c(nrot,4),dimnames=list(NULL,names(p)))
-
-#	Compute set statistics and p-values
-
+#	Compute observed set statistics
+	statobs <- rep_len(0,length.out=4)
+	names(statobs) <- c("down","up","upordown","mixed")
 	set.statistic <- match.arg(set.statistic,c("mean","floormean","mean50","msq"))
 	switch(set.statistic,
 	"mean" = { 
-#		Observed statistics
 		if(!is.null(gene.weights)) modt <- gene.weights*modt
 		m <- mean(modt)
 		statobs["down"] <- -m
 		statobs["up"] <- m
 		statobs["mixed"] <- mean(abs(modt))
-#		Simulated statistics
-		if(!is.null(gene.weights)) modtr <- gene.weights*modtr
-		m <- colMeans(modtr)
-		statrot[,"down"] <- -m
-		statrot[,"up"] <- m
-		statrot[,"mixed"] <- colMeans(abs(modtr))
-#		p-values
-		p["down"] <- sum(statrot[,c("down","up")] > statobs["down"])
-		p["up"] <- sum(statrot[,c("down","up")] > statobs["up"])
-		p["upordown"] <- min(p[c("down","up")])
-		p["mixed"] <- sum(statrot[,c("mixed")] > statobs["mixed"])
-		p <- (p+1) / (c(2,2,1,1)*nrot + 1)
 	},
-
 	"floormean" = { 
-#		Observed statistics
 		chimed <- qnorm(0.25,lower.tail=FALSE)
 		amodt <- pmax(abs(modt),chimed)
 		if(!is.null(gene.weights)) {
@@ -344,26 +300,7 @@ mroast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid
 		statobs["up"] <- mean(pmax(modt,0))
 		statobs["upordown"] <- max(statobs[c("down","up")])
 		statobs["mixed"] <- mean(amodt)
-#		Simulated statistics
-		amodtr <- pmax(abs(modtr),chimed)
-		if(!is.null(gene.weights)) {
-			amodtr <- gene.weights*amodtr
-			modtr <- gene.weights*modtr
-		}
-		statrot[,"down"] <- colMeans(pmax(-modtr,0))
-		statrot[,"up"] <- colMeans(pmax(modtr,0))
-		i <- statrot[,"up"] > statrot[,"down"]
-		statrot[i,"upordown"] <- statrot[i,"up"]
-		statrot[!i,"upordown"] <- statrot[!i,"down"]
-		statrot[,"mixed"] <- colMeans(amodtr)
-#		p-values
-		p["down"] <- sum(statrot[,c("down","up")] > statobs["down"])
-		p["up"] <- sum(statrot[,c("down","up")] > statobs["up"])
-		p["upordown"] <- sum(statrot[,c("upordown")] > statobs["upordown"])
-		p["mixed"] <- sum(statrot[,c("mixed")] > statobs["mixed"])
-		p <- (p+1) / (c(2,2,1,1)*nrot + 1)
 	},
-
 	"mean50" = { 
 		if(nset%%2L == 0L) {
 			half1 <- nset %/% 2L
@@ -371,7 +308,6 @@ mroast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid
 		} else {
 			half1 <- half2 <- nset %/% 2L + 1L
 		}
-#		Observed statistics
 		if(!is.null(gene.weights)) modt <- gene.weights*modt
 		s <- sort(modt,partial=half2)
 		statobs["down"] <- -mean(s[1:half1])
@@ -379,26 +315,8 @@ mroast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid
 		statobs["upordown"] <- max(statobs[c("down","up")])
 		s <- sort(abs(modt),partial=half2)
 		statobs["mixed"] <- mean(s[half2:nset])
-#		Simulated statistics
-		if(!is.null(gene.weights)) modtr <- gene.weights*modtr
-		for (r in 1L:nrot) {
-			s <- sort(modtr[,r],partial=half2)
-			statrot[r,"down"] <- -mean(s[1:half1])
-			statrot[r,"up"] <- mean(s[half2:nset])
-			statrot[r,"upordown"] <- max(statrot[r,c("down","up")])
-			s <- sort(abs(modtr[,r]),partial=half2)
-			statrot[r,"mixed"] <- mean(s[half2:nset])
-		}
-#		p-values
-		p["down"] <- sum(statrot[,c("down","up")] > statobs["down"])
-		p["up"] <- sum(statrot[,c("down","up")] > statobs["up"])
-		p["upordown"] <- sum(statrot[,c("upordown")] > statobs["upordown"])
-		p["mixed"] <- sum(statrot[,c("mixed")] > statobs["mixed"])
-		p <- (p+1) / (c(2,2,1,1)*nrot + 1)
 	},
-
 	"msq" = {
-#		Observed statistics
 		modt2 <- modt^2
 		if(!is.null(gene.weights)) {
 			modt2 <- abs(gene.weights)*modt2
@@ -408,24 +326,123 @@ mroast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid
 		statobs["up"] <- sum(modt2[modt > 0])/nset
 		statobs["upordown"] <- max(statobs[c("down","up")])
 		statobs["mixed"] <- mean(modt2)
-#		Simulated statistics   
-		if(!is.null(gene.weights)) {
-			gene.weights <- sqrt(abs(gene.weights))
-			modtr <- gene.weights*modtr
-		}
-		statrot[,"down"] <- colMeans(pmax(-modtr,0)^2)
-		statrot[,"up"] <- colMeans(pmax(modtr,0)^2)
-		i <- statrot[,"up"] > statrot[,"down"]
-		statrot[i,"upordown"] <- statrot[i,"up"]
-		statrot[!i,"upordown"] <- statrot[!i,"down"]
-		statrot[,"mixed"] <- colMeans(modtr^2)
-#		p-values
-		p["down"] <- sum(statrot[,c("down","up")] > statobs["down"])
-		p["up"] <- sum(statrot[,c("down","up")] > statobs["up"])
-		p["upordown"] <- sum(statrot[,c("upordown")] > statobs["upordown"])
-		p["mixed"] <- sum(statrot[,c("mixed")] > statobs["mixed"])
-		p <- (p+1) / (c(2,2,1,1)*nrot + 1)
 	})
+
+#	Conserve memory by conducting rotations in chunks
+#	Start by computing number of chunks
+	nchunk <- ceiling(nrot/chunk)
+	nroti <- ceiling(nrot/nchunk)
+	overshoot <- nchunk*nroti-nrot
+
+#	Setup matrices to hold rotated statistics and output counts
+	count <- rep_len(0L,length.out=4)
+	statrot <- matrix(0,nroti,4)
+	names(count) <- colnames(statrot) <- names(statobs)
+	FinDf <- is.finite(df.prior)
+
+#	Loop through chunks
+	for(chunki in seq(from=1L,length.out=nchunk)) {
+
+		if(chunki == nchunk) {
+			nroti <- nroti - overshoot
+			statrot <- statrot[1:nroti,,drop=FALSE]
+		}
+
+	#	Rotated primary effects (neffects by nroti)
+		modtr <- matrix(rnorm(nroti*neffects),nroti,neffects)
+		modtr <- modtr/sqrt(rowSums(modtr^2))
+		modtr <- tcrossprod(effects,modtr)
+	
+	#	Moderated rotated variances
+		if(all(FinDf)) {
+			s2r <- (rowSums(effects^2)-modtr^2) / df.residual
+			s2r <- (df.prior*var.prior+df.residual*s2r) / df.total
+		} else {
+			if(any(FinDf)) {
+				s2r <- (rowSums(effects^2)-modtr^2) / df.residual
+				if(length(var.prior)>1L) s20 <- var.prior[FinDf] else s20 <- var.prior
+				s2r[FinDf,] <- (df.prior[FinDf]*s20+df.residual*s2r[FinDf,]) / df.total[FinDf]
+			} else {
+				s2r <- var.prior
+			}
+		}
+	
+	#	Rotated z-statistics
+		modtr <- modtr/sqrt(s2r)
+		if(length(df.total) > 1L) df.total <- rep.int(df.total,nroti)
+		modtr <- zscoreT(modtr,df=df.total,approx=approx.zscore)
+	
+	#	Rotated set statistics and counts
+		switch(set.statistic,
+	
+		"mean" = { 
+			if(!is.null(gene.weights)) modtr <- gene.weights*modtr
+			m <- colMeans(modtr)
+			statrot[,"down"] <- -m
+			statrot[,"up"] <- m
+			statrot[,"mixed"] <- colMeans(abs(modtr))
+			Down <- sum(statrot[,c("down","up")] > statobs["down"])
+			Up <- sum(statrot[,c("down","up")] > statobs["up"])
+			count["down"] <- count["down"] + Down
+			count["up"] <- count["up"] + Up
+			count["upordown"] <- count["upordown"] + min(Down,Up)
+			count["mixed"] <- count["mixed"] + sum(statrot[,c("mixed")] > statobs["mixed"])
+		},
+	
+		"floormean" = { 
+			amodtr <- pmax(abs(modtr),chimed)
+			if(!is.null(gene.weights)) {
+				amodtr <- gene.weights*amodtr
+				modtr <- gene.weights*modtr
+			}
+			statrot[,"down"] <- colMeans(pmax(-modtr,0))
+			statrot[,"up"] <- colMeans(pmax(modtr,0))
+			i <- statrot[,"up"] > statrot[,"down"]
+			statrot[i,"upordown"] <- statrot[i,"up"]
+			statrot[!i,"upordown"] <- statrot[!i,"down"]
+			statrot[,"mixed"] <- colMeans(amodtr)
+			count["down"] <- count["down"] + sum(statrot[,c("down","up")] > statobs["down"])
+			count["up"] <- count["up"] + sum(statrot[,c("down","up")] > statobs["up"])
+			count["upordown"] <- count["upordown"] + sum(statrot[,c("upordown")] > statobs["upordown"])
+			count["mixed"] <- count["mixed"] + sum(statrot[,c("mixed")] > statobs["mixed"])
+		},
+	
+		"mean50" = { 
+			if(!is.null(gene.weights)) modtr <- gene.weights*modtr
+			for (r in 1L:nroti) {
+				s <- sort(modtr[,r],partial=half2)
+				statrot[r,"down"] <- -mean(s[1:half1])
+				statrot[r,"up"] <- mean(s[half2:nset])
+				statrot[r,"upordown"] <- max(statrot[r,c("down","up")])
+				s <- sort(abs(modtr[,r]),partial=half2)
+				statrot[r,"mixed"] <- mean(s[half2:nset])
+			}
+			count["down"] <- count["down"] + sum(statrot[,c("down","up")] > statobs["down"])
+			count["up"] <- count["up"] + sum(statrot[,c("down","up")] > statobs["up"])
+			count["upordown"] <- count["upordown"] + sum(statrot[,c("upordown")] > statobs["upordown"])
+			count["mixed"] <- count["mixed"] + sum(statrot[,c("mixed")] > statobs["mixed"])
+		},
+	
+		"msq" = {
+			if(!is.null(gene.weights)) {
+				gene.weights <- sqrt(abs(gene.weights))
+				modtr <- gene.weights*modtr
+			}
+			statrot[,"down"] <- colMeans(pmax(-modtr,0)^2)
+			statrot[,"up"] <- colMeans(pmax(modtr,0)^2)
+			i <- statrot[,"up"] > statrot[,"down"]
+			statrot[i,"upordown"] <- statrot[i,"up"]
+			statrot[!i,"upordown"] <- statrot[!i,"down"]
+			statrot[,"mixed"] <- colMeans(modtr^2)
+			count["down"] <- count["down"] + sum(statrot[,c("down","up")] > statobs["down"])
+			count["up"] <- count["up"] + sum(statrot[,c("down","up")] > statobs["up"])
+			count["upordown"] <- count["upordown"] + sum(statrot[,c("upordown")] > statobs["upordown"])
+			count["mixed"] <- count["mixed"] + sum(statrot[,c("mixed")] > statobs["mixed"])
+		})
+	}
+
+#	P-values
+	p <- (count+1L) / (c(2L,2L,1L,1L)*nrot + 1L)
 
 #	Output
 	out <- data.frame(c(a2,a1,max(a1,a2),a1+a2),p)

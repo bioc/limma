@@ -1,3 +1,8 @@
+17 July 2019: limma 3.41.9
+
+- roast() and mroast() now perform rotations in chunks to conserve
+  memory usage.
+
 17 July 2019: limma 3.41.8
 
 - Edits to non-exported function .roastEffects() to reduce the memory
