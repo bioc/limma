@@ -1,3 +1,9 @@
+18 July 2019: limma 3.41.10
+
+- roast() and mroast() now have the option via a new argument `fast`
+  to user an even fast although less accurate approximation when
+  converting t-statistics to z-scores.
+
 17 July 2019: limma 3.41.9
 
 - roast() and mroast() now perform rotations in chunks to conserve

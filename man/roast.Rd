@@ -15,10 +15,10 @@ Rotation gene set testing for linear models.
 \usage{
 \method{roast}{default}(y, index = NULL, design = NULL, contrast = ncol(design), geneid = NULL,
       set.statistic = "mean", gene.weights = NULL, var.prior = NULL, df.prior = NULL,
-      nrot = 999, approx.zscore = TRUE, \dots)
+      nrot = 999, approx.zscore = TRUE, fast = FALSE, \dots)
 \method{mroast}{default}(y, index = NULL, design = NULL, contrast = ncol(design), geneid = NULL,
        set.statistic = "mean", gene.weights = NULL, var.prior = NULL, df.prior = NULL,
-       nrot = 999, approx.zscore = TRUE, adjust.method = "BH",
+       nrot = 999, approx.zscore = TRUE, fast = FALSE, adjust.method = "BH",
        midp = TRUE, sort = "directional", \dots)
 \method{fry}{default}(y, index = NULL, design = NULL, contrast = ncol(design), geneid = NULL,
       standardize = "posterior.sd", sort = "directional", \dots)
@@ -46,6 +46,7 @@ Rotation gene set testing for linear models.
   \item{df.prior}{prior degrees of freedom for residual variances. If not provided, this is estimated using \code{squeezeVar}.}
   \item{nrot}{number of rotations used to compute the p-values.}
   \item{approx.zscore}{logical, if \code{TRUE} then a fast approximation is used to convert t-statistics into z-scores prior to computing set statistics. If \code{FALSE}, z-scores will be exact.}
+  \item{fast}{logic, if \code{TRUE} then an even faster approximation is used to convert t-statistics to z-scores. Ignored if \code{approx.zscore=FALSE}.}
   \item{adjust.method}{method used to adjust the p-values for multiple testing. See \code{\link{p.adjust}} for possible values.}
   \item{midp}{logical, should mid-p-values be used in instead of ordinary p-values when adjusting for multiple testing?}
   \item{sort}{character, whether to sort output table by directional p-value (\code{"directional"}), non-directional p-value (\code{"mixed"}), or not at all (\code{"none"}).}

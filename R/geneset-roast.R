@@ -13,7 +13,7 @@ function(object) print(object$p.value)
 
 roast <- function(y,...) UseMethod("roast")
 
-roast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid=NULL,set.statistic="mean",gene.weights=NULL,var.prior=NULL,df.prior=NULL,nrot=999,approx.zscore=TRUE,...)
+roast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid=NULL,set.statistic="mean",gene.weights=NULL,var.prior=NULL,df.prior=NULL,nrot=999,approx.zscore=TRUE,fast=FALSE,...)
 # Rotation gene set testing for linear models
 # Gordon Smyth and Di Wu
 # Created 24 Apr 2008.  Last modified 26 June 2019.
@@ -92,13 +92,13 @@ roast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid=
 	if(!(lgw %in% c(0L,NGenesInSet,ngenes))) stop("length of gene.weights doesn't agree with number of genes or size of set")
 	if(lgw > NGenesInSet) gene.weights <- gene.weights[index]
 
-	.roastEffects(Effects,gene.weights=gene.weights,set.statistic=set.statistic,var.prior=var.prior,df.prior=df.prior,var.post=var.post,nrot=nrot,approx.zscore=approx.zscore)
+	.roastEffects(Effects,gene.weights=gene.weights,set.statistic=set.statistic,var.prior=var.prior,df.prior=df.prior,var.post=var.post,nrot=nrot,approx.zscore=approx.zscore,fast=fast)
 }
 
 
 mroast <- function(y,...) UseMethod("mroast")
 
-mroast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid=NULL,set.statistic="mean",gene.weights=NULL,var.prior=NULL,df.prior=NULL,nrot=999,approx.zscore=TRUE,adjust.method="BH",midp=TRUE,sort="directional",...)
+mroast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid=NULL,set.statistic="mean",gene.weights=NULL,var.prior=NULL,df.prior=NULL,nrot=999,approx.zscore=TRUE,fast=FALSE,adjust.method="BH",midp=TRUE,sort="directional",...)
 #  Rotation gene set testing with multiple sets
 #  Gordon Smyth and Di Wu
 #  Created 28 Jan 2010. Last revised 28 June 2016.
@@ -200,7 +200,7 @@ mroast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid
 		if(length(var.prior)>1) s20 <- var.prior[g]
 		if(length(df.prior)>1) d0 <- df.prior[g]
 		s2post <- var.post[g]
-		out <- .roastEffects(E,gene.weights=gw,set.statistic=set.statistic,var.prior=s20,df.prior=d0,var.post=s2post,nrot=nrot,approx.zscore=approx.zscore)
+		out <- .roastEffects(E,gene.weights=gw,set.statistic=set.statistic,var.prior=s20,df.prior=d0,var.post=s2post,nrot=nrot,approx.zscore=approx.zscore,fast=fast)
 		pv[i,] <- out$p.value$P.Value
 		active[i,] <- out$p.value$Active.Prop
 		NGenes[i] <- out$ngenes.in.set
@@ -251,11 +251,11 @@ mroast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid
 }
 
 
-.roastEffects <- function(effects,gene.weights=NULL,set.statistic="mean",var.prior,df.prior,var.post,nrot=999L,approx.zscore=TRUE,chunk=1000L)
+.roastEffects <- function(effects,gene.weights=NULL,set.statistic="mean",var.prior,df.prior,var.post,nrot=999L,approx.zscore=TRUE,chunk=1000L,fast=FALSE)
 #	Rotation gene set testing, given effects matrix for one set
 #	Rows are genes.  First column is primary effect.  Other columns are residual effects.
 #	Gordon Smyth and Di Wu
-#	Created 24 Apr 2008.  Last modified 17 July 2019.
+#	Created 24 Apr 2008.  Last modified 18 July 2019.
 {
 	nset <- nrow(effects)
 	neffects <- ncol(effects)
@@ -264,7 +264,12 @@ mroast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid
 
 #	Observed z-statistics
 	modt <- effects[,1]/sqrt(var.post)
-	modt <- zscoreT(modt,df=df.total,approx=approx.zscore)
+	if(approx.zscore && fast) {
+		df.total.winsor <- pmin(df.total,10000)
+		modt <- .zscoreTWallace(modt,df.total.winsor)
+	} else {
+		modt <- zscoreT(modt,df=df.total,approx=approx.zscore)
+	}
 
 #	Estimate active proportions
 	if(is.null(gene.weights)) {
@@ -369,8 +374,12 @@ mroast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid
 	
 	#	Rotated z-statistics
 		modtr <- modtr/sqrt(s2r)
-		if(length(df.total) > 1L) df.total <- rep.int(df.total,nroti)
-		modtr <- zscoreT(modtr,df=df.total,approx=approx.zscore)
+		if(approx.zscore && fast) {
+			modt <- .zscoreTWallace(modt,df.total.winsor)
+		} else {
+			if(length(df.total) > 1L) df.total.rep <- rep.int(df.total,nroti) else df.total.rep <- df.total
+			modtr <- zscoreT(modtr,df=df.total.rep,approx=approx.zscore)
+		}
 	
 	#	Rotated set statistics and counts
 		switch(set.statistic,
@@ -381,11 +390,8 @@ mroast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid
 			statrot[,"down"] <- -m
 			statrot[,"up"] <- m
 			statrot[,"mixed"] <- colMeans(abs(modtr))
-			Down <- sum(statrot[,c("down","up")] > statobs["down"])
-			Up <- sum(statrot[,c("down","up")] > statobs["up"])
-			count["down"] <- count["down"] + Down
-			count["up"] <- count["up"] + Up
-			count["upordown"] <- count["upordown"] + min(Down,Up)
+			count["down"] <- count["down"] + sum(statrot[,c("down","up")] > statobs["down"])
+			count["up"] <- count["up"] + sum(statrot[,c("down","up")] > statobs["up"])
 			count["mixed"] <- count["mixed"] + sum(statrot[,c("mixed")] > statobs["mixed"])
 		},
 	
@@ -442,6 +448,7 @@ mroast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid
 	}
 
 #	P-values
+	if(set.statistic=="mean") count["upordown"] <- min(count[c("down","up")])
 	p <- (count+1L) / (c(2L,2L,1L,1L)*nrot + 1L)
 
 #	Output
