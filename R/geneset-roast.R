@@ -252,10 +252,10 @@ mroast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid
 
 
 .roastEffects <- function(effects,gene.weights=NULL,set.statistic="mean",var.prior,df.prior,var.post,nrot=999L,approx.zscore=TRUE,chunk=1000L,fast=FALSE)
-#	Rotation gene set testing, given effects matrix for one set
+#	Rotation gene set testing, given the effects matrix for one set.
 #	Rows are genes.  First column is primary effect.  Other columns are residual effects.
 #	Gordon Smyth and Di Wu
-#	Created 24 Apr 2008.  Last modified 18 July 2019.
+#	Created 24 Apr 2008.  Last modified 19 July 2019.
 {
 	nset <- nrow(effects)
 	neffects <- ncol(effects)
@@ -375,7 +375,7 @@ mroast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid
 	#	Rotated z-statistics
 		modtr <- modtr/sqrt(s2r)
 		if(approx.zscore && fast) {
-			modt <- .zscoreTWallace(modt,df.total.winsor)
+			modtr <- .zscoreTWallace(modtr,df.total.winsor)
 		} else {
 			if(length(df.total) > 1L) df.total.rep <- rep.int(df.total,nroti) else df.total.rep <- df.total
 			modtr <- zscoreT(modtr,df=df.total.rep,approx=approx.zscore)

@@ -1,8 +1,12 @@
+19 July 2019: limma 3.41.11
+
+- Fix bug for the `fast` roast option introduced yesterday.
+
 18 July 2019: limma 3.41.10
 
 - roast() and mroast() now have the option via a new argument `fast`
-  to user an even fast although less accurate approximation when
-  converting t-statistics to z-scores.
+  to use an even faster although slightly less accurate approximation
+  when converting t-statistics to z-scores.
 
 17 July 2019: limma 3.41.9
 
@@ -16,10 +20,11 @@
 
 16 July 2019: limma 3.41.7
 
-- Improvements to zscoreT() so that `approx=TRUE` works for NA `x`
-  values and `approx=FALSE` works for very large or very small `df`
-  values. A new simple robust approximation from Wallace (1959) was
-  added to handle the latter two cases. Previously `approx=FALSE`
+- Improve zscoreT() so that `approx=TRUE` allows NA values and works
+  correctly for all valid df values.  Previously `approx=TRUE`
+  returned NA results for `df` infinite or <= 0.05. A simple robust
+  approximation from Wallace (1959) has been introduced to handle
+  very large or very small `df` values. Previously `approx=FALSE`
   treated any `df` greater than 10000 as infinite; this threshold is
   now raised to 1e300.
 
