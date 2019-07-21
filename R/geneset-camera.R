@@ -142,7 +142,7 @@ camera.default <- function(y,index,design=NULL,contrast=ncol(design),weights=NUL
 		Stat <- modt
 	else {
 		df.total <- min(df.residual+sv$df.prior, G*df.residual)
-		Stat <- zscoreT(modt, df=df.total, approx=TRUE)
+		Stat <- zscoreT(modt, df=df.total, approx=TRUE, method="hill")
 	}
 
 #	Global statistics

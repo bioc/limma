@@ -1,3 +1,17 @@
+21 July 2019: limma 3.41.13
+
+- Complete rewrite of zscoreT(), which is now somewhat faster and
+  offer two new options for the normalizing transformation. The new
+  argument `method` indicates which transformation is used when
+  `approx=TRUE`. The default approximation method is changed from
+  "hill" to "bailey".
+
+- Update the `fast` option for roast() and mroast() to use the
+  improved "bailey" transformation instead of "wallace" for
+  normalizing t-statistics.
+
+- Rename first argument of tZScore() from `x` to `z`.
+
 21 July 2019: limma 3.41.12
 
 - Make tZScore() slightly faster.
@@ -10,7 +24,7 @@
 
 - roast() and mroast() now have the option via a new argument `fast`
   to use an even faster although slightly less accurate approximation
-  when converting t-statistics to z-scores.
+  from Wallace (1959) when converting t-statistics to z-scores.
 
 17 July 2019: limma 3.41.9
 

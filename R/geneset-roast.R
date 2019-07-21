@@ -255,7 +255,7 @@ mroast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid
 #	Rotation gene set testing, given the effects matrix for one set.
 #	Rows are genes.  First column is primary effect.  Other columns are residual effects.
 #	Gordon Smyth and Di Wu
-#	Created 24 Apr 2008.  Last modified 19 July 2019.
+#	Created 24 Apr 2008.  Last modified 21 July 2019.
 {
 	nset <- nrow(effects)
 	neffects <- ncol(effects)
@@ -266,9 +266,9 @@ mroast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid
 	modt <- effects[,1]/sqrt(var.post)
 	if(approx.zscore && fast) {
 		df.total.winsor <- pmin(df.total,10000)
-		modt <- .zscoreTWallace(modt,df.total.winsor)
+		modt <- .zscoreTBailey(modt,df.total.winsor)
 	} else {
-		modt <- zscoreT(modt,df=df.total,approx=approx.zscore)
+		modt <- zscoreT(modt,df=df.total,approx=approx.zscore,method="hill")
 	}
 
 #	Estimate active proportions
@@ -375,10 +375,9 @@ mroast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid
 	#	Rotated z-statistics
 		modtr <- modtr/sqrt(s2r)
 		if(approx.zscore && fast) {
-			modtr <- .zscoreTWallace(modtr,df.total.winsor)
+			modtr <- .zscoreTBailey(modtr,df.total.winsor)
 		} else {
-			if(length(df.total) > 1L) df.total.rep <- rep.int(df.total,nroti) else df.total.rep <- df.total
-			modtr <- zscoreT(modtr,df=df.total.rep,approx=approx.zscore)
+			modtr <- zscoreT(modtr,df=df.total,approx=approx.zscore,method="hill")
 		}
 	
 	#	Rotated set statistics and counts
