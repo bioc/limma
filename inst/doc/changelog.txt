@@ -1,3 +1,7 @@
+21 July 2019: limma 3.41.12
+
+- Make tZScore() slightly faster.
+
 19 July 2019: limma 3.41.11
 
 - Fix bug for the `fast` roast option introduced yesterday.
