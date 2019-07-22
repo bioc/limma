@@ -14,7 +14,7 @@ plotWithHighlights(x, y, status = NULL, values = NULL,
 \arguments{
   \item{x}{numeric vector.}
 
-  \item{y}{numeric vector.}
+  \item{y}{numeric vector of same length as \code{x}.}
 
   \item{status}{character vector giving the control status of each point, of same length as \code{x} and \code{y}.
   If \code{NULL}, then all points are plotted in the background color, symbol and size.}

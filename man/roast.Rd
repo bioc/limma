@@ -44,7 +44,7 @@ Rotation gene set testing for linear models.
         For \code{roast}, can be of length \code{nrow(y)} or of length equal to the number of genes in the test set.} 
   \item{var.prior}{prior value for residual variances. If not provided, this is estimated from all the data using \code{squeezeVar}.}
   \item{df.prior}{prior degrees of freedom for residual variances. If not provided, this is estimated using \code{squeezeVar}.}
-  \item{nrot}{number of rotations used to compute the p-values.}
+  \item{nrot}{number of rotations used to compute the p-values. Low values like 999 are suitable for testing but higher values such as 9999 or more are recommended for publication purposes.}
   \item{approx.zscore}{logical, if \code{TRUE} then a fast approximation is used to convert t-statistics into z-scores prior to computing set statistics. If \code{FALSE}, z-scores will be exact.}
   \item{adjust.method}{method used to adjust the p-values for multiple testing. See \code{\link{p.adjust}} for possible values.}
   \item{midp}{logical, should mid-p-values be used in instead of ordinary p-values when adjusting for multiple testing?}
@@ -122,13 +122,16 @@ The p-value is computed as \code{(b+1)/(nrot+1)} where \code{b} is the number of
 This means that the smallest possible mixed or two-sided p-values are \code{1/(nrot+1)}.
 The function uses a symmetry argument to double the effective number of rotations for the one-sided tests, so the smallest possible \code{"Up"} or \code{"Down"} p-value is \code{1/(2*nrot+1)}.
 
-To get more precise p-values from \code{roast} or \code{mroast}, increase the number of rotations \code{nrot}.
-The default \code{nrot} is set low enough to enable quick testing and experiment.
-To get p-values for publication, setting \code{nrot=9999} or higher is recommended.
+To get more precise higher resolution p-values from \code{roast} or \code{mroast}, increase the number of rotations \code{nrot}.
+The default \code{nrot} is set low to facilitate quick testing and experimentation but the smallest possible two-sided p-value is \code{1/nrot}.
+To get definitive p-values for publication, at least \code{nrot=9999} or higher is recommended.
 
 \code{mroast} does roast tests for multiple sets, including adjustment for multiple testing.
 By default, \code{mroast} reports ordinary p-values but uses mid-p-values (Routledge, 1994) at the multiple testing stage.
 Mid-p-values are probably a good choice when using false discovery rates (\code{adjust.method="BH"}) but not when controlling the family-wise type I error rate (\code{adjust.method="holm"}).
+
+To improve the performance of the gene set statistics, \code{roast} and \code{mroast} transform moderated t-statistics to normality using \code{zscoreT}.
+By default, an approximate closed-form transformation is used (\code{approx.zscore=FALSE}), which is very much faster than the exact transformation and performs just as well.
 
 \code{fry} is a fast approximation to \code{mroast}.
 In the special case that \code{df.prior} is large and \code{set.statistic="mean"}, \code{fry} gives the same result as \code{mroast} with an infinite number of rotations.
@@ -138,7 +141,9 @@ Note that \code{fry} does not support the \code{gene.weights} argument, although
 }
 
 \note{
-The default setting for the set statistic was changed in limma 3.5.9 (3 June 2010) from \code{"msq"} to \code{"mean"}.
+\code{approx.score=TRUE} become the default in Bioconductor 3.0 (October 2014).
+
+The default set statistic was changed from \code{"msq"} to \code{"mean"} in Bioconductor 2.7 (October 2010).
 }
 
 \seealso{

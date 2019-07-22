@@ -31,39 +31,69 @@ zscoreGamma <- function(q, shape, rate = 1, scale = 1/rate)
 	z
 }
 
-zscoreT <- function(x, df, approx=FALSE)
-#  Z-score equivalents for t distribution deviates
+zscoreT <- function(x, df, approx=FALSE, method="hill")
+#  Z-score equivalents of t distribution deviates
 #  Gordon Smyth
-#  24 August 2003. Last modified 3 June 2014.
+#  Created 24 August 2003 with exact quantile method only.
+#  Hill method added 3 June 2014.
+#  Bailey and Wallace methods added 21 July 2019.
 {
 	if(approx) {
-		if(all(df > 10000)) return(x)
-
-#		Approximation from Hill (1970)
-		A <- df-0.5
-		B <- 48*A*A
-		W <- A*log1p(x*x/df)
-		z <- (((((-0.4*W-3.3)*W-24)*W-85.5)/(0.8*W*W+100+B)+W+3)/B+1)*sqrt(W)
-		z[x<0] <- -z[x<0]
+		df <- pmin(df,1e100)
+		method <- match.arg(method,c("bailey","hill","wallace"))
+		if(method=="bailey") return(.zscoreTBailey(x=x,df=df))
+		if(method=="hill") return(.zscoreTHill(x=x,df=df))
+		if(method=="wallace") return(.zscoreTWallace(x=x,df=df))
 	} else {
-		z <- x
-		df <- rep(df,length.out=length(x))
-		pos <- x>0
-		if(any(pos)) z[pos] <- qnorm(pt(x[pos],df=df[pos],lower.tail=FALSE,log.p=TRUE),lower.tail=FALSE,log.p=TRUE) 
-		if(any(!pos)) z[!pos] <- qnorm(pt(x[!pos],df=df[!pos],lower.tail=TRUE,log.p=TRUE),lower.tail=TRUE,log.p=TRUE)
+		return(.zscoreTQuantile(x=x,df=df))
 	}
-	z
+}
+
+.zscoreTQuantile <- function(x, df)
+#  Z-score equivalents of t distribution deviates using an approximatiuon from Wallace (1959).
+#  Wallace, D. L. (1959). Bounds on normal approximations to Student's and the chi-square distributions. The Annals of Mathematical Statistics, 30(4), 1121-1130.
+#  Gordon Smyth
+#  Created 21 July 2019 by modifying zscoreT code written 24 August 2003.
+{
+	qnorm(pt(abs(x),df=df,lower.tail=FALSE,log.p=TRUE),lower.tail=FALSE,log.p=TRUE) * sign(x)
+}
+
+.zscoreTWallace <- function(x, df)
+#  Z-score equivalents of t distribution deviates using an approximatiuon from Wallace (1959).
+#  Wallace, D. L. (1959). Bounds on normal approximations to Student's and the chi-square distributions. The Annals of Mathematical Statistics, 30(4), 1121-1130.
+#  Gordon Smyth
+#  Created 16 July 2019.
+{
+	((df+0.125)/(df+0.375)) * sqrt(df*log1p(x/df*x)) * sign(x)
+}
+
+.zscoreTBailey <- function(x, df)
+#  Z-score equivalents of t distribution deviates using an approximatiuon from Wallace (1959).
+#  Wallace, D. L. (1959). Bounds on normal approximations to Student's and the chi-square distributions. The Annals of Mathematical Statistics, 30(4), 1121-1130.
+#  Gordon Smyth
+#  Created 16 July 2019.
+{
+	((df+0.125)/(df+1.125)) * sqrt((df+19/12)*log1p(x/(df+1/12)*x)) * sign(x)
+}
+
+.zscoreTHill <- function(x, df)
+#  Z-score equivalents for t distribution deviates using Hill's 1970 approximation:
+#  Hill, G. W. (1970). Algorithm 396: Student's t-quantiles. Communications of the ACM, 13(10), 619-620.
+#  The approx requires df > 0.5 and gives good accuracy for df >= 2.
+#  Gordon Smyth
+#  Created 3 June 2014. Last modified 21 July 2019.
+{
+	A <- df-0.5
+	B <- 48*A*A
+	z <- A*log1p(x/df*x)
+	z <- (((((-0.4*z-3.3)*z-24)*z-85.5)/(0.8*z*z+100+B)+z+3)/B+1)*sqrt(z)
+	z * sign(x)
 }
 
 tZscore <- function(x, df)
-#  t-statistics equivalents for z-scores deviates
+#  t-statistic equivalents of z-score deviates
 #  Gordon Smyth
-#  1 June 2004
+#  Created 1 June 2004. Modified 21 July 2019.
 {
-	z <- x
-	df <- rep(df,length.out=length(x))
-	pos <- x>0
-	if(any(pos)) z[pos] <- qt(pnorm(x[pos],lower.tail=FALSE,log.p=TRUE),df=df[pos],lower.tail=FALSE,log.p=TRUE) 
-	if(any(!pos)) z[!pos] <- qt(pnorm(x[!pos],lower.tail=TRUE,log.p=TRUE),df=df[!pos],lower.tail=TRUE,log.p=TRUE)
-	z
+	qt(pnorm(abs(x),lower.tail=FALSE,log.p=TRUE),df=df,lower.tail=FALSE,log.p=TRUE) * sign(x)
 }

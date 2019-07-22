@@ -1,3 +1,15 @@
+22 July 2019: limma 3.40.4
+
+- Complete rewrite of zscoreT(), which is now somewhat faster and
+  offer two new options for the normalizing transformation. The new
+  argument `method` indicates which transformation is used when
+  `approx=TRUE`. The default approximation method is unchanged.
+  This rewrite also fixes a bug in that previously the approximate
+  method returned NA values for infinite `df` if some values of `df`
+  were finite.
+
+- Make tZScore() slightly faster.
+
 26 June 2019: limma 3.40.3
 
 - Bug fix to roast() when `index` is a character vector of geneids or
