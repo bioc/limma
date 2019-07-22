@@ -1,3 +1,19 @@
+22 July 2019: limma 3.41.14
+
+- The new Bailey (1980) t-statistic transformation becomes the
+  default approximation for roast() and mroast() as it is now for
+  zscoreT(). To achieve this, the default t-statistic normalizing
+  transformation used by `roast` and `mroast` when
+  \code{approx.zscore=TRUE} is changed "hill" to "bailey". The `fast`
+  argument for roast() and mroast() is removed and instead a new
+  argument `legacy` is added to allow users to revert to behaviour
+  prior to limma 3.41.9 if they wish to reproduce legacy results
+  exactly.
+
+- Increase default number of rotations `nrot` used by roast() and 
+  mroast() from 999 to 1999. Expand comments on the help page
+  recommending larger values of `nrot` for publication purposes.
+
 21 July 2019: limma 3.41.13
 
 - Complete rewrite of zscoreT(), which is now somewhat faster and
@@ -7,8 +23,9 @@
   "hill" to "bailey".
 
 - Update the `fast` option for roast() and mroast() to use the
-  improved "bailey" transformation instead of "wallace" for
-  normalizing t-statistics.
+  improved Bailey (1980) transformation instead of Wallace (1959) for
+  normalizing t-statistics. If \code{fast=FALSE} the Hill (1970)
+  transformation continues to be used, as it has since 2014.
 
 - Rename first argument of tZScore() from `x` to `z`.
 
@@ -22,19 +39,21 @@
 
 18 July 2019: limma 3.41.10
 
-- roast() and mroast() now have the option via a new argument `fast`
-  to use an even faster although slightly less accurate approximation
+- Add new argument `fast` to roast() and mroast() to optionally use
+  an even faster although slightly less accurate approximation
   from Wallace (1959) when converting t-statistics to z-scores.
 
 17 July 2019: limma 3.41.9
 
-- roast() and mroast() now perform rotations in chunks to conserve
-  memory usage.
+- roast() and mroast() now perform rotations in chunks to minimize
+  memory usage. Memory usage now remains bounded regardless of the
+  number of rotations used.
 
 17 July 2019: limma 3.41.8
 
-- Edits to non-exported function .roastEffects() to reduce the memory
-  usage of roast() and mroast().
+- Reduce the memory usage of roast() and mroast() by overwriting
+  objects where possible in the internal code instead of creating new
+  objects.
 
 16 July 2019: limma 3.41.7
 
@@ -2746,8 +2765,9 @@ org.Hs.eg.db 3.8.1
 
 7 May 2010: limma 3.5.3
 
-- new argument 'set.statistic' for roast(), which specifies
-  the gene set summary statistic to be used.
+- Add new argument 'set.statistic' for roast() to specify which gene
+  set summary statistic should be used. The new default is "mean" and
+  the original setting is now called "msq".
 
 - the output from roast() no longer includes a column for the
   "either" alternative hypothesis.

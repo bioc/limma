@@ -7,10 +7,10 @@ This page gives an overview of the LIMMA functions for gene set testing and path
 
 \describe{
 \item{ \code{\link{roast}} }{
-	Self-contained gene set testing for one set.}
+	Self-contained gene set testing for one set. Uses \code{\link{zscoreT}} to normalize t-statistics.}
 
 \item{ \code{\link{mroast}} }{
-	Self-contained gene set testing for many sets.}
+	Self-contained gene set testing for many sets. Uses \code{\link{zscoreT}} to normalize t-statistics.}
 
 \item{ \code{\link{fry}} }{
 	Fast approximation to \code{mroast}, especially useful when heteroscedasticity of genes can be ignored.}
@@ -24,7 +24,7 @@ This page gives an overview of the LIMMA functions for gene set testing and path
 \item{ \code{\link{ids2indices}} }{
 	Convert gene sets consisting of vectors of gene identifiers into a list of indices suitable for use in the above functions.}
 
-\item{ \code{\link{alias2Symbol}} and \code{\link{alias2SymbolTable}} }{
+\item{ \code{\link{alias2Symbol}}, \code{\link{alias2SymbolTable}} and \code{\link{alias2SymbolUsingNCBI}} }{
 	Convert gene symbols or aliases to current official symbols.}
 
 \item{ \code{\link{geneSetTest}} or \code{\link{wilcoxGST}} }{
