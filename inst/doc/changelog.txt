@@ -1,3 +1,13 @@
+24 July 2019: limma 3.41.15
+
+- Add argument `gene.weights` to fry() so as to match the arguments
+  and behavior of mroast(). Previously gene weights could be input to
+  fry() only through the `index` argument.
+
+- Revise fry() so that the mixed p-values take account of gene
+  weights. Previously gene weights were not used in fry's mixed
+  p-value calculation.
+
 22 July 2019: limma 3.41.14
 
 - The new Bailey (1980) t-statistic transformation becomes the
@@ -67,7 +77,7 @@
 
 26 June 2019: limma 3.41.6
 
-- Bug fix to roast() when `index` is a character vector of geneids or
+- Fix bug in roast() when `index` is a character vector of geneids or
   rownames.
 
 17 June 2019: limma 3.41.5
