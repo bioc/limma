@@ -2,6 +2,55 @@
 \title{limma News}
 \encoding{UTF-8}
 
+
+\section{Version 3.40.5}{\itemize{
+\item
+  Add argument `gene.weights` to fry() so as to match the arguments
+  and behavior of mroast(). Previously gene weights could be input to
+  fry() only through the `index` argument.
+
+\item
+  Revise fry() so that the mixed p-values take account of gene
+  weights. Previously gene weights were not used in fry's mixed
+  p-value calculation.
+}}
+
+\section{Version 3.40.4}{\itemize{
+\item
+  Complete rewrite of zscoreT(), which is now somewhat faster and
+  offer two new options for the normalizing transformation. The new
+  argument `method` indicates which transformation is used when
+  `approx=TRUE`. The default approximation method is unchanged.
+  This rewrite also fixes a bug in that previously the approximate
+  method returned NA values for infinite `df` if some values of `df`
+  were finite.
+
+\item
+  Make tZScore() slightly faster.
+}}
+
+\section{Version 3.40.3}{\itemize{
+\item
+  Fix bug in roast() when `index` is a character vector of geneids or
+  rownames.
+
+\item
+  Update the arguments of voomWithQualityWeights() to match the
+  revisions to arrayWeights() in limma 3.40.0.
+  Add new argument `var.group`.
+}}
+
+\section{Version 3.40.2}{\itemize{
+\item
+  All calls to the approx() or approxfun() functions now set
+  `ties=list("ordered",mean)`. The change was prompted by a change in
+  R 3.6.0 whereby using the default for `ties` generates a warning
+  message whenever ties are present in `x`. The new code gives the
+  same results but is very slightly faster and avoids the warning
+  message. As a result, limma now depends on R >= 3.6.0
+}}
+
+
 \section{Version 3.40.0}{\itemize{
 
 \item

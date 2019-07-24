@@ -1,12 +1,18 @@
 fry <- function(y,...) UseMethod("fry")
 
-fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid=NULL,standardize="posterior.sd",sort="directional",...)
+fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid=NULL,gene.weights=NULL,standardize="posterior.sd",sort="directional",...)
 #	Quick version of roast gene set test assuming equal variances between genes
 #	The up and down p-values are equivalent to those from roast with nrot=Inf
 #	in the special case of prior.df=Inf.
 #	Gordon Smyth and Goknur Giner
-#	Created 30 January 2015.  Last modified 11 May 2016
+#	Created 30 January 2015.  Last modified 24 July 2019
 {
+#	Check gene.weights
+	if(!is.null(gene.weights)) {
+		if(length(gene.weights) != nrow(y)) stop("length of gene.weights should equal nrow(y)")
+		if(!is.numeric(gene.weights)) stop("gene.weights should be numeric")
+	}
+
 #	Partial matching of extra arguments
 #	array.weights and trend.var included for (undocumented) backward compatibility with code before 9 May 2016.
 	Dots <- list(...)
@@ -87,14 +93,14 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid=NU
 			if(length(geneid) != nrow(y)) stop("geneid vector should be of length nrow(y)")
 	}
 
-	.fryEffects(effects=Effects,index=index,geneid=geneid,sort=sort)
+	.fryEffects(effects=Effects,index=index,geneid=geneid,gene.weights=gene.weights,sort=sort)
 }
 
 
-.fryEffects <- function(effects,index=NULL,geneid=rownames(effects),sort=TRUE)
+.fryEffects <- function(effects,index=NULL,geneid=rownames(effects),gene.weights=NULL,sort=TRUE)
 #	fry given the effects matrix
 #	Gordon Smyth and Goknur Giner
-#	Created 30 January 2015.  Last modified 28 June 2016
+#	Created 30 January 2015.  Last modified 24 July 2019
 {
 	G <- nrow(effects)
 	neffects <- ncol(effects)
@@ -129,7 +135,7 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid=NU
 				} else {
 					EffectsSet <- effects[iset,,drop=FALSE]
 				}
-				MeanEffectsSet <- iw %*% EffectsSet
+				EffectsSet <- iw * EffectsSet
 			} else {
 				stop("index ",i," is a data.frame but doesn't contain gene weights")
 			}
@@ -137,8 +143,12 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid=NU
 			if(is.factor(iset)) iset <- as.character(iset)
 			if(is.character(iset)) iset <- which(geneid %in% iset)
 			EffectsSet <- effects[iset,,drop=FALSE]
-			MeanEffectsSet <- colMeans(EffectsSet)
+			if(!is.null(gene.weights)) {
+				iw <- gene.weights[iset]
+				EffectsSet <- iw * EffectsSet
+			}
 		}
+		MeanEffectsSet <- colMeans(EffectsSet)
 		t.stat[i] <- MeanEffectsSet[1] / sqrt(mean(MeanEffectsSet[-1]^2))
 		NGenes[i] <- nrow(EffectsSet)
 

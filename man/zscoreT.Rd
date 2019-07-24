@@ -44,7 +44,7 @@ The \code{method} argument provides a choice of three transformations.
 \code{method="wallace"} is from Wallace (1959) as given by equation equation (2) of Brophy (1987).
 Bailey's transformation is a modification of Wallace's approximation.
 The Hill approximation is generally the most accurate for df > 2 but is poor for df < 1.
-Bailey's approximation is faster than Hill's and gives more even accuracy with acceptable two-figure accuracy throughout.
+Bailey's approximation is faster than Hill's and gives acceptable two-figure accuracy throughout.
 Bailey's approximation also works for some extreme values, with very large \code{x} or \code{df}, for which Hill's approximation fails due to overflow.
 }
 

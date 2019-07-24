@@ -1,3 +1,13 @@
+24 July 2019: limma 3.40.5
+
+- Add argument `gene.weights` to fry() so as to match the arguments
+  and behavior of mroast(). Previously gene weights could be input to
+  fry() only through the `index` argument.
+
+- Revise fry() so that the mixed p-values take account of gene
+  weights. Previously gene weights were not used in fry's mixed
+  p-value calculation.
+
 22 July 2019: limma 3.40.4
 
 - Complete rewrite of zscoreT(), which is now somewhat faster and
@@ -12,7 +22,7 @@
 
 26 June 2019: limma 3.40.3
 
-- Bug fix to roast() when `index` is a character vector of geneids or
+- Fix bug in roast() when `index` is a character vector of geneids or
   rownames.
 
 - Update the arguments of voomWithQualityWeights() to match the
