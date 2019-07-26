@@ -10,12 +10,12 @@ alias2Symbol <- function(alias,species="Hs",expand.symbols=FALSE)
 
 #	Get access to required annotation functions
 	suppressPackageStartupMessages(OK <- requireNamespace("AnnotationDbi",quietly=TRUE))
-	if(!OK) stop("AnnotationDbi package required but not installed (or can't be loaded)")
+	if(!OK) stop("AnnotationDbi package required but is not installed (or can't be loaded)")
 
 #	Load appropriate organism package
 	orgPkg <- paste0("org.",species,".eg.db")
 	suppressPackageStartupMessages(OK <- requireNamespace(orgPkg,quietly=TRUE))
-	if(!OK) stop(orgPkg," package required but not not installed (or can't be loaded)")
+	if(!OK) stop(orgPkg," package required but is not installed (or can't be loaded)")
 
 #	Get alias to Entrez Gene mappings
 	obj <- paste0("org.",species,".egALIAS2EG")
@@ -49,12 +49,12 @@ alias2SymbolTable <- function(alias,species="Hs")
 
 #	Get access to required annotation functions
 	suppressPackageStartupMessages(OK <- requireNamespace("AnnotationDbi",quietly=TRUE))
-	if(!OK) stop("AnnotationDbi package required but not installed (or can't be loaded)")
+	if(!OK) stop("AnnotationDbi package required but is not installed (or can't be loaded)")
 
 #	Load appropriate organism package
 	orgPkg <- paste0("org.",species,".eg.db")
 	suppressPackageStartupMessages(OK <- requireNamespace(orgPkg,quietly=TRUE))
-	if(!OK) stop(orgPkg," package required but not not installed (or can't be loaded)")
+	if(!OK) stop(orgPkg," package required but is not installed (or can't be loaded)")
 
 #	Get alias to Entrez Gene mappings
 	obj <- paste0("org.",species,".egALIAS2EG")

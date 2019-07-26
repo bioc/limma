@@ -1,7 +1,7 @@
 coolmap <- function(x, cluster.by="de pattern", col=NULL, linkage.row="complete", linkage.col="complete", show.dendrogram="both", ...)
 #	Interface to heatmap.2 with useful defaults for log2-expression data
 #	Gordon Smyth
-#	Created 23 Sep 2016. Last modified 18 Sep 2018.
+#	Created 23 Sep 2016. Last modified 26 July 2019.
 {
 #	Check arguments
 	x <- as.matrix(x)
@@ -17,7 +17,7 @@ coolmap <- function(x, cluster.by="de pattern", col=NULL, linkage.row="complete"
 
 #	Require gplots package
 	suppressPackageStartupMessages(OK <- requireNamespace("gplots",quietly=TRUE))
-	if(!OK) stop("gplots package required but not installed (or can't be loaded)")
+	if(!OK) stop("gplots package required but is not installed (or can't be loaded)")
 
 #	Linkage method for rows (genes)
 	linkage.row <- as.character(linkage.row)

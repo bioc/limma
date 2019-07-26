@@ -81,16 +81,16 @@ goana.default <- function(de, universe = NULL, species = "Hs", prior.prob = NULL
 {
 #	Get access to package of GO terms
 	suppressPackageStartupMessages(OK <- requireNamespace("GO.db",quietly=TRUE))
-	if(!OK) stop("GO.db package required but not installed (or can't be loaded)")
+	if(!OK) stop("GO.db package required but is not installed (or can't be loaded)")
 
 #	Get access to required annotation functions
 	suppressPackageStartupMessages(OK <- requireNamespace("AnnotationDbi",quietly=TRUE))
-	if(!OK) stop("AnnotationDbi package required but not installed (or can't be loaded)")
+	if(!OK) stop("AnnotationDbi package required but is not installed (or can't be loaded)")
 
 #	Load appropriate organism package
 	orgPkg <- paste0("org.",species,".eg.db")
 	suppressPackageStartupMessages(OK <- requireNamespace(orgPkg,quietly=TRUE))
-	if(!OK) stop(orgPkg," package required but not not installed (or can't be loaded)")
+	if(!OK) stop(orgPkg," package required but is not installed (or can't be loaded)")
 
 #	Get GO to Entrez Gene mappings
 	obj <- paste0("org.",species,".egGO2ALLEGS")
