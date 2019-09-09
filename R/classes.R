@@ -1,4 +1,9 @@
-#	CLASSES.R
+#  CLASSES.R
+#  This file defines data classes and extends standard base R methods to them.
+#  Other non-data classes are defined elsewhere in limma. See plotMDS.R for
+#  the "MDS" class, decideTests.R for the "TestResults" class and
+#  geneset-roast.R for the "Roast" class,
+
 
 setClass("RGList",
 #  Class to hold initial read-in two-color data
@@ -21,7 +26,7 @@ representation("list")
 )
 
 setClass("MArrayLM",
-#  Linear model fit
+#  Class to hold linear model fit
 representation("list")
 )
 
@@ -251,3 +256,26 @@ as.data.frame.MArrayLM <- function(x, row.names = NULL, optional = FALSE, ...)
 }
 
 unique.TestResults <- function(x,...) unique(x@.Data,...)
+
+head.RGList <- head.MAList <- head.EListRaw <- head.EList <- head.MArrayLM <- head.TestResults <-
+function (x, n = 6L, ...) 
+{
+	stopifnot(length(n) == 1L)
+	n <- if (n < 0L) 
+		max(nrow(x) + n, 0L)
+	else
+		min(n, nrow(x))
+	x[seq_len(n),]
+}
+
+tail.RGList <- tail.MAList <- tail.EListRaw <- tail.EList <- tail.MArrayLM <- tail.TestResults <-
+function (x, n = 6L, ...) 
+{
+	stopifnot(length(n) == 1L)
+	nrx <- nrow(x)
+	n <- if (n < 0L) 
+		max(nrx + n, 0L)
+	else
+		min(n, nrx)
+	x[seq.int(to = nrx, length.out = n),]
+}

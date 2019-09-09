@@ -1,3 +1,11 @@
+ 9 Sep 2019: limma 3.41.16
+
+- Update Users Guide: update Rsubread reference, correct remarks
+  about prior distribution for 1/sigma^2 in Section 13.2 and rerun
+  the Yoruba and Pasilla case studies.
+
+- Add head() and tail() S3 methods for all limma data classes.
+
 24 July 2019: limma 3.41.15
 
 - Add argument `gene.weights` to fry() so as to match the arguments
