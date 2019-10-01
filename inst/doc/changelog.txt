@@ -1,7 +1,8 @@
  1 Oct 2019: limma 3.41.17
 
 - New arguments `xlab`, `ylab` and `main` for plotFB(). The default
-  plot title now uses the column names of the data object.
+  plot title now includes the column name from the data object.
+  Default for `pch` increased to 0.3.
 
  9 Sep 2019: limma 3.41.16
 
