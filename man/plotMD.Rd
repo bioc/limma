@@ -37,9 +37,9 @@ Creates a mean-difference plot (aka MA plot) with color coding for highlighted p
   \item{column}{integer, column of \code{object} to be plotted.}
   \item{array}{alternative to \code{column} for microarray data objects. If specified, then \code{column} is ignored.}
   \item{coef}{alternative to \code{column} for fitted model objects. If specified, then \code{column} is ignored.}
-  \item{xlab}{character string, label for x-axis}
-  \item{ylab}{character string, label for y-axis}
-  \item{main}{character string, title for plot}
+  \item{xlab}{character string, label for x-axis.}
+  \item{ylab}{character string, label for y-axis.}
+  \item{main}{character string, title for plot.}
   \item{status}{vector giving the control status of each spot on the array, of same length as the number of rows of \code{object}.
   If \code{NULL}, then all points are plotted in the default color, symbol and size.}
   \item{zero.weights}{logical, should spots with zero or negative weights be plotted?}
