@@ -1,3 +1,14 @@
+13 Oct 2019: limma 3.41.18
+
+- Update Yoruba case study in User's Guide to call voom() and
+  duplicateCorrelation() twice instead of once.
+
+- Use "RNA-seq" and "ChIP-seq" capitalization consistently instead of
+  "RNA-Seq" and "ChIP-seq".
+
+- Add arguments `block`, `correlation` and `weights` to voom() and
+  remove the `...` argument.
+
  1 Oct 2019: limma 3.41.17
 
 - New arguments `xlab`, `ylab` and `main` for plotFB(). The default

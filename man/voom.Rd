@@ -8,25 +8,44 @@ The data are then ready for linear modelling.
 
 \usage{
 voom(counts, design = NULL, lib.size = NULL, normalize.method = "none",
-     span = 0.5, plot = FALSE, save.plot = FALSE, \dots)
+     block = NULL, correlation = NULL, weights = NULL,
+     span = 0.5, plot = FALSE, save.plot = FALSE)
 }
 \arguments{
- \item{counts}{a numeric \code{matrix} containing raw counts, or an \code{ExpressionSet} containing raw counts, or a \code{DGEList} object. Counts must be non-negative and NAs are not permitted.}
- \item{design}{design matrix with rows corresponding to samples and columns to coefficients to be estimated.  Defaults to the unit vector meaning that samples are treated as replicates.}
- \item{lib.size}{numeric vector containing total library sizes for each sample.
- Defaults to the normalized (effective) library sizes in \code{counts} if \code{counts} is a \code{DGEList} or
- to the columnwise count totals if \code{counts} is a matrix.}
- \item{normalize.method}{the microarray-style normalization method to be applied to the logCPM values (if any).
- Choices are as for the \code{method} argument of \code{normalizeBetweenArrays} when the data is single-channel.
- Any normalization factors found in \code{counts} will still be used even if \code{normalize.method="none"}.}
- \item{span}{width of the lowess smoothing window as a proportion.}
- \item{plot}{logical, should a plot of the mean-variance trend be displayed?}
- \item{save.plot}{logical, should the coordinates and line of the plot be saved in the output?}
- \item{\dots}{other arguments are passed to \code{lmFit}.}
-  }
+  \item{counts}{
+    a numeric \code{matrix} containing raw counts, or an \code{ExpressionSet} containing raw counts, or a \code{DGEList} object.
+    Counts must be non-negative and NAs are not permitted.}
+  \item{design}{
+    design matrix with rows corresponding to samples and columns to coefficients to be estimated.
+    Defaults to the unit vector meaning that samples are treated as replicates.}
+  \item{lib.size}{
+    numeric vector containing total library sizes for each sample.
+    Defaults to the normalized (effective) library sizes in \code{counts} if \code{counts} is a \code{DGEList} or to the columnwise count totals if \code{counts} is a matrix.}
+  \item{normalize.method}{
+    the microarray-style normalization method to be applied to the logCPM values (if any).
+    Choices are as for the \code{method} argument of \code{normalizeBetweenArrays} when the data is single-channel.
+    Any normalization factors found in \code{counts} will still be used even if \code{normalize.method="none"}.}
+  \item{block}{
+    vector or factor specifying a blocking variable on the samples.
+    Has length equal to the number of \code{ncol(counts)}.}
+  \item{correlation}{
+    the intrablock correlation.}
+  \item{weights}{
+    prior weights.
+    Can be a numeric matrix of individual weights of same dimensions as the \code{counts},
+    or a numeric vector of sample weights with length equal to \code{ncol(counts)},
+    or a numeric vector of gene weights with length equal to \code{nrow(counts)}.}
+  \item{span}{
+    width of the smoothing window used for the lowess mean-variance trend.
+    Expressed as a proportion between 0 and 1.}
+  \item{plot}{
+    logical, should a plot of the mean-variance trend be displayed?}
+  \item{save.plot}{
+    logical, should the coordinates and line of the plot be saved in the output?}
+}
 
 \details{
-This function is intended to process RNA-Seq or ChIP-Seq data prior to linear modelling in limma.
+This function is intended to process RNA-seq or ChIP-seq data prior to linear modelling in limma.
 
 \code{voom} is an acronym for mean-variance modelling at the observational level.
 The idea is to estimate the mean-variance relationship in the data, then use this to compute an appropriate precision weight for each observation.
@@ -41,6 +60,10 @@ The matrix of logCPM values is then optionally normalized.
 The \code{lmFit} function is used to fit row-wise linear models.
 The \code{lowess} function is then used to fit a trend to the square-root-standard-deviations as a function of an average log-count measure.
 The trend line is then used to predict the variance of each logCPM value as a function of its fitted value on the count scale, and the inverse variances become the estimated precision weights.
+
+The optional arguments \code{block}, \code{correlation} and \code{weights} are passed to \code{\link{lmFit}} in the above calling sequence, so they influence the row-wise standard deviations to which the mean-variance trend is fitted.
+The arguments \code{block} and \code{correlation} have the same meaning as for \code{\link{lmFit}}.
+Most users will not need to specify the \code{weights} argument but, if it is included, then the output \code{weights} are taken to modify the input prior weights in a multiplicative fashion.
 
 For good results, the \code{counts} matrix should be filtered to remove remove rows with very low counts before running voom().
 The \code{filterByExpr} function in the edgeR package can be used for that purpose.

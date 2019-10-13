@@ -1,8 +1,8 @@
-voom <- function(counts,design=NULL,lib.size=NULL,normalize.method="none",span=0.5,plot=FALSE,save.plot=FALSE,...) 
-#	Linear modelling of count data with mean-variance modelling at the observational level.
+voom <- function(counts,design=NULL,lib.size=NULL,normalize.method="none",block=NULL,correlation=NULL,weights=NULL,span=0.5,plot=FALSE,save.plot=FALSE)
+#	Linear modelling of count data with mean-variance modelling at the observation level.
 #	Creates an EList object for entry to lmFit() etc in the limma pipeline.
 #	Gordon Smyth and Charity Law
-#	Created 22 June 2011.  Last modified 19 April 2019.
+#	Created 22 June 2011.  Last modified 13 October 2019.
 {
 	out <- list()
 
@@ -40,7 +40,7 @@ voom <- function(counts,design=NULL,lib.size=NULL,normalize.method="none",span=0
 #	Fit linear model to log2-counts-per-million
 	y <- t(log2(t(counts+0.5)/(lib.size+1)*1e6))
 	y <- normalizeBetweenArrays(y,method=normalize.method)
-	fit <- lmFit(y,design,...)
+	fit <- lmFit(y,design,block=block,correlation=correlation,weights=weights)
 	if(is.null(fit$Amean)) fit$Amean <- rowMeans(y,na.rm=TRUE)
 
 #	If no replication found, set all weight to 1
