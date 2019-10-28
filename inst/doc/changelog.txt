@@ -1,3 +1,8 @@
+28 Oct 2019: limma 3.41.19
+
+- Fix bug in barcodeplot() when `index` or `index2` are character
+  vectors.
+
 13 Oct 2019: limma 3.41.18
 
 - Update Yoruba case study in User's Guide to call voom() and

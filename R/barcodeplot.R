@@ -3,7 +3,7 @@
 barcodeplot <- function (statistics, index = NULL, index2 = NULL, gene.weights = NULL, weights.label = "Weight", labels = c("Down", "Up"), quantiles = c(-1,1)*sqrt(2), col.bars = NULL, alpha = 0.4, worm = TRUE, span.worm = 0.45, xlab = "Statistic", ...)
 #	Barcode plot of one or two gene sets.
 #	Gordon Smyth, Di Wu and Yifang Hu
-#	20 October 2008.  Last revised 15 Oct 2018.
+#	20 October 2008.  Last revised 25 Oct 2019.
 {
 #	Check statistics
 	if(!is.vector(statistics, mode = "numeric")) stop("statistics should be a numeric vector")
@@ -85,10 +85,26 @@ barcodeplot <- function (statistics, index = NULL, index2 = NULL, gene.weights =
 #	Are there up and down sets?
 	TWO <- !is.null(index2)
 
-#	Convert indexes to logical and add gene.weights
-	set1 <- set2 <- data.frame(idx = rep.int(FALSE,nstat), weight = NA, wt = NA)
-	set1$idx[index] <- TRUE
-	if(TWO) set2$idx[index2] <- TRUE
+#	Convert indexes to logical and add weights
+	if(is.logical(index))
+		idx <- index
+	else {
+		idx <- rep_len(FALSE,nstat)
+		names(idx) <- names(statistics)
+		idx[index] <- TRUE
+	}
+	set1 <- data.frame(idx = idx, weight = NA, wt = NA)
+
+	if(TWO) {
+		if(is.logical(index2))
+			idx2 <- index2
+		else {
+			idx2 <- rep_len(FALSE,nstat)
+			names(idx2) <- names(statistics)
+			idx2[index2] <- TRUE
+		}
+		set2 <- data.frame(idx = idx2, weight = NA, wt = NA)
+	}
 
 	if(length(gene.weights)) {
 
