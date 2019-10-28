@@ -2,52 +2,99 @@
 \title{limma News}
 \encoding{UTF-8}
 
-
-\section{Version 3.40.5}{\itemize{
-\item
-  Add argument `gene.weights` to fry() so as to match the arguments
-  and behavior of mroast(). Previously gene weights could be input to
-  fry() only through the `index` argument.
+\section{Version 3.42.0}{\itemize{
 
 \item
-  Revise fry() so that the mixed p-values take account of gene
-  weights. Previously gene weights were not used in fry's mixed
-  p-value calculation.
-}}
+  New head() and tail() methods for all limma data classes.
 
-\section{Version 3.40.4}{\itemize{
+\item
+  New unique() and subsetting methods for TestResults objects.
+  Previously a
+  subsetted TestResults object became an ordinary numeric matrix, but
+  now the TestResults class is preserved. Single index subsetting is
+  also allowed but produces a numeric vector.
+
+\item
+  roast() and mroast() now use less memory. Memory usage now
+  remains bounded regardless of the number of rotations used.
+  Both functions are faster than before when \code{approx.zscore=TRUE}.
+  A new argument `legacy` is added to allow users to turn these improvements
+  off if they wish to reproduce numerical results from limma 3.40.0 exactly.
+  The default number of rotations `nrot` is increased  
+  from 999 to 1999.
+  A bug has been fixed for roast() and mroast() when `index` is a character vector of geneids or
+  rownames. Previously this usage failed.
+
 \item
   Complete rewrite of zscoreT(), which is now somewhat faster and
   offer two new options for the normalizing transformation. The new
   argument `method` indicates which transformation is used when
-  `approx=TRUE`. The default approximation method is unchanged.
-  This rewrite also fixes a bug in that previously the approximate
-  method returned NA values for infinite `df` if some values of `df`
-  were finite.
+  `approx=TRUE`. The default approximation method is changed from
+  "hill" to "bailey".
+  zscoreT() now allows NA values when `approx=TRUE` and works
+  correctly for all valid df values.  Previously `approx=TRUE`
+  returned NA results for `df` infinite or <= 0.05. A simple robust
+  approximation from Wallace (1959) has been introduced to handle
+  very large or very small `df` values. Previously `approx=FALSE`
+  treated any `df` greater than 10000 as infinite; this threshold is
+  now raised to 1e300.
 
 \item
-  Make tZScore() slightly faster.
-}}
+  tZScore() is slightly faster.
 
-\section{Version 3.40.3}{\itemize{
 \item
-  Fix bug in roast() when `index` is a character vector of geneids or
-  rownames.
+  New argument `gene.weights` for fry() so as to match the arguments
+  and behavior of mroast(). Previously gene weights could be input to
+  fry() only through the `index` argument.
+  fry's mixed p-values now take account of gene weights.
+  Previously gene weights were not used in fry's mixed
+  p-value calculation.
+
+\item
+  Add arguments `block`, `correlation` and `weights` to voom() and
+  remove the `...` argument.
 
 \item
   Update the arguments of voomWithQualityWeights() to match the
   revisions to arrayWeights() in limma 3.40.0.
   Add new argument `var.group`.
-}}
 
-\section{Version 3.40.2}{\itemize{
 \item
-  All calls to the approx() or approxfun() functions now set
-  `ties=list("ordered",mean)`. The change was prompted by a change in
+  New arguments `xlab`, `ylab` and `main` for plotFB(). The default
+  plot title now includes the column name from the data object.
+  Default for `pch` increased to 0.3.
+
+\item
+  plotWithHighlights and plotMD.MArrayLM now gives special treatment
+  to the case that `status` is a TestResults object.
+
+\item
+  Update Yoruba case study in User's Guide to call voom() and
+  duplicateCorrelation() twice each instead of once.
+
+\item
+  Update Users Guide: update Rsubread reference, correct remarks
+  about prior distribution for 1/sigma^2 in Section 13.2 and rerun
+  the Yoruba and Pasilla case studies.
+
+\item
+  Use "RNA-seq" and "ChIP-seq" consistently in the documentation instead of
+  "RNA-Seq" and "ChIP-Seq".
+
+\item
+  All uses of the approx() function now set
+  `ties=list("ordered",mean)`, except for fitFDistRobustly()
+  which uses `ties=mean`.
+  The change was prompted by a change in
   R 3.6.0 whereby using the default for `ties` generates a warning
   message whenever ties are present in `x`. The new code gives the
   same results but is very slightly faster and avoids the warning
-  message. As a result, limma now depends on R >= 3.6.0
+  message.
+  limma now depends on R >= 3.6.0 because of this change.
+
+\item
+  Fix bug in barcodeplot() when `index` or `index2` are character
+  vectors.
 }}
 
 

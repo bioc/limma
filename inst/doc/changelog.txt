@@ -1,3 +1,9 @@
+28 Oct 2019: limma 3.41.20
+
+- Update NEWS.Rd for Bioconductor 3.10 release.
+
+- Update limma-Tests.Rout.save for updated org.Hs.eg.db package.
+
 28 Oct 2019: limma 3.41.19
 
 - Fix bug in barcodeplot() when `index` or `index2` are character
@@ -9,7 +15,7 @@
   duplicateCorrelation() twice instead of once.
 
 - Use "RNA-seq" and "ChIP-seq" capitalization consistently instead of
-  "RNA-Seq" and "ChIP-seq".
+  "RNA-Seq" and "ChIP-Seq".
 
 - Add arguments `block`, `correlation` and `weights` to voom() and
   remove the `...` argument.
