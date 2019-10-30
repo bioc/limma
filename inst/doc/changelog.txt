@@ -1,3 +1,6 @@
+30 Oct 2019: limma 3.43.0 (Bioconductor 3.11 Developmental Branch)
+30 Oct 2019: limma 3.42.0 (Bioconductor 3.10 Release Branch)
+
 28 Oct 2019: limma 3.41.20
 
 - Update NEWS.Rd for Bioconductor 3.10 release.
