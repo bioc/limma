@@ -91,7 +91,7 @@ See \code{\link{alias2Symbol}} for other possible values for \code{species}.
 For \code{kegga}, the species name can be provided in either Bioconductor or KEGG format.
 Examples of KEGG format are \code{"hsa"} for human, \code{"mmu"} for mouse of \code{"dme"} for fly.
 \code{kegga} can be used for any species supported by KEGG, of which there are more than 14,000 possibilities.
-By default, \code{kegga} obtains the KEGG annotation for the specified species from the \url{http://rest.kegg.jp} website.
+By default, \code{kegga} obtains the KEGG annotation for the specified species from the \url{http://rest.kegg.jp} website using \code{getGeneKEGGLinks} and \code{getKEGGPathwayNames}.
 Alternatively one can supply the required pathway annotation to \code{kegga} in the form of two data.frames.
 If this is done, then an internet connection is not required.
 
