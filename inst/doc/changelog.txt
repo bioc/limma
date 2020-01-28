@@ -1,3 +1,8 @@
+28 Jan 2020: limma 3.43.1
+
+- Fix bug in contrasts.fit() when some coefficients are NA and the
+  corresponding contrast coefficients are zero.
+
 30 Oct 2019: limma 3.43.0 (Bioconductor 3.11 Developmental Branch)
 30 Oct 2019: limma 3.42.0 (Bioconductor 3.10 Release Branch)
 

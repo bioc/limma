@@ -87,33 +87,34 @@ contrasts.fit <- function(fit,contrasts=NULL,coefficients=NULL)
 
 .zeroDominantMatrixMult <- function(A,B)
 #	Computes A %*% B, except that a zero in B will always produce
-#	zero even when multiplied by an NA in A
+#	zero even when multiplied by an NA in A, instead of NA as usually
+#	produced by R arithmetic.
 #	Gordon Smyth
-#	Created 16 Feb 2018.
+#	Created 16 Feb 2018. Modified 28 Jan 2020.
 {
-	HasZero <- (rowSums(B==0) > 0L)
-	if(any(HasZero)) {
-		if(mean(HasZero) > 0.4) {
+	RowBHasZero <- (rowSums(B==0) > 0L)
+	if(any(RowBHasZero)) {
+		if(mean(RowBHasZero) > 0.4) {
 #			If the matrix is big, it's much quicker to check the whole matrix than to subset it
-			HasNA <- anyNA(A)
+			AHasNA <- anyNA(A)
 		} else {
-			HasNA <- anyNA(A[,HasZero])
+			AHasNA <- anyNA(A[,RowBHasZero])
+		}
+		if(AHasNA) {
+			D <- matrix(0,nrow(A),ncol(B))
+			for (j in 1:ncol(B)) {
+				z <- B[,j]==0
+				if(any(z))
+					D[,j] <- A[,!z,drop=FALSE] %*% B[!z,j,drop=FALSE]
+				else
+					D[,j] <- A %*% B[,j]
+			}
+			dimnames(D) <- list(rownames(A),colnames(B))
+			return(D)	
+		} else {
+			return(A %*% B)
 		}
 	} else {
-		HasNA <- FALSE
+		return(A %*% B)
 	}
-	if(HasZero && HasNA) {
-		D <- matrix(0,nrow(A),ncol(B))
-		for (j in 1:ncol(B)) {
-			z <- B[,j]==0
-			if(any(z))
-				D[,j] <- A[,!z,drop=FALSE] %*% B[!z,j,drop=FALSE]
-			else
-				D[,j] <- A %*% B[,j]
-		}
-		dimnames(D) <- list(rownames(A),colnames(B))
-	} else {
-		D <- A %*% B
-	}
-	D
 }
