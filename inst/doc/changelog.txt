@@ -1,7 +1,16 @@
+29 Jan 2020: limma 3.43.2
+
+- contrasts.fit() is now faster in the case that most elements of the
+  `contrasts` argument are zero.
+
 28 Jan 2020: limma 3.43.1
 
 - Fix bug in contrasts.fit() when some coefficients are NA and the
-  corresponding contrast coefficients are zero.
+  corresponding contrast coefficients are zero. The new code will
+  give non-NA contrasts if the NA coefficients all get 0 weight in
+  the contrast. Previous code was correct if all genes had the same
+  NA coefficients but could an avoidable NA result if some genes had
+  NA coefficients but the first gene did not.
 
 30 Oct 2019: limma 3.43.0 (Bioconductor 3.11 Developmental Branch)
 30 Oct 2019: limma 3.42.0 (Bioconductor 3.10 Release Branch)
