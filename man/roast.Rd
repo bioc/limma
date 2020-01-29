@@ -134,7 +134,7 @@ This means that the smallest possible mixed or two-sided p-values are \code{1/(n
 The function uses a symmetry argument to double the effective number of rotations for the one-sided tests, so the smallest possible \code{"Up"} or \code{"Down"} p-value is \code{1/(2*nrot+1)}.
 
 The number of rotations \code{nrot} can (and should) be increased tTo get more precise p-values from \code{roast} or \code{mroast},
-The default \code{nrot} is set fairly low to facilitate quick testing and experimentation but the smallest possible two-sided p-value is \code{1/nrot}.
+The default \code{nrot} is set fairly low to facilitate quick testing and experimentation but the smallest possible two-sided p-value is \code{1/(nrot+1)}.
 To get definitive p-values for publication, at least \code{nrot=9999} or higher is recommended.
 
 \code{mroast} does roast tests for multiple sets, including adjustment for multiple testing.

@@ -87,23 +87,38 @@ contrasts.fit <- function(fit,contrasts=NULL,coefficients=NULL)
 
 .zeroDominantMatrixMult <- function(A,B)
 #	Computes A %*% B, except that a zero in B will always produce
-#	zero even when multiplied by an NA in A
+#	zero even when multiplied by an NA in A, instead of NA as usually
+#	produced by R arithmetic.
+#	In the limma usage, A usually has far more rows than columns and
+#	B is relatively small.
 #	Gordon Smyth
-#	Created 16 Feb 2018.
+#	Created 16 Feb 2018. Modified 29 Jan 2020.
 {
-	HasZero <- (rowSums(B==0) > 0L)
-	if(any(HasZero)) {
-		if(mean(HasZero) > 0.4) {
-#			If the matrix is big, it's much quicker to check the whole matrix than to subset it
-			HasNA <- anyNA(A)
-		} else {
-			HasNA <- anyNA(A[,HasZero])
+#	Decide whether to run guarded or ordinary matrix multiplication
+	Z <- (B==0)
+	MeanZ <- mean(Z)
+	if(MeanZ > 0) {
+		if(MeanZ > 0.8)
+#			Full algorithm is quick if there are lots of zeros
+			Guard <- TRUE
+		else {
+			RowBHasZero <- (rowSums(Z) > 0L)
+			if(mean(RowBHasZero) > 0.4) {
+#				If the matrix is big, it's much quicker to check the whole matrix than to subset it
+				Guard <- anyNA(A)
+			} else {
+				Guard <- anyNA(A[,RowBHasZero])
+			}
 		}
 	} else {
-		HasNA <- FALSE
+		Guard <- FALSE
 	}
-	if(HasZero && HasNA) {
-		D <- matrix(0,nrow(A),ncol(B))
+
+	if(Guard) {
+		dn <- list()
+		dn[[1]] <- rownames(A)
+		dn[[2]] <- colnames(B)
+		D <- matrix(0,nrow(A),ncol(B),dimnames=dn)
 		for (j in 1:ncol(B)) {
 			z <- B[,j]==0
 			if(any(z))
@@ -111,9 +126,8 @@ contrasts.fit <- function(fit,contrasts=NULL,coefficients=NULL)
 			else
 				D[,j] <- A %*% B[,j]
 		}
-		dimnames(D) <- list(rownames(A),colnames(B))
+		return(D)	
 	} else {
-		D <- A %*% B
+		return(A %*% B)
 	}
-	D
 }
