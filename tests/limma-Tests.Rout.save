@@ -1,6 +1,6 @@
 
-R version 3.6.1 (2019-07-05) -- "Action of the Toes"
-Copyright (C) 2019 The R Foundation for Statistical Computing
+R Under development (unstable) (2020-01-25 r77715) -- "Unsuffered Consequences"
+Copyright (C) 2020 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -823,6 +823,86 @@ A -1.715769 0.9181357 -6.889422 2.674199e-08 2.674199e-07 16.59063
 > topTable(fit2,coef=3,p=0.2,lfc=0.5,sort="none")
       logFC   AveExpr         t      P.Value    adj.P.Val        B
 A -1.715769 0.9181357 -6.889422 2.674199e-08 2.674199e-07 16.59063
+> contrasts.fit(fit[1:3,],contrast.matrix[,0])
+An object of class "MArrayLM"
+$coefficients
+ 
+A
+B
+C
+
+$rank
+[1] 2
+
+$assign
+NULL
+
+$qr
+$qr
+     First3Arrays Last3Arrays
+[1,]   -1.7320508   0.0000000
+[2,]    0.5773503  -1.7320508
+[3,]    0.5773503   0.0000000
+[4,]    0.0000000   0.5773503
+[5,]    0.0000000   0.5773503
+[6,]    0.0000000   0.5773503
+
+$qraux
+[1] 1.57735 1.00000
+
+$pivot
+[1] 1 2
+
+$tol
+[1] 1e-07
+
+$rank
+[1] 2
+
+
+$df.residual
+[1] 4 4 4
+
+$sigma
+        A         B         C 
+0.3299787 0.3323336 0.2315815 
+
+$cov.coefficients
+<0 x 0 matrix>
+
+$stdev.unscaled
+ 
+A
+B
+C
+
+$Amean
+          A           B           C 
+0.918135675 0.007732271 0.014295836 
+
+$method
+[1] "ls"
+
+$design
+     First3Arrays Last3Arrays
+[1,]            1           0
+[2,]            1           0
+[3,]            1           0
+[4,]            0           1
+[5,]            0           1
+[6,]            0           1
+
+$contrasts
+    
+[1,]
+[2,]
+
+> fit$coefficients[1,1] <- NA
+> contrasts.fit(fit[1:3,],contrast.matrix)$coef
+      First3      Last3 Last3-First3
+A         NA 0.06025114           NA
+B -0.1198283 0.13529287    0.2551212
+C -0.1223678 0.15095948    0.2733273
 > 
 > designlist <- list(Null=matrix(1,6,1),Two=design,Three=cbind(1,c(0,0,1,1,0,0),c(0,0,0,0,1,1)))
 > out <- selectModel(M,designlist)
@@ -1363,4 +1443,4 @@ GO:0055082 cellular chemical homeostas...  BP  3  1    2 0.5476190 0.025788497
 > 
 > proc.time()
    user  system elapsed 
-   2.15    0.18    2.32 
+   2.48    0.21    2.71 

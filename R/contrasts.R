@@ -89,20 +89,24 @@ contrasts.fit <- function(fit,contrasts=NULL,coefficients=NULL)
 #	Computes A %*% B, except that a zero in B will always produce
 #	zero even when multiplied by an NA in A, instead of NA as usually
 #	produced by R arithmetic.
-#	In the limma usage, A usually has far more rows than columns and
-#	B is relatively small.
+#	A and B are numeric matrices and B does not contain NAs.
+#	In the limma usage, A usually has far more rows than columns
+#	and B is relatively small.
 #	Gordon Smyth
-#	Created 16 Feb 2018. Modified 29 Jan 2020.
+#	Created 16 Feb 2018. Modified 2 Feb 2020.
 {
-#	Decide whether to run guarded or ordinary matrix multiplication
+#	Proportion of zeros in B
 	Z <- (B==0)
 	MeanZ <- mean(Z)
-	if(MeanZ > 0) {
-		if(MeanZ > 0.8)
+
+#	Decide whether to run guarded or ordinary matrix multiplication
+#	MeanZ can only be NA if B has 0 elements
+	if(!is.na(MeanZ) && (MeanZ > 0)) {
+		if(MeanZ >= 0.8)
 #			Full algorithm is quick if there are lots of zeros
 			Guard <- TRUE
 		else {
-			RowBHasZero <- (rowSums(Z) > 0L)
+			RowBHasZero <- (rowSums(Z) > 0)
 			if(mean(RowBHasZero) > 0.4) {
 #				If the matrix is big, it's much quicker to check the whole matrix than to subset it
 				Guard <- anyNA(A)
@@ -119,7 +123,7 @@ contrasts.fit <- function(fit,contrasts=NULL,coefficients=NULL)
 		dn[[1]] <- rownames(A)
 		dn[[2]] <- colnames(B)
 		D <- matrix(0,nrow(A),ncol(B),dimnames=dn)
-		for (j in 1:ncol(B)) {
+		for (j in seq_len(ncol(B))) {
 			z <- B[,j]==0
 			if(any(z))
 				D[,j] <- A[,!z,drop=FALSE] %*% B[!z,j,drop=FALSE]

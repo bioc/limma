@@ -119,6 +119,9 @@ topTable(fit2,coef=3,lfc=1)
 topTable(fit2,coef=3,p=0.2)
 topTable(fit2,coef=3,p=0.2,lfc=0.5)
 topTable(fit2,coef=3,p=0.2,lfc=0.5,sort="none")
+contrasts.fit(fit[1:3,],contrast.matrix[,0])
+fit$coefficients[1,1] <- NA
+contrasts.fit(fit[1:3,],contrast.matrix)$coef
 
 designlist <- list(Null=matrix(1,6,1),Two=design,Three=cbind(1,c(0,0,1,1,0,0),c(0,0,0,0,1,1)))
 out <- selectModel(M,designlist)
