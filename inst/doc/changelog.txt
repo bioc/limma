@@ -1,3 +1,8 @@
+03 Feb 2020: limma 3.42.2
+
+- The previous revision to contrasts.fit() caused an error if the
+  contrast matrix had 0 columns. That case is now handled again.
+
 29 Jan 2020: limma 3.42.1
 
 - Fix bug in contrasts.fit() when some coefficients are NA and the
