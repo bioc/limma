@@ -50,9 +50,9 @@ lmFit <- function(object,design=NULL,ndups=1,spacing=1,block=NULL,correlation,we
 		}
 
 #	Possible warning on missing coefs
-	if(NCOL(fit$coef)>1) {
-		n <- rowSums(is.na(fit$coef))
-		n <- sum(n>0 & n<NCOL(fit$coef))
+	if(NCOL(fit$coefficients)>1) {
+		n <- rowSums(is.na(fit$coefficients))
+		n <- sum(n>0 & n<NCOL(fit$coefficients))
 		if(n>0) warning("Partial NA coefficients for ",n," probe(s)",call.=FALSE) 
 	}
 
@@ -146,8 +146,8 @@ lm.series <- function(M,design=NULL,ndups=1,spacing=1,weights=NULL)
 				w <- as.vector(weights[i,obs])
 				out <- lm.wfit(X,y,w)
 			}
-			est <- !is.na(out$coef)
-			beta[i,] <- out$coef
+			est <- !is.na(out$coefficients)
+			beta[i,] <- out$coefficients
 			stdev.unscaled[i,est] <- sqrt(diag(chol2inv(out$qr$qr,size=out$rank)))
 			df.residual[i] <- out$df.residual
 			if(df.residual[i] > 0) sigma[i] <- sqrt(mean(out$effects[-(1:out$rank)]^2))
@@ -168,7 +168,7 @@ mrlm <- function(M,design=NULL,ndups=1,spacing=1,weights=NULL,...)
 #	Gordon Smyth
 #	20 Mar 2002.  Last revised 26 June 2015.
 {
-	if(!requireNamespace("MASS",quietly=TRUE)) stop("MASS package required but is not available")
+	if(!requireNamespace("MASS",quietly=TRUE)) stop("MASS package required but is not installed (or can't be loaded)")
 	M <- as.matrix(M)
 	narrays <- ncol(M)
 	if(is.null(design)) design <- matrix(1,narrays,1)
@@ -195,7 +195,7 @@ mrlm <- function(M,design=NULL,ndups=1,spacing=1,weights=NULL,...)
 		X <- design[obs,,drop=FALSE]
 		y <- y[obs]
 		if(is.null(weights))
-			w <- rep(1,length(y))
+			w <- rep_len(1,length(y))
 		else
 			w <- as.vector(weights[i,obs])
 		if(length(y) > nbeta) {
@@ -251,7 +251,7 @@ gls.series <- function(M,design=NULL,ndups=2,spacing=1,block=NULL,correlation=NU
 			ndups <- 1
 			correlation <- 0
 		}
-		cormatrix <- diag(rep(correlation,len=narrays),nrow=narrays,ncol=narrays) %x% array(1,c(ndups,ndups))
+		cormatrix <- diag(rep_len(correlation,narrays),nrow=narrays,ncol=narrays) %x% array(1,c(ndups,ndups))
 		if(is.null(spacing)) spacing <- 1
 		M <- unwrapdups(M,ndups=ndups,spacing=spacing)
 		if(!is.null(weights)) weights <- unwrapdups(weights,ndups=ndups,spacing=spacing)

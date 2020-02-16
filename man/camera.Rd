@@ -16,9 +16,12 @@ Test whether a set of genes is highly ranked relative to other genes in terms of
 interGeneCorrelation(y, design)
 }
 \arguments{
-  \item{y}{a numeric matrix of log-expression values or log-ratios of expression values, or any data object containing such a matrix.
-  Rows correspond to probes and columns to samples.
-  Any type of object that can be processed by \code{\link{getEAWP}} is acceptable.}
+  \item{y}{
+    a numeric matrix of log-expression values or log-ratios of expression values, or any data object containing such a matrix.
+    Rows correspond to probes and columns to samples.
+    Any type of object that can be processed by \code{\link{getEAWP}} is acceptable.
+    \code{NA} or infinite values are not allowed.
+  }
   \item{statistic}{a numeric vector of genewise statistics. If \code{index} contains gene IDs, then \code{statistic} should be a named vector with the gene IDs as names.}
   \item{index}{an index vector or a list of index vectors.  Can be any vector such that \code{y[index,]} of \code{statistic[index]} selects the rows corresponding to the test set.  The list can be made using \code{\link{ids2indices}}.}
   \item{design}{design matrix.}

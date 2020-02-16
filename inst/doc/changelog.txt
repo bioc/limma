@@ -1,3 +1,14 @@
+16 Feb 2020: limma 3.43.4
+
+- voom now checks explicitly for NA or negative counts and gives an
+  informative error message.
+
+- Cleaning up of internal code to avoid partial matching of function
+  arguments, attributes or list component names. The automatic package
+  tests are now run with the warnPartialMatchArgs,
+  warnPartialMatchAttr and warnPartialMatchDollar options all set to
+  TRUE.
+
 03 Feb 2020: limma 3.43.3
 
 - The previous change to contrasts.fit() caused an error if the

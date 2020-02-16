@@ -27,6 +27,7 @@ Rotation gene set testing for linear models.
 \arguments{
   \item{y}{numeric matrix giving log-expression or log-ratio values for a series of microarrays, or any object that can coerced to a matrix including \code{ExpressionSet}, \code{MAList}, \code{EList} or \code{PLMSet} objects.
         Rows correspond to probes and columns to samples.
+        \code{NA} or infinite values are not allowed.
         If either \code{var.prior} or \code{df.prior} are \code{NULL}, then \code{y} should contain values for all genes on the arrays. If both prior parameters are given, then only \code{y} values for the test set are required.}
   \item{index}{index vector specifying which rows (probes) of \code{y} are in the test set.
         Can be a vector of integer indices, or a logical vector of length \code{nrow(y)}, or a vector of gene IDs corresponding to entries in \code{geneid}.

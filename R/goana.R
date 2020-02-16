@@ -58,8 +58,8 @@ goana.MArrayLM <- function(de, coef = ncol(de), geneid = rownames(de), FDR = 0.0
 
 #	Get up and down DE genes
 	fdr.coef <- p.adjust(de$p.value[,coef], method = "BH")
-	EG.DE.UP <- universe[fdr.coef < FDR & de$coef[,coef] > 0]
-	EG.DE.DN <- universe[fdr.coef < FDR & de$coef[,coef] < 0]
+	EG.DE.UP <- universe[fdr.coef < FDR & de$coefficients[,coef] > 0]
+	EG.DE.DN <- universe[fdr.coef < FDR & de$coefficients[,coef] < 0]
 	DEGenes <- list(Up=EG.DE.UP, Down=EG.DE.DN)
 
 #	If no DE genes, return data.frame with 0 rows

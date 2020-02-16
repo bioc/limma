@@ -75,7 +75,7 @@ kooperberg <- function (RG, a = TRUE, layout=RG$printer, verbose=TRUE)
     c2 <- RG$other$"B635 SD"[,j]/sqrt(RG$other$"B Pixels"[,j])
     m1 <- lm(b1 ~ c1 - 1, weights = 1/(c1 + 1))
     m2 <- lm(b2 ~ c2 - 1, weights = 1/(c2 + 1))
-    c(m1$coef, m2$coef)
+    c(m1$coefficients, m2$coefficients)
 }
 
 # Calculate empirical standard deviation for each spot (based on average of spot and 4 neighbours)

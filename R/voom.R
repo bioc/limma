@@ -2,11 +2,11 @@ voom <- function(counts,design=NULL,lib.size=NULL,normalize.method="none",block=
 #	Linear modelling of count data with mean-variance modelling at the observation level.
 #	Creates an EList object for entry to lmFit() etc in the limma pipeline.
 #	Gordon Smyth and Charity Law
-#	Created 22 June 2011.  Last modified 13 October 2019.
+#	Created 22 June 2011.  Last modified 23 January 2020.
 {
 	out <- list()
 
-#	Check counts
+#	Extract counts from known data objects
 	if(is(counts,"DGEList")) {
 		out$genes <- counts$genes
 		out$targets <- counts$samples
@@ -24,8 +24,12 @@ voom <- function(counts,design=NULL,lib.size=NULL,normalize.method="none",block=
 		}
 	}
 
+#	Check counts
 	n <- nrow(counts)
 	if(n < 2L) stop("Need at least two genes to fit a mean-variance trend")
+	m <- min(counts)
+	if(is.na(m)) stop("NA counts not allowed")
+	if(m < 0) stop("Negative counts now allowed")
 
 #	Check design
 	if(is.null(design)) {
@@ -87,9 +91,9 @@ voom <- function(counts,design=NULL,lib.size=NULL,normalize.method="none",block=
 #	Find individual quarter-root fitted counts
 	if(fit$rank < ncol(design)) {
 		j <- fit$pivot[1:fit$rank]
-		fitted.values <- fit$coef[,j,drop=FALSE] %*% t(fit$design[,j,drop=FALSE])
+		fitted.values <- fit$coefficients[,j,drop=FALSE] %*% t(fit$design[,j,drop=FALSE])
 	} else {
-		fitted.values <- fit$coef %*% t(fit$design)
+		fitted.values <- fit$coefficients %*% t(fit$design)
 	}
 	fitted.cpm <- 2^fitted.values
 	fitted.count <- 1e-6 * t(t(fitted.cpm)*(lib.size+1))

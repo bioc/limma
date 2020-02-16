@@ -1,4 +1,5 @@
 library(limma)
+options(warnPartialMatchArgs=TRUE,warnPartialMatchAttr=TRUE,warnPartialMatchDollar=TRUE)
 
 set.seed(0); u <- runif(100)
 
@@ -42,23 +43,23 @@ x <- 1:100
 y <- rnorm(100)
 out <- loessFit(y,x)
 f1 <- quantile(out$fitted)
-r1 <- quantile(out$residual)
+r1 <- quantile(out$residuals)
 w <- rep(1,100)
 w[1:50] <- 0.5
 out <- loessFit(y,x,weights=w,method="weightedLowess")
 f2 <- quantile(out$fitted)
-r2 <- quantile(out$residual)
+r2 <- quantile(out$residuals)
 out <- loessFit(y,x,weights=w,method="locfit")
 f3 <- quantile(out$fitted)
-r3 <- quantile(out$residual)
+r3 <- quantile(out$residuals)
 out <- loessFit(y,x,weights=w,method="loess")
 f4 <- quantile(out$fitted)
-r4 <- quantile(out$residual)
+r4 <- quantile(out$residuals)
 w <- rep(1,100)
 w[2*(1:50)] <- 0
 out <- loessFit(y,x,weights=w,method="weightedLowess")
 f5 <- quantile(out$fitted)
-r5 <- quantile(out$residual)
+r5 <- quantile(out$residuals)
 data.frame(f1,f2,f3,f4,f5)
 data.frame(r1,r2,r3,r4,r5)
 
@@ -113,15 +114,15 @@ fit2 <- eBayes(contrasts.fit(fit,contrasts=contrast.matrix))
 topTable(fit2)
 topTable(fit2,coef=3,resort.by="logFC")
 topTable(fit2,coef=3,resort.by="p")
-topTable(fit2,coef=3,sort="logFC",resort.by="t")
+topTable(fit2,coef=3,sort.by="logFC",resort.by="t")
 topTable(fit2,coef=3,resort.by="B")
 topTable(fit2,coef=3,lfc=1)
-topTable(fit2,coef=3,p=0.2)
-topTable(fit2,coef=3,p=0.2,lfc=0.5)
-topTable(fit2,coef=3,p=0.2,lfc=0.5,sort="none")
+topTable(fit2,coef=3,p.value=0.2)
+topTable(fit2,coef=3,p.value=0.2,lfc=0.5)
+topTable(fit2,coef=3,p.value=0.2,lfc=0.5,sort.by="none")
 contrasts.fit(fit[1:3,],contrast.matrix[,0])
 fit$coefficients[1,1] <- NA
-contrasts.fit(fit[1:3,],contrast.matrix)$coef
+contrasts.fit(fit[1:3,],contrast.matrix)$coefficients
 
 designlist <- list(Null=matrix(1,6,1),Two=design,Three=cbind(1,c(0,0,1,1,0,0),c(0,0,0,0,1,1)))
 out <- selectModel(M,designlist)
@@ -155,7 +156,7 @@ fit$df.residual
 ### mrlm
 
 fit <- mrlm(M,design)
-fit$coef
+fit$coefficients
 fit$stdev.unscaled
 fit$sigma
 fit$df.residual
@@ -286,5 +287,5 @@ EB <- c("133746","1339","134","1340","134083","134111","134147","134187","134218
 "1370","137075","1371","137209","1373","137362","1374","137492","1375","1376",
 "137682","137695","137735","1378","137814","137868","137872","137886","137902","137964")
 go <- goana(fit,FDR=0.8,geneid=EB)
-topGO(go,n=10,truncate.term=30)
-topGO(go,n=10,truncate.term=30,sort="down")
+topGO(go,number=10,truncate.term=30)
+topGO(go,number=10,truncate.term=30,sort="down")

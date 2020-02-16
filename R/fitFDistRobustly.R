@@ -63,7 +63,7 @@ fitFDistRobustly <- function(x,df1,covariate=NULL,winsor.tail.p=c(0.05,0.1),trac
 	NonRobust <- fitFDist(x=x,df1=df1,covariate=covariate)
 
 #	Check winsor.tail.p
-	prob <- winsor.tail.p <- rep(winsor.tail.p,length=2)
+	prob <- winsor.tail.p <- rep_len(winsor.tail.p,2L)
 	prob[2] <- 1-winsor.tail.p[2]
 	if(all(winsor.tail.p < 1/n)) {
 		NonRobust$df2.shrunk <- rep.int(NonRobust$df2,n)
@@ -100,11 +100,11 @@ fitFDistRobustly <- function(x,df1,covariate=NULL,winsor.tail.p=c(0.05,0.1),trac
 	} else {
 		lo <- loessFit(z,covariate,span=0.4)
 		ztrend <- lo$fitted
-		zresid <- lo$residual
+		zresid <- lo$residuals
 	}
 
 #	Moments of Winsorized residuals
-	zrq <- quantile(zresid,prob=prob)
+	zrq <- quantile(zresid,probs=prob)
 	zwins <- pmin(pmax(zresid,zrq[1]),zrq[2])
 	zwmean <- mean(zwins)
 	zwvar <- mean((zwins-zwmean)^2)*n/(n-1)

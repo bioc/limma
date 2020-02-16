@@ -91,10 +91,10 @@ fitFDist <- function(x,df1,covariate=NULL)
 		if(notallok) {
 			design2 <- predict(design,newx=covariate.notok)
 			emean <- rep_len(0,n)
-			emean[ok] <- fit$fitted
+			emean[ok] <- fit$fitted.values
 			emean[!ok] <- design2 %*% fit$coefficients
 		} else {
-			emean <- fit$fitted
+			emean <- fit$fitted.values
 		}
 		evar <- mean(fit$effects[-(1:fit$rank)]^2)
 	}

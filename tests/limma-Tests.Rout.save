@@ -16,6 +16,7 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 Type 'q()' to quit R.
 
 > library(limma)
+> options(warnPartialMatchArgs=TRUE,warnPartialMatchAttr=TRUE,warnPartialMatchDollar=TRUE)
 > 
 > set.seed(0); u <- runif(100)
 > 
@@ -588,23 +589,23 @@ $G
 > y <- rnorm(100)
 > out <- loessFit(y,x)
 > f1 <- quantile(out$fitted)
-> r1 <- quantile(out$residual)
+> r1 <- quantile(out$residuals)
 > w <- rep(1,100)
 > w[1:50] <- 0.5
 > out <- loessFit(y,x,weights=w,method="weightedLowess")
 > f2 <- quantile(out$fitted)
-> r2 <- quantile(out$residual)
+> r2 <- quantile(out$residuals)
 > out <- loessFit(y,x,weights=w,method="locfit")
 > f3 <- quantile(out$fitted)
-> r3 <- quantile(out$residual)
+> r3 <- quantile(out$residuals)
 > out <- loessFit(y,x,weights=w,method="loess")
 > f4 <- quantile(out$fitted)
-> r4 <- quantile(out$residual)
+> r4 <- quantile(out$residuals)
 > w <- rep(1,100)
 > w[2*(1:50)] <- 0
 > out <- loessFit(y,x,weights=w,method="weightedLowess")
 > f5 <- quantile(out$fitted)
-> r5 <- quantile(out$residual)
+> r5 <- quantile(out$residuals)
 > data.frame(f1,f2,f3,f4,f5)
               f1           f2          f3          f4          f5
 0%   -0.78835384 -0.687432210 -0.78957137 -0.76756060 -0.63778292
@@ -787,7 +788,7 @@ F -0.16760121 -0.246296671 -0.6729784 5.048308e-01 7.098782e-01 -6.685541
 J -0.14342683  0.142462814 -0.5759097 5.679026e-01 7.098782e-01 -6.745563
 I  0.08717360 -0.003622829  0.3500330 7.281504e-01 7.335508e-01 -6.849117
 E  0.08536999  0.061664340  0.3427908 7.335508e-01 7.335508e-01 -6.851601
-> topTable(fit2,coef=3,sort="logFC",resort.by="t")
+> topTable(fit2,coef=3,sort.by="logFC",resort.by="t")
         logFC      AveExpr          t      P.Value    adj.P.Val         B
 D  0.44581938  0.168369004  1.7901232 8.100587e-02 3.494414e-01 -5.323150
 H  0.37520387  0.018179245  1.5065768 1.397766e-01 3.494414e-01 -5.785971
@@ -814,13 +815,13 @@ E  0.08536999  0.061664340  0.3427908 7.335508e-01 7.335508e-01 -6.851601
 > topTable(fit2,coef=3,lfc=1)
       logFC   AveExpr         t      P.Value    adj.P.Val        B
 A -1.715769 0.9181357 -6.889422 2.674199e-08 2.674199e-07 16.59063
-> topTable(fit2,coef=3,p=0.2)
+> topTable(fit2,coef=3,p.value=0.2)
       logFC   AveExpr         t      P.Value    adj.P.Val        B
 A -1.715769 0.9181357 -6.889422 2.674199e-08 2.674199e-07 16.59063
-> topTable(fit2,coef=3,p=0.2,lfc=0.5)
+> topTable(fit2,coef=3,p.value=0.2,lfc=0.5)
       logFC   AveExpr         t      P.Value    adj.P.Val        B
 A -1.715769 0.9181357 -6.889422 2.674199e-08 2.674199e-07 16.59063
-> topTable(fit2,coef=3,p=0.2,lfc=0.5,sort="none")
+> topTable(fit2,coef=3,p.value=0.2,lfc=0.5,sort.by="none")
       logFC   AveExpr         t      P.Value    adj.P.Val        B
 A -1.715769 0.9181357 -6.889422 2.674199e-08 2.674199e-07 16.59063
 > contrasts.fit(fit[1:3,],contrast.matrix[,0])
@@ -898,7 +899,7 @@ $contrasts
 [2,]
 
 > fit$coefficients[1,1] <- NA
-> contrasts.fit(fit[1:3,],contrast.matrix)$coef
+> contrasts.fit(fit[1:3,],contrast.matrix)$coefficients
       First3      Last3 Last3-First3
 A         NA 0.06025114           NA
 B -0.1198283 0.13529287    0.2551212
@@ -958,7 +959,7 @@ C -0.1223678 0.15095948    0.2733273
 Warning message:
 In rlm.default(x = X, y = y, weights = w, ...) :
   'rlm' failed to converge in 20 steps
-> fit$coef
+> fit$coefficients
   First3Arrays Last3Arrays
 A   1.75138894  0.06025114
 B  -0.11982833  0.10322039
@@ -1405,7 +1406,7 @@ Gene95 -1.907074  1.26297763 -2.106861 0.0589594023 0.58959402 -4.4117140
 + "1370","137075","1371","137209","1373","137362","1374","137492","1375","1376",
 + "137682","137695","137735","1378","137814","137868","137872","137886","137902","137964")
 > go <- goana(fit,FDR=0.8,geneid=EB)
-> topGO(go,n=10,truncate.term=30)
+> topGO(go,number=10,truncate.term=30)
                                      Term Ont  N Up Down        P.Up
 GO:0032502          developmental process  BP 26  4    7 0.914470437
 GO:0070062          extracellular exosome  CC  8  0    4 1.000000000
@@ -1428,7 +1429,7 @@ GO:0097190 1.000000000
 GO:0031252 1.000000000
 GO:0006897 1.000000000
 GO:0098657 1.000000000
-> topGO(go,n=10,truncate.term=30,sort="down")
+> topGO(go,number=10,truncate.term=30,sort="down")
                                      Term Ont  N Up Down      P.Up      P.Down
 GO:0032502          developmental process  BP 26  4    7 0.9144704 0.002720775
 GO:0070062          extracellular exosome  CC  8  0    4 1.0000000 0.003047199
@@ -1443,4 +1444,4 @@ GO:0055082 cellular chemical homeostas...  BP  3  1    2 0.5476190 0.025788497
 > 
 > proc.time()
    user  system elapsed 
-   2.48    0.21    2.71 
+   2.45    0.20    2.65 
