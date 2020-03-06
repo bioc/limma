@@ -46,13 +46,15 @@ It implements a number of multiple testing procedures for determining whether ea
 Setting \code{method="separate"} is equivalent to using \code{topTable} separately for each coefficient in the linear model fit and will identify the same probes as significantly differentially expressed if \code{adjust.method} is the same.
 \code{method="global"} will treat the entire matrix of t-statistics as a single vector of unrelated tests.
 \code{method="hierarchical"} adjusts down genes and then across contrasts.
-\code{method="nestedF"} adjusts down genes and then uses \code{classifyTestsF} to classify contrasts as significant or not for the selected genes.
+\code{method="nestedF"} adjusts down genes according to overall F-tests and then uses \code{classifyTestsF} to classify contrasts as significant or not for the selected genes.
 
 The default \code{method="separate"} and \code{adjust.method="BH"} settings are appropriate for most analyses.
 \code{method="global"} is useful when it is important that the same t-statistic cutoff should correspond to statistical significance for all the contrasts.
 The \code{"nestedF"} method was proposed by Michaud et al (2008) and achieves better consistency between contrasts than the other methods.
 It provides formal error rate control at the gene level but not for individual contrasts.
-Please see the limma User's Guide for a discussion of the statistical properties of the various methods.
+See the \code{\link{classifyTestsF}} help page for more detail about the \code{"nestedF"} method.
+
+Also see the limma User's Guide for a discussion of the statistical properties of the various adjustment methods.
 }
 \note{
 Although this function enables users to set p-value and lfc cutoffs simultaneously, this combination criterion is not generally recommended.

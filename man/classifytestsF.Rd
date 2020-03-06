@@ -24,8 +24,8 @@ If \code{fstat.only=TRUE}, then a numeric vector of F-statistics is returned wit
 }
 \details{
 \code{classifyTestsF} implements the \code{"nestedF"} multiple testing option offered by \code{\link{decideTests}}.
-Users should generally use \code{decideTests} rather than calling \code{classifyTests} directly because, by itself, \code{classifyTests} does not incorporate any multiple testing adjustment across genes.
-Instead it simply adjusts for multiple testing across contrasts for each gene individually.
+Users should generally use \code{decideTests} rather than calling \code{classifyTestsF} directly because, by itself, \code{classifyTestsF} does not incorporate any multiple testing adjustment across genes.
+Instead it simply tests across contrasts for each gene individually.
 
 \code{classifyTestsF} uses a nested F-test approach giving particular attention to correctly classifying genes that have two or more significant t-statistics, i.e., which are differentially expressed in two or more conditions.
 For each row of \code{tstat}, the overall F-statistics is constructed from the t-statistics as for \code{FStat}.

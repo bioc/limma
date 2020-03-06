@@ -5,10 +5,13 @@ contrasts.fit <- function(fit,contrasts=NULL,coefficients=NULL)
 #	Note: does not completely take probe-wise weights into account
 #	because this would require refitting the linear model for each probe
 #	Gordon Smyth
-#	Created 13 Oct 2002.  Last modified 14 Feb 2019.
+#	Created 13 Oct 2002.  Last modified 5 Mar 2020.
 {
 #	Check number of arguments
 	if(is.null(contrasts) == is.null(coefficients)) stop("Must specify exactly one of contrasts or coefficients")
+
+#	If coefficients are input, just subset
+	if(!is.null(coefficients)) return(fit[,coefficients])
 
 #	Remove test statistics in case eBayes() has previously been run on the fit object
 	fit$t <- NULL
@@ -18,29 +21,34 @@ contrasts.fit <- function(fit,contrasts=NULL,coefficients=NULL)
 	fit$F.p.value <- NULL
 
 #	Number of coefficients in fit
-	ncoef <- NCOL(fit$coefficients)
+	ncoef <- ncol(fit$coefficients)
 
-#	Check contrasts. If coefficients are specified, convert into contrast matrix.
-	if(!is.null(contrasts)) {
-		contrasts <- as.matrix(contrasts)
-		rn <- rownames(contrasts)
-		cn <- colnames(fit$coefficients)
-		if(!is.null(rn) && !is.null(cn) && any(rn != cn)) warning("row names of contrasts don't match col names of coefficients")
-	} else {
-		ncont <- length(coefficients)
-		contrasts <- diag(ncoef)
-		rownames(contrasts) <- colnames(contrasts) <- colnames(fit$coefficients)
-		contrasts <- contrasts[,coefficients,drop=FALSE]
-	}
-	if(nrow(contrasts)!=ncoef) stop("Number of rows of contrast matrix must match number of coefficients in fit")
+#	Check contrasts.
 	if(anyNA(contrasts)) stop("NAs not allowed in contrasts")
-
+	contrasts <- as.matrix(contrasts)
+	if(nrow(contrasts)!=ncoef) stop("Number of rows of contrast matrix must match number of coefficients in fit")
+	rn <- rownames(contrasts)
+	cn <- colnames(fit$coefficients)
+	if(!is.null(rn) && !is.null(cn) && !identical(rn,cn)) warning("row names of contrasts don't match col names of coefficients")
 	fit$contrasts <- contrasts
+
+#	Special case of contrast matrix with 0 columns
+	if(!ncol(contrasts)) return(fit[,0])
+
+#	Correlation matrix of estimable coefficients
+#	Test whether design was orthogonal
 	if(is.null(fit$cov.coefficients)) {
 		warning("no coef correlation matrix found in fit - assuming orthogonal")
 		cormatrix <- diag(ncoef)
-	} else
+		orthog <- TRUE
+	} else {
 		cormatrix <- cov2cor(fit$cov.coefficients)
+		if(length(cormatrix) < 2) {
+			orthog <- TRUE
+		} else {
+			orthog <- sum(abs(cormatrix[lower.tri(cormatrix)])) < 1e-12
+		}
+	}
 
 #	If design matrix was singular, reduce to estimable coefficients
 	r <- nrow(cormatrix)
@@ -53,8 +61,30 @@ contrasts.fit <- function(fit,contrasts=NULL,coefficients=NULL)
 		fit$stdev.unscaled <- fit$stdev.unscaled[,est,drop=FALSE]
 		ncoef <- r
 	}
-#	fit$coefficients <- fit$coefficients %*% contrasts
-	fit$coefficients <- .zeroDominantMatrixMult(fit$coefficients,contrasts)
+
+#	Remove coefficients that don't appear in any contrast
+#	(Not necessary but can make function faster)
+	ContrastsAllZero <- which(rowSums(abs(contrasts))==0)
+	if(length(ContrastsAllZero)) {
+		contrasts <- contrasts[-ContrastsAllZero,,drop=FALSE]
+		fit$coefficients <- fit$coefficients[,-ContrastsAllZero,drop=FALSE]
+		fit$stdev.unscaled <- fit$stdev.unscaled[,-ContrastsAllZero,drop=FALSE]
+		fit$cov.coefficients <- fit$cov.coefficients[-ContrastsAllZero,-ContrastsAllZero,drop=FALSE]
+		cormatrix <- cormatrix[-ContrastsAllZero,-ContrastsAllZero,drop=FALSE]
+		ncoef <- ncol(fit$coefficients)
+	}
+
+#	Replace NA coefficients with large (but finite) standard deviations
+#	to allow zero contrast entries to clobber NA coefficients.
+	NACoef <- anyNA(fit$coefficients)
+	if(NACoef) {
+		i <- is.na(fit$coefficients)
+		fit$coefficients[i] <- 0
+		fit$stdev.unscaled[i] <- 1e30
+	}
+
+#	New coefficients
+	fit$coefficients <- fit$coefficients %*% contrasts
 
 #	Test whether design was orthogonal
 	if(length(cormatrix) < 2) {
@@ -63,11 +93,12 @@ contrasts.fit <- function(fit,contrasts=NULL,coefficients=NULL)
 		orthog <- all(abs(cormatrix[lower.tri(cormatrix)]) < 1e-14)
 	}
 
-#	Contrast correlation matrix
+#	New correlation matrix
 	R <- chol(fit$cov.coefficients)
 	fit$cov.coefficients <- crossprod(R %*% contrasts)
-	fit$pivot <- NULL
+#	fit$pivot <- NULL
 
+#	New standard deviations
 	if(orthog)
 		fit$stdev.unscaled <- sqrt(fit$stdev.unscaled^2 %*% contrasts^2)
 	else {
@@ -82,56 +113,13 @@ contrasts.fit <- function(fit,contrasts=NULL,coefficients=NULL)
 		}
 		fit$stdev.unscaled <- U
 	}
+
+#	Replace NAs if necessary
+	if(NACoef) {
+		i <- (fit$stdev.unscaled > 1e20)
+		fit$coefficients[i] <- NA
+		fit$stdev.unscaled[i] <- NA
+	}
+
 	fit
-}
-
-.zeroDominantMatrixMult <- function(A,B)
-#	Computes A %*% B, except that a zero in B will always produce
-#	zero even when multiplied by an NA in A, instead of NA as usually
-#	produced by R arithmetic.
-#	A and B are numeric matrices and B does not contain NAs.
-#	In the limma usage, A usually has far more rows than columns
-#	and B is relatively small.
-#	Gordon Smyth
-#	Created 16 Feb 2018. Modified 2 Feb 2020.
-{
-#	Proportion of zeros in B
-	Z <- (B==0)
-	MeanZ <- mean(Z)
-
-#	Decide whether to run guarded or ordinary matrix multiplication
-#	MeanZ can only be NA if B has 0 elements
-	if(!is.na(MeanZ) && (MeanZ > 0)) {
-		if(MeanZ >= 0.8)
-#			Full algorithm is quick if there are lots of zeros
-			Guard <- TRUE
-		else {
-			RowBHasZero <- (rowSums(Z) > 0)
-			if(mean(RowBHasZero) > 0.4) {
-#				If the matrix is big, it's much quicker to check the whole matrix than to subset it
-				Guard <- anyNA(A)
-			} else {
-				Guard <- anyNA(A[,RowBHasZero])
-			}
-		}
-	} else {
-		Guard <- FALSE
-	}
-
-	if(Guard) {
-		dn <- list()
-		dn[[1]] <- rownames(A)
-		dn[[2]] <- colnames(B)
-		D <- matrix(0,nrow(A),ncol(B),dimnames=dn)
-		for (j in seq_len(ncol(B))) {
-			z <- B[,j]==0
-			if(any(z))
-				D[,j] <- A[,!z,drop=FALSE] %*% B[!z,j,drop=FALSE]
-			else
-				D[,j] <- A %*% B[,j]
-		}
-		return(D)	
-	} else {
-		return(A %*% B)
-	}
 }

@@ -108,7 +108,7 @@ assign("[.MArrayLM",
 function(object, i, j)
 #  Subsetting for MArrayLM objects
 #  Gordon Smyth
-#  26 April 2005. Last modified 20 July 2015.
+#  Created 26 April 2005. Last modified 5 March 2020.
 {
 	if(nargs() != 3) stop("Two subscripts required",call.=FALSE)
 
@@ -120,6 +120,27 @@ function(object, i, j)
 	JJ <- "cov.coefficients"
 	XJ <- "contrasts"
 	J  <- "var.prior"
+
+#	Check object
+	if(is.null(object$coefficients)) stop("Not a valid MArrayLM object")
+
+#	cov.coefficients is only for estimable coefficients and hence can have
+#	fewer columns than the IJ or J components if the design was not of full
+#	rank.  Selecting non-estimable coefficients is not allowed.
+	ncoef <- ncol(object$coefficients)
+	if(!missing(j) && !is.null(object$cov.coefficients)) {
+		jj <- j
+		if(ncol(object$cov.coefficients) < ncoef) {
+			if(is.null(object$pivot)) stop("design matrix not of full rank but pivot is missing")
+			ColNum <- seq_len(ncoef)
+			names(ColNum) <- colnames(object$coefficients)
+			r <- ncol(object$cov.coefficients)
+			ColNum[object$pivot[(r+1):ncoef]] <- NA
+			ColNum <- ColNum[j]
+			if(anyNA(ColNum)) stop("Subsetting to non-estimable coefficients is not allowed.")
+			jj <- which(object$pivot %in% ColNum)
+		}
+	}
 
 #	After subsetting by columns, a contrast component should always be present
 #	so that output is equivalent to that from contrasts.fit()
@@ -137,21 +158,27 @@ function(object, i, j)
 
 #	Special treatment for JJ,XJ,J
 	if(!missing(j)) {
-		object$cov.coefficients <- object$cov.coefficients[j,j,drop=FALSE]
+		object$cov.coefficients <- object$cov.coefficients[jj,jj,drop=FALSE]
 		object$contrasts <- object$contrasts[,j,drop=FALSE]
 		object$var.prior <- object$var.prior[j]
 	}
 
 #	If columns have been subsetted, need to re-generate F
 	if(!is.null(object[["F"]]) && !missing(j)) {
-		F.stat <- classifyTestsF(object,fstat.only=TRUE)
-		object$F <- as.vector(F.stat)
-		df1 <- attr(F.stat,"df1")
-		df2 <- attr(F.stat,"df2")
-		if (df2[1] > 1e6) 
-			object$F.p.value <- pchisq(df1*object$F,df1,lower.tail=FALSE)
-		else
-			object$F.p.value <- pf(object$F,df1,df2,lower.tail=FALSE)
+		if(ncol(object$coefficients)) {
+			F.stat <- classifyTestsF(object,fstat.only=TRUE)
+			object$F <- as.vector(F.stat)
+			df1 <- attr(F.stat,"df1")
+			df2 <- attr(F.stat,"df2")
+			if (df2[1] > 1e6) 
+				object$F.p.value <- pchisq(df1*object$F,df1,lower.tail=FALSE)
+			else
+				object$F.p.value <- pf(object$F,df1,df2,lower.tail=FALSE)
+		} else {
+			object$F <- NULL
+			object$F.p.value <- NULL
+		}
+		
 	}
 
 	object

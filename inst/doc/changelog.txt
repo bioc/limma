@@ -1,3 +1,28 @@
+ 6 Mar 2020: limma 3.43.5
+
+- Improved treatment of NA coefficients by contrasts.fit().
+  contrasts.fit() has always removed coefficients that were NA because
+  of singularities in the design matrix, but any extra NA coefficients
+  caused by NA expression values would cause all the stdev.unscaled
+  values returned by contrasts.fit() to be NA for those genes.
+  contrasts.fit() now returns non-NA coefficients and
+  non-NA stdev.unscaled values if all the NA coefficients are
+  multiplied by zero contrast multipliers.
+
+- Speed improvement for contrasts.fit() if some input coefficients are
+  not involved (have zero multipliers) in any of the contrasts.
+
+- contrasts.fit() now preserves the `pivot` component of the fit
+  object instead of removing it.
+
+- More explanation of `covariates` argument to removeBatchEffects().
+
+- Improvements to subsetting MArrayLM objects by column. Previously
+  the presence of non-estimable coefficients sometimes caused the
+  cov.coefficient matrix to be subsetted incorrectly; that is now
+  fixed. Subsetting zero columns is now allowed even when F-statistics
+  are present.
+
 16 Feb 2020: limma 3.43.4
 
 - voom now checks explicitly for NA or negative counts and gives an
@@ -21,12 +46,14 @@
 
 28 Jan 2020: limma 3.43.1
 
-- Fix bug in contrasts.fit() when some coefficients are NA and the
-  corresponding contrast coefficients are zero. The new code will
-  give non-NA contrasts if the NA coefficients all get 0 weight in
-  the contrast. Previous code was correct if all genes had the same
-  NA coefficients but could an avoidable NA result if some genes had
-  NA coefficients but the first gene did not.
+- Fix bug in contrasts.fit() when some coefficients are NA due to NA
+  expression values and the corresponding contrast multipliers are
+  zero. The new code fixes the improvement originally introduced in
+  limma 3.35.9. The new code will return non-NA contrasts if the NA
+  coefficients all get 0 weight in the contrast. Previous code was
+  correct if all genes had the same NA coefficients but could an
+  avoidable NA result if some genes had NA coefficients but the
+  first gene did not.
 
 30 Oct 2019: limma 3.43.0 (Bioconductor 3.11 Developmental Branch)
 30 Oct 2019: limma 3.42.0 (Bioconductor 3.10 Release Branch)
@@ -423,10 +450,16 @@ org.Hs.eg.db 3.8.1
 
 16 Feb 2018: limma 3.35.9
 
-- In the past, contrasts.fit() always returned NA contrasts for genes
-  with any NA fitted coefficients. contrasts.fit() will now ignore an
-  NA coefficient if the contrast multiplier is zero for that
-  coefficient.
+- Improved treatment of NA coefficients by contrasts.fit().
+  contrasts.fit() has always removed coefficients that were NA because
+  of singularities in the design matrix, but any extra NA coefficients
+  caused by NA expression values would cause all the coefficients
+  returned by contrasts.fit() to be NA for those genes.
+  contrasts.fit() now returns non-NA coefficients if the input NA
+  coefficients are multiplied by zero contrast multipliers.
+  This improvement is only for the coefficients themselves. The
+  corresponding stdev.unscaled values returned by constrasts.fit()
+  for such genes will still be NA.
 
  4 Feb 2018: limma 3.35.8
 
