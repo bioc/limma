@@ -33,7 +33,7 @@ eBayes <- function(fit,proportion=0.01,stdev.coef.lim=c(0.1,4),trend=FALSE,robus
 .ebayes <- function(fit,proportion=0.01,stdev.coef.lim=c(0.1,4),trend=FALSE,robust=FALSE,winsor.tail.p=c(0.05,0.1))
 #	Empirical Bayes statistics to select differentially expressed genes
 #	Gordon Smyth
-#	8 Sept 2002.  Last revised 1 May 2013.
+#	Created 8 Sept 2002.  Last revised 12 Apr 2020.
 #	Made a non-exported function 18 Feb 2018.
 {
 	coefficients <- fit$coefficients
@@ -65,7 +65,7 @@ eBayes <- function(fit,proportion=0.01,stdev.coef.lim=c(0.1,4),trend=FALSE,robus
 #	B-statistic
 	var.prior.lim <- stdev.coef.lim^2/median(out$s2.prior)
 	out$var.prior <- tmixture.matrix(out$t,stdev.unscaled,df.total,proportion,var.prior.lim)
-	if(any(is.na(out$var.prior))) {
+	if(anyNA(out$var.prior)) {
 		out$var.prior[ is.na(out$var.prior) ] <- 1/out$s2.prior
 		warning("Estimation of var.prior failed - set to default value")
 	}

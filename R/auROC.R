@@ -3,10 +3,10 @@
 auROC <- function(truth, stat=NULL)
 #	Area under Receiver Operating Curve for empirical data
 #	Gordon Smyth
-#	21 Dec 2003. Last modified 28 April 2015.
+#	Created 21 Dec 2003. Last modified 12 Apr 2020.
 {
 #	Don't allow any NA
-	if(any(is.na(truth))) return(NA)
+	if(anyNA(truth)) return(NA)
 
 #	Make logical and integer vectors
 	ntests <- length(truth)
@@ -27,7 +27,7 @@ auROC <- function(truth, stat=NULL)
 #	Check stat
 	stat <- as.vector(stat)
 	if(length(stat) != ntests) stop("lengths differ")
-	if(any(is.na(stat))) return(NA)
+	if(anyNA(stat)) return(NA)
 
 #	From here, stat is not NA
 

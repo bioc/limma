@@ -1,3 +1,12 @@
+ 6 Mar 2020: limma 3.43.6
+
+- Fix to classifyTestsF() when one or more of the coefficients have
+  zero variance. Previously the zero variance will introduce NAs into
+  the correlation matrix and hence cause an error. This is now
+  avoided. This also fixes eBayes() when one or more of the
+  coefficients are identically zero (usually caused by an all-zero
+  contrast).
+
  6 Mar 2020: limma 3.43.5
 
 - Improved treatment of NA coefficients by contrasts.fit().

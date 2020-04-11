@@ -172,12 +172,21 @@ decideTests.MArrayLM <- function(object,method="separate",adjust.method="BH",p.v
 classifyTestsF <- function(object,cor.matrix=NULL,df=Inf,p.value=0.01,fstat.only=FALSE) {
 #	Use F-tests to classify vectors of t-test statistics into outcomes
 #	Gordon Smyth
-#	20 Mar 2003.  Last revised 6 June 2009.
+#	20 Mar 2003.  Last revised 12 Apr 2020.
 
 #	Method intended for MArrayLM objects but accept unclassed lists as well
 	if(is.list(object)) {
 		if(is.null(object$t)) stop("tstat cannot be extracted from object")
-		if(is.null(cor.matrix) && !is.null(object$cov.coefficients)) cor.matrix <- cov2cor(object$cov.coefficients)
+		if(is.null(cor.matrix) && !is.null(object$cov.coefficients)) {
+#			Check for and adjust any coefficient variances exactly zero (usually caused by an all zero contrast)
+			n <- nrow(object$cov.coefficients)
+			i <- seq(1L,n)+n*seq.int(0L,n-1L)
+			if(min(object$cov.coefficients[i]) == 0) {
+				j <- i[object$cov.coefficients[i] == 0]
+				object$cov.coefficients[j] <- 1
+			}
+			cor.matrix <- cov2cor(object$cov.coefficients)
+		}
 		if(missing(df) && !is.null(object$df.prior) && !is.null(object$df.residual)) df <- object$df.prior+object$df.residual
 		tstat <- as.matrix(object$t)
 	} else {
