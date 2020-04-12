@@ -1,3 +1,10 @@
+ 6 Mar 2020: limma 3.43.7
+
+This revision consists of code speed-ups:
+- Convert code usages of any(is.na(x)) to anyNA(x).
+- Convert code usages of all(!x) to !any(x).
+- Convert code usages of all(df.residual==0) to max(df.residual)==0.
+
  6 Mar 2020: limma 3.43.6
 
 - Fix to classifyTestsF() when one or more of the coefficients have

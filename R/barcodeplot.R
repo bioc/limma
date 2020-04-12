@@ -22,7 +22,7 @@ barcodeplot <- function (statistics, index = NULL, index2 = NULL, gene.weights =
 			}
 		}
 	} else {
-		if(any(is.na(index))) stop("Need to provide index without NAs")
+		if(anyNA(index)) stop("Need to provide index without NAs")
 		if(is.logical(index)) if(length(index) != nstat) stop("Length of index disagrees with statistics")
 		if(length(index) > nstat) stop("Length of index disagrees with statistics")
 	}
@@ -42,7 +42,7 @@ barcodeplot <- function (statistics, index = NULL, index2 = NULL, gene.weights =
 	if(!is.null(gene.weights)){
 
 		if(!is.vector(gene.weights, mode = "numeric")) stop("gene.weights should be a numeric vector")
-		if(any(is.na(gene.weights))) stop("Need to provide gene.weights without NAs")
+		if(anyNA(gene.weights)) stop("Need to provide gene.weights without NAs")
 		if(all(gene.weights == 0)) stop("gene.weights equal to zero: no selected genes to plot")
 		if(length(gene.weights) != length(statistics[index])) stop("Length of gene.weights disagrees with size of set")
 
@@ -167,7 +167,7 @@ barcodeplot <- function (statistics, index = NULL, index2 = NULL, gene.weights =
 	wt1 <- set1$wt[r]
 	len.up <- 1
 
-	if(all(!is.na(wt1))){
+	if(!anyNA(wt1)) {
 
 		len.up <- set1$weight[r]/max(abs(set1$weight[r]))
 

@@ -9,7 +9,7 @@ selectModel <- function(y, designlist, criterion="aic", df.prior=0, s2.prior=NUL
 # Last revised 2 Oct 2008, Gordon Smyth
 {
 	ym <- as.matrix(y)
-	if(any(is.na(ym))) stop("NAs not allowed")
+	if(anyNA(ym)) stop("NAs not allowed")
 	narrays <- ncol(ym)
 	rm(ym)
 

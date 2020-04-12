@@ -41,8 +41,8 @@ eBayes <- function(fit,proportion=0.01,stdev.coef.lim=c(0.1,4),trend=FALSE,robus
 	sigma <- fit$sigma
 	df.residual <- fit$df.residual
 	if(is.null(coefficients) || is.null(stdev.unscaled) || is.null(sigma) || is.null(df.residual)) stop("No data, or argument is not a valid lmFit object")
-	if(all(df.residual==0)) stop("No residual degrees of freedom in linear model fits")
-	if(all(!is.finite(sigma))) stop("No finite residual standard deviations")
+	if(max(df.residual)==0) stop("No residual degrees of freedom in linear model fits")
+	if(!any(is.finite(sigma))) stop("No finite residual standard deviations")
 	if(trend) {
 		covariate <- fit$Amean
 		if(is.null(covariate)) stop("Need Amean component in fit to estimate trend")

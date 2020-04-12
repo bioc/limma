@@ -1,13 +1,13 @@
 weighted.median <- function (x, w, na.rm = FALSE)
 #	Weighted median
 #	Gordon Smyth
-#	30 June 2005
+#	Created 30 June 2005. Last revised 12 Apr 2020.
 {
 	if (missing(w)) 
 		w <- rep.int(1, length(x))
 	else {
 		if(length(w) != length(x)) stop("'x' and 'w' must have the same length")
-		if(any(is.na(w))) stop("NA weights not allowed")
+		if(anyNA(w)) stop("NA weights not allowed")
 		if(any(w<0)) stop("Negative weights not allowed")
 	}
 	if(is.integer(w)) 

@@ -128,7 +128,7 @@ decideTests.MArrayLM <- function(object,method="separate",adjust.method="BH",p.v
 		s <- sign(as.matrix(object$coefficients))
 		results <- new("TestResults",s*(p<p.value))
 	},hierarchical={
-		if(any(is.na(object$F.p.value))) stop("Can't handle NA p-values yet")
+		if(anyNA(object$F.p.value)) stop("Can't handle NA p-values yet")
 		sel <- p.adjust(object$F.p.value,method=adjust.method) < p.value
 		i <- sum(sel,na.rm=TRUE)
 		n <- sum(!is.na(sel))
@@ -143,7 +143,7 @@ decideTests.MArrayLM <- function(object,method="separate",adjust.method="BH",p.v
 		dimnames(results) <- dimnames(object$coefficients)
 		if(any(sel)) results[sel,] <- .classifyTestsP(object[sel,],p.value=p.value*a,method=adjust.method)
 	},nestedF={
-		if(any(is.na(object$F.p.value))) stop("nestedF method can't handle NA p-values",call.=FALSE)
+		if(anyNA(object$F.p.value)) stop("nestedF method can't handle NA p-values",call.=FALSE)
 		sel <- p.adjust(object$F.p.value,method=adjust.method) < p.value
 		i <- sum(sel,na.rm=TRUE)
 		n <- sum(!is.na(sel))
@@ -231,7 +231,7 @@ classifyTestsF <- function(object,cor.matrix=NULL,df=Inf,p.value=0.01,fstat.only
 	result <- matrix(0,ngenes,ntests,dimnames=dimnames(tstat))
 	for (i in 1:ngenes) {
 		x <- tstat[i,]
-		if(any(is.na(x)))
+		if(anyNA(x))
 			result[i,] <- NA
 		else
 			if( crossprod(crossprod(Q,x)) > qF[i] ) {

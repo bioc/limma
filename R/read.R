@@ -83,13 +83,13 @@ getLayout <- function(gal,guessdups=FALSE)
 }
 
 getDupSpacing <- function(ID)
-#  Find the valid ndups and spacing values for a set of IDs
-#	Assumes at least one probe with a unique ID, from which
+#  Determine ndups and spacing values for a set of IDs.
+#  Assumes at least one probe with a unique ID, from which
 #  spacing can be determined.
 #  Gordon Smyth
-#  15 Oct 2008
+#  Created 15 Oct 2008. Last revised 12 Apr 2020.
 {
-	if(any(is.na(ID))) return(list(ndups=NA,spacing=NA))
+	if(anyNA(ID)) return(list(ndups=NA,spacing=NA))
 	ID <- as.factor(ID)
 	nspots <- length(ID)
 

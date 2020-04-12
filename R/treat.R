@@ -1,9 +1,9 @@
 ###  treat.R
 
 treat <- function(fit, lfc=log2(1.2), trend=FALSE, robust=FALSE, winsor.tail.p=c(0.05,0.1))
-#	Moderated t-statistics with threshold
+#	Moderated t-statistics relative to a logFC threshold.
 #	Davis McCarthy, Gordon Smyth
-#	25 July 2008.  Last revised 25 March 2018.
+#	25 July 2008.  Last revised 12 Apr 2020.
 {
 #	Check fit
 	if(!is(fit,"MArrayLM")) stop("fit must be an MArrayLM object")
@@ -18,9 +18,9 @@ treat <- function(fit, lfc=log2(1.2), trend=FALSE, robust=FALSE, winsor.tail.p=c
 	if (is.null(coefficients) || is.null(stdev.unscaled) || is.null(sigma) || 
 		is.null(df.residual)) 
 		stop("No data, or argument is not a valid lmFit object")
-	if (all(df.residual == 0)) 
+	if (max(df.residual) == 0) 
 		stop("No residual degrees of freedom in linear model fits")
-	if (all(!is.finite(sigma))) 
+	if (!any(is.finite(sigma))) 
 		stop("No finite residual standard deviations")
 	if(trend) {
 		covariate <- fit$Amean

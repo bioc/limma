@@ -120,7 +120,7 @@ heatdiagram <- function(stat,coef,primary=1,names=NULL,treatments=colnames(stat)
 #	Similar to heatDiagram with classifyTestsT(stat,t1=critical.primary,t2=critical.other)
 #	except that heatdiagram() requires primary column to be significant at the first step-down level
 #	Gordon Smyth
-#	27 Oct 2002. Last revised 25 Feb 2003.  mar added 11 Oct 2004
+#	Created 27 Oct 2002. Argument 'mar' added 11 Oct 2004. Last revised 12 Apr 2020.
 
 #	Check input
 	stat <- as.matrix(stat)
@@ -133,7 +133,7 @@ heatdiagram <- function(stat,coef,primary=1,names=NULL,treatments=colnames(stat)
 
 #  Sort coefficients
 	DE <- (stat[,primary] > critical.primary)
-	if(any(is.na(DE))) DE[is.na(DE)] <- FALSE
+	if(anyNA(DE)) DE[is.na(DE)] <- FALSE
 	ng <- sum(DE)
 	if(sum(DE) == 0) {
 		warning("Nothing significant to plot")

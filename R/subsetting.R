@@ -3,7 +3,7 @@
 subsetListOfArrays <- function(object,i,j,IJ,IX,I,JX)
 #	Subsetting for list-like data objects
 #	Gordon Smyth
-#	11 Dec 2013
+#	Created 11 Dec 2013. Last revised 12 Apr 2020.
 {
 #	object,IJ,IX,I,JX are required arguments
 
@@ -17,7 +17,7 @@ subsetListOfArrays <- function(object,i,j,IJ,IX,I,JX)
 	} else {
 		if(is.character(i)) {
 			i <- match(i, rownames(object))
-			if(any(is.na(i))) stop("Subscript not found in rownames")
+			if(anyNA(i)) stop("Subscript not found in rownames")
 		}
 	}
 	if(missing(j)) {
@@ -25,7 +25,7 @@ subsetListOfArrays <- function(object,i,j,IJ,IX,I,JX)
 	} else {
 		if(is.character(j)) {
 			j <- match(j, colnames(object))
-			if(any(is.na(j))) stop("Subscript not found in colnames")
+			if(anyNA(j)) stop("Subscript not found in colnames")
 		}
 	}
 	

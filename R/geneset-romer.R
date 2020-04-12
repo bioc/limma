@@ -103,7 +103,7 @@ romer.default <- function(y,index,design=NULL,contrast=ncol(design),array.weight
 	stdev.coef.lim <- c(0.1, 4)
 	var.prior.lim <- stdev.coef.lim^2/sv$var.prior
 	var.prior <- tmixture.vector(modt, stdev.unscaled, df.total, proportion, var.prior.lim)
-	if (any(is.na(var.prior))) {
+	if (anyNA(var.prior)) {
 		var.prior[is.na(var.prior)] <- 1/sv$var.prior
 		warning("Estimation of var.prior failed - set to default value")
 	}

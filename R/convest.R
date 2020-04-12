@@ -10,10 +10,10 @@ convest <- function(p,niter=100,plot=FALSE,report=FALSE,file="",tol=1e-06)
 #	Written by Egil Ferkingstad.
 #	Received from Mette Langaas 26 Jun 2004.
 #	Modified for limma by Gordon Smyth, 29 Oct 2004, 28 May 2005.
-#	Report modified by Marcus Davy, 24 June 2007. Implemented and edited by Gordon Smyth, 9 Sep 2012.
+#	Report modified by Marcus Davy, 24 June 2007. Implemented and edited by Gordon Smyth, 9 Sep 2012, 12 Apr 2020.
 {
 	if(!length(p)) return(NA)
-	if(any(is.na(p))) stop("Missing values in p not allowed")
+	if(anyNA(p)) stop("Missing values in p not allowed")
 	if(any(p<0 | p>1)) stop("All p-values must be between 0 and 1")
 	k <- niter
 #	accuracy of the bisectional search for finding a new

@@ -1,7 +1,7 @@
 #  limma package /R/mergeScans.R
 
 #  Functions in this file contributed by "Dongseok Choi" <choid@ohsu.edu>
-#  Slight modifications for limma version by Gordon Smyth 10 Jan 2007
+#  Modifications for limma version by Gordon Smyth 10 Jan 2007, 12 Apr 2020.
 
 #-----------------------------------------------------------------------------------------required for mergeScans
 .hockey <- function(x,alpha1,beta1,beta2,brk,eps=diff(range(x))/200)
@@ -143,49 +143,55 @@
 
 #-------------------------------------------------------------------------------------------handle missing when merging
 
-mergeScansRG <- function(RGlow, RGhigh, AboveNoiseLowG=NULL,AboveNoiseLowR=NULL,outlierp=0.01){
-Glow<-RGlow$G
-Rlow<-RGlow$R
-Ghigh<-RGhigh$G
-Rhigh<-RGhigh$R
-if (is.null(AboveNoiseLowG)) {AboveNoiseLowG<-matrix(1,nrow=nrow(Glow),ncol=ncol(Glow))}
-if (is.null(AboveNoiseLowR)) {AboveNoiseLowR<-matrix(1,nrow=nrow(Rlow),ncol=ncol(Rlow))}
+mergeScansRG <- function(RGlow, RGhigh, AboveNoiseLowG=NULL,AboveNoiseLowR=NULL,outlierp=0.01)
+#  Merge two scans of a two-color microarray image to provide one optimal RGList object.
+#  The high intensity scan is used for low-intensity spots (or maximum sensitivity)
+#  and the low intensity scan for high-intensity spots (to avoid saturation).
+#  Contributed by "Dongseok Choi" <choid@ohsu.edu>
+#  Modifications by Gordon Smyth 10 Jan 2007, 12 Apr 2020.
+{
+	Glow <- RGlow$G
+	Rlow <- RGlow$R
+	Ghigh <- RGhigh$G
+	Rhigh <- RGhigh$R
+	if (is.null(AboveNoiseLowG)) {AboveNoiseLowG <- matrix(1,nrow=nrow(Glow),ncol=ncol(Glow))}
+	if (is.null(AboveNoiseLowR)) {AboveNoiseLowR <- matrix(1,nrow=nrow(Rlow),ncol=ncol(Rlow))}
 
-if(ncol(Glow)!=ncol(Ghigh)) {
-stop("Number of arrays in low scans and high scans are different")
-}
-if(ncol(Rlow)!=ncol(Rhigh)) {
-stop("Number of arrays in low scans and high scans are different")
-}
-if(ncol(Ghigh)!=ncol(AboveNoiseLowG)) {
-stop("Number of arrays in Green and the number of columns in AboveNoiseHighG are different")
-}
-if(ncol(Rhigh)!=ncol(AboveNoiseLowR)) {
-stop("Number of arrays in Red and the number of columns in AboveNoiseHighR are different")
-}
+	if(ncol(Glow)!=ncol(Ghigh)) {
+		stop("Number of arrays in low scans and high scans are different")
+	}
+	if(ncol(Rlow)!=ncol(Rhigh)) {
+		stop("Number of arrays in low scans and high scans are different")
+	}
+	if(ncol(Ghigh)!=ncol(AboveNoiseLowG)) {
+		stop("Number of arrays in Green and the number of columns in AboveNoiseHighG are different")
+	}
+	if(ncol(Rhigh)!=ncol(AboveNoiseLowR)) {
+		stop("Number of arrays in Red and the number of columns in AboveNoiseHighR are different")
+	}
 
+	narrays <- ncol(Glow)
+	ngenes <- nrow(Glow)
+	Rmerge <- Gmerge <- matrix(NA, nrow=ngenes,ncol=narrays)
+	Rout <- Gout <- matrix(NA, nrow=ngenes,ncol=narrays)
+	Rsat <- Gsat <- matrix(NA, nrow=ngenes,ncol=narrays)
+	for(i in 1:narrays) {
 
-noarrays<-ncol(Glow)
-nogenes<-nrow(Glow)
-Rmerge<-Gmerge<-matrix(NA, nrow=nogenes,ncol=noarrays)
-Rout<-Gout<-matrix(NA, nrow=nogenes,ncol=noarrays)
-Rsat<-Gsat<-matrix(NA, nrow=nogenes,ncol=noarrays)
-for(i in 1:noarrays){
+		LowHigh <- sqrt(cbind(Glow[,i],Ghigh[,i]))
+		ok <- !is.na(rowSums(LowHigh))
+		tmpG <-  .mergeScans1(LowHigh[ok,],AboveNoiseLowG[ok,i],outp=outlierp)
+		Gmerge[ok,i] <- tmpG[,6]
+		Gout[ok,i] <- tmpG[,5]
+		Gsat[ok,i] <- tmpG[,4]
 
-ok <- apply(sqrt(cbind(Glow[,i],Ghigh[,i])),1,function(x) all(!is.na(x)) )
-tmpG <- .mergeScans1(sqrt(Glow[ok,i]),sqrt(Ghigh[ok,i]),AboveNoiseLowG[ok,i],outp=outlierp)
-Gmerge[ok,i]<-tmpG[,6]
-Gout[ok,i]<-tmpG[,5]
-Gsat[ok,i]<-tmpG[,4]
+		LowHigh <- sqrt(cbind(Rlow[,i],Rhigh[,i]))
+		ok <- !is.na(rowSums(LowHigh))
+		tmpR <-  .mergeScans1(LowHigh[ok,],AboveNoiseLowR[ok,i],outp=outlierp)
+		Rmerge[ok,i] <- tmpR[,6]
+		Rout[ok,i] <- tmpR[,5]
+		Rsat[ok,i] <- tmpR[,4]
+	}
 
-ok <- apply(sqrt(cbind(Rlow[,i],Rhigh[,i])),1,function(x) all(!is.na(x)) )
-tmpR <- .mergeScans1(sqrt(Rlow[ok,i]),sqrt(Rhigh[ok,i]),AboveNoiseLowR[ok,i],outp=outlierp)
-Rmerge[ok,i]<-tmpR[,6]
-Rout[ok,i]<-tmpR[,5]
-Rsat[ok,i]<-tmpR[,4]
-}
-
-RGmerge<-list(G=Gmerge, R=Rmerge, Gb=RGhigh$Gb, Rb=RGhigh$Gb,other=list(Goutlier=Gout,Routlier=Rout,Gsaturated=Gsat,Rsaturated=Rsat))
-new("RGList",RGmerge)
-
+	RGmerge <- list(G=Gmerge, R=Rmerge, Gb=RGhigh$Gb, Rb=RGhigh$Gb, other=list(Goutlier=Gout,Routlier=Rout,Gsaturated=Gsat,Rsaturated=Rsat))
+	new("RGList",RGmerge)
 }

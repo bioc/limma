@@ -135,7 +135,7 @@ topTableF <- function(fit,number=10,genelist=fit$genes,adjust.method="BH",sort.b
 .topTableT <- function(fit,coef=1,number=10,genelist=NULL,A=NULL,eb=NULL,adjust.method="BH",sort.by="B",resort.by=NULL,p.value=1,lfc=0,confint=FALSE,...)
 #	Summary table of top genes for a single coefficient
 #	Gordon Smyth
-#	21 Nov 2002. Forked from toptable() 1 Feb 2018. Last revised 1 Feb 2018.
+#	Created 21 Nov 2002. Forked from toptable() 1 Feb 2018. Last revised 12 Apr 2020.
 {
 #	Check fit
 	fit$coefficients <- as.matrix(fit$coefficients)
@@ -209,8 +209,8 @@ topTableF <- function(fit,number=10,genelist=fit$genes,adjust.method="BH",sort.b
 #	Thin out fit by p.value and lfc thresholds	
 	if(p.value < 1 | lfc > 0) {
 		sig <- (adj.P.Value <= p.value) & (abs(M) >= lfc)
-		if(any(is.na(sig))) sig[is.na(sig)] <- FALSE
-		if(all(!sig)) return(data.frame())
+		if(anyNA(sig)) sig[is.na(sig)] <- FALSE
+		if(!any(sig)) return(data.frame())
 		genelist <- genelist[sig,,drop=FALSE]
 		M <- M[sig]
 		A <- A[sig]
@@ -366,8 +366,8 @@ toptable <- function(fit,coef=1,number=10,genelist=NULL,A=NULL,eb=NULL,adjust.me
 #	Thin out fit by p.value and lfc thresholds	
 	if(p.value < 1 | lfc > 0) {
 		sig <- (adj.P.Value <= p.value) & (abs(M) >= lfc)
-		if(any(is.na(sig))) sig[is.na(sig)] <- FALSE
-		if(all(!sig)) return(data.frame())
+		if(anyNA(sig)) sig[is.na(sig)] <- FALSE
+		if(!any(sig)) return(data.frame())
 		genelist <- genelist[sig,,drop=FALSE]
 		M <- M[sig]
 		A <- A[sig]
