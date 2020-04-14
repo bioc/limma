@@ -103,11 +103,63 @@ limmaUsersGuide <- function(view=TRUE)
 	return(f)
 }
 
-changeLog <- function(n=20)
-#	Write first n lines of limma changelog
+changeLog <- function(n=30L, package="limma")
+#	Write first n lines of package change log or NEWS file.
+#	Originally written for limma package, but works for any package
+#	with a change log or NEWS file.
 #	Gordon Smyth
-#	20 Sep 2004.  Last modified 30 Oct 2004.
+#	Created 20 Sep 2004.  Last modified 14 Apr 2020.
 {
-	writeLines(readLines(system.file("doc","changelog.txt",package="limma"),n=n))
-}
+#	Allow users to supply package name as a single argument
+	if(is.character(n) && nargs()==1L) {
+		package <- n
+		n <- 30L
+	}
 
+#	If package isn't installed there's no point in looking for the change log.
+	if(!(package %in% .packages(all.available=TRUE))) {
+		message("Package ",package," is not installed.")
+		return(invisible())
+	}
+
+#	Look for change log file in several possible naming conventions.
+	Path <- system.file("doc","changelog.txt",package=package)
+	FileExists <- file.exists(Path)
+	if(!FileExists) {
+		Path <- system.file("doc","ChangeLog",package=package)
+		FileExists <- file.exists(Path)
+	}
+	if(!FileExists) {
+		Path <- system.file("changelog.txt",package=package)
+		FileExists <- file.exists(Path)
+	}
+	if(!FileExists) {
+		Path <- system.file("ChangeLog",package=package)
+		FileExists <- file.exists(Path)
+	}
+	if(!FileExists) {
+		Path <- system.file("CHANGELOG",package=package)
+		FileExists <- file.exists(Path)
+	}
+	if(!FileExists) {
+		Path <- system.file("NEWS",package=package)
+		FileExists <- file.exists(Path)
+	}
+	if(!FileExists) {
+		Path <- system.file("NEWS.md",package=package)
+		FileExists <- file.exists(Path)
+	}
+
+#	If found, write change log to R session.
+	if(FileExists)
+		writeLines(readLines(Path,n=n))
+	else {
+#		NEWS.Rd is a structured file rather than a change log.
+#		If we find that file but no change log, then suggest use of news().
+		if(file.exists(system.file("NEWS.Rd",package=package))) {
+			message("No change log file can be found. Use news(package='",package,"') instead.")
+		} else {
+			message("No change log or NEWS file can be found")
+		}
+	}
+}

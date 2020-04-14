@@ -67,4 +67,4 @@ Smyth, G. K. (2004). Linear models and empirical Bayes methods for assessing dif
 \link{11.RNAseq}
 }
 
-\keyword{package}
+\keyword{documentation}

@@ -79,4 +79,3 @@ alias2Symbol("RS1", expand=TRUE)
 }
 
 \keyword{gene annotation}
-
