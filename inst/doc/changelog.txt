@@ -1,16 +1,22 @@
-14 Mar 2020: limma 3.43.8
+26 Apr 2020: limma 3.43.9
+
+- fitFDist() now allows a covariate trend even with fewer than 4
+  useable observations. (Useable means positive residual df and
+  finite variance and covariate values.)
+
+14 Apr 2020: limma 3.43.8
 
 - Add new argument `package` to changeLog(). changeLog() now works
   for any package rather than only for limma.
 
-12 Mar 2020: limma 3.43.7
+12 Apr 2020: limma 3.43.7
 
 This revision consists of code speed-ups:
 - Convert code usages of any(is.na(x)) to anyNA(x).
 - Convert code usages of all(!x) to !any(x).
 - Convert code usages of all(df.residual==0) to max(df.residual)==0.
 
-12 Mar 2020: limma 3.43.6
+12 Apr 2020: limma 3.43.6
 
 - Fix to classifyTestsF() when one or more of the coefficients have
   zero variance. Previously the zero variance will introduce NAs into

@@ -1,12 +1,13 @@
 fitFDist <- function(x,df1,covariate=NULL)
 #	Moment estimation of the parameters of a scaled F-distribution.
-#	The numerator degrees of freedom are given, the denominator is to be estimated.
+#	The numerator degrees of freedom is given, the scale factor and denominator df is to be estimated.
 #	Gordon Smyth and Belinda Phipson
-#	8 Sept 2002.  Last revised 25 Jan 2017.
+#	Created 8 Sept 2002.  Last revised 4 Apr 2020.
 {
 #	Check x
 	n <- length(x)
-	if(n <= 1L) return(list(scale=NA,df2=NA))
+	if(n == 0L) return(list(scale=NA,df2=NA))
+	if(n == 1L) return(list(scale=x,df2=0))
 
 #	Check df1
 	ok <- is.finite(df1) & df1 > 1e-15
@@ -36,19 +37,13 @@ fitFDist <- function(x,df1,covariate=NULL)
 				covariate <- sign(covariate)
 			}
 		}
-		splinedf <- min(4L,length(unique(covariate)))
-#		If covariate takes only one value, recall with NULL covariate
-		if(splinedf < 2L) {
-			out <- Recall(x=x,df1=df1)
-			out$scale <- rep_len(out$scale,n)
-			return(out)
-		}
 	}
 
-#	Remove missing or infinite values and zero degrees of freedom
+#	Remove missing or infinite or negative values and zero degrees of freedom
 	ok <- ok & is.finite(x) & (x > -1e-15)
 	nok <- sum(ok)
-	notallok <- !all(ok)
+	if(nok==1L) return(list(scale=x[ok],df2=0))
+	notallok <- (nok < n)
 	if(notallok) {
 		x <- x[ok]
 		if(length(df1)>1L) df1 <- df1[ok]
@@ -58,11 +53,15 @@ fitFDist <- function(x,df1,covariate=NULL)
 		}
 	}
 
-#	Check whether enough observations to estimate variance around trend
-	if(nok <= splinedf) {
-		s20 <- NA
-		if(!is.null(covariate)) s20 <- rep_len(s20,n)
-		return(list(scale=s20,df2=NA))
+#	Set df for spline trend
+	if(!is.null(covariate)) {
+		splinedf <- min(4L,nok-1L,length(unique(covariate)))
+#		If covariate takes only one unique value or insufficient observations, recall with NULL covariate
+		if(splinedf < 2L) {
+			out <- Recall(x=x,df1=df1)
+			out$scale <- rep_len(out$scale,n)
+			return(out)
+		}
 	}
 
 #	Avoid exactly zero values
