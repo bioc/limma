@@ -1,3 +1,7 @@
+26 Apr 2020: limma 3.43.11
+
+- Update installation section of User's Guide.
+
 26 Apr 2020: limma 3.43.10
 
 - Update NEWS.Rd for imminent Bioconductor 3.11 release.
