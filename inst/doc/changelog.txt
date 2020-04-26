@@ -1,3 +1,10 @@
+26 Apr 2020: limma 3.43.10
+
+- Update NEWS.Rd for imminent Bioconductor 3.11 release.
+
+- Add references to edgeR::voomLmFit() in the voom() and
+  voomWithQualityWeights() help pages.
+
 26 Apr 2020: limma 3.43.9
 
 - fitFDist() now allows a covariate trend even with fewer than 4
@@ -78,7 +85,7 @@ This revision consists of code speed-ups:
   zero. The new code fixes the improvement originally introduced in
   limma 3.35.9. The new code will return non-NA contrasts if the NA
   coefficients all get 0 weight in the contrast. Previous code was
-  correct if all genes had the same NA coefficients but could an
+  correct if all genes had the same NA coefficients but could give an
   avoidable NA result if some genes had NA coefficients but the
   first gene did not.
 

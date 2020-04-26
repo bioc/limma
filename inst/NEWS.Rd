@@ -2,100 +2,203 @@
 \title{limma News}
 \encoding{UTF-8}
 
-\section{Version 3.42.0}{\itemize{
 
-\item
-  New head() and tail() methods for all limma data classes.
+\section{Version 3.44.0}{
 
-\item
-  New unique() and subsetting methods for TestResults objects.
-  Previously a
-  subsetted TestResults object became an ordinary numeric matrix, but
-  now the TestResults class is preserved. Single index subsetting is
-  also allowed but produces a numeric vector.
+  \subsection{New functionality}{\itemize{
 
-\item
-  roast() and mroast() now use less memory. Memory usage now
-  remains bounded regardless of the number of rotations used.
-  Both functions are faster than before when \code{approx.zscore=TRUE}.
-  A new argument `legacy` is added to allow users to turn these improvements
-  off if they wish to reproduce numerical results from limma 3.40.0 exactly.
-  The default number of rotations `nrot` is increased  
-  from 999 to 1999.
-  A bug has been fixed for roast() and mroast() when `index` is a character vector of geneids or
-  rownames. Previously this usage failed.
+    \item
+    Add new argument `package` to changeLog(). changeLog() now works
+    for any package rather than only for limma.
 
-\item
-  Complete rewrite of zscoreT(), which is now somewhat faster and
-  offer two new options for the normalizing transformation. The new
-  argument `method` indicates which transformation is used when
-  `approx=TRUE`. The default approximation method is changed from
-  "hill" to "bailey".
-  zscoreT() now allows NA values when `approx=TRUE` and works
-  correctly for all valid df values.  Previously `approx=TRUE`
-  returned NA results for `df` infinite or <= 0.05. A simple robust
-  approximation from Wallace (1959) has been introduced to handle
-  very large or very small `df` values. Previously `approx=FALSE`
-  treated any `df` greater than 10000 as infinite; this threshold is
-  now raised to 1e300.
+  }}
 
-\item
-  tZScore() is slightly faster.
+  \subsection{Code improvements}{\itemize{
 
-\item
-  New argument `gene.weights` for fry() so as to match the arguments
-  and behavior of mroast(). Previously gene weights could be input to
-  fry() only through the `index` argument.
-  fry's mixed p-values now take account of gene weights.
-  Previously gene weights were not used in fry's mixed
-  p-value calculation.
+    \item
+    Improved treatment of NA coefficients by contrasts.fit().
+    contrasts.fit() has always removed coefficients that were NA because
+    of singularities in the design matrix, but any extra NA coefficients
+    caused by NA expression values would cause all the stdev.unscaled
+    values returned by contrasts.fit() to be NA for those genes.
+    contrasts.fit() now returns non-NA coefficients and
+    non-NA stdev.unscaled values if all the NA coefficients are
+    multiplied by zero contrast multipliers.
 
-\item
-  Add arguments `block`, `correlation` and `weights` to voom() and
-  remove the `...` argument.
+    \item
+    Speed improvement for contrasts.fit() if some input coefficients are
+    not involved (have zero multipliers) in any of the contrasts.
 
-\item
-  Update the arguments of voomWithQualityWeights() to match the
-  revisions to arrayWeights() in limma 3.40.0.
-  Add new argument `var.group`.
+    \item
+    contrasts.fit() now preserves the `pivot` component of the fit
+    object instead of removing it.
 
-\item
-  New arguments `xlab`, `ylab` and `main` for plotFB(). The default
-  plot title now includes the column name from the data object.
-  Default for `pch` increased to 0.3.
+    \item
+    voom now checks explicitly for NA or negative counts and gives an
+    informative error message.
 
-\item
-  plotWithHighlights and plotMD.MArrayLM now gives special treatment
-  to the case that `status` is a TestResults object.
+    \item
+    fitFDist() now allows a covariate trend even with fewer than 4
+    useable observations. (Useable means positive residual df and
+    finite variance and covariate values.)
 
-\item
-  Update Yoruba case study in User's Guide to call voom() and
-  duplicateCorrelation() twice each instead of once.
+    \item
+    Internal code cleaned up to avoid partial matching of function
+    arguments, attributes or list component names. The automatic package
+    tests are now run with the warnPartialMatchArgs,
+    warnPartialMatchAttr and warnPartialMatchDollar options all set to
+    TRUE.
 
-\item
-  Update Users Guide: update Rsubread reference, correct remarks
-  about prior distribution for 1/sigma^2 in Section 13.2 and rerun
-  the Yoruba and Pasilla case studies.
+  }}
 
-\item
-  Use "RNA-seq" and "ChIP-seq" consistently in the documentation instead of
-  "RNA-Seq" and "ChIP-Seq".
+  \subsection{Documentation}{\itemize{
 
-\item
-  All uses of the approx() function now set
-  `ties=list("ordered",mean)`, except for fitFDistRobustly()
-  which uses `ties=mean`.
-  The change was prompted by a change in
-  R 3.6.0 whereby using the default for `ties` generates a warning
-  message whenever ties are present in `x`. The new code gives the
-  same results but is very slightly faster and avoids the warning
-  message.
-  limma now depends on R >= 3.6.0 because of this change.
+    \item
+    More explanation of `covariates` argument to removeBatchEffects().
 
-\item
-  Fix bug in barcodeplot() when `index` or `index2` are character
-  vectors.
-}}
+  }}
+
+  \subsection{Bug fixes}{\itemize{
+ 
+    \item
+    Fix bug in contrasts.fit() when some coefficients are NA due to NA
+    expression values and the corresponding contrast multipliers are
+    zero. The new code fixes the improvement originally introduced in
+    limma 3.35.9. The new code will return non-NA contrasts if the NA
+    coefficients all get 0 weight in the contrast. Previous code was
+    correct if all genes had the same NA coefficients but could give an
+    avoidable NA result if some genes had NA coefficients but the
+    first gene did not.
+
+    \item
+    Improvements to subsetting MArrayLM objects by column. Previously
+    the presence of non-estimable coefficients sometimes caused the
+    cov.coefficient matrix to be subsetted incorrectly; that is now
+    fixed. Subsetting zero columns is now allowed even when F-statistics
+    are present.
+
+    \item
+    Fix to classifyTestsF() when one or more of the coefficients have
+    zero variance. Previously the zero variance will introduce NAs into
+    the correlation matrix and hence cause an error. This is now
+    avoided. This also fixes eBayes() when one or more of the
+    coefficients are identically zero (usually caused by an all-zero
+    contrast).
+
+  }}
+}
+
+
+\section{Version 3.42.0}{
+
+  \subsection{New functionality}{\itemize{
+
+    \item
+     New head() and tail() methods for all limma data classes.
+
+    \item
+    New unique() and subsetting methods for TestResults objects.
+    Previously a
+    subsetted TestResults object became an ordinary numeric matrix, but
+    now the TestResults class is preserved. Single index subsetting is
+    also allowed but produces a numeric vector.
+
+    \item
+    New argument `gene.weights` for fry() so as to match the arguments
+    and behavior of mroast(). Previously gene weights could be input to
+    fry() only through the `index` argument.
+    fry's mixed p-values now take account of gene weights.
+    Previously gene weights were not used in fry's mixed
+    p-value calculation.
+
+    \item
+    Add arguments `block`, `correlation` and `weights` to voom() and
+    remove the `...` argument.
+
+    \item
+    Update the arguments of voomWithQualityWeights() to match the
+    revisions to arrayWeights() in limma 3.40.0.
+    Add new argument `var.group`.
+
+    \item
+    New arguments `xlab`, `ylab` and `main` for plotFB(). The default
+    plot title now includes the column name from the data object.
+    Default for `pch` increased to 0.3.
+
+    \item
+    plotWithHighlights and plotMD.MArrayLM now gives special treatment
+    to the case that `status` is a TestResults object.
+
+  }}
+
+  \subsection{Code improvements}{\itemize{
+
+    \item
+    roast() and mroast() now use less memory. Memory usage now
+    remains bounded regardless of the number of rotations used.
+    Both functions are faster than before when \code{approx.zscore=TRUE}.
+    A new argument `legacy` is added to allow users to turn these improvements
+    off if they wish to reproduce numerical results from limma 3.40.0 exactly.
+    The default number of rotations `nrot` is increased  
+    from 999 to 1999.
+    A bug has been fixed for roast() and mroast() when `index` is a character vector of geneids or
+    rownames. Previously this usage failed.
+
+    \item
+    Complete rewrite of zscoreT(), which is now somewhat faster and
+    offer two new options for the normalizing transformation. The new
+    argument `method` indicates which transformation is used when
+    `approx=TRUE`. The default approximation method is changed from
+    "hill" to "bailey".
+    zscoreT() now allows NA values when `approx=TRUE` and works
+    correctly for all valid df values.  Previously `approx=TRUE`
+    returned NA results for `df` infinite or <= 0.05. A simple robust
+    approximation from Wallace (1959) has been introduced to handle
+    very large or very small `df` values. Previously `approx=FALSE`
+    treated any `df` greater than 10000 as infinite; this threshold is
+    now raised to 1e300.
+
+    \item
+    tZScore() is slightly faster.
+
+    \item
+    All uses of the approx() function now set
+    `ties=list("ordered",mean)`, except for fitFDistRobustly()
+    which uses `ties=mean`.
+    The change was prompted by a change in
+    R 3.6.0 whereby using the default for `ties` generates a warning
+    message whenever ties are present in `x`. The new code gives the
+    same results but is very slightly faster and avoids the warning
+    message.
+    limma now depends on R >= 3.6.0 because of this change.
+
+  }}
+
+  \subsection{Documentation}{\itemize{
+
+    \item
+    Update Yoruba case study in User's Guide to call voom() and
+    duplicateCorrelation() twice each instead of once.
+
+    \item
+    Update Users Guide: update Rsubread reference, correct remarks
+    about prior distribution for 1/sigma^2 in Section 13.2 and rerun
+    the Yoruba and Pasilla case studies.
+
+    \item
+    Use "RNA-seq" and "ChIP-seq" consistently in the documentation instead of
+    "RNA-Seq" and "ChIP-Seq".
+
+  }}
+
+ \subsection{Bug fixes}{\itemize{
+
+   \item
+   Fix bug in barcodeplot() when `index` or `index2` are character
+   vectors.
+
+  }}
+}
 
 
 \section{Version 3.40.0}{\itemize{

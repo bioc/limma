@@ -114,6 +114,8 @@ RNA-seq analysis is easy as 1-2-3 with limma, Glimma and edgeR.
 \code{\link{voomWithQualityWeights}}.
 \code{\link{vooma}} is similar to \code{voom} but for microarrays instead of RNA-seq.
 
+See also \code{voomLmFit} in the edgeR package.
+
 A summary of functions for RNA-seq analysis is given in \link{11.RNAseq}.
 }
 \examples{

@@ -87,7 +87,9 @@ Why weight? Combining voom with estimates of sample quality improves power in RN
 \seealso{
 \code{\link{voom}}, \code{\link{arrayWeights}}
 
-A summary of functions for RNA-seq analysis is given in \link{11.RNAseq}.
+See also \code{voomLmFit} in the edgeR package.
+
+A summary of limma functions for RNA-seq analysis is given in \link{11.RNAseq}.
 }
 
 \keyword{regression}
