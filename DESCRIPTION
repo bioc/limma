@@ -1,5 +1,5 @@
 Package: limma
-Version: 3.43.11
+Version: 3.44.0
 Date: 2020-04-26
 Title: Linear Models for Microarray Data
 Description: Data analysis, linear models and differential expression for microarray data.
