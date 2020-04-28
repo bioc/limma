@@ -2,8 +2,8 @@
 #	Estimate array variances via gene-by-gene update algorithm
 #	Created by Matt Ritchie 7 Feb 2005.
 #	Cynthia Liu added var.design argument 22 Sep 2014.
-#	Fixes and speedups by Gordon Smyth 15 Feb 2019.
-#	Last modified 14 Feb 2019.
+#	Fixes and speedups by Gordon Smyth 15 Feb 2019, 28 Apr 2020.
+#	Last modified 28 Feb 2020.
 {
 	ngenes <- nrow(E)
 	narrays <- ncol(E)
@@ -48,6 +48,7 @@
 			y <- y[obs]
 			w <- w[obs]
 			fit <- lm.wfit(X, y, w)
+			if(fit$df.residual < 2L) next
 			h1 <- d <- Zero
 			d[obs] <- w*fit$residuals^2
 			h1[obs] <- 1-hat(fit$qr)
