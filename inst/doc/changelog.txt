@@ -1,3 +1,6 @@
+28 Apr 2020: limma 3.45.0 (Bioconductor 3.12 Developmental Branch)
+28 Apr 2020: limma 3.44.0 (Bioconductor 3.11 Release Branch)
+
 26 Apr 2020: limma 3.43.11
 
 - Update installation section of User's Guide.
