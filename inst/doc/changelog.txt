@@ -1,3 +1,10 @@
+28 Apr 2020: limma 3.44.1
+
+- Bug fix to arrayWeights() when `y` contains NAs, the design matrix
+  has several columns and some but not all genes have no residual df.
+
+28 Apr 2020: limma 3.44.0 (Bioconductor 3.11 Release Branch)
+
 26 Apr 2020: limma 3.43.11
 
 - Update installation section of User's Guide.
