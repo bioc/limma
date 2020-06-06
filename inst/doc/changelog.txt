@@ -1,3 +1,9 @@
+ 6 Jun 2020: limma 3.45.3
+
+- Add a message to topTableF() to warn that the function is
+  obsolete and will be removed in a future version of limma.
+  Remove usages of topTableF() from the User's Guide.
+
  6 Jun 2020: limma 3.45.2
 
 - Remove obsolete function toptable(), which has been officially 

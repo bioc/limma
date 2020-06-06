@@ -3,9 +3,11 @@
 \alias{topTableF}
 \alias{topTreat}
 \title{Table of Top Genes from Linear Model Fit}
+
 \description{
 Extract a table of the top-ranked genes from a linear model fit.
 }
+
 \usage{
 topTable(fit, coef=NULL, number=10, genelist=fit$genes, adjust.method="BH",
          sort.by="B", resort.by=NULL, p.value=1, lfc=0, confint=FALSE)
@@ -13,6 +15,7 @@ topTableF(fit, number=10, genelist=fit$genes, adjust.method="BH",
          sort.by="F", p.value=1, lfc=0)
 topTreat(fit, coef=1, sort.by="p", resort.by=NULL, \dots)
 }
+
 \arguments{
   \item{fit}{list containing a linear model fit produced by \code{lmFit}, \code{lm.series}, \code{gls.series} or \code{mrlm}.
   For \code{topTable}, \code{fit} should be an object of class \code{MArrayLM} as produced by \code{lmFit} and \code{eBayes}.}
@@ -58,10 +61,15 @@ If \code{fit} had unique rownames, then the row.names of the above data.frame ar
 Otherwise, the row.names of the data.frame indicate the row number in \code{fit}.
 If \code{fit} had duplicated row names, then these are preserved in the \code{ID} column of the data.frame, or in \code{ID0} if \code{genelist} already contained an \code{ID} column.
 }
+
 \details{
-These functions summarize the linear model fit object produced by \code{lmFit}, \code{lm.series}, \code{gls.series} or \code{mrlm} by selecting the top-ranked genes for any given contrast.
-\code{topTable} and \code{topTableF} assume that the linear model fit has already been processed by \code{\link{eBayes}}.
+These functions summarize the linear model fit object produced by \code{lmFit}, \code{lm.series}, \code{gls.series} or \code{mrlm} by selecting the top-ranked genes for any given contrast, or for a set of contrasts.
+\code{topTable} assumes that the linear model fit has already been processed by \code{\link{eBayes}}.
 \code{topTreat} assumes that the fit has been processed by \code{\link{treat}}.
+
+If \code{coef} has a single value, then the moderated t-statistics and p-values for that coefficient or contrast are used.
+If \code{coef} takes two or more values, the moderated F-statistics for that set of coefficients or contrasts are used.
+If \code{coef} is left \code{NULL}, then all the coefficients or contrasts in the fitted model are used, except that any coefficient named \code{(Intercept)} will be removed.
 
 The p-values for the coefficient/contrast of interest are adjusted for multiple testing by a call to \code{\link[stats]{p.adjust}}.
 The \code{"BH"} method, which controls the expected false discovery rate (FDR) below the specified value, is the default adjustment method because it is the most likely to be appropriate for microarray studies.
@@ -80,10 +88,6 @@ If a different order is wanted, then the \code{resort.by} argument may be useful
 For example, \code{topTable(fit, sort.by="B", resort.by="logFC")} selects the top genes according to log-odds of differential expression and then orders the selected genes by log-ratio in decreasing order.
 Or \code{topTable(fit, sort.by="logFC", resort.by="logFC")} would select the genes by absolute log-fold-change and then sort them from most positive to most negative.
 
-\code{topTableF} ranks genes on the basis of moderated F-statistics for one or more coefficients.
-If \code{topTable} is called and \code{coef} has two or more elements, then the specified columns will be extracted from \code{fit} and \code{topTableF} called on the result.
-\code{topTable} with \code{coef=NULL} is the same as \code{topTableF}, unless the fitted model \code{fit} has only one column.
-
 Toptable output for all probes in original (unsorted) order can be obtained by \code{topTable(fit,sort="none",n=Inf)}.
 However \code{\link{write.fit}} or \code{\link{write}} may be preferable if the intention is to write the results to a file.
 A related method is \code{as.data.frame(fit)} which coerces an \code{MArrayLM} object to a data.frame.
@@ -93,7 +97,11 @@ Alternatively, by specifying \code{p.value} and \code{number=Inf}, all genes wit
 
 The argument \code{lfc} gives the ability to filter genes by log-fold change.
 This argument is not available for \code{topTreat} because \code{treat} already handles fold-change thresholding in a more sophisticated way.
+
+The function \code{topTableF} is scheduled for removal in a future version of limma.
+It is equivalent to \code{topTable} with \code{coef=NULL}.
 }
+
 \note{
 Although \code{topTable} enables users to set p-value and lfc cutoffs simultaneously, this is not generally recommended.
 If the fold changes and p-values are not highly correlated, then the use of a fold change cutoff can increase the false discovery rate above the nominal level.
@@ -102,12 +110,14 @@ Users wanting to use fold change thresholding are usually recommended to use \co
 In general, the adjusted p-values returned by \code{adjust.method="BH"} remain valid as FDR bounds only when the genes remain sorted by p-value.
 Resorting the table by log-fold-change can increase the false discovery rate above the nominal level for genes at the top of resorted table.
 }
+
 \seealso{
 An overview of linear model and testing functions is given in \link{06.LinearModels}.
 See also \code{\link[stats]{p.adjust}} in the \code{stats} package.
 }
+
 \author{Gordon Smyth}
+
 \examples{
 #  See lmFit examples
 }
-\keyword{htest}

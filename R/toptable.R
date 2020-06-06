@@ -54,6 +54,8 @@ topTableF <- function(fit,number=10,genelist=fit$genes,adjust.method="BH",sort.b
 #	Gordon Smyth
 #	27 August 2006. Last modified 24 June 2014.
 {
+	message("topTableF is obsolete and will be removed in a future version of limma. Please considering using topTable instead.")
+
 #	Check fit
 	if(is.null(fit$coefficients)) stop("Coefficients not found in fit")
 	M <- as.matrix(fit$coefficients)
