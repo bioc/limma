@@ -1,5 +1,4 @@
-\name{toptable}
-\alias{toptable}
+\name{topTable}
 \alias{topTable}
 \alias{topTableF}
 \alias{topTreat}
@@ -10,8 +9,6 @@ Extract a table of the top-ranked genes from a linear model fit.
 \usage{
 topTable(fit, coef=NULL, number=10, genelist=fit$genes, adjust.method="BH",
          sort.by="B", resort.by=NULL, p.value=1, lfc=0, confint=FALSE)
-toptable(fit, coef=1, number=10, genelist=NULL, A=NULL, eb=NULL, adjust.method="BH",
-         sort.by="B", resort.by=NULL, p.value=1, lfc=0, confint=FALSE, \dots)
 topTableF(fit, number=10, genelist=fit$genes, adjust.method="BH",
          sort.by="F", p.value=1, lfc=0)
 topTreat(fit, coef=1, sort.by="p", resort.by=NULL, \dots)
@@ -23,22 +20,26 @@ topTreat(fit, coef=1, sort.by="p", resort.by=NULL, \dots)
   \item{number}{maximum number of genes to list}
   \item{genelist}{data frame or character vector containing gene information.
   For \code{topTable} only, this defaults to \code{fit$genes}.}
-  \item{A}{matrix of A-values or vector of average A-values.
-  For \code{topTable} only, this defaults to \code{fit$Amean}.}
-  \item{eb}{output list from \code{ebayes(fit)}.
-  If \code{NULL}, this will be automatically generated.}
   \item{adjust.method}{method used to adjust the p-values for multiple testing.  Options, in increasing conservatism, include \code{"none"}, \code{"BH"}, \code{"BY"} and \code{"holm"}.
   See \code{\link{p.adjust}} for the complete list of options. A \code{NULL} value will result in the default adjustment method, which is \code{"BH"}.}
-  \item{sort.by}{character string specifying statistic to rank genes by.
-  Possible values for \code{topTable} and \code{toptable} are \code{"logFC"}, \code{"AveExpr"}, \code{"t"}, \code{"P"}, \code{"p"}, \code{"B"} or \code{"none"}.
-  (Permitted synonyms are \code{"M"} for \code{"logFC"}, \code{"A"} or \code{"Amean"} for \code{"AveExpr"}, \code{"T"} for \code{"t"} and \code{"p"} for \code{"P"}.)
-  Possibilities for \code{topTableF} are \code{"F"} or \code{"none"}.
-  Possibilities for \code{topTreat} are as for \code{topTable} except for \code{"B"}.}
-  \item{resort.by}{character string specifying statistic to sort the selected genes by in the output data.frame.  Possibilities are the same as for \code{sort.by}.}
+  \item{sort.by}{
+    character string specifying which statistic to rank the genes by.
+    Possible values for \code{topTable} are \code{"logFC"}, \code{"AveExpr"}, \code{"t"}, \code{"P"}, \code{"p"}, \code{"B"} or \code{"none"}.
+    (Permitted synonyms are \code{"M"} for \code{"logFC"}, \code{"A"} or \code{"Amean"} for \code{"AveExpr"}, \code{"T"} for \code{"t"} and \code{"p"} for \code{"P"}.)
+    Possible values for \code{topTableF} are \code{"F"} or \code{"none"}.
+    \code{topTreat} accepts the same values as \code{topTable} except for \code{"B"}.
+  }
+  \item{resort.by}{
+    character string specifying statistic to sort the selected genes by in the output data.frame.  Possibilities are the same as for \code{sort.by}.
+  }
   \item{p.value}{cutoff value for adjusted p-values. Only genes with lower p-values are listed.}
-  \item{lfc}{minimum absolute log2-fold-change required. \code{topTable} and \code{topTableF} include only genes with (at least one) absolute log-fold-changes greater than \code{lfc}. \code{topTreat} does not remove genes but ranks genes by evidence that their log-fold-change exceeds \code{lfc}.}
+  \item{lfc}{
+    minimum absolute log2-fold-change required.
+    \code{topTable} and \code{topTableF} include only genes with (at least one) absolute log-fold-change greater than \code{lfc}.
+    \code{topTreat} does not remove genes but ranks genes by evidence that their log-fold-change exceeds \code{lfc}.
+  }
   \item{confint}{logical, should confidence 95\% intervals be output for \code{logFC}?  Alternatively, can take a numeric value between zero and one specifying the confidence level required.}
-  \item{\dots}{For \code{toptable}, other arguments are passed to \code{ebayes} (if \code{eb=NULL}).  For \code{topTreat}, other arguments are passed to \code{topTable}.}
+  \item{\dots}{other \code{topTreat} arguments are passed to \code{topTable}.}
 }
 \value{
   A dataframe with a row for the \code{number} top genes and the following columns:
@@ -58,8 +59,6 @@ Otherwise, the row.names of the data.frame indicate the row number in \code{fit}
 If \code{fit} had duplicated row names, then these are preserved in the \code{ID} column of the data.frame, or in \code{ID0} if \code{genelist} already contained an \code{ID} column.
 }
 \details{
-\code{toptable} is an earlier interface and is retained only for backward compatibility.
-
 These functions summarize the linear model fit object produced by \code{lmFit}, \code{lm.series}, \code{gls.series} or \code{mrlm} by selecting the top-ranked genes for any given contrast.
 \code{topTable} and \code{topTableF} assume that the linear model fit has already been processed by \code{\link{eBayes}}.
 \code{topTreat} assumes that the fit has been processed by \code{\link{treat}}.
