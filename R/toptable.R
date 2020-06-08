@@ -3,7 +3,7 @@
 topTable <- function(fit,coef=NULL,number=10,genelist=fit$genes,adjust.method="BH",sort.by="B",resort.by=NULL,p.value=1,lfc=0,confint=FALSE)
 #	Summary table of top genes, object-orientated version
 #	Gordon Smyth
-#	4 August 2003.  Last modified 1 Feb 2018.
+#	4 August 2003.  Last modified 8 Jun 2020.
 {
 #	Check fit
 	if(!is(fit,"MArrayLM")) stop("fit must be an MArrayLM object")
@@ -30,7 +30,7 @@ topTable <- function(fit,coef=NULL,number=10,genelist=fit$genes,adjust.method="B
 		coef <- unique(coef)
 		if(length(fit$coefficients[1,coef]) < ncol(fit)) fit <- fit[,coef]
 		if(sort.by=="B") sort.by <- "F"
-		return(topTableF(fit,number=number,genelist=genelist,adjust.method=adjust.method,sort.by=sort.by,p.value=p.value,lfc=lfc))
+		return(.topTableF(fit,number=number,genelist=genelist,adjust.method=adjust.method,sort.by=sort.by,p.value=p.value,lfc=lfc))
 	}
 	fit <- unclass(fit)
 	ebcols <- c("t","p.value","lods")
@@ -49,13 +49,12 @@ topTable <- function(fit,coef=NULL,number=10,genelist=fit$genes,adjust.method="B
 		confint=confint)
 }
 
-topTableF <- function(fit,number=10,genelist=fit$genes,adjust.method="BH",sort.by="F",p.value=1,lfc=0)
+.topTableF <- function(fit,number=10,genelist=fit$genes,adjust.method="BH",sort.by="F",p.value=1,lfc=0)
 #	Summary table of top genes by F-statistic
 #	Gordon Smyth
 #	27 August 2006. Last modified 24 June 2014.
+#	Non-exported copy made 8 June 2020.
 {
-	message("topTableF is obsolete and will be removed in a future version of limma. Please considering using topTable instead.")
-
 #	Check fit
 	if(is.null(fit$coefficients)) stop("Coefficients not found in fit")
 	M <- as.matrix(fit$coefficients)

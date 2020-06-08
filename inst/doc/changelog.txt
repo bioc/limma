@@ -1,3 +1,9 @@
+ 8 Jun 2020: limma 3.45.4
+
+- Add new argument `output.style` to weightedLowess().
+
+- Revise and expland the weightedLowess help page.
+
  6 Jun 2020: limma 3.45.3
 
 - Add a message to topTableF() to warn that the function is
