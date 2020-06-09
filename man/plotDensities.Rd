@@ -56,4 +56,5 @@ plotDensities(MA, col=c("red","blue"))
 plotDensities(MA,group=group,col=c("blue","orange","green"))
 }
 }
-\keyword{hplot}
+
+\concept{plots}

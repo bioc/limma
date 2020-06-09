@@ -179,7 +179,7 @@ readSpotTypes <- function(file="SpotTypes.txt",path=NULL,sep="\t",check.names=FA
 controlStatus <- function(types, genes, spottypecol="SpotType", regexpcol, verbose=TRUE)
 #	Set status of each spot (row)
 #	Gordon Smyth
-#	19 Oct 2003.  Last modified 19 Sep 2015.
+#	19 Oct 2003.  Last modified 9 Jun 2020.
 {
 #	Check types
 	if(!is.data.frame(types)) stop("types must be a data.frame")
@@ -229,7 +229,7 @@ controlStatus <- function(types, genes, spottypecol="SpotType", regexpcol, verbo
 #	Set spot status
 	spottype <- as.character(types[,spottypecol])
 	if(default <- all(types[1,regexpcol]=="*")) {
-		status <- rep(spottype[1],nspots)
+		status <- rep_len(spottype[1],nspots)
 		if(ntypes==1) return(status)
 	} else
 		status <- character(nspots)

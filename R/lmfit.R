@@ -3,7 +3,7 @@
 lmFit <- function(object,design=NULL,ndups=1,spacing=1,block=NULL,correlation,weights=NULL,method="ls",...)
 #	Fit genewise linear models
 #	Gordon Smyth
-#	30 June 2003.  Last modified 6 Oct 2015.
+#	30 June 2003.  Last modified 9 June 2020.
 {
 #	Extract components from y
 	y <- getEAWP(object)
@@ -67,7 +67,7 @@ lmFit <- function(object,design=NULL,ndups=1,spacing=1,block=NULL,correlation,we
 lm.series <- function(M,design=NULL,ndups=1,spacing=1,weights=NULL)
 #	Fit linear model for each gene to a series of arrays
 #	Gordon Smyth
-#	18 Apr 2002. Revised 26 June 2015.
+#	18 Apr 2002. Revised 9 June 2020.
 {
 #	Check expression matrix
 	M <- as.matrix(M)
@@ -92,7 +92,7 @@ lm.series <- function(M,design=NULL,ndups=1,spacing=1,weights=NULL)
 #	Reform duplicated rows into columns
 	if(ndups>1) {
 		M <- unwrapdups(M,ndups=ndups,spacing=spacing)
-		design <- design %x% rep(1,ndups)
+		design <- design %x% rep_len(1,ndups)
 		if(!is.null(weights)) weights <- unwrapdups(weights,ndups=ndups,spacing=spacing)
 	}
 
@@ -116,7 +116,7 @@ lm.series <- function(M,design=NULL,ndups=1,spacing=1,weights=NULL)
 			else
 				fit$sigma <- sqrt(mean(fit$effects[(fit$rank + 1):narrays]^2))
 		} else
-			fit$sigma <- rep(NA,ngenes)
+			fit$sigma <- rep_len(NA_real_,ngenes)
 		fit$fitted.values <- fit$residuals <- fit$effects <- NULL
 		fit$coefficients <- t(fit$coefficients)
 		fit$cov.coefficients <- chol2inv(fit$qr$qr,size=fit$qr$rank)
@@ -124,7 +124,7 @@ lm.series <- function(M,design=NULL,ndups=1,spacing=1,weights=NULL)
 		dimnames(fit$cov.coefficients) <- list(coef.names[est],coef.names[est])
 		stdev.unscaled[,est] <- matrix(sqrt(diag(fit$cov.coefficients)),ngenes,fit$qr$rank,byrow = TRUE)
 		fit$stdev.unscaled <- stdev.unscaled
-		fit$df.residual <- rep.int(fit$df.residual,ngenes)
+		fit$df.residual <- rep_len(fit$df.residual,length.out=ngenes)
 		dimnames(fit$stdev.unscaled) <- dimnames(fit$stdev.unscaled) <- dimnames(fit$coefficients)
 		fit$pivot <- fit$qr$pivot
 		return(fit)
@@ -132,8 +132,8 @@ lm.series <- function(M,design=NULL,ndups=1,spacing=1,weights=NULL)
 
 #	Genewise QR-decompositions are required, so iterate through genes
 	beta <- stdev.unscaled
-	sigma <- rep(NA,ngenes)
-	df.residual <- rep(0,ngenes)
+	sigma <- rep_len(NA_real_,ngenes)
+	df.residual <- rep_len(0,ngenes)
 	for (i in 1:ngenes) {
 		y <- as.vector(M[i,])
 		obs <- is.finite(y)
@@ -166,7 +166,7 @@ lm.series <- function(M,design=NULL,ndups=1,spacing=1,weights=NULL)
 mrlm <- function(M,design=NULL,ndups=1,spacing=1,weights=NULL,...)
 #	Robustly fit linear model for each gene to a series of arrays
 #	Gordon Smyth
-#	20 Mar 2002.  Last revised 26 June 2015.
+#	20 Mar 2002.  Last revised 9 June 2020.
 {
 	if(!requireNamespace("MASS",quietly=TRUE)) stop("MASS package required but is not installed (or can't be loaded)")
 	M <- as.matrix(M)
@@ -182,13 +182,13 @@ mrlm <- function(M,design=NULL,ndups=1,spacing=1,weights=NULL,...)
 	}
 	if(ndups>1) {
 		M <- unwrapdups(M,ndups=ndups,spacing=spacing)
-		design <- design %x% rep(1,ndups)
+		design <- design %x% rep_len(1,ndups)
 		if(!is.null(weights)) weights <- unwrapdups(weights,ndups=ndups,spacing=spacing)
 	}
 	ngenes <- nrow(M)
 	stdev.unscaled <- beta <- matrix(NA,ngenes,nbeta,dimnames=list(rownames(M),coef.names))
-	sigma <- rep(NA,ngenes)
-	df.residual <- rep(0,ngenes)
+	sigma <- rep_len(NA_real_,ngenes)
+	df.residual <- rep_len(0,ngenes)
 	for (i in 1:ngenes) {
 		y <- as.vector(M[i,])
 		obs <- is.finite(y)
@@ -217,7 +217,7 @@ gls.series <- function(M,design=NULL,ndups=2,spacing=1,block=NULL,correlation=NU
 #	Fit linear model for each gene to a series of microarrays.
 #	Fit is by generalized least squares allowing for correlation between duplicate spots.
 #	Gordon Smyth
-#	11 May 2002.  Last revised 29 Dec 2015.
+#	11 May 2002.  Last revised 9 June 2020.
 {
 #	Check M
 	M <- as.matrix(M)
@@ -255,7 +255,7 @@ gls.series <- function(M,design=NULL,ndups=2,spacing=1,block=NULL,correlation=NU
 		if(is.null(spacing)) spacing <- 1
 		M <- unwrapdups(M,ndups=ndups,spacing=spacing)
 		if(!is.null(weights)) weights <- unwrapdups(weights,ndups=ndups,spacing=spacing)
-		design <- design %x% rep(1,ndups)
+		design <- design %x% rep_len(1,ndups)
 		colnames(design) <- coef.names
 		ngenes <- nrow(M)
 		narrays <- ncol(M)
@@ -293,7 +293,7 @@ gls.series <- function(M,design=NULL,ndups=2,spacing=1,block=NULL,correlation=NU
 			else
 				fit$sigma <- sqrt(mean(fit$effects[-(1:fit$rank)]^2))
 		} else
-			fit$sigma <- rep(NA,ngenes)
+			fit$sigma <- rep_len(NA_real_,ngenes)
 		fit$fitted.values <- fit$residuals <- fit$effects <- NULL
 		fit$coefficients <- t(fit$coefficients)
 		fit$cov.coefficients <- chol2inv(fit$qr$qr,size=fit$qr$rank)
@@ -301,7 +301,7 @@ gls.series <- function(M,design=NULL,ndups=2,spacing=1,block=NULL,correlation=NU
 		dimnames(fit$cov.coefficients) <- list(coef.names[est],coef.names[est])
 		stdev.unscaled[,est] <- matrix(sqrt(diag(fit$cov.coefficients)),ngenes,fit$qr$rank,byrow = TRUE)
 		fit$stdev.unscaled <- stdev.unscaled
-		fit$df.residual <- rep.int(fit$df.residual,ngenes)
+		fit$df.residual <- rep_len(fit$df.residual,length.out=ngenes)
 		dimnames(fit$stdev.unscaled) <- dimnames(fit$stdev.unscaled) <- dimnames(fit$coefficients)
 		fit$pivot <- fit$qr$pivot
 		fit$ndups <- ndups
@@ -313,8 +313,8 @@ gls.series <- function(M,design=NULL,ndups=2,spacing=1,block=NULL,correlation=NU
 
 #	Weights or missing values are present, to have to iterate over probes
 	beta <- stdev.unscaled
-	sigma <- rep(NA,ngenes)
-	df.residual <- rep(0,ngenes)
+	sigma <- rep_len(NA_real_,ngenes)
+	df.residual <- rep_len(0,ngenes)
 	for (i in 1:ngenes) {
 		y <- drop(M[i,])
 		o <- is.finite(y)

@@ -28,4 +28,4 @@ An \code{\link{EListRaw-class}} object. See return value of the function \code{\
 }
 
 \keyword{reading data}
-\concept{illumina microarrays}
+\concept{illumina beadchips}

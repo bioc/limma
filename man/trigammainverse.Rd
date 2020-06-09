@@ -29,4 +29,5 @@ This function does not accept a data.frame as argument although the base package
 y <- trigammaInverse(5)
 trigamma(y)
 }
-\keyword{math}
+
+\concept{mathematical functions}

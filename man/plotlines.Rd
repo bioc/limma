@@ -26,4 +26,5 @@ Plots a line for each probe.
 \seealso{
 An overview of modeling functions and associated plots available in LIMMA is given in \link{06.LinearModels}.
 }
-\keyword{hplot}
+
+\concept{plots}

@@ -97,5 +97,5 @@ y <- neqc(data)
 }
 
 \keyword{reading data}
-\concept{illumina microarrays}
+\concept{illumina beadchips}
 \concept{microarray data file}

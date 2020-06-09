@@ -37,4 +37,5 @@ See \code{\link[graphics]{points}} for possible values for \code{pch}, \code{col
 \seealso{
 An overview of diagnostic functions available in LIMMA is given in \link{09.Diagnostics}.
 }
-\keyword{hplot}
+
+\concept{plots}

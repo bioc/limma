@@ -4,7 +4,7 @@ lmscFit <- function(object,design,correlation)
 #	Fit single channel linear model for each gene to a series of microarrays
 #	allowing for known correlation between the channels on each spot.
 #	Gordon Smyth
-#	14 March 2004.  Last modified 1 Oct 2015.
+#	14 March 2004.  Last modified 9 June 2020.
 {
 #	Check object (assumed to a MAList)
 	if(!is.list(object)) stop("object should be an MAList")
@@ -50,7 +50,7 @@ lmscFit <- function(object,design,correlation)
 	fit$coefficients <- t(fit$coefficients)
 	stdev.unscaled <- sqrt(diag(chol2inv(fit$qr$qr)))
 	fit$stdev.unscaled <- matrix(stdev.unscaled,ngenes,nbeta,byrow=TRUE)
-	fit$df.residual <- rep.int(fit$df.residual,ngenes)
+	fit$df.residual <- rep_len(fit$df.residual,length.out=ngenes)
 	dimnames(fit$stdev.unscaled) <- dimnames(fit$stdev.unscaled) <- dimnames(fit$coefficients)
 	fit$design <- design
 	fit$correlation <- correlation
@@ -64,7 +64,7 @@ lmscFit <- function(object,design,correlation)
 intraspotCorrelation <- function(object,design,trim=0.15)
 #	Estimate intra-spot correlation between channels for two channel data
 #	Gordon Smyth
-#	19 April 2004.  Last modified 14 Dec 2015.
+#	19 April 2004.  Last modified 9 June 2020.
 {
 #	Check input
 	M <- as.matrix(object$M)
@@ -86,9 +86,9 @@ intraspotCorrelation <- function(object,design,trim=0.15)
 	designM <- (Ident %x% matrix(c(-1,1),1,2)) %*% design
 	designA <- (Ident %x% matrix(c(0.5,0.5),1,2)) %*% design
 	X <- rbind(designM, designA)
-	Z <- diag(2) %x% rep(1,narrays)
+	Z <- diag(2) %x% rep_len(1,narrays)
 	if(!requireNamespace("statmod",quietly=TRUE)) stop("statmod package required but is not installed")
-	arho <- rep(NA,ngenes)
+	arho <- rep_len(NA_real_,ngenes)
 	degfre <- matrix(0,ngenes,2,dimnames=list(rownames(M),c("df.M","df.A")))
 	for (i in 1:ngenes) {
 		y <- c(M[i,],A[i,])

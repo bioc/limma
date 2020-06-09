@@ -130,4 +130,4 @@ See also \code{\link{mdplot}} for a very basic mean-difference plot function.
 An overview of plot functions available in LIMMA is given in \link{09.Diagnostics}.
 }
 
-\keyword{hplot}
+\concept{plots}

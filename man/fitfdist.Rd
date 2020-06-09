@@ -71,4 +71,5 @@ This function calls \code{\link{trigammaInverse}}.
 x <- rf(100,df1=8,df2=16)
 fitFDist(x,df1=8)
 }
-\keyword{distribution}
+
+\concept{empirical Bayes}

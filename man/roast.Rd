@@ -220,6 +220,4 @@ mroast(y,list(set1=index1,set2=index2,set3=index3),design,contrast=2)
 fry(y,list(set1=index1,set2=index2,set3=index3),design,contrast=2)
 }
 
-\keyword{gene set test}
-\concept{gene set test}
-\concept{gene set enrichment analysis}
+\concept{gene set tests}

@@ -45,4 +45,5 @@ targets <- data.frame(FileName=c("file1.gpr","file2.gpr"),Cy3=c("WT","KO"),Cy5=c
 targetsA2C(targets)
 }
 \author{Gordon Smyth}
+
 \concept{separate channel analysis}

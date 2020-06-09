@@ -37,3 +37,5 @@ An overview of presentation plots following the fitting of a linear model in LIM
 \examples{
 #  See lmFit examples
 }
+
+\concept{plots}

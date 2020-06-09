@@ -56,3 +56,4 @@ An overview of LIMMA functions for normalization is given in \link{05.Normalizat
 }  
 
 \keyword{normalization}
+\concept{locally-weighted regression smoothing}

@@ -228,4 +228,4 @@ topKEGG(k, sort = "down")
 }
 }
 
-\keyword{gene set test}
+\concept{gene set tests}

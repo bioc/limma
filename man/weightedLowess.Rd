@@ -1,4 +1,4 @@
-\name{weightedLoess}
+\name{weightedLowess}
 \alias{weightedLowess}
 
 \title{LOWESS Smoother with Prior Weights}
@@ -77,7 +77,7 @@ Fitted values for other x-values are then obtained by linear interpolation betwe
 
 For the first iteration, the local linear regressions use weights equal to prior weights times the tri-cube distance weights.
 Subsequent iterations multiple these weights by robustifying weights.
-Points with residuals greater than 6 times the median residual are assigned weights of zero and otherwise Tukey's biweight function is applied to the residuals to obtain the robust weights.
+Points with residuals greater than 6 times the median absolute residual are assigned weights of zero and otherwise Tukey's biweight function is applied to the residuals to obtain the robust weights.
 More iterations produce greater robustness.
 
 In summary, the prior weights are used in two ways.
@@ -85,7 +85,7 @@ First, the prior weights are used during the span calculations such that the poi
 Second, the weights used for the local regressions are the product of the prior weights, tri-cube local weights and biweight robustifying weights.
 Hence a point with prior weight equal to an integer n has the same influence as n points with unit weight and the same x and y-values.
 
-This function is called by \code{loessFit} in the limma package.
+See also \code{\link{loessFit}}, which is is essentially a wrapper function for \code{lowess} and \code{\link{weightedLowess}} with added error checking.
 
 \strong{Relationship to lowess and loess}
 
@@ -106,9 +106,9 @@ When \code{output.style="loess"}, \code{weightedLowess} outputs results in origi
 When \code{output.style="lowess"}, \code{weightedLowess} outputs results in sorted order the same as \code{lowess}.
 
 The \code{span} argument corresponds to the \code{f} argument of \code{lowess} and the \code{span} argument of \code{loess}.
-The \code{delta} argument is the same as the \code{delta} argumetn of \code{lowess}.
+The \code{delta} argument is the same as the \code{delta} argument of \code{lowess}.
 The \code{npts} argument is new and amounts to a more convenient way to specify \code{delta}.
-The \code{iterations} argument is the same as the corresponding argument of \code{loess} and is equivalent to \code{iter+1} where \code{iter} is the \code{lowess argument}
+The \code{iterations} argument is the same as the corresponding argument of \code{loess} and is equivalent to \code{iter+1} where \code{iter} is the \code{lowess} argument.
 }
 
 \author{C code and R function by Aaron Lun.}
@@ -151,3 +151,5 @@ Smyth, G.K. 2003.
 \emph{lowess vs. loess}.
 Answer on the Bioconductor Support forum \url{https://support.bioconductor.org/p/2323/}.
 }
+
+\concept{locally-weighted regression smoothing}

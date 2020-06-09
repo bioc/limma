@@ -3,13 +3,13 @@ fitFDistRobustly <- function(x,df1,covariate=NULL,winsor.tail.p=c(0.05,0.1),trac
 #	given the first degrees of freedom, using first and second
 #	moments of Winsorized z-values
 #	Gordon Smyth and Belinda Phipson
-#	Created 7 Oct 2012.  Last revised 17 May 2019.
+#	Created 7 Oct 2012.  Last revised 9 Jun 2020.
 {
 #	Check x
 	n <- length(x)
 
 #	Eliminate cases of no useful data
-	if(n<2) return(list(scale=NA,df2=NA,df2.shrunk=NA))
+	if(n<2) return(list(scale=NA_real_,df2=NA_real_,df2.shrunk=NA_real_))
 	if(n==2) return(fitFDist(x=x,df1=df1,covariate=covariate))
 
 #	Check df1
@@ -66,7 +66,7 @@ fitFDistRobustly <- function(x,df1,covariate=NULL,winsor.tail.p=c(0.05,0.1),trac
 	prob <- winsor.tail.p <- rep_len(winsor.tail.p,2L)
 	prob[2] <- 1-winsor.tail.p[2]
 	if(all(winsor.tail.p < 1/n)) {
-		NonRobust$df2.shrunk <- rep.int(NonRobust$df2,n)
+		NonRobust$df2.shrunk <- rep_len(NonRobust$df2,length.out=n)
 		return(NonRobust)
 	}
 
@@ -144,7 +144,7 @@ fitFDistRobustly <- function(x,df1,covariate=NULL,winsor.tail.p=c(0.05,0.1),trac
 		EmpiricalTailProb <- (n-r+0.5)/n
 		ProbNotOutlier <- pmin(TailP/EmpiricalTailProb,1)
 		df.pooled <- n*df1
-		df2.shrunk <- rep.int(df2,n)
+		df2.shrunk <- rep_len(df2,length.out=n)
 		O <- ProbNotOutlier < 1
 		if(any(O)) {
 			df2.shrunk[O] <- ProbNotOutlier[O]*df.pooled
@@ -166,7 +166,7 @@ fitFDistRobustly <- function(x,df1,covariate=NULL,winsor.tail.p=c(0.05,0.1),trac
 
 #	Use non-robust estimate as lower bound for df2
 	if(NonRobust$df2==Inf) {
-		NonRobust$df2.shrunk <- rep.int(NonRobust$df2,n)
+		NonRobust$df2.shrunk <- rep_len(NonRobust$df2,length.out=n)
 		return(NonRobust)
 	}
 	rbx <- linkfun(NonRobust$df2)
@@ -241,15 +241,15 @@ fitFDistRobustly <- function(x,df1,covariate=NULL,winsor.tail.p=c(0.05,0.1),trac
 		df2.ordered[1:imin] <- m[imin]
 		df2.shrunk[o] <- cummax(df2.ordered)
 
-#		Use isoreg() instead. This gives similar results.
-#		df2.shrunk.iso <- rep.int(df2,n)
+#		Could use isoreg() instead. It gives similar results.
+#		df2.shrunk.iso <- rep(df2,n)
 #		o <- o[1:(n/2)]
 #		df2.shrunk.iso[o] <- ProbNotOutlier[o]*df2+ProbOutlier[o]*df2.outlier
 #		df2.shrunk.iso[o] <- isoreg(TailP[o],df2.shrunk.iso[o])$yf
 
 	} else {
 		df2.outlier <- df2.outlier2 <- df2
-		df2.shrunk2 <- df2.shrunk <- rep.int(df2,n)
+		df2.shrunk2 <- df2.shrunk <- rep_len(df2,length.out=n)
 	}
 
 	list(scale=s20,df2=df2,tail.p.value=TailP,prob.outlier=ProbOutlier,df2.outlier=df2.outlier,df2.shrunk=df2.shrunk)

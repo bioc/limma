@@ -64,3 +64,4 @@ topTable(fit2,adjust="fdr")
 }
 \keyword{models}
 \keyword{regression}
+\concept{separate channel analysis}

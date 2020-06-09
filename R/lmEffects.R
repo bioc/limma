@@ -1,7 +1,7 @@
 .lmEffects <- function(y,design=NULL,contrast=ncol(design),array.weights=NULL,gene.weights=NULL,weights=NULL,block=NULL,correlation)
 #	Compute matrix of effects from genewise linear models
 #	Gordon Smyth
-#	Created 11 Apr 2016.  Last modified 4 Feb 2018.
+#	Created 11 Apr 2016.  Last modified 9 Jun 2020.
 {
 #	Extract components from y
 	y <- getEAWP(y)
@@ -130,7 +130,7 @@
 		if(signc<0) Effects[,1] <- signc*Effects[,1]
 	} else {
 		Effects <- matrix(0,ngenes,n)
-		signc <- rep.int(0,ngenes)
+		signc <- rep_len(0,length.out=ngenes)
 		ws <- sqrt(weights)
 		for (g in 1:ngenes) {			
 			wX <- X*ws[g,]

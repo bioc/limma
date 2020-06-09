@@ -38,4 +38,4 @@ designI2M(X)
 designI2A(X)
 }
 
-\keyword{regression}
+\concept{separate channel analysis}

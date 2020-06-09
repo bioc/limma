@@ -90,3 +90,5 @@ mds <- plotMDS(x,  col=c(rep("black",3), rep("red",3)) )
 # or labels can be provided, here group indicators:
 plotMDS(mds,  col=c(rep("black",3), rep("red",3)), labels= c(rep("Grp1",3), rep("Grp2",3)))
 }
+
+\concept{plots}

@@ -1,3 +1,16 @@
+ 9 Jun 2020: limma 3.45.5
+
+- Improved treatment of zero weights by weighted.median().
+
+- Minor revisions to weightedLowess help page.
+
+- Edit concept entries for help files.
+
+- More consistent use of rep.int(), rep_len() and rep() throughout
+  the package.
+
+- Replace NA with NA_real_ where appropriate.
+
  8 Jun 2020: limma 3.45.4
 
 - Add new argument `output.style` to weightedLowess().

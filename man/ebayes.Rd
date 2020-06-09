@@ -141,4 +141,5 @@ ordinary.t <- fit$coef[,2] / fit$stdev.unscaled[,2] / fit$sigma
 tfit <- treat(fit,lfc=log2(1.1))
 topTreat(tfit,coef=2)
 }
-\keyword{htest}
+
+\keyword{empirical Bayes}
