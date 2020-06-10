@@ -2,7 +2,7 @@
 \docType{class}
 \alias{EList-class}
 \alias{EListRaw-class}
-\title{Expression List - class}
+\title{Expression List (EList) class}
 
 \description{
 A list-based S4 classes for storing expression values (E-values), for example for a set of one-channel microarrays or a set of RNA-seq samples.
@@ -51,5 +51,22 @@ In addition, \code{EList} objects can be \link[limma:subsetting]{subsetted} and 
   \code{\link[Biobase:class.ExpressionSet]{ExpressionSet}} is a more formal class in the Biobase package used for the same purpose.
 }
 
-\keyword{classes}
+\examples{
+# Two ways to make an EList object:
 
+y <- matrix(rnorm(10,5),10,5)
+rownames(y) <- paste0("Gene",1:10)
+colnames(y) <- LETTERS[1:5]
+Genes <- data.frame(Chr=sample(1:21,10))
+row.names(Genes) <- row.names(y)
+
+# Create the object, than add components:
+E <- new("EList")
+E$E <- y
+E$genes <- Genes
+
+# Create with components:
+E <- new("EList", list(E=y, genes=Genes))
+}
+
+\keyword{classes}
