@@ -7,12 +7,12 @@
 \alias{[.MArrayLM}
 \alias{[.TestResults}
 \alias{subsetListOfArrays}
-\title{Subset RGList, MAList, EListRaw, EList or MArrayLM Objects}
+\title{Subset RGList, MAList, EListRaw, EList, MArrayLM or TestResults Objects}
 \description{
-Return an \code{RGList}, \code{MAList}, \code{EListRaw}, \code{EList} or \code{MArrayLM} object with only selected rows and columns of the original object.
+Return an \code{RGList}, \code{MAList}, \code{EListRaw}, \code{EList}, \code{MArrayLM} or \code{TestResults} object with only selected rows and columns of the original object.
 }
 \usage{
-\method{[}{RGList}(object, i, j)
+\method{[}{EList}(object, i, j, \dots)
 subsetListOfArrays(object, i, j, IJ, IX, I, JX)
 }
 \arguments{
@@ -22,8 +22,10 @@ subsetListOfArrays(object, i, j, IJ, IX, I, JX)
   \item{IX}{character vector giving names of 2-dimensional components that should be subsetted by \code{i} only.}
   \item{I}{character vector giving names of vector components that should be subsetted by \code{i}.}
   \item{JX}{character vector giving names of 2-dimensional components whose row dimension corresponds to \code{j}.}
+  \item{\dots}{other arguments are not currently used.}
 }
 \details{
+All these objects can be subsetted as if they were matrices.
 \code{i,j} may take any values acceptable for the matrix components of \code{object}.
 Either or both can be missing.
 See the \link[base]{Extract} help entry for more details on subsetting matrices.
@@ -37,6 +39,9 @@ Values must be supplied for all arguments other than \code{i} and \code{j}.
 }
 \value{
 An object the same as \code{object} but containing data from the specified subset of rows and columns only.
+
+Note the output object is of the same class as \code{object} will have two dimensions attached even if \code{i} or \code{j} select a single row or column, i.e., subsetting for these objects does not drop dimensions.
+Subsetting is exactly analogous to subsetting of matrices in R with \code{drop=FALSE}.
 }
 \author{Gordon Smyth}
 \seealso{

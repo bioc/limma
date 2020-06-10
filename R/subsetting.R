@@ -1,4 +1,4 @@
-#  SUBSET DATA SETS
+#	SUBSET DATA SETS
 
 subsetListOfArrays <- function(object,i,j,IJ,IX,I,JX)
 #	Subsetting for list-like data objects
@@ -38,12 +38,12 @@ subsetListOfArrays <- function(object,i,j,IJ,IX,I,JX)
 }
 
 assign("[.RGList",
-function(object, i, j)
-#  Subsetting for RGList objects
-#  Gordon Smyth
-#  29 June 2003.  Last modified 20 July 2015.
+function(object, i, j, ...)
+#	Subsetting for RGList objects
+#	Gordon Smyth
+#	29 June 2003.  Last modified 10 July 2020.
 {
-	if(nargs() != 3) stop("Two subscripts required",call.=FALSE)
+	if(nargs() - length(list(...)) < 3L) stop("Two subscripts required",call.=FALSE)
 
 #	Recognized components
 	IJ <- c("R","G","Rb","Gb","weights")
@@ -59,12 +59,12 @@ function(object, i, j)
 })
 
 assign("[.MAList",
-function(object, i, j) 
-#  Subsetting for MAList objects
-#  Gordon Smyth
-#  29 June 2003.  Last modified 20 July 2015.
+function(object, i, j, ...)
+#	Subsetting for MAList objects
+#	Gordon Smyth
+#	29 June 2003.  Last modified 20 June 2020.
 {
-	if(nargs() != 3) stop("Two subscripts required",call.=FALSE)
+	if(nargs() - length(list(...)) < 3L) stop("Two subscripts required",call.=FALSE)
 
 #	Recognized components
 	IJ <- c("M","A","weights")
@@ -82,12 +82,12 @@ function(object, i, j)
 })
 
 assign("[.EList",
-function(object, i, j)
-#  Subsetting for EList objects
-#  Gordon Smyth
-#  23 February 2009.  Last modified 20 July 2015.
+function(object, i, j, ...)
+#	Subsetting for EList objects
+#	Gordon Smyth
+#	23 February 2009.  Last modified 20 June 2020.
 {
-	if(nargs() != 3) stop("Two subscripts required",call.=FALSE)
+	if(nargs() - length(list(...)) < 3L) stop("Two subscripts required",call.=FALSE)
 
 #	Recognized components
 	IJ <- c("E","Eb","weights")
@@ -105,12 +105,12 @@ function(object, i, j)
 assign("[.EListRaw", get("[.EList"))
 
 assign("[.MArrayLM",
-function(object, i, j)
-#  Subsetting for MArrayLM objects
-#  Gordon Smyth
-#  Created 26 April 2005. Last modified 5 March 2020.
+function(object, i, j, ...)
+#	Subsetting for MArrayLM objects
+#	Gordon Smyth
+#	Created 26 April 2005. Last modified 10 June 2020.
 {
-	if(nargs() != 3) stop("Two subscripts required",call.=FALSE)
+	if(nargs() - length(list(...)) < 3L) stop("Two subscripts required",call.=FALSE)
 
 #	Recognized components
 	IJ <- c("coefficients","stdev.unscaled","t","p.value","lods","weights")
@@ -185,14 +185,12 @@ function(object, i, j)
 })
 
 assign("[.TestResults",
-function(object, i, j)
-#  Subsetting for TestResults objects
-#  Gordon Smyth
-#  16 June 2019. Last modified.
+function(object, i, j, ...)
+#	Subsetting for TestResults objects
+#	Gordon Smyth
+#	16 June 2019. Last modified 10 June 2020.
 {
-	if(nargs() == 1L) return(object)
-
-	if(nargs() == 2L) return(object@.Data[i])
+	if(nargs() - length(list(...)) < 3L) stop("Two subscripts required",call.=FALSE)
 
 	object@.Data <- object@.Data[i,j,drop=FALSE]
 	object

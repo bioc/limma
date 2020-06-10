@@ -1,3 +1,23 @@
+10 Jun 2020: limma 3.44.2
+
+- Subsetting for RGList, MAList, EListRaw, EList, MArrayLM or
+  TestResults objects now accepts arguments other than `i` or `j`
+  but ignores them without an error. This is relevant if a user
+  adds a `drop` argument by analogy with matrix subsetting. Previously
+  that produced an error.
+
+- Add example to EList-class help page.
+
+- Improved treatment of zero weights by weighted.median().
+
+- Add new argument `output.style` to weightedLowess().
+
+- Revise and expland the weightedLowess help page.
+
+- Replace usages of topTableF() in User's Guide with topTable().
+
+- Update test file results to match updated organism packages.
+
 28 Apr 2020: limma 3.44.1
 
 - Bug fix to arrayWeights() when `y` contains NAs, the design matrix
