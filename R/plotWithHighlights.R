@@ -1,11 +1,11 @@
 plotWithHighlights <- function(x, y, status=NULL, values=NULL, hl.pch=16, hl.col=NULL, hl.cex=1, legend="topright", bg.pch=16, bg.col="black", bg.cex=0.3, pch=NULL, col=NULL, cex=NULL, ...)
-#	Scatterplot with color coding for special points
+#	Scatterplot with color and size highlighting for special groups of points.
 
 #	Replaces the earlier function .plotMAxy, which in turn was based on the original plotMA
-#	created by Gordon Smyth 7 April 2003 and modified by James Wettenhall 27 June 2003.
+#	that was created by Gordon Smyth 7 April 2003 and modified by James Wettenhall 27 June 2003.
 
 #	Gordon Smyth
-#	Last modified 17 June 2019.
+#	Created 18 Sep 2014. Last modified 12 June 2020.
 {
 #	If no status information, just plot all points normally
 	if(is.null(status) || all(is.na(status))) {
@@ -13,9 +13,12 @@ plotWithHighlights <- function(x, y, status=NULL, values=NULL, hl.pch=16, hl.col
 		return(invisible())
 	}
 #	From here, status is not NULL and not all NA
-	if(is.factor(status)) status <- as.character(status)
 
-#	Check values
+#	If values are not set as an argument, then create an appropriate vector.
+#	There are three possibilities:
+#	(a) values and plotting parameters can be passed as attributes of status;
+#	(b) status may be a TestResults object;
+#	(c) otherwise, the most frequent status value is used as background and all other values are highlighted.
 	if(is.null(values)) {
 		if(is.null(attr(status,"values"))) {
 			if(is(status,"TestResults")) {
@@ -31,7 +34,6 @@ plotWithHighlights <- function(x, y, status=NULL, values=NULL, hl.pch=16, hl.col
 #				Default is to set the most frequent status value as background,
 #				and to highlight other status values in decreasing order of frequency
 				status.values <- names(sort(table(status),decreasing=TRUE))
-				status <- as.character(status)
 				values <- status.values[-1]
 			}
 		} else {
@@ -43,7 +45,10 @@ plotWithHighlights <- function(x, y, status=NULL, values=NULL, hl.pch=16, hl.col
 		}
 	}
 
-#	If no values, then just plot all points normally
+	status <- as.character(status)
+	values <- as.character(values)
+
+#	If values has zero length, then just plot all points normally
 	nvalues <- length(values)
 	if(nvalues==0L) {
 		plot(x,y,pch=bg.pch,col=bg.col,cex=bg.cex,...)

@@ -1,3 +1,12 @@
+12 Jun 2020: limma 3.45.7
+
+- The previous change to TestResults subsetting caused an error in
+  plotWithHighlights() if `status` was a TestResults object and
+  `values` was not NULL. Now fixed.
+
+- Rerun the E.coli and mammary subset case studies in the User's
+  Guide.
+
 10 Jun 2020: limma 3.45.6
 
 - Subsetting for RGList, MAList, EListRaw, EList, MArrayLM or
@@ -5,6 +14,10 @@
   but ignores them without an error. This is relevant if a user
   adds a `drop` argument by analogy with matrix subsetting. Previously
   that produced an error.
+
+- Subsetting of TestResults now requires two arguments, same as all
+  of the other data object classes listed above. Previously single
+  index subsetting (for example object[i]) was allowed.
 
 - Add example to EList-class help page.
 
@@ -37,6 +50,8 @@
 
 - Remove obsolete function toptable(), which has been officially 
   deprecated in favor of topTable() since 1 Feb 2018.
+
+- Update test file results to match updated organism packages.
 
 28 Apr 2020: limma 3.45.1
 
