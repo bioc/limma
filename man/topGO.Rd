@@ -44,4 +44,4 @@ See \link{10.GeneSetTests} for a description of other functions used for gene se
 # See goana examples
 }
 
-\keyword{gene set test}
+\concept{gene set tests}

@@ -62,3 +62,5 @@ fit <- eBayes(fit)
 # output predictive log fold changes for first 5 genes
 pfc <- predFCm(fit,coef=2)
 }
+
+\concept{empirical Bayes}

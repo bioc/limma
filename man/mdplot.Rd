@@ -50,4 +50,4 @@ mdplot(cbind(x1,x2),bg.pch=1,bg.cex=1)
 par(oldpar)
 }
 
-\keyword{hplot}
+\concept{plots}

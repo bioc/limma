@@ -86,5 +86,5 @@ yr <- neqc(xr)
 }
 }
 
-\keyword{background correction}
-\keyword{illumina beadchips}
+\concept{background correction}
+\concept{illumina beadchips}

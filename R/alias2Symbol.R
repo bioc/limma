@@ -92,8 +92,9 @@ alias2SymbolTable <- function(alias,species="Hs")
 alias2SymbolUsingNCBI <- function(alias,gene.info.file,required.columns=c("GeneID","Symbol","description"))
 #	Convert gene aliases to current symbols etc using a gene_info file downloaded from the NCBI
 #	Gordon Smyth
-#	Created 2 March 2017. Last modified 25 July 2017.
+#	Created 2 March 2017. Last modified 9 June 2020.
 {
+#	Check input. If necessary, read the gene info file.
 	alias <- as.character(alias)
 	if(is.data.frame(gene.info.file)) {
 		OK <- all(c("GeneID","Symbol","Synonyms") %in% names(gene.info.file))
@@ -104,17 +105,22 @@ alias2SymbolUsingNCBI <- function(alias,gene.info.file,required.columns=c("GeneI
 		gene.info.file <- as.character(gene.info.file)
     	NCBI <- read.delim(gene.info.file,comment.char="",quote="",colClasses="character")
     }
+
+#	Try matching to symbols
 	m <- match(alias,NCBI$Symbol)
 	EntrezID <- NCBI$GeneID[m]
+
+#	For any rows that don't match symbols, try synonyms
 	i <- which(is.na(EntrezID))
 	if(any(i)) {
 		S <- strsplit(NCBI$Synonyms,split="\\|")
 		N <- vapply(S,length,1)
-		Index <- rep(1:nrow(NCBI),N)
+		Index <- rep.int(1:nrow(NCBI),times=N)
 		IS <- data.frame(Index=Index,Synonym=unlist(S),stringsAsFactors=FALSE)
 		m <- match(alias[i],IS$Synonym)
 		EntrezID[i] <- NCBI$GeneID[IS$Index[m]]
 		m <- match(EntrezID,NCBI$GeneID)
     }
+
     NCBI[m,required.columns,drop=FALSE]
 }

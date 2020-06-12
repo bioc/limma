@@ -58,22 +58,20 @@ After fitting a linear model, the standard errors are moderated using a simple e
 A moderated t-statistic and a log-odds of differential expression is computed for each contrast for each gene.
 \code{treat} tests whether log-fold-changes are greater than a threshold rather than merely different to zero.
 
-\code{\link{eBayes}} and \code{\link{eBayes}} use internal functions \code{\link{squeezeVar}}, \code{\link{fitFDist}}, \code{\link{tmixture.matrix}} and \code{\link{tmixture.vector}}.
-
-The function \code{\link{zscoreT}} is sometimes used for computing z-score equivalents for t-statistics so as to place t-statistics with different degrees of freedom on the same scale.
-\code{\link{zscoreGamma}} is used the same way with standard deviations instead of t-statistics.
-These functions are for research purposes rather than for routine use.
+\code{\link{eBayes}} and \code{\link{treat}} use internal functions \code{\link{squeezeVar}}, \code{\link{fitFDist}}, \code{\link{tmixture.matrix}} and \code{\link{tmixture.vector}}.
 }
 
 \section{Summarizing Model Fits}{
 
 After the above steps the results may be displayed or further processed using:
 \describe{
-\item{ \code{\link{toptable}} or \code{\link{topTable}} }{
-	Presents a list of the genes most likely to be differentially expressed for a given contrast.}
+\item{ \code{\link{topTable}} }{
+	Presents a list of the genes most likely to be differentially expressed for a given contrast or set of contrasts.}
 
 \item{ \code{\link{topTableF}} }{
-	Presents a list of the genes most likely to be differentially expressed for a given set of contrasts.}
+	Presents a list of the genes most likely to be differentially expressed for a given set of contrasts.
+	Equivalent to \code{topTable} with \code{coef} set to all the coefficients, \code{coef=1:ncol(fit)}.
+}
 
 \item{ \code{\link{volcanoplot}}}{
 	Volcano plot of fold change versus the B-statistic for any fitted coefficient.}
@@ -97,6 +95,11 @@ For multiple testing functions which operate on linear model fits, see \link{08.
 
 \author{Gordon Smyth}
 \references{
+Phipson, B, Lee, S, Majewski, IJ, Alexander, WS, and Smyth, GK (2016).
+Robust hyperparameter estimation protects against hypervariable genes and improves power to detect differential expression.
+\emph{Annals of Applied Statistics} 10, 946-963.
+\url{http://projecteuclid.org/euclid.aoas/1469199900}
+
 Smyth, G. K. (2004). Linear models and empirical Bayes methods for assessing differential expression in microarray experiments.
 \emph{Statistical Applications in Genetics and Molecular Biology}, \bold{3}, No. 1, Article 3.
 \url{http://www.statsci.org/smyth/pubs/ebayes.pdf}

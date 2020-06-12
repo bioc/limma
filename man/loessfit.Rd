@@ -26,7 +26,7 @@ loessFit(y, x, weights=NULL, span=0.3, iterations=4L, min.weight=1e-5, max.weigh
 }
 
 \details{
-This function is essentially a wrapper function for \code{lowess} and \code{weightedLowess} with added error checking.
+This function is essentially a wrapper function for \code{lowess} and \code{\link{weightedLowess}} with added error checking.
 The idea is to provide the classic univariate lowess algorithm of Cleveland (1979) but allowing for prior weights and missing values.
 
 The venerable \code{lowess} code is fast, uses little memory and has an accurate interpolation scheme, so it is an advantage to use it when prior weights are not needed.
@@ -101,4 +101,4 @@ out <- loessFit(y,x,weights=w)
 lines(x,out$fitted,col="red")
 }
 
-\keyword{models}
+\concept{locally-weighted regression smoothing}

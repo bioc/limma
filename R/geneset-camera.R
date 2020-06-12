@@ -24,7 +24,7 @@ camera <- function(y,...) UseMethod("camera")
 camera.default <- function(y,index,design=NULL,contrast=ncol(design),weights=NULL,use.ranks=FALSE,allow.neg.cor=FALSE,inter.gene.cor=0.01,trend.var=FALSE,sort=TRUE,...)
 #	Competitive gene set test allowing for correlation between genes
 #	Gordon Smyth and Di Wu
-#	Created 2007.  Last modified 30 July 2017.
+#	Created 2007.  Last modified 9 June 2020.
 {
 #	Issue warning if extra arguments found
 	dots <- names(list(...))
@@ -66,9 +66,9 @@ camera.default <- function(y,index,design=NULL,contrast=ncol(design),weights=NUL
 		if(use.ranks)
 			df.camera <- Inf
 		else
-			df.camera <- G-2
+			df.camera <- G-2L
 	} else {
-		df.camera <- min(df.residual,G-2)
+		df.camera <- min(df.residual,G-2L)
 	}
 
 #	Reduce to numeric expression matrix
@@ -115,7 +115,7 @@ camera.default <- function(y,index,design=NULL,contrast=ncol(design),weights=NUL
 	} else {
 		effects <- matrix(0,n,G)
 		colnames(effects) <- ID
-		unscaledt <- rep.int(0,G)
+		unscaledt <- rep_len(0,length.out=G)
 		names(unscaledt) <- ID
 		sw <- sqrt(weights)
 		yw <- y*sw
@@ -191,7 +191,7 @@ camera.default <- function(y,index,design=NULL,contrast=ncol(design),weights=NUL
 
 #	New column names (Jan 2013)
 	tab <- data.frame(tab,stringsAsFactors=FALSE)
-	Direction <- rep.int("Up",nsets)
+	Direction <- rep_len("Up",length.out=nsets)
 	Direction[tab$Down < tab$Up] <- "Down"
 	tab$Direction <- Direction
 	tab$PValue <- tab$TwoSided

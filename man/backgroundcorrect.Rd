@@ -88,4 +88,4 @@ backgroundCorrect(RG, offset=5)
 An overview of background correction functions is given in \code{\link{04.Background}}.
 }
 
-\keyword{background correction}
+\concept{background correction}

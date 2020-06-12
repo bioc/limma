@@ -19,12 +19,12 @@ zscore <- function(q, distribution=NULL, ...)
 zscoreGamma <- function(q, shape, rate = 1, scale = 1/rate) 
 #  Z-score equivalents for gamma deviates
 #  Gordon Smyth
-#  1 October 2003
+#  1 October 2003. Last modified 9 June 2020.
 {
 	z <- q
 	n <- length(q)
-	shape <- rep(shape,length.out=n)
-	scale <- rep(scale,length.out=n)
+	shape <- rep_len(shape,length.out=n)
+	scale <- rep_len(scale,length.out=n)
 	up <- (q > shape*scale)
 	if(any(up)) z[up] <- qnorm(pgamma(q[up],shape=shape[up],scale=scale[up],lower.tail=FALSE,log.p=TRUE),lower.tail=FALSE,log.p=TRUE)
 	if(any(!up)) z[!up] <- qnorm(pgamma(q[!up],shape=shape[!up],scale=scale[!up],lower.tail=TRUE,log.p=TRUE),lower.tail=TRUE,log.p=TRUE)

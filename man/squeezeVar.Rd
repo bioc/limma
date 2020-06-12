@@ -81,4 +81,4 @@ s2 <- rchisq(20,df=5)/5
 squeezeVar(s2, df=5)
 }
 
-\keyword{htest}
+\concept{empirical Bayes}

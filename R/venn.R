@@ -32,7 +32,7 @@ vennDiagram <- function(object,include="both",names=NULL,mar=rep(1,4),cex=c(1.5,
 #	Plot Venn diagram
 #	Gordon Smyth, James Wettenhall, Yifang Hu.
 #	Capabilities for multiple counts and colors uses code by Francois Pepin.
-#	4 July 2003.  Last modified 31 October 2014.
+#	4 July 2003.  Last modified 9 June 2020.
 {
 #	Check include
 	include <- as.character(include)
@@ -65,9 +65,9 @@ vennDiagram <- function(object,include="both",names=NULL,mar=rep(1,4),cex=c(1.5,
 		circle.col <- par('col')
 		FILL.COL <- FALSE
 	}
-	if(length(circle.col)<nsets) circle.col <- rep(circle.col,length.out=nsets)
+	if(length(circle.col)<nsets) circle.col <- rep_len(circle.col,length.out=nsets)
 	if(is.null(counts.col)) counts.col <- par('col')
-	if(length(counts.col)<LenInc) counts.col <- rep(counts.col,length.out=LenInc)
+	if(length(counts.col)<LenInc) counts.col <- rep_len(counts.col,length.out=LenInc)
 
 #	Set show.include
 	if(is.null(show.include)) show.include <- as.logical(LenInc-1)

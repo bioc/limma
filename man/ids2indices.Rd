@@ -43,4 +43,4 @@ camera(y, c2.indices, design)
 }
 \author{Gordon Smyth and Yifang Hu}
 
-\keyword{gene set test}
+\concept{gene set tests}

@@ -1,3 +1,19 @@
+12 Jun 2020: limma 3.44.3
+
+- The previous change to TestResults subsetting caused an error in
+  plotWithHighlights() if `status` was a TestResults object and
+  `values` was not NULL. Now fixed.
+
+- Rerun the E.coli and mammary subset case studies in the User's
+  Guide.
+
+- Edit concept entries for help files.
+
+- More consistent use of rep.int(), rep_len() and rep() throughout
+  the package.
+
+- Replace NA with NA_real_ where appropriate.
+
 10 Jun 2020: limma 3.44.2
 
 - Subsetting for RGList, MAList, EListRaw, EList, MArrayLM or
@@ -5,6 +21,10 @@
   but ignores them without an error. This is relevant if a user
   adds a `drop` argument by analogy with matrix subsetting. Previously
   that produced an error.
+
+- Subsetting of TestResults now requires two arguments, same as all
+  of the other data object classes listed above. Previously single
+  index subsetting (for example object[i]) was allowed.
 
 - Add example to EList-class help page.
 

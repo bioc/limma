@@ -111,6 +111,4 @@ topRomer(r,alt="up")
 topRomer(r,alt="down")
 }
 
-\keyword{gene set test}
-\concept{gene set test}
-\concept{gene set enrichment analysis}
+\concept{gene set tests}

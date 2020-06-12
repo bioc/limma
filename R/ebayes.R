@@ -107,7 +107,7 @@ tmixture.vector <- function(tstat,stdev.unscaled,df,proportion,v0.lim=NULL)
 #	tstat is assumed to follow sqrt(1+v0/v1)*t(df) with probability proportion and t(df) otherwise
 #	v1 is stdev.unscaled^2 and v0 is to be estimated
 #	Gordon Smyth
-#	18 Nov 2002.  Last modified 15 April 2016.
+#	18 Nov 2002.  Last modified 9 Jun 2020.
 {
 #	Remove missing values
 	if(anyNA(tstat)) {
@@ -145,7 +145,7 @@ tmixture.vector <- function(tstat,stdev.unscaled,df,proportion,v0.lim=NULL)
 	r <- 1:ntarget
 	p0 <- 2*pt(tstat,df=MaxDF,lower.tail=FALSE)
 	ptarget <- ( (r-0.5)/ngenes - (1-p)*p0 ) / p
-	v0 <- rep.int(0,ntarget)
+	v0 <- rep_len(0,length.out=ntarget)
 	pos <- ptarget > p0
 	if(any(pos)) {
 		qtarget <- qt(ptarget[pos]/2,df=MaxDF,lower.tail=FALSE)

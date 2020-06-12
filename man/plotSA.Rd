@@ -42,4 +42,5 @@ See \code{\link[graphics]{points}} for possible values for \code{pch} and \code{
 
 An overview of diagnostic functions available in LIMMA is given in \link{09.Diagnostics}.
 }
-\keyword{hplot}
+
+\concept{plots}

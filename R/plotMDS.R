@@ -122,12 +122,12 @@ plotMDS.default <- function(x,top=500,labels=NULL,pch=NULL,cex=1,dim.plot=c(1,2)
 #	Make MDS object and call plotMDS method
 	mds <- new("MDS",list(dim.plot=dim.plot,distance.matrix=dd,cmdscale.out=a1,top=top,gene.selection=gene.selection))
 	if(dim.plot[1] > ncol(a1)) {
-		mds$x <- rep.int(0,nsamples)
+		mds$x <- rep_len(0,length.out=nsamples)
 		warning(paste("dimension",dim.plot[1],"is degenerate or all zero"))
 	} else
 		mds$x <- a1[,dim.plot[1]]
 	if(dim.plot[2] > ncol(a1)) {
-		mds$y <- rep.int(0,nsamples)
+		mds$y <- rep_len(0,length.out=nsamples)
 		warning(paste("dimension",dim.plot[2],"is degenerate or all zero"))
 	} else
 		mds$y <- a1[,dim.plot[2]]

@@ -60,3 +60,4 @@ This page gives an overview of the LIMMA functions for gene set testing and path
 }
 
 \keyword{documentation}
+\concept{gene set tests}

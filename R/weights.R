@@ -1,7 +1,7 @@
 #  Quality weights
 
 wtarea <- function(ideal=c(160,170))
-#	Quality weights based on spot area from SPOT output
+#	Quality weight function based on spot area from SPOT output
 #	Gordon Smyth
 #	9 March 2003.  Last revised 17 May 2019.
 
@@ -17,7 +17,7 @@ function(spot) {
 }
 
 wtflags <- function(weight=0,cutoff=0)
-#	Quality weights based on Flags from GenePix output
+#	Quality weight function based on Flags from GenePix output
 #	Gordon Smyth
 #	9 March 2003.  Last revised 29 July 2006.
 
@@ -37,7 +37,7 @@ wtIgnore.Filter <- function(qta)
 modifyWeights <- function(weights=rep(1,length(status)), status, values, multipliers)
 #	Modify weights for given status values
 #	Gordon Smyth
-#	29 Dec 2003. Last modified 2 September 2006.
+#	29 Dec 2003. Last modified 9 June 2020.
 {
 	status <- as.character(status)
 	weights <- as.matrix(weights)
@@ -45,7 +45,7 @@ modifyWeights <- function(weights=rep(1,length(status)), status, values, multipl
 	multipliers <- as.numeric(multipliers)
 	if(length(status)!=nrow(weights)) stop("nrows of weights must equal length of status")
 	nvalues <- length(values)
-	if(length(multipliers)==1) multipliers <- rep(multipliers,nvalues)
+	if(length(multipliers)==1) multipliers <- rep_len(multipliers,nvalues)
 	if(nvalues!=length(multipliers)) stop("no. values doesn't match no. multipliers")
 	for (i in 1:nvalues) {
 		g <- status==values[i]

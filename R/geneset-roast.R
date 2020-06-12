@@ -101,7 +101,7 @@ mroast <- function(y,...) UseMethod("mroast")
 mroast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid=NULL,set.statistic="mean",gene.weights=NULL,var.prior=NULL,df.prior=NULL,nrot=1999,approx.zscore=TRUE,legacy=FALSE,adjust.method="BH",midp=TRUE,sort="directional",...)
 #  Rotation gene set testing with multiple sets
 #  Gordon Smyth and Di Wu
-#  Created 28 Jan 2010. Last revised 22 July 2019.
+#  Created 28 Jan 2010. Last revised 9 Jun 2020.
 {
 #	Partial matching of extra arguments
 	Dots <- list(...)
@@ -208,7 +208,8 @@ mroast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid
 
 #	P-values
 	Up <- pv[,"Up"] < pv[,"Down"]
-	Direction <- rep.int("Down",nsets); Direction[Up] <- "Up"
+	Direction <- rep_len("Down",length.out=nsets)
+	Direction[Up] <- "Up"
 	TwoSidedP2 <- pv[,"UpOrDown"]
 	MixedP2 <- pv[,"Mixed"]
 	if(midp) {

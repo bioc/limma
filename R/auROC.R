@@ -3,7 +3,7 @@
 auROC <- function(truth, stat=NULL)
 #	Area under Receiver Operating Curve for empirical data
 #	Gordon Smyth
-#	Created 21 Dec 2003. Last modified 12 Apr 2020.
+#	Created 21 Dec 2003. Last modified 20 Jun 2020.
 {
 #	Don't allow any NA
 	if(anyNA(truth)) return(NA)
@@ -48,7 +48,7 @@ auROC <- function(truth, stat=NULL)
 		sensitivity.last <- sensitivity[tied.last]
 		sensitivity.previous <- c(0,sensitivity.last[-length(sensitivity.last)])
 		sensitivity.average <- (sensitivity.last+sensitivity.previous)/2
-		sensitivity <- rep(sensitivity.average, tied.last-tied.first+1)
+		sensitivity <- rep.int(sensitivity.average, tied.last-tied.first+1)
 	}
 
 	mean(sensitivity[!truthl])

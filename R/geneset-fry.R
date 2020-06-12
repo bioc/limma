@@ -5,7 +5,7 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid=NU
 #	The up and down p-values are equivalent to those from roast with nrot=Inf
 #	in the special case of prior.df=Inf.
 #	Gordon Smyth and Goknur Giner
-#	Created 30 January 2015.  Last modified 24 July 2019
+#	Created 30 January 2015.  Last modified 9 June 2020.
 {
 #	Check gene.weights
 	if(!is.null(gene.weights)) {
@@ -117,8 +117,8 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid=NU
 		if(anyDuplicated(names(index))) stop("Gene sets don't have unique names",call. =FALSE)
 
 #	Global statistics
-	NGenes <- rep.int(0L,nsets)
-	PValue.Mixed <- t.stat <- rep.int(0,nsets)
+	NGenes <- rep_len(0L,length.out=nsets)
+	PValue.Mixed <- t.stat <- rep_len(0,length.out=nsets)
 	for (i in 1:nsets) {
 		iset <- index[[i]]
 		if(is.data.frame(iset)) {
@@ -171,7 +171,7 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid=NU
 		}
 	}
 
-	Direction <- rep.int("Up",nsets)
+	Direction <- rep_len("Up",length.out=nsets)
 	Direction[t.stat<0] <- "Down"
 	PValue <- 2*pt(-abs(t.stat),df=df.residual)
 	PValue.Mixed[NGenes==1] <- PValue[NGenes==1]

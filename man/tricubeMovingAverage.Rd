@@ -41,6 +41,7 @@ plot(1:100,tricubeMovingAverage(x))
 \code{\link{filter}}, \code{\link{barcodeplot}}, \code{\link[edgeR:loessByCol]{loessByCol}}
 }
 \author{Gordon Smyth}
-\keyword{smooth}
-\concept{Loess curve}
+
+\concept{locally-weighted regression smoothing}
+
 

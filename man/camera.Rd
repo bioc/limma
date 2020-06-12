@@ -127,6 +127,4 @@ fit <- eBayes(lmFit(y, design))
 cameraPR(fit$t[,2], list(set1=index1,set2=index2))
 }
 
-\keyword{gene set test}
-\concept{gene set test}
-\concept{gene set enrichment analysis}
+\concept{gene set tests}

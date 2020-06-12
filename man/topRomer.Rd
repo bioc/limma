@@ -32,4 +32,4 @@ There is a topic page on \link{10.GeneSetTests}.
 
 \author{Gordon Smyth and Yifang Hu}
 
-\keyword{gene set test}
+\concept{gene set tests}

@@ -60,9 +60,13 @@ If \code{fit} had duplicated row names, then these are preserved in the \code{ID
 \details{
 \code{toptable} is an earlier interface and is retained only for backward compatibility.
 
-These functions summarize the linear model fit object produced by \code{lmFit}, \code{lm.series}, \code{gls.series} or \code{mrlm} by selecting the top-ranked genes for any given contrast.
-\code{topTable} and \code{topTableF} assume that the linear model fit has already been processed by \code{\link{eBayes}}.
+These functions summarize the linear model fit object produced by \code{lmFit}, \code{lm.series}, \code{gls.series} or \code{mrlm} by selecting the top-ranked genes for any given contrast, or for a set of contrasts.
+\code{topTable} assumes that the linear model fit has already been processed by \code{\link{eBayes}}.
 \code{topTreat} assumes that the fit has been processed by \code{\link{treat}}.
+
+If \code{coef} has a single value, then the moderated t-statistics and p-values for that coefficient or contrast are used.
+If \code{coef} takes two or more values, the moderated F-statistics for that set of coefficients or contrasts are used.
+If \code{coef} is left \code{NULL}, then all the coefficients or contrasts in the fitted model are used, except that any coefficient named \code{(Intercept)} will be removed.
 
 The p-values for the coefficient/contrast of interest are adjusted for multiple testing by a call to \code{\link[stats]{p.adjust}}.
 The \code{"BH"} method, which controls the expected false discovery rate (FDR) below the specified value, is the default adjustment method because it is the most likely to be appropriate for microarray studies.
@@ -94,6 +98,9 @@ Alternatively, by specifying \code{p.value} and \code{number=Inf}, all genes wit
 
 The argument \code{lfc} gives the ability to filter genes by log-fold change.
 This argument is not available for \code{topTreat} because \code{treat} already handles fold-change thresholding in a more sophisticated way.
+
+The function \code{topTableF} is scheduled for removal in a future version of limma.
+It is equivalent to \code{topTable} with \code{coef=NULL}.
 }
 \note{
 Although \code{topTable} enables users to set p-value and lfc cutoffs simultaneously, this is not generally recommended.
