@@ -1,3 +1,10 @@
+11 Jul 2020: limma 3.45.8
+
+- fitFDist() with a non-NULL `covariate` now fits a smoother trend
+  (with fewer spline knots) than before unless there are at least
+  30 observations. This also affects squeezeVar() and eBayes() with
+  `trend=TRUE`.
+
 12 Jun 2020: limma 3.45.7
 
 - The previous change to TestResults subsetting caused an error in

@@ -2,7 +2,7 @@ fitFDist <- function(x,df1,covariate=NULL)
 #	Moment estimation of the parameters of a scaled F-distribution.
 #	The numerator degrees of freedom is given, the scale factor and denominator df is to be estimated.
 #	Gordon Smyth and Belinda Phipson
-#	Created 8 Sept 2002.  Last revised 4 Apr 2020.
+#	Created 8 Sept 2002.  Last revised 11 Jul 2020.
 {
 #	Check x
 	n <- length(x)
@@ -55,8 +55,11 @@ fitFDist <- function(x,df1,covariate=NULL)
 
 #	Set df for spline trend
 	if(!is.null(covariate)) {
-		splinedf <- min(4L,nok-1L,length(unique(covariate)))
-#		If covariate takes only one unique value or insufficient observations, recall with NULL covariate
+#		splinedf <- min(4L,nok-1L,length(unique(covariate)))
+		splinedf <- 1L + (nok >= 3L) + (nok >= 6L) + (nok >= 30L)
+		splinedf <- min(splinedf, length(unique(covariate)))
+#		If covariate takes only one unique value or insufficient
+#		observations, recall with NULL covariate
 		if(splinedf < 2L) {
 			out <- Recall(x=x,df1=df1)
 			out$scale <- rep_len(out$scale,n)
@@ -107,7 +110,8 @@ fitFDist <- function(x,df1,covariate=NULL)
 		df2 <- Inf
 		if(is.null(covariate))
 #			Use simple pooled variance, which is MLE of the scale in this case.
-#			Versions of limma before Jan 2017 returned the limiting value of the evar>0 estimate, which is larger.
+#			Versions of limma before Jan 2017 returned the limiting
+#			value of the evar>0 estimate, which is larger.
 			s20 <- mean(x)
 		else
 			s20 <- exp(emean)
