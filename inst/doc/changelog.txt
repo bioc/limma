@@ -1,3 +1,8 @@
+ 7 Aug 2020: limma 3.45.10
+
+- Add checks and more informative error messages to getEAWP() and
+  lmFit() when the data object is missing, NULL or has zero rows.
+
 14 Jul 2020: limma 3.45.9
 
 - Add new function chooseLowessSpan().

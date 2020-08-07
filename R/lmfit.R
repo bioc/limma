@@ -3,10 +3,11 @@
 lmFit <- function(object,design=NULL,ndups=1,spacing=1,block=NULL,correlation,weights=NULL,method="ls",...)
 #	Fit genewise linear models
 #	Gordon Smyth
-#	30 June 2003.  Last modified 9 June 2020.
+#	30 June 2003.  Last modified 7 Aug 2020.
 {
 #	Extract components from y
 	y <- getEAWP(object)
+	if(!nrow(y$exprs)) stop("expression matrix has zero rows")
 
 #	Check design matrix
 	if(is.null(design)) design <- y$design
@@ -401,11 +402,14 @@ residuals.MArrayLM <- function(object,y,...)
 }
 
 getEAWP <- function(object)
-#	Given any microarray data object, extract basic information needed
-#	for linear modelling.
+#	Given any data object, extract information needed for linear modelling.
 #	Gordon Smyth
-#	9 March 2008. Last modified 18 July 2016.
+#	Created 9 March 2008. Last modified 7 Aug 2020.
 {
+	if(missing(object)) stop("no data object specified", call. = FALSE)
+	if(is.null(object)) stop("data object is NULL", call. = FALSE)
+
+#	Initialize output list
 	y <- list()
 	
 	if(is(object,"list")) {
