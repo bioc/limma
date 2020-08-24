@@ -1,3 +1,7 @@
+24 Aug 2020: limma 3.45.11
+
+- Edits to the eBayes help page.
+
  7 Aug 2020: limma 3.45.10
 
 - Add checks and more informative error messages to getEAWP() and

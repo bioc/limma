@@ -2,12 +2,15 @@
 \alias{eBayes}
 \alias{treat}
 \title{Empirical Bayes Statistics for Differential Expression}
-\description{Given a microarray linear model fit, compute moderated t-statistics, moderated F-statistic, and log-odds of differential expression by empirical Bayes moderation of the standard errors towards a common value.}
+
+\description{Given a linear model fit from \code{lmFit}, compute moderated t-statistics, moderated F-statistic, and log-odds of differential expression by empirical Bayes moderation of the standard errors towards a global value.}
+
 \usage{
 eBayes(fit, proportion = 0.01, stdev.coef.lim = c(0.1,4),
        trend = FALSE, robust = FALSE, winsor.tail.p = c(0.05,0.1))
 treat(fit, lfc = log2(1.2), trend = FALSE, robust = FALSE, winsor.tail.p = c(0.05,0.1))
 }
+
 \arguments{
   \item{fit}{an \code{MArrayLM} fitted model object produced by \code{lmFit} or \code{contrasts.fit}.
   For \code{ebayes} only, \code{fit} can alternatively be an unclassed list produced by \code{lm.series}, \code{gls.series} or \code{mrlm} containing components \code{coefficients}, \code{stdev.unscaled}, \code{sigma} and \code{df.residual}.}
@@ -18,20 +21,29 @@ treat(fit, lfc = log2(1.2), trend = FALSE, robust = FALSE, winsor.tail.p = c(0.0
   \item{winsor.tail.p}{numeric vector of length 1 or 2, giving left and right tail proportions of \code{x} to Winsorize. Used only when \code{robust=TRUE}.}
   \item{lfc}{the minimum log2-fold-change that is considered scientifically meaningful}
 }
+
 \value{
 \code{eBayes} produces an object of class \code{MArrayLM} (see \code{\link{MArrayLM-class}}) containing everything found in \code{fit} plus the following added components:
-  \item{t}{numeric vector or matrix of moderated t-statistics}
-  \item{p.value}{numeric vector of p-values corresponding to the t-statistics}
-  \item{s2.prior}{estimated prior value for \code{sigma^2}. A vector if \code{covariate} is non-\code{NULL}, otherwise a scalar.}
-  \item{df.prior}{degrees of freedom associated with \code{s2.prior}}
-  \item{df.total}{numeric vector of total degrees of freedom associated with t-statistics and p-values. Equal to \code{df.prior+df.residual} or \code{sum(df.residual)}, whichever is smaller.}
-  \item{s2.post}{numeric vector giving the posterior values for \code{sigma^2}}
-  \item{lods}{numeric vector or matrix giving the log-odds of differential expression (natural log scale).}
-  \item{var.prior}{estimated prior value for the variance of the log2-fold-change for differentially expressed gene}
-  \item{F}{numeric vector of moderated F-statistics for testing all contrasts defined by the columns of \code{fit} simultaneously equal to zero}
-  \item{F.p.value}{numeric vector giving p-values corresponding to \code{F}}
-\code{treat} a produces an \code{MArrayLM} object similar to \code{eBayes} but without \code{lods}, \code{var.prior}, \code{F} or \code{F.p.value}.
+  \item{t}{numeric matrix of moderated t-statistics.}
+  \item{p.value}{numeric matrix of two-sided p-values corresponding to the t-statistics.}
+  \item{lods}{numeric matrix giving the log-odds of differential expression (on the natural log scale).}
+  \item{s2.prior}{estimated prior value for \code{sigma^2}. A row-wise vector if \code{covariate} is non-\code{NULL}, otherwise a single value.}
+  \item{df.prior}{degrees of freedom associated with \code{s2.prior}. A row-wise vector if \code{robust=TRUE}, otherwise a single value.}
+  \item{df.total}{row-wise numeric vector giving the total degrees of freedom associated with the t-statistics for each gene. Equal to \code{df.prior+df.residual} or \code{sum(df.residual)}, whichever is smaller.}
+  \item{s2.post}{row-wise numeric vector giving the posterior values for \code{sigma^2}.}
+  \item{var.prior}{column-wise numeric vector giving estimated prior values for the variance of the log2-fold-changes for differentially expressed gene for each constrast. Used for evaluating \code{lods}.}
+  \item{F}{row-wise numeric vector of moderated F-statistics for testing all contrasts defined by the columns of \code{fit} simultaneously equal to zero.}
+  \item{F.p.value}{row-wise numeric vector giving p-values corresponding to \code{F}.}
+The matrices \code{t}, \code{p.value} and \code{lods} have the same dimensions as the input object \code{fit}, with rows corresponding to genes and columns to coefficients or contrasts.
+The vectors \code{s2.prior}, \code{df.prior}, \code{df.total}, \code{F} and \code{F.p.value} correspond to rows, with length equal to the number of genes.
+The vector \code{var.prior} corresponds to columns, with length equal to the number of contrasts.
+If \code{s2.prior} or \code{df.prior} have length 1, then the same value applies to all genes.
+
+\code{s2.prior}, \code{df.prior} and \code{var.prior} contain empirical Bayes hyperparameters used to obtain \code{df.total}, \code{s2.post} and \code{lods}.
+
+\code{treat} a produces an \code{MArrayLM} object similar to that from \code{eBayes} but without \code{lods}, \code{var.prior}, \code{F} or \code{F.p.value}.
 }
+
 \details{
 These functions are used to rank genes in order of evidence for differential expression.
 They use an empirical Bayes method to squeeze the genewise-wise residual variances towards a common value (or towards a global trend) (Smyth, 2004; Phipson et al, 2016).
@@ -84,15 +96,18 @@ If \code{robust=TRUE} then the robust empirical Bayes procedure of Phipson et al
 This is frequently useful to protect the empirical Bayes procedure against hyper-variable or hypo-variable genes, especially when analysing RNA-seq data.
 See \code{\link{squeezeVar}} for more details.
 }
+
 \note{
 The algorithm used by \code{eBayes} and \code{treat} with \code{robust=TRUE} was revised slightly in limma 3.27.6.
 The minimum \code{df.prior} returned may be slightly smaller than previously.
 }
+
 \seealso{
 \code{\link{squeezeVar}}, \code{\link{fitFDist}}, \code{\link{tmixture.matrix}}, \code{\link{plotSA}}.
 
 An overview of linear model functions in limma is given by \link{06.LinearModels}.
 }
+
 \author{Gordon Smyth and Davis McCarthy}
 
 \references{

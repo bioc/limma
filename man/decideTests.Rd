@@ -3,10 +3,12 @@
 \alias{decideTests.default}
 \alias{decideTests.MArrayLM}
 \title{Multiple Testing Across Genes and Contrasts}
+
 \description{
 Identify which genes are significantly differentially expressed for each contrast from a fit object containing p-values and test statistics.
 A number of different multiple testing strategies are offered that adjust for multiple testing down the genes as well as across contrasts for each gene.
 }
+
 \usage{
 \method{decideTests}{MArrayLM}(object, method = "separate", adjust.method = "BH", p.value = 0.05,
             lfc = 0, \dots)
@@ -14,6 +16,7 @@ A number of different multiple testing strategies are offered that adjust for mu
             lfc = 0, coefficients = NULL, cor.matrix = NULL, tstat = NULL, df = Inf,
             genewise.p.value = NULL, \dots)
 }
+
 \arguments{
   \item{object}{a numeric matrix of p-values or an \code{MArrayLM} object from which p-values and t-statistics can be extracted.}
   \item{method}{character string specifying how genes and contrasts are to be combined in the multiple testing scheme.  Choices are \code{"separate"}, \code{"global"}, \code{"hierarchical"} or \code{"nestedF"}.}
@@ -27,6 +30,7 @@ A number of different multiple testing strategies are offered that adjust for mu
   \item{genewise.p.value}{numeric vector of length \code{nrow(object)} containing summary gene-level p-values for use with \code{method="hierarchical"}.}
   \item{\dots}{other arguments are not used.}
 }
+
 \value{
 An object of class \code{\link[=TestResults-class]{TestResults}}.
 This is essentially a numeric matrix with elements \code{-1}, \code{0} or \code{1} depending on whether each t-statistic is classified as significantly negative, not significant or significantly positive.
@@ -35,6 +39,7 @@ If \code{lfc>0} then contrasts are judged significant only when the log2-fold ch
 For example, one might choose \code{lfc=log2(1.5)} to restrict to 50\% changes or \code{lfc=1} for 2-fold changes.
 In this case, contrasts must satisfy both the p-value and the fold-change cutoff to be judged significant.
 }
+
 \details{
 This function can be applied to a matrix of p-values but is more often applied to an \code{MArrayLM} fit object produced by \code{eBayes} or \code{treat}.
 In either case, rows of \code{object} correspond to genes and columns to coefficients or contrasts.
@@ -56,18 +61,23 @@ See the \code{\link{classifyTestsF}} help page for more detail about the \code{"
 
 Also see the limma User's Guide for a discussion of the statistical properties of the various adjustment methods.
 }
+
 \note{
 Although this function enables users to set p-value and lfc cutoffs simultaneously, this combination criterion is not generally recommended.
 Unless the fold changes and p-values are very highly correlated, the addition of a fold change cutoff can increase the family-wise error rate or false discovery rate above the nominal level.
 Users wanting to use fold change thresholding are recommended to use \code{treat} instead of \code{eBayes} and to leave \code{lfc} at the default value when using \code{decideTests}.
 }
+
 \references{
 Michaud, J, Simpson, KM, Escher, R, Buchet-Poyau, K, Beissbarth, T, Carmichael, C, Ritchie, ME, Schutz, F, Cannon, P, Liu, M, Shen, X, Ito, Y, Raskind, WH, Horwitz, MS, Osato, M, Turner, DR, Speed, TP, Kavallaris, M, Smyth, GK, and Scott, HS (2008).
 Integrative analysis of RUNX1 downstream pathways and target genes.
 \emph{BMC Genomics} 9, 363. 
 }
+
 \seealso{
 An overview of multiple testing functions is given in \link{08.Tests}.
 }
+
 \author{Gordon Smyth}
+
 \keyword{htest}

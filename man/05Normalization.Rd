@@ -22,7 +22,7 @@ For more details see the \link[=limmaUsersGuide]{LIMMA User's Guide} which inclu
 
 \code{normalizeBetweenArrays} is the main normalization function for one-channel arrays,
 as well as an optional function for two-colour arrays.
-\code{normalizeBetweenArrays} uses utility functions \code{\link{normalizeMedianAbsValues}}, \code{\link{normalizeMedianAbsValues}}, \code{\link{normalizeQuantiles}} and \code{\link{normalizeCyclicLoess}}, none of which need to be called directly by users.
+\code{normalizeBetweenArrays} uses utility functions \code{\link{normalizeMedianValues}}, \code{\link{normalizeMedianAbsValues}}, \code{\link{normalizeQuantiles}} and \code{\link{normalizeCyclicLoess}}, none of which need to be called directly by users.
 
 \code{\link{neqc}} is a between array normalization function customized for Illumina BeadChips.
 
