@@ -1,3 +1,13 @@
+ 2 Sep 2020: limma 3.45.12
+
+- write.fit() now outputs a blank column heading for the row names
+  so that the number of column names in the delimited output file
+  will agree with the number of columns (similar to write.csv in the
+  base package).
+
+- Add more explanation about "heirarchical" method in the details
+  section of the decideTests() help page.
+
 24 Aug 2020: limma 3.45.11
 
 - Edits to the eBayes help page.

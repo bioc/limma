@@ -59,6 +59,9 @@ The \code{"nestedF"} method was proposed by Michaud et al (2008) and achieves be
 It provides formal error rate control at the gene level but not for individual contrasts.
 See the \code{\link{classifyTestsF}} help page for more detail about the \code{"nestedF"} method.
 
+If \code{object} is a MArrayLM linear model fit, then the \code{"hierarchical"} method conducts row-wise F-tests and then proceeds to t-tests for those rows with significant F-tests.
+The multiple testing adjustment is applied initially to the F-tests and then, with an adjusted level, to the t-tests for each significant row.
+
 Also see the limma User's Guide for a discussion of the statistical properties of the various adjustment methods.
 }
 
