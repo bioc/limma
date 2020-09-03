@@ -3,7 +3,7 @@
 write.fit <- function(fit, results=NULL, file, digits=NULL, adjust="none", method="separate", F.adjust="none", quote=FALSE, sep="\t", row.names=TRUE, ...)
 #	Write an MArrayLM fit to a file
 #	Gordon Smyth
-#	14 Nov 2003.  Last modified 2 Sep 2020.
+#	14 Nov 2003.  Last modified 3 Sep 2020.
 {
 	if(!is(fit, "MArrayLM")) stop("fit should be an MArrayLM object")
 	if(!is.null(results) && !is(results,"TestResults")) stop("results should be a TestResults object")
@@ -23,31 +23,37 @@ write.fit <- function(fit, results=NULL, file, digits=NULL, adjust="none", metho
 	else
 		F.p.value.adj <- p.adjust(fit$F.p.value,method=F.adjust)
 
+#	Prepare output as list
+	tab <- list()
+	tab$A <- fit$Amean
+	tab$Coef <- drop(fit$coefficients)
+	tab$t <- drop(fit$t)
+	tab$P.value <- drop(p.value)
+	tab$P.value.adj <- drop(p.value.adj)
+	tab$F <- fit$F
+	tab$F.p.value <- fit$F.p.value
+	tab$F.p.value.adj <- F.p.value.adj
+	tab$Results <- drop(unclass(results))
+	tab$Genes <- fit$genes
+
 #	Optionally, round results for easy reading
-	if(is.null(digits)) {
-		rn <- function(x,digits=digits) x
-	} else {
+	if(!is.null(digits)) {
 		rn <- function(x,digits=digits)
-				if(is.null(x))
-					NULL
-				else {
-					if(is.matrix(x) && ncol(x)==1) x <- x[,1]
-					round(x,digits=digits)
-				}
+			if(is.null(x))
+				NULL
+			else
+				round(x,digits=digits)
+		tab$A <- rn(tab$A,digits=digits-1)
+		tab$Coef <- rn(tab$Coef,digits=digits)
+		tab$t <- rn(tab$t,digits=digits-1)
+		tab$P.value <- rn(tab$P.value,digits=digits+2)
+		tab$P.value.adj <- rn(tab$P.value.adj,digits=digits+3)
+		tab$F <- rn(tab$F,digits=digits-1)
+		tab$F.p.value <- rn(tab$F.p.value,digits=digits+2)
+		tab$F.p.value.adj <- rn(tab$F.p.value.adj,digits=digits+3)
 	}
 
-#	Prepare output data.frame
-	tab <- list()
-	tab$A <- rn(fit$Amean,digits=digits-1)
-	tab$Coef <- rn(fit$coef,digits=digits)
-	tab$t <- rn(fit$t,digits=digits-1)
-	tab$p.value <- rn(p.value,digits=digits+2)
-	tab$p.value.adj <- rn(p.value.adj,digits=digits+3)
-	tab$F <- rn(fit$F,digits=digits-1)
-	tab$F.p.value <- rn(fit$F.p.value,digits=digits+2)
-	tab$F.p.value.adj <- rn(F.p.value.adj,digits=digits+3)
-	tab$Res <- unclass(results)
-	tab$Genes <- fit$genes
+#	Convert to data.frame
 	tab <- data.frame(tab,check.names=FALSE)
 
 #	Unlike write.table, the row.names argument must be a logical value

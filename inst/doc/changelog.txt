@@ -1,3 +1,11 @@
+ 3 Sep 2020: limma 3.45.13
+
+- Revise write.fit() so that column names of the output file are
+  correct when `digits=NULL` and the `fit` object contains only one
+  coefficient column. Previously the same contrast name was repeated
+  as the column name for the coefficients, t-statistics and p.values,
+  making them hard to distinguish.
+
  2 Sep 2020: limma 3.45.12
 
 - write.fit() now outputs a blank column heading for the row names
