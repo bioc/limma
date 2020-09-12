@@ -1,3 +1,8 @@
+12 Sep 2020: limma 3.45.14
+
+- Revise the help page for plotMDS() to clarify that the function can
+  produce PCA plots as well as PCoA plots.
+
  3 Sep 2020: limma 3.45.13
 
 - Revise write.fit() so that column names of the output file are

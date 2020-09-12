@@ -19,7 +19,7 @@ Plot samples on a two-dimensional scatterplot so that distances on the plot appr
 }
 
 \arguments{
-  \item{x}{any data object which can be coerced to a matrix, for example an \code{ExpressionSet} or an \code{EList}.}
+  \item{x}{any data object which can be coerced to a matrix, for example an \code{ExpressionSet} or an \code{EList}. Rows represent genes or genomic features while columns represent samples.}
   \item{top}{number of top genes used to calculate pairwise distances.}
   \item{labels}{character vector of sample names or labels. Defaults to \code{colnames(x)}.}
   \item{pch}{plotting symbol or symbols. See \code{\link{points}} for possible values. Ignored if \code{labels} is non-\code{NULL}.}
@@ -34,14 +34,14 @@ Plot samples on a two-dimensional scatterplot so that distances on the plot appr
 }
 
 \details{
-This function is a variation on the usual multdimensional scaling (or principle coordinate) plot, in that a distance measure particularly appropriate for the microarray context is used.
-The distance between each pair of samples (columns) is the root-mean-square deviation (Euclidean distance) for the top \code{top} genes.
-Distances on the plot can be interpreted as \emph{leading log2-fold-change}, meaning
-the typical (root-mean-square) log2-fold-change between the samples for the genes that distinguish those samples.
+This function uses multidimensional scaling (MDS) to produce a principal coordinate (PCoA) or principal component (PCA) plot showing the relationships between the expression profiles represented by the columns of \code{x}.
+If \code{gene.selection = "common"}, or if the \code{top} is equal to or greater than the number of rows of \code{x}, then a PCA plot is constructed from the \code{top} genes with largest standard deviations across the samples.
 
-If \code{gene.selection} is \code{"common"}, then the top genes are those with the largest standard deviations between samples.
-If \code{gene.selection} is \code{"pairwise"}, then a different set of top genes is selected for each pair of samples.
-The pairwise feature selection may be appropriate for microarray data when different molecular pathways are relevant for distinguishing different pairs of samples.
+If \code{gene.section = "pairwise"} and \code{top} is less than \code{nrow(x)} then a PCoA plot is produced and distances on the plot represent the \emph{leading log2-fold-changes}.
+The leading log-fold-change between a pair of samples is defined as the root-mean-square average of the \code{top} largest log2-fold-changes between those two samples.
+The PCA and PCoA plots produced by \code{gene.selection="common"} and \code{gene.selection="pairwise"}, respectively, use similar distance measures but the PCA plot uses the same genes throughout whereas the PCoA plot potentially selects different genes to distinguish each pair of samples.
+The pairwise choice is the default.
+It potentially gives better resolution than a PCA plot if different molecular pathways are relevant for distinguishing different pairs of samples.
 
 If \code{pch=NULL}, then each sample is represented by a text label, defaulting to the column names of \code{x}.
 If \code{pch} is not \code{NULL}, then plotting symbols are used.
