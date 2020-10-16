@@ -1,5 +1,7 @@
 16 Oct 2020: limma 3.45.15
 
+- Update NEWS.Rd ready for the Bioconductor 3.12 release.
+
 - volcanoplot() now prompts user to run eBayes() if the object
   doesn't contain p-values.
 
@@ -86,7 +88,7 @@
 
 - Add new argument `output.style` to weightedLowess().
 
-- Revise and expland the weightedLowess help page.
+- Revise and expand the weightedLowess help page.
 
  6 Jun 2020: limma 3.45.3
 

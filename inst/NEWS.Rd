@@ -3,6 +3,114 @@
 \encoding{UTF-8}
 
 
+\section{Version 3.46.0}{
+
+  \subsection{New functionality}{\itemize{
+
+    \item
+    Add new function chooseLowessSpan().
+
+    \item
+    fitFDist() with a non-NULL `covariate` now fits a smoother trend
+    (with fewer spline knots) than before unless there are at least
+    30 observations. This also affects squeezeVar() and eBayes() with
+    `trend=TRUE`.
+
+    \item
+    Add new argument `output.style` to weightedLowess().
+
+    \item
+    write.fit() now outputs a blank column heading for the row names
+    so that the number of column names in the delimited output file
+    will agree with the number of columns (similar to write.csv in the
+    base package).
+
+  }}
+
+  \subsection{Code improvements}{\itemize{
+
+    \item
+    volcanoplot() now prompts user to run eBayes() if the object
+    doesn't contain p-values.
+
+    \item
+    Add checks and more informative error messages to getEAWP() and
+    lmFit() when the data object is missing, NULL or has zero rows.
+
+    \item
+    Subsetting for RGList, MAList, EListRaw, EList, MArrayLM or
+    TestResults objects now accepts arguments other than `i` or `j`
+    but ignores them without an error. This is relevant if a user
+    adds a `drop` argument by analogy with matrix subsetting. Previously
+    that produced an error.
+
+    \item
+    Subsetting of TestResults now requires two arguments, same as all
+    of the other data object classes listed above. Previously single
+    index subsetting (for example object[i]) was allowed.
+
+    \item
+    Improved treatment of zero weights by weighted.median().
+
+    \item
+    More consistent use of rep.int(), rep_len() and rep() throughout
+    the package.
+
+    \item
+    Replace NA with NA_real_ where appropriate.
+
+    \item
+    Add a message to topTableF() to warn that the function is
+    obsolete and will be removed in a future version of limma.
+    Remove usages of topTableF() from the User's Guide.
+
+    \item
+    Remove obsolete function toptable(), which has been officially 
+    deprecated in favor of topTable() since 1 Feb 2018.
+
+  }}
+
+  \subsection{Documentation}{\itemize{
+
+    \item
+    Revise and expand the weightedLowess help page.
+
+    \item
+    Add more explanation about "heirarchical" method in the details
+    section of the decideTests() help page.
+
+    \item
+    Revise the help page for plotMDS() to clarify that the function can
+    produce PCA plots as well as PCoA plots.
+
+    \item
+    Add example to EList-class help page.
+
+    \item
+    Edits to the eBayes help page.
+
+    \item
+    Edit concept entries for help files.
+
+  }}
+
+  \subsection{Bug fixes}{\itemize{
+
+    \item
+    Revise write.fit() so that column names of the output file are
+    correct when `digits=NULL` and the `fit` object contains only one
+    coefficient column. Previously the same contrast name was repeated
+    as the column name for the coefficients, t-statistics and p.values,
+    making them hard to distinguish.
+ 
+    \item
+    Bug fix to arrayWeights() when `y` contains NAs, the design matrix
+    has several columns and some but not all genes have no residual df.
+
+  }}
+}
+
+
 \section{Version 3.44.0}{
 
   \subsection{New functionality}{\itemize{
