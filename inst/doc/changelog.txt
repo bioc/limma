@@ -1,3 +1,8 @@
+16 Oct 2020: limma 3.45.15
+
+- volcanoplot() now prompts user to run eBayes() if the object
+  doesn't contain p-values.
+
 12 Sep 2020: limma 3.45.14
 
 - Revise the help page for plotMDS() to clarify that the function can
