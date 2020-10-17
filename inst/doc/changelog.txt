@@ -1,3 +1,9 @@
+18 Oct 2020: limma 3.45.18
+
+- Add Note to voom.Rd to emphasise that voom is not an appropriate
+  tool to analyse TPM, FPKM, CPM or any similar measures normalized
+  for library size.
+
 17 Oct 2020: limma 3.45.17
 
 - In voom.Rd, recommend voomLmFit as an alternative for sparse counts.

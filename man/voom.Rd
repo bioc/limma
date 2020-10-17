@@ -81,6 +81,15 @@ As noted by Law et al (2014), voom should be more powerful than limma-trend if t
 Note that \code{edgeR::voomLmFit} is now recommended over \code{voom} for sparse counts with a medium to high proportion of zeros.
 }
 
+\note{
+\code{voom} is designed to accept counts.
+Usually these will be sequence read counts, but counts of species abundance or other biological quantities might also be appropriate.
+Estimated counts are also acceptable provided that the column sums are representative of the total library size (total number of reads) for that sample.
+\code{voom} can analyse scaled counts provided that the column sums remain proportional to the total library sizes.
+\code{voom} is designed to take account of sample-specific library sizes and hence \code{voom} should not be used to analyse quantities that have been normalized for library size such as RPKM, transcripts per million (TPM) or counts per million (CPM).
+Such quantities prevent \code{voom} from infering the correct library sizes and hence the correct precision with which each value was measured.
+}
+
 \value{
 An \code{\link[limma:EList]{EList}} object with the following components:
 \item{E}{numeric matrix of normalized expression values on the log2 scale}

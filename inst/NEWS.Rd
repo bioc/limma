@@ -80,6 +80,10 @@
     section of the decideTests() help page.
 
     \item
+    Add Note to voom help page to emphasise that voom is not an appropriate
+    tool to analyse expresssion measures that have been normalized for library size.
+
+    \item
     Revise the help page for plotMDS() to clarify that the function can
     produce PCA plots as well as PCoA plots.
 
@@ -90,7 +94,7 @@
     Edits to the eBayes help page.
 
     \item
-    Edit concept entries for help files.
+    Edit concept entries for help files (for reference manual index).
 
   }}
 
