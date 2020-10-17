@@ -77,6 +77,8 @@ The voom method incorporates the mean-variance trend into the precision weights,
 The voom method takes into account the sequencing depths (library sizes) of the individual columns of \code{counts} and applies the mean-variance trend on an individual observation basis.
 limma-trend, on the other hand, assumes that the library sizes are not wildly different and applies the mean-variance trend on a genewise basis.
 As noted by Law et al (2014), voom should be more powerful than limma-trend if the library sizes are very different but, otherwise, the two methods should give similar results.
+
+Note that \code{edgeR::voomLmFit} is now recommended over \code{voom} for sparse counts with a medium to high proportion of zeros.
 }
 
 \value{
@@ -114,7 +116,7 @@ RNA-seq analysis is easy as 1-2-3 with limma, Glimma and edgeR.
 \code{\link{voomWithQualityWeights}}.
 \code{\link{vooma}} is similar to \code{voom} but for microarrays instead of RNA-seq.
 
-See also \code{voomLmFit} in the edgeR package.
+\code{voomLmFit} in the edgeR package is a further developed version of voom particularly for sparse data.
 
 A summary of functions for RNA-seq analysis is given in \link{11.RNAseq}.
 }
