@@ -1,3 +1,7 @@
+17 Oct 2020: limma 3.45.16
+
+- Update package test output file for org.Hs.eg.db version 3.12.0.
+
 16 Oct 2020: limma 3.45.15
 
 - Update NEWS.Rd ready for the Bioconductor 3.12 release.
