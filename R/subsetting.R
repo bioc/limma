@@ -128,9 +128,9 @@ function(object, i, j, ...)
 #	fewer columns than the IJ or J components if the design was not of full
 #	rank.  Selecting non-estimable coefficients is not allowed.
 	ncoef <- ncol(object$coefficients)
-	if(!missing(j) && !is.null(object$cov.coefficients)) {
+	if(!missing(j)) {
 		jj <- j
-		if(ncol(object$cov.coefficients) < ncoef) {
+		if(!is.null(object$cov.coefficients) && ncol(object$cov.coefficients) < ncoef) {
 			if(is.null(object$pivot)) stop("design matrix not of full rank but pivot is missing")
 			ColNum <- seq_len(ncoef)
 			names(ColNum) <- colnames(object$coefficients)

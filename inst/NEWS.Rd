@@ -30,6 +30,10 @@
   \subsection{Code improvements}{\itemize{
 
     \item
+    Subsetting and contrasts.fit() now work on MArrayLM objects even
+    if the cov.coefficients component is absent.
+
+    \item
     volcanoplot() now prompts user to run eBayes() if the object
     doesn't contain p-values.
 

@@ -5,13 +5,17 @@ contrasts.fit <- function(fit,contrasts=NULL,coefficients=NULL)
 #	Note: does not completely take probe-wise weights into account
 #	because this would require refitting the linear model for each probe
 #	Gordon Smyth
-#	Created 13 Oct 2002.  Last modified 5 Mar 2020.
+#	Created 13 Oct 2002.  Last modified 19 Oct 2020.
 {
 #	Check number of arguments
-	if(is.null(contrasts) == is.null(coefficients)) stop("Must specify exactly one of contrasts or coefficients")
+	if(identical(is.null(contrasts),is.null(coefficients))) stop("Must specify exactly one of contrasts or coefficients")
 
 #	If coefficients are input, just subset
 	if(!is.null(coefficients)) return(fit[,coefficients])
+
+#	Check for valid fit object
+	if(is.null(fit$coefficients)) stop("fit must contain coefficients component")
+	if(is.null(fit$stdev.unscaled)) stop("fit must contain stdev.unscaled component")
 
 #	Remove test statistics in case eBayes() has previously been run on the fit object
 	fit$t <- NULL
@@ -26,7 +30,7 @@ contrasts.fit <- function(fit,contrasts=NULL,coefficients=NULL)
 #	Check contrasts.
 	if(anyNA(contrasts)) stop("NAs not allowed in contrasts")
 	contrasts <- as.matrix(contrasts)
-	if(nrow(contrasts)!=ncoef) stop("Number of rows of contrast matrix must match number of coefficients in fit")
+	if(!identical(nrow(contrasts),ncoef)) stop("Number of rows of contrast matrix must match number of coefficients in fit")
 	rn <- rownames(contrasts)
 	cn <- colnames(fit$coefficients)
 	if(!is.null(rn) && !is.null(cn) && !identical(rn,cn)) warning("row names of contrasts don't match col names of coefficients")
@@ -38,8 +42,10 @@ contrasts.fit <- function(fit,contrasts=NULL,coefficients=NULL)
 #	Correlation matrix of estimable coefficients
 #	Test whether design was orthogonal
 	if(is.null(fit$cov.coefficients)) {
-		warning("no coef correlation matrix found in fit - assuming orthogonal")
-		cormatrix <- diag(ncoef)
+		warning("cov.coefficients not found in fit - assuming coefficients are orthogonal",call.=FALSE)
+		var.coef <- colMeans(fit$stdev.unscaled^2)
+		fit$cov.coefficients <- diag(var.coef,nrow=ncoef)
+		cormatrix <- diag(nrow=ncoef)
 		orthog <- TRUE
 	} else {
 		cormatrix <- cov2cor(fit$cov.coefficients)
