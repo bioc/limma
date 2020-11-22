@@ -3,7 +3,7 @@
 \title{Linear Model for Series of Arrays}
 \description{Fit linear model for each gene given a series of arrays}
 \usage{
-lmFit(object, design=NULL, ndups=1, spacing=1, block=NULL, correlation, weights=NULL,
+lmFit(object, design=NULL, ndups=NULL, spacing=NULL, block=NULL, correlation, weights=NULL,
       method="ls", \dots)
 }
 \arguments{
@@ -49,8 +49,8 @@ If \code{object} is of class \code{ExpressionSet}, then the expression matrix is
 (This may contain log-expression or log-ratio values, depending on the platform.)
 If \code{object} is of class \code{PLMset} then the matrix of chip coefficients \code{chip.coefs} is extracted.
 
-The arguments \code{design}, \code{ndups}, \code{spacing} and \code{weights} will be extracted from the data \code{object} if available and do not normally need to set explicitly in the call.
-On the other hand, if any of these are set in the function call then they will over-ride the slots or components in the data \code{object}.
+The arguments \code{design}, \code{ndups}, \code{spacing} and \code{weights} will be extracted from the data \code{object} if available.
+On the other hand, if any of these are set to a non-NULL value in the function call then this value will over-ride the value found in \code{object}.
 If \code{object} is an \code{PLMset}, then weights are computed as \code{1/pmax(object@se.chip.coefs, 1e-05)^2}.
 If \code{object} is an \code{ExpressionSet} object, then weights are not computed.
 

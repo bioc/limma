@@ -1,3 +1,15 @@
+22 Nov 2020: limma 3.47.1
+
+- Explicitly setting `weights=NULL` in a call to lmFit() no longer
+  over-rides the `weights` value found in `object`.
+
+- Default settings in lmFit() changed from `ndups=` and `spacing=1`
+  to `ndups=NULL` and `spacing=NULL`. No change to function behavior
+  from a user point of view.
+
+28 Oct 2020: limma 3.47.0 (Bioconductor 3.13 Developmental Branch)
+28 Oct 2020: limma 3.46.0 (Bioconductor 3.12 Release Branch)
+
 19 Oct 2020: limma 3.45.19
 
 - Subsetting and contrasts.fit() now work on MArrayLM objects even
