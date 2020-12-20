@@ -1,3 +1,8 @@
+20 Dec 2020: limma 3.47.2
+
+- read.idat() now checks for gzipped IDAT files and, if detected,
+  gives an informative error message.
+
 22 Nov 2020: limma 3.47.1
 
 - Explicitly setting `weights=NULL` in a call to lmFit() no longer

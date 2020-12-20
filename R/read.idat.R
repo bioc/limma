@@ -1,7 +1,7 @@
 read.idat <- function(idatfiles, bgxfile, dateinfo=FALSE, annotation="Symbol", tolerance=0L, verbose=TRUE)
 #	Read GenomeStudio IDAT files for Illumina gene expression BeadChips
 #	Matt Ritchie and Gordon Smyth
-#	Created 30 September 2013.  Last modified 9 May 2017.
+#	Created 30 September 2013.  Last modified 20 Dec 2020.
 {
 #	Need illuminaio package
 	OK <- requireNamespace("illuminaio",quietly=TRUE)
@@ -10,6 +10,10 @@ read.idat <- function(idatfiles, bgxfile, dateinfo=FALSE, annotation="Symbol", t
 #	Check idatfiles
 	idatafiles <- as.character(idatfiles)
 	nsamples <- length(idatfiles)
+
+#	Gzipped IDAT files are often found on GEO but are not allowed
+	n <- nchar(idatfiles)
+	if(any(substring(idatfiles,n-2L,n)==".gz")) stop("IDAT files should be gunzipped")
 
 #	Initialize EListRaw object
 	elist <- new("EListRaw")
