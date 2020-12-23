@@ -1,3 +1,10 @@
+22 Dec 2020: limma 3.47.3
+
+- Add new arguments `path` and `bgxpath` for read.idat().
+
+- read.idat() now checks for existence of input files before calling
+  illuminaio read functions.
+
 20 Dec 2020: limma 3.47.2
 
 - read.idat() now checks for gzipped IDAT files and, if detected,

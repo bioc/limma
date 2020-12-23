@@ -1,7 +1,7 @@
-read.idat <- function(idatfiles, bgxfile, dateinfo=FALSE, annotation="Symbol", tolerance=0L, verbose=TRUE)
+read.idat <- function(idatfiles, bgxfile, path=NULL, bgxpath=path, dateinfo=FALSE, annotation="Symbol", tolerance=0L, verbose=TRUE)
 #	Read GenomeStudio IDAT files for Illumina gene expression BeadChips
 #	Matt Ritchie and Gordon Smyth
-#	Created 30 September 2013.  Last modified 20 Dec 2020.
+#	Created 30 September 2013.  Last modified 23 Dec 2020.
 {
 #	Need illuminaio package
 	OK <- requireNamespace("illuminaio",quietly=TRUE)
@@ -14,6 +14,18 @@ read.idat <- function(idatfiles, bgxfile, dateinfo=FALSE, annotation="Symbol", t
 #	Gzipped IDAT files are often found on GEO but are not allowed
 	n <- nchar(idatfiles)
 	if(any(substring(idatfiles,n-2L,n)==".gz")) stop("IDAT files should be gunzipped")
+
+#	Add optional paths
+	if(!is.null(path)) idatfiles <- file.path(path,idatfiles)
+	if(!is.null(bgxpath)) bgxfile <- file.path(bgxpath,bgxfile)
+
+#	Check for file existence
+	fe <- file.exists(idatfiles)
+	if(!all(fe)) {
+		idatfiles <- idatfiles[!fe]
+		stop("IDAT files don't exist: ",paste(idatfiles,collapse=", "),call.=FALSE)
+	}
+	if(!file.exists(bgxfile)) stop("BGX file doesn't exist: ",bgxfile,call.=FALSE)
 
 #	Initialize EListRaw object
 	elist <- new("EListRaw")
@@ -65,40 +77,40 @@ read.idat <- function(idatfiles, bgxfile, dateinfo=FALSE, annotation="Symbol", t
 		if("IllumicodeBinData" %in% colnames(tmp$Quants)) {
 			ind <- match(elist$genes$Array_Address_Id, tmp$Quants$IllumicodeBinData)
 		} else {
-		       ind <- match(elist$genes$Array_Address_Id, rownames(tmp$Quants))
+			ind <- match(elist$genes$Array_Address_Id, rownames(tmp$Quants))
 		}
 
 #		Check for whether values are available for all probes
 		if(anyNA(ind)) {
 			nna <- sum(is.na(ind))
 			if(nna > tolerance)
-				stop("Can't match all ids in manifest with those in idat file ", idatfiles[i], "\n", sum(is.na(ind)), 
-				     " missing - please check that you have the right files, or consider setting \'tolerance\'=", sum(is.na(ind)))
+				stop("Can't match all IDs in manifest with those in IDAT file ", idatfiles[i], "\n",
+				     nna, " missing - please check that you have the right files, or consider setting \'tolerance\' >=", nna)
 			i <- which(!is.na(ind))
 			ind <- ind[i]
-	                if("MeanBinData" %in% colnames(tmp$Quants) && "DevBinData" %in% colnames(tmp$Quants) && "NumGoodBeadsBinData" %in% colnames(tmp$Quants)) {
+			if("MeanBinData" %in% colnames(tmp$Quants) && "DevBinData" %in% colnames(tmp$Quants) && "NumGoodBeadsBinData" %in% colnames(tmp$Quants)) {
 				elist$E[i,j] <- tmp$Quants$MeanBinData[ind]
-                        	elist$other$STDEV[i,j] <- tmp$Quants$DevBinData[ind]
-                        	elist$other$NumBeads[i,j] <- tmp$Quants$NumGoodBeadsBinData[ind]
+				elist$other$STDEV[i,j] <- tmp$Quants$DevBinData[ind]
+				elist$other$NumBeads[i,j] <- tmp$Quants$NumGoodBeadsBinData[ind]
 			} else { # if idat is in SNP format, use different headings
-                                elist$E[i,j] <- tmp$Quants[ind,"Mean"]
-		     	        elist$other$STDEV[i,j] <- tmp$Quants[ind,"SD"]
-                                elist$other$NumBeads[i,j] <- tmp$Quants[ind,"NBeads"]
+				elist$E[i,j] <- tmp$Quants[ind,"Mean"]
+				elist$other$STDEV[i,j] <- tmp$Quants[ind,"SD"]
+				elist$other$NumBeads[i,j] <- tmp$Quants[ind,"NBeads"]
 			}
-                } else { # When no data is missing...
-                        if("MeanBinData" %in% colnames(tmp$Quants) && "DevBinData" %in% colnames(tmp$Quants) && "NumGoodBeadsBinData" %in% colnames(tmp$Quants)) {
-                                elist$E[,j] <- tmp$Quants$MeanBinData[ind]
+		} else { # When no data is missing...
+			if("MeanBinData" %in% colnames(tmp$Quants) && "DevBinData" %in% colnames(tmp$Quants) && "NumGoodBeadsBinData" %in% colnames(tmp$Quants)) {
+				elist$E[,j] <- tmp$Quants$MeanBinData[ind]
 				elist$other$STDEV[,j] <- tmp$Quants$DevBinData[ind]
-                                elist$other$NumBeads[,j] <- tmp$Quants$NumGoodBeadsBinData[ind]
+				elist$other$NumBeads[,j] <- tmp$Quants$NumGoodBeadsBinData[ind]
 			} else { # if idat is in SNP format, use different headings
-                                elist$E[,j] <- tmp$Quants[ind,"Mean"]
-                                elist$other$STDEV[,j] <- tmp$Quants[ind,"SD"]
-                                elist$other$NumBeads[,j] <- tmp$Quants[ind,"NBeads"]
-                        }
+				elist$E[,j] <- tmp$Quants[ind,"Mean"]
+				elist$other$STDEV[,j] <- tmp$Quants[ind,"SD"]
+				elist$other$NumBeads[,j] <- tmp$Quants[ind,"NBeads"]
+			}
 		}
 		if(dateinfo) {
-			elist$targets$DecodeInfo[j] = paste(tmp$RunInfo[1,], collapse=" ")
-			elist$targets$ScanInfo[j] = paste(tmp$RunInfo[2,], collapse=" ")
+			elist$targets$DecodeInfo[j] <- paste(tmp$RunInfo[1,], collapse=" ")
+			elist$targets$ScanInfo[j] <- paste(tmp$RunInfo[2,], collapse=" ")
 		}
 	}
 
