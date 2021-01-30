@@ -25,7 +25,7 @@ coolmap(x, cluster.by="de pattern", col=NULL,
   \item{linkage.col}{linkage criterion used to cluster the columns.
   Choices are the same as for \code{linkage.row}.}
   \item{show.dendrogram}{choices are \code{"row"}, \code{"column"}, \code{"both"} or \code{"none"}.}
-  \item{\dots}{any other arguments are passed to \code{heatmap.2}.}
+  \item{\dots}{any other arguments are passed to \code{heatmap.2}. See details for which arguments are reserved.}
 }
 
 \details{
@@ -33,6 +33,10 @@ This function calls the \code{heatmap.2} function in the ggplots package with se
 The default settings for \code{heatmap.2} are often not ideal for expression data, and overriding the defaults requires explicit calls to \code{hclust} and \code{as.dendrogram} as well as prior standardization of the data values.
 The \code{coolmap} function implements our preferred defaults for the two most common types of heatmaps.
 When clustering by relative expression (\code{cluster.by="de pattern"}), it implements a row standardization that takes account of \code{NA} values and standard deviations that might be zero.
+
+\code{coolmap} sets the following \code{heatmap.2} arguments internally: \code{Rowv}, \code{Colv}, \code{scale}, \code{density.info}, \code{trace}, \code{col}, \code{symbreaks}, \code{symkey}, \code{dendrogram}, \code{key.title} and \code{key.xlab}.
+These arguments are therefore reserved and cannot be varied.
+Other than these reserved arguments, any other \code{heatmap.2} argument can be included in the \code{coolmap} call, thereby giving full access to \code{heatmap.2} functionality.
 }
 
 \value{

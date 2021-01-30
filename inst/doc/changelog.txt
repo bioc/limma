@@ -1,3 +1,8 @@
+31 Jan 2021: limma 3.47.4
+
+- Edit coolmap() help page to clarify which heatmap.2() arguments are
+  reserved and which can be included in the coolmap call.
+
 22 Dec 2020: limma 3.47.3
 
 - Add new arguments `path` and `bgxpath` for read.idat().
