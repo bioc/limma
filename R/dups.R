@@ -65,16 +65,8 @@ duplicateCorrelation <- function(object,design=NULL,ndups=2L,spacing=1L,block=NU
 		}
 	}
 
-#	Weights and spacing arguments can be specified in call or stored in y
-#	Precedence for these arguments is
-#	1. Specified in function call
-#	2. Stored in object
-#	3. Default values
-	if(missing(ndups) && !is.null(y$printer$ndups)) ndups <- y$printer$ndups
-	if(missing(spacing) && !is.null(y$printer$spacing)) spacing <- y$printer$spacing
-	if(missing(weights) && !is.null(y$weights)) weights <- y$weights
-
 #	Check weights
+	if(is.null(weights)) weights <- y$weights
 	if(!is.null(weights)) {
 		weights <- asMatrixWeights(weights,dim(M))
 		weights[weights <= 0] <- NA
@@ -83,13 +75,16 @@ duplicateCorrelation <- function(object,design=NULL,ndups=2L,spacing=1L,block=NU
 
 #	Setup spacing or blocking arguments
 	if(is.null(block)) {
-		if(ndups<2) {
+#		If present, use ndups and spacing stored in object
+		if(!is.null(y$printer$ndups)) ndups <- y$printer$ndups
+		if(!is.null(y$printer$spacing)) spacing <- y$printer$spacing
+		if(ndups<2L) {
 			warning("No duplicates: correlation between duplicates not estimable")
 			return( list(consensus.correlation=0,cor=0,atanh.correlations=rep_len(0,nrow(M))) )
 		}
 		if(is.character(spacing)) {
 			if(spacing=="columns") spacing <- 1
-			if(spacing=="rows") spacing <- object$printer$nspot.c
+			if(spacing=="rows") spacing <- y$printer$nspot.c
 			if(spacing=="topbottom") spacing <- nrow(M)/2
 		}
 		Array <- rep(1:narrays,each=ndups)

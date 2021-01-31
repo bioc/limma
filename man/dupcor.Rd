@@ -9,16 +9,15 @@ duplicateCorrelation(object, design=NULL, ndups=2, spacing=1, block=NULL,
                      trim=0.15, weights=NULL)
 }
 \arguments{
-  \item{object}{a numeric matrix of expression values, or any data object from which \code{as.matrix} will extract a suitable matrix such as an \code{\link[limma:malist]{MAList}}, \code{marrayNorm} or \code{ExpressionSet} object.
-  If \code{object} is an \code{MAList} object then the arguments \code{design}, \code{ndups}, \code{spacing} and \code{weights} will be extracted from it if available and do not have to be specified as arguments.
-  Specifying these arguments explicitly will over-rule any components found in the data object.}
+  \item{object}{A matrix-like data object containing log-ratios or log-expression values for a series of samples, with rows corresponding to genes and columns to samples.
+  Any type of data object that can be processed by \code{\link{getEAWP}} is acceptable.}
   \item{design}{the design matrix of the microarray experiment, with rows corresponding to arrays and columns to comparisons to be estimated. The number of rows must match the number of columns of \code{object}. Defaults to the unit vector meaning that the arrays are treated as replicates.} 
   \item{ndups}{a positive integer giving the number of times each gene is printed on an array. \code{nrow(object)} must be divisible by \code{ndups}.
-  Will be ignored if \code{block} is specified.}
+  Ignored if \code{block} is specified.}
   \item{spacing}{the spacing between the rows of \code{object} corresponding to duplicate spots, \code{spacing=1} for consecutive spots}
   \item{block}{vector or factor specifying a blocking variable}
   \item{trim}{the fraction of observations to be trimmed from each end of \code{tanh(all.correlations)} when computing the trimmed mean.}
-  \item{weights}{an optional numeric matrix of the same dimension as \code{object} containing weights for each spot. If smaller than \code{object} then it will be filled out the same size.}
+  \item{weights}{an optional numeric matrix of the same dimension as \code{object} containing weights for each spot. If smaller than \code{object} then it will be filled out to the same size.}
 }
 \value{
   A list with components
@@ -31,18 +30,19 @@ When \code{block=NULL}, this function estimates the correlation between duplicat
 If \code{block} is not null, this function estimates the correlation between repeated observations on the blocking variable.
 Typically the blocks are biological replicates and the repeated observations are technical replicates.
 In either case, the correlation is estimated by fitting a mixed linear model by REML individually for each gene.
-The function also returns a consensus correlation, which is a robust average of the individual correlations, which can be used as input for 
-functions \code{lmFit} or \code{gls.series}.
+The function also returns a consensus correlation, which is a robust average of the individual correlations, intended for input to functions such as \code{lmFit}, \code{gls.series} or \code{voom}.
 
-At this time it is not possible to estimate correlations between duplicate spots and between technical replicates simultaneously.
+It is not possible to estimate correlations between duplicate spots and between technical replicates simultaneously.
 If \code{block} is not null, then the function will set \code{ndups=1}, which is equivalent to ignoring duplicate spots.
 
 For this function to return statistically useful results, there must be at least two more arrays than the number of coefficients to be estimated, i.e., two more than the column rank of \code{design}.
 
-The function may take long time to execute as it fits a mixed linear model for each gene for an iterative algorithm.
-It is not uncommon for the function to return a small number of warning messages that correlation estimates cannot be computed for some individual genes.
-This is not a serious concern providing that there are only a few such warnings and the total number of genes is large.
+The function may take long time to execute as it fits a mixed linear model for each gene using an iterative algorithm.
+
+It is not uncommon for this function to return a small number of warning messages that correlation estimates cannot be computed for some individual genes, but is not a concern if the number of such warnings is small compared to the total number of genes.
 The consensus estimator computed by this function will not be materially affected by a small number of genes.
+
+If present, \code{ndups} and \code{spacing} will be extracted from \code{object$printer$ndups} and \code{object$printer$spacing}.
 }
 \seealso{
 These functions use \code{\link[statmod:mixedmodel]{mixedModel2Fit}} from the statmod package.
@@ -88,4 +88,5 @@ fit2 <- eBayes(fit2)
 topTable(fit2,coef=2)
 }
 
-\keyword{multivariate}
+\keyword{models}
+\keyword{regression}

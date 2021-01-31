@@ -1,3 +1,9 @@
+31 Jan 2021: limma 3.47.6
+
+- duplicateCorrelation() now sets `weights` same as lmFit(). Setting
+  `weights=NULL` in the function call no longer overwrites weights
+  found in `object`.
+
 31 Jan 2021: limma 3.47.5
 
 - duplicateCorrelation() now checks whether the block factor is
@@ -8,6 +14,9 @@
 
 - duplicateCorrelation() now issues a simplified message when design
   is not of full rank and uses message() to do so instead of cat().
+
+- Fix to value returned by duplicateCorrelation() when no blocks or
+  duplicates are present.
 
 31 Jan 2021: limma 3.47.4
 
