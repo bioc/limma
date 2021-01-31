@@ -1,3 +1,14 @@
+31 Jan 2021: limma 3.47.5
+
+- duplicateCorrelation() now checks whether the block factor is
+  spanned by the design matrix. If so, it returns intrablock
+  correlations of zero with a warning. Previously this usage error
+  was not specifically trapped and could lead to correlations that
+  were or NA or close to 1 depending on floating point errors.
+
+- duplicateCorrelation() now issues a simplified message when design
+  is not of full rank and uses message() to do so instead of cat().
+
 31 Jan 2021: limma 3.47.4
 
 - Edit coolmap() help page to clarify which heatmap.2() arguments are

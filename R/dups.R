@@ -30,10 +30,10 @@ uniquegenelist <- function(genelist,ndups=2,spacing=1) {
 		return(genelist[i,,drop=FALSE])
 }
 
-duplicateCorrelation <- function(object,design=NULL,ndups=2,spacing=1,block=NULL,trim=0.15,weights=NULL)
+duplicateCorrelation <- function(object,design=NULL,ndups=2L,spacing=1L,block=NULL,trim=0.15,weights=NULL)
 #	Estimate the correlation between duplicates given a series of arrays
 #	Gordon Smyth
-#	25 Apr 2002. Last revised 17 Aug 2016.
+#	25 Apr 2002. Last revised 31 Jan 2021.
 {
 #	Extract components from y
 	y <- getEAWP(object)
@@ -50,9 +50,20 @@ duplicateCorrelation <- function(object,design=NULL,ndups=2,spacing=1,block=NULL
 		if(mode(design) != "numeric") stop("design must be a numeric matrix")
 	}
 	if(nrow(design) != narrays) stop("Number of rows of design matrix does not match number of arrays")
-	ne <- nonEstimable(design)
-	if(!is.null(ne)) cat("Coefficients not estimable:",paste(ne,collapse=" "),"\n")
 	nbeta <- ncol(design)
+
+#	Check whether design and block are of full rank
+	QR <- qr(design)
+	if(QR$rank < nbeta) message("Note: design matrix not of full rank (",nbeta-QR$rank," coef not estimable).")
+	if(!is.null(block)) {
+		design.block <- model.matrix(~factor(block))
+		design.block <- design.block[,-1,drop=FALSE]
+		QtBlock <- qr.qty(QR,design.block)
+		if(max(abs(QtBlock[-(1:QR$rank),])) < 1e-8) {
+			warning("Block factor already encoded in the design matrix. Setting intrablock correlation to zero.")
+			return( list(consensus.correlation=0,cor=0,atanh.correlations=rep_len(0,nrow(M))) )
+		}
+	}
 
 #	Weights and spacing arguments can be specified in call or stored in y
 #	Precedence for these arguments is
@@ -74,17 +85,17 @@ duplicateCorrelation <- function(object,design=NULL,ndups=2,spacing=1,block=NULL
 	if(is.null(block)) {
 		if(ndups<2) {
 			warning("No duplicates: correlation between duplicates not estimable")
-			return( list(cor=NA,cor.genes=rep(NA,nrow(M))) )
+			return( list(consensus.correlation=0,cor=0,atanh.correlations=rep_len(0,nrow(M))) )
 		}
 		if(is.character(spacing)) {
 			if(spacing=="columns") spacing <- 1
 			if(spacing=="rows") spacing <- object$printer$nspot.c
 			if(spacing=="topbottom") spacing <- nrow(M)/2
 		}
-		Array <- rep(1:narrays,rep(ndups,narrays))
+		Array <- rep(1:narrays,each=ndups)
 	} else {
-		ndups <- 1
-		nspacing <- 1
+		ndups <- 1L
+		nspacing <- 1L
 		Array <- block
 	}
 
@@ -93,11 +104,11 @@ duplicateCorrelation <- function(object,design=NULL,ndups=2,spacing=1,block=NULL
 		M <- unwrapdups(M,ndups=ndups,spacing=spacing)
 		ngenes <- nrow(M)
 		if(!is.null(weights)) weights <- unwrapdups(weights,ndups=ndups,spacing=spacing)
-		design <- design %x% rep(1,ndups)
+		design <- design %x% rep_len(1,ndups)
 	}
 
-	if(!requireNamespace("statmod",quietly=TRUE)) stop("statmod package required but is not installed")
-	rho <- rep(NA,ngenes)
+	if(!requireNamespace("statmod",quietly=TRUE)) stop("statmod package required but is not installed (or can't be loaded)")
+	rho <- rep_len(NA_real_,ngenes)
 	nafun <- function(e) NA
 	for (i in 1:ngenes) {
 		y <- drop(M[i,])
