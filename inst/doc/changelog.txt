@@ -1,3 +1,9 @@
+15 Feb 2021: limma 3.47.7
+
+- duplicateCorrelation() now bounds the genewise correlations away
+  from the upper and lower bounds by 0.01 so that the correlation
+  matrix will be positive-definite.
+
 31 Jan 2021: limma 3.47.6
 
 - duplicateCorrelation() now sets `weights` same as lmFit(). Setting

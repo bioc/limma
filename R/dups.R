@@ -33,7 +33,7 @@ uniquegenelist <- function(genelist,ndups=2,spacing=1) {
 duplicateCorrelation <- function(object,design=NULL,ndups=2L,spacing=1L,block=NULL,trim=0.15,weights=NULL)
 #	Estimate the correlation between duplicates given a series of arrays
 #	Gordon Smyth
-#	25 Apr 2002. Last revised 31 Jan 2021.
+#	25 Apr 2002. Last revised 15 Feb 2021.
 {
 #	Extract components from y
 	y <- getEAWP(object)
@@ -47,20 +47,25 @@ duplicateCorrelation <- function(object,design=NULL,ndups=2L,spacing=1L,block=NU
 		design <- matrix(1,ncol(y$exprs),1)
 	else {
 		design <- as.matrix(design)
-		if(mode(design) != "numeric") stop("design must be a numeric matrix")
+		if(!identical(mode(design),"numeric")) stop("design must be a numeric matrix")
 	}
-	if(nrow(design) != narrays) stop("Number of rows of design matrix does not match number of arrays")
+	if(!identical(nrow(design),narrays)) stop("Number of rows of design matrix does not match number of arrays")
 	nbeta <- ncol(design)
 
 #	Check whether design and block are of full rank
 	QR <- qr(design)
 	if(QR$rank < nbeta) message("Note: design matrix not of full rank (",nbeta-QR$rank," coef not estimable).")
 	if(!is.null(block)) {
+		MaxBlockSize <- max(table(block))
+		if(identical(MaxBlockSize,1L)) {
+			warning("Blocks all of size 1: setting intrablock correlation to zero.")
+			return( list(consensus.correlation=0,cor=0,atanh.correlations=rep_len(0,nrow(M))) )
+		}
 		design.block <- model.matrix(~factor(block))
 		design.block <- design.block[,-1,drop=FALSE]
 		QtBlock <- qr.qty(QR,design.block)
 		if(max(abs(QtBlock[-(1:QR$rank),])) < 1e-8) {
-			warning("Block factor already encoded in the design matrix. Setting intrablock correlation to zero.")
+			warning("Block factor already encoded in the design matrix: setting intrablock correlation to zero.")
 			return( list(consensus.correlation=0,cor=0,atanh.correlations=rep_len(0,nrow(M))) )
 		}
 	}
@@ -79,7 +84,7 @@ duplicateCorrelation <- function(object,design=NULL,ndups=2L,spacing=1L,block=NU
 		if(!is.null(y$printer$ndups)) ndups <- y$printer$ndups
 		if(!is.null(y$printer$spacing)) spacing <- y$printer$spacing
 		if(ndups<2L) {
-			warning("No duplicates: correlation between duplicates not estimable")
+			warning("No duplicates: setting correlation between duplicates to zero.")
 			return( list(consensus.correlation=0,cor=0,atanh.correlations=rep_len(0,nrow(M))) )
 		}
 		if(is.character(spacing)) {
@@ -102,6 +107,7 @@ duplicateCorrelation <- function(object,design=NULL,ndups=2L,spacing=1L,block=NU
 		design <- design %x% rep_len(1,ndups)
 	}
 
+#	Compute genewise correlations
 	if(!requireNamespace("statmod",quietly=TRUE)) stop("statmod package required but is not installed (or can't be loaded)")
 	rho <- rep_len(NA_real_,ngenes)
 	nafun <- function(e) NA
@@ -123,7 +129,17 @@ duplicateCorrelation <- function(object,design=NULL,ndups=2L,spacing=1L,block=NU
 			if(!is.na(s[1])) rho[i] <- s[2]/sum(s)
 		}
 	}
-	arho <- atanh(pmax(-1,rho))
+
+#	Keep correlations away from limits to ensure correlation matrix is positive-definite
+	rhomax <- 0.99
+	if(is.null(block))
+		rhomin <- 1/(1-ndups) + 0.01
+	else
+		rhomin <- 1/(1-MaxBlockSize) + 0.01
+	if(min(rho) < rhomin) rho[rho < rhomin] <- rhomin
+	if(max(rho) > rhomax) rho[rho > rhomax] <- rhomax
+
+	arho <- atanh(rho)
 	mrho <- tanh(mean(arho,trim=trim,na.rm=TRUE))
 	list(consensus.correlation=mrho,cor=mrho,atanh.correlations=arho)
 }
