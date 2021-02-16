@@ -1,8 +1,8 @@
 \name{dupcor}
 \alias{duplicateCorrelation}
-\title{Correlation Between Duplicates}
+\title{Correlation Between Duplicates or Within Blocks}
 \description{
-Estimate the correlation between duplicate spots (regularly spaced replicate spots on the same array) or between technical replicates from a series of arrays.
+Estimate the intra-block correlation given a block structure for the arrays or samples.
 }
 \usage{
 duplicateCorrelation(object, design=NULL, ndups=2, spacing=1, block=NULL,
@@ -28,19 +28,16 @@ duplicateCorrelation(object, design=NULL, ndups=2, spacing=1, block=NULL,
 \details{
 When \code{block=NULL}, this function estimates the correlation between duplicate spots (regularly spaced within-array replicate spots).
 If \code{block} is not null, this function estimates the correlation between repeated observations on the blocking variable.
-Typically the blocks are biological replicates and the repeated observations are technical replicates.
+Typically the blocks are biological replicates and repeated observations on the same block may be correlated.
 In either case, the correlation is estimated by fitting a mixed linear model by REML individually for each gene.
 The function also returns a consensus correlation, which is a robust average of the individual correlations, intended for input to functions such as \code{lmFit}, \code{gls.series} or \code{voom}.
 
-It is not possible to estimate correlations between duplicate spots and between technical replicates simultaneously.
+It is not possible to estimate correlations between duplicate spots and with sample blocks simultaneously.
 If \code{block} is not null, then the function will set \code{ndups=1}, which is equivalent to ignoring duplicate spots.
 
 For this function to return statistically useful results, there must be at least two more arrays than the number of coefficients to be estimated, i.e., two more than the column rank of \code{design}.
 
 The function may take long time to execute as it fits a mixed linear model for each gene using an iterative algorithm.
-
-It is not uncommon for this function to return a small number of warning messages that correlation estimates cannot be computed for some individual genes, but is not a concern if the number of such warnings is small compared to the total number of genes.
-The consensus estimator computed by this function will not be materially affected by a small number of genes.
 
 If present, \code{ndups} and \code{spacing} will be extracted from \code{object$printer$ndups} and \code{object$printer$spacing}.
 }
@@ -57,35 +54,24 @@ Smyth, G. K., Michaud, J., and Scott, H. (2005). The use of within-array replica
 }
 
 \examples{
-# Simulate gene expression data for 100 probes and 6 microarrays
-# Microarray are in two groups
-# First two probes are more highly expressed in second group
-# Std deviations vary between genes with prior df=4
-sd <- 0.3*sqrt(4/rchisq(100,df=4))
-y <- matrix(rnorm(100*6,sd=sd),100,6)
-rownames(y) <- paste("Gene",1:100)
-y[1:2,4:6] <- y[1:2,4:6] + 2
-design <- cbind(Grp1=1,Grp2vs1=c(0,0,0,1,1,1))
-options(digits=3)
+# Simulate a paired experiment with incomplete blocks
+Block <- c(1,1,2,2,3,3,4,4,5,6,7,8)
+Treat <- factor(c(1,2,1,2,1,2,1,2,1,2,1,2))
+design <- model.matrix(~Treat)
 
-# Fit with correlated arrays
-# Suppose each pair of arrays is a block
-block <- c(1,1,2,2,3,3)
-dupcor <- duplicateCorrelation(y,design,block=block)
-dupcor$consensus.correlation
-fit1 <- lmFit(y,design,block=block,correlation=dupcor$consensus)
-fit1 <- eBayes(fit1)
-topTable(fit1,coef=2)
+ngenes <- 50
+nsamples <- 12
+y <- matrix(rnorm(ngenes*nsamples),ngenes,nsamples)
+rownames(y) <- paste0("Gene",1:ngenes)
 
-# Fit with duplicate probes
-# Suppose two side-by-side duplicates of each gene
-rownames(y) <- paste("Gene",rep(1:50,each=2))
-dupcor <- duplicateCorrelation(y,design,ndups=2)
+# Estimate the within-block correlation
+dupcor <- duplicateCorrelation(y,design,block=Block)
 dupcor$consensus.correlation
-fit2 <- lmFit(y,design,ndups=2,correlation=dupcor$consensus)
-dim(fit2)
-fit2 <- eBayes(fit2)
-topTable(fit2,coef=2)
+
+# Estimate the treatment effect using both complete and incomplete blocks
+fit <- lmFit(y,design,block=Block,correlation=dupcor$consensus)
+fit <- eBayes(fit)
+topTable(fit,coef=2)
 }
 
 \keyword{models}

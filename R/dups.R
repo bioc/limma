@@ -33,7 +33,7 @@ uniquegenelist <- function(genelist,ndups=2,spacing=1) {
 duplicateCorrelation <- function(object,design=NULL,ndups=2L,spacing=1L,block=NULL,trim=0.15,weights=NULL)
 #	Estimate the correlation between duplicates given a series of arrays
 #	Gordon Smyth
-#	25 Apr 2002. Last revised 15 Feb 2021.
+#	25 Apr 2002. Last revised 16 Feb 2021.
 {
 #	Extract components from y
 	y <- getEAWP(object)
@@ -117,15 +117,15 @@ duplicateCorrelation <- function(object,design=NULL,ndups=2L,spacing=1L,block=NU
 		A <- factor(Array[o])
 		nobs <- sum(o)
 		nblocks <- length(levels(A))
-		if(nobs>(nbeta+2) && nblocks>1 && nblocks<nobs-1) {
+		if(nobs>(nbeta+2L) && nblocks>1L && nblocks<(nobs-1L)) {
 			y <- y[o]
 			X <- design[o,,drop=FALSE]
 			Z <- model.matrix(~0+A)
 			if(!is.null(weights)) {
 				w <- drop(weights[i,])[o]
-				s <- tryCatch(statmod::mixedModel2Fit(y,X,Z,w,only.varcomp=TRUE,maxit=20)$varcomp,error=nafun)
+				s <- tryCatch(suppressWarnings(statmod::mixedModel2Fit(y,X,Z,w,only.varcomp=TRUE,maxit=20)$varcomp),error=nafun)
 			} else
-				s <- tryCatch(statmod::mixedModel2Fit(y,X,Z,only.varcomp=TRUE,maxit=20)$varcomp,error=nafun)
+				s <- tryCatch(suppressWarnings(statmod::mixedModel2Fit(y,X,Z,only.varcomp=TRUE,maxit=20)$varcomp),error=nafun)
 			if(!is.na(s[1])) rho[i] <- s[2]/sum(s)
 		}
 	}
@@ -136,8 +136,10 @@ duplicateCorrelation <- function(object,design=NULL,ndups=2L,spacing=1L,block=NU
 		rhomin <- 1/(1-ndups) + 0.01
 	else
 		rhomin <- 1/(1-MaxBlockSize) + 0.01
-	if(min(rho) < rhomin) rho[rho < rhomin] <- rhomin
-	if(max(rho) > rhomax) rho[rho > rhomax] <- rhomax
+	m <- min(rho,0,na.rm=TRUE)
+	if(m < rhomin) rho[rho < rhomin] <- rhomin
+	m <- max(rho,0,na.rm=TRUE)
+	if(m > rhomax) rho[rho > rhomax] <- rhomax
 
 	arho <- atanh(rho)
 	mrho <- tanh(mean(arho,trim=trim,na.rm=TRUE))

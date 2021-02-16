@@ -1,3 +1,11 @@
+16 Feb 2021: limma 3.47.8
+
+- The upper/lower calculation introduced yesterday in
+  duplicateCorrelation() didn't allow for NA correlations for some
+  genes. Now fixed.
+
+- Edit duplicateCorrelation() help page including new code example.
+
 15 Feb 2021: limma 3.47.7
 
 - duplicateCorrelation() now bounds the genewise correlations away
