@@ -17,7 +17,7 @@ voom(counts, design = NULL, lib.size = NULL, normalize.method = "none",
     Counts must be non-negative and NAs are not permitted.}
   \item{design}{
     design matrix with rows corresponding to samples and columns to coefficients to be estimated.
-    Defaults to the unit vector meaning that samples are treated as replicates.}
+    Defaults to \code{model.matrix(~0+counts$samples$group)} if \code{counts} is a DGEList, otherwise defaults to the unit vector meaning that all samples are treated as replicates.}
   \item{lib.size}{
     numeric vector containing total library sizes for each sample.
     Defaults to the normalized (effective) library sizes in \code{counts} if \code{counts} is a \code{DGEList} or to the columnwise count totals if \code{counts} is a matrix.}

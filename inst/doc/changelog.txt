@@ -1,3 +1,8 @@
+ 8 Mar 2021: limma 3.47.9
+
+- Help page for voom() now explains that the design matrix will be
+  set from the `group` factor of the DGEList object if available.
+
 16 Feb 2021: limma 3.47.8
 
 - The upper/lower calculation introduced yesterday in
