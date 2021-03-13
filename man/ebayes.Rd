@@ -8,7 +8,7 @@
 \usage{
 eBayes(fit, proportion = 0.01, stdev.coef.lim = c(0.1,4),
        trend = FALSE, robust = FALSE, winsor.tail.p = c(0.05,0.1))
-treat(fit, lfc = log2(1.2), trend = FALSE, robust = FALSE, winsor.tail.p = c(0.05,0.1))
+treat(fit, fc = 1.2, lfc = NULL, trend = FALSE, robust = FALSE, winsor.tail.p = c(0.05,0.1))
 }
 
 \arguments{
@@ -19,7 +19,8 @@ treat(fit, lfc = log2(1.2), trend = FALSE, robust = FALSE, winsor.tail.p = c(0.0
   \item{trend}{logical, should an intensity-trend be allowed for the prior variance? Default is that the prior variance is constant.}
   \item{robust}{logical, should the estimation of \code{df.prior} and \code{var.prior} be robustified against outlier sample variances?}
   \item{winsor.tail.p}{numeric vector of length 1 or 2, giving left and right tail proportions of \code{x} to Winsorize. Used only when \code{robust=TRUE}.}
-  \item{lfc}{the minimum log2-fold-change that is considered scientifically meaningful}
+  \item{fc}{a minimum fold-change below which changes are not considered scientifically meaningful.}
+  \item{lfc}{a minimum log2-fold-change below which changes not considered scientifically meaningful. Defaults to \code{log2(fc)}.}
 }
 
 \value{
@@ -66,20 +67,25 @@ The F-statistics \code{F} are computed by \code{classifyTestsF} with \code{fstat
 \code{eBayes} does not compute ordinary t-statistics because they always have worse performance than the moderated versions.
 The ordinary (unmoderated) t-statistics can, however, can be easily extracted from the linear model output for comparison purposes---see the example code below.
 
-\code{treat} computes empirical Bayes moderated-t p-values relative to a minimum meaningful fold-change threshold.
+\code{treat} computes empirical Bayes moderated-t p-values relative to a minimum fold-change threshold.
 Instead of testing for genes that have true log-fold-changes different from zero, it tests whether the true log2-fold-change is greater than \code{lfc} in absolute value (McCarthy and Smyth, 2009).
 In other words, it uses an interval null hypothesis, where the interval is [-lfc,lfc].
 When the number of DE genes is large, \code{treat} is often useful for giving preference to larger fold-changes and for prioritizing genes that are biologically important.
 \code{treat} is concerned with p-values rather than posterior odds, so it does not compute the B-statistic \code{lods}.
 The idea of thresholding doesn't apply to F-statistics in a straightforward way, so moderated F-statistics are also not computed.
-When \code{lfc=0}, \code{treat} is identical to \code{eBayes}, except that F-statistics and B-statistics are not computed.
-The \code{lfc} threshold is usually chosen relatively small, because significantly DE genes must  all have fold changes substantially greater than the testing threshold.
-Typical values for \code{lfc} are \code{log2(1.1)}, \code{log2(1.2)} or \code{log2(1.5)}.
+When \code{fc=1} and \code{lfc=0}, \code{treat} is identical to \code{eBayes}, except that F-statistics and B-statistics are not computed.
+The \code{fc} threshold is usually chosen relatively small, because genes need to have fold changes substantially greater than the testing threshold in order to be considered statistically significant.
+Typical values for \code{fc} are \code{1.1}, \code{1.2} or \code{1.5}.
 The top genes chosen by \code{treat} can be examined using \code{\link{topTreat}}.
 
-Note that the \code{lfc} testing threshold used by \code{treat} to the define the null hypothesis is not the same as a log2-fold-change cutoff, as the observed log2-fold-change needs to substantially larger than \code{lfc} for the gene to be called as significant.
-In practice, modest values for \code{lfc} such as \code{log2(1.1)}, \code{log2(1.2)} or \code{log2(1.5)} are usually the most useful.
-In practice, setting \code{lfc=log2(1.2)} or \code{lfc=log2(1.5)} will usually cause most differentially expressed genes to have estimated fold-changes of 2-fold or greater, depending on the sample size and precision of the experiment.
+The \code{treat} threshold can be specified either as a fold-change via \code{fc} or as a log2-fold-change via \code{lfc}, with \code{lfc = log2(fc)}.
+Note that the \code{treat} testing procedure is considerably more rigorous and conservative than simply applying same \code{fc} values as a fold-change cutoff to the list of differentially expressed genes.
+Indeed, the observed log2-fold-change needs to substantially larger than \code{lfc} for a gene to be called as statistically significant by \code{treat}.
+The threshold should be chosen as a small value below which results should be ignored rather than as a target fold-change.
+In practice, modest values for \code{fc} such as \code{1.1}, \code{1.2} or \code{1.5} are usually the most useful.
+Setting \code{fc=1.2} or \code{fc=1.5} will usually cause most differentially expressed genes to have estimated fold-changes of 2-fold or greater, depending on the sample size and precision of the experiment.
+Larger thresholds are usually overly conservative and counter productive.
+In general, the \code{fc} threshold should be chosen sufficiently small so that a worthwhile number of DE genes remain, otherwise the purpose of prioritizing genes with larger fold-changes will be defeated.
 
 The use of \code{eBayes} or \code{treat} with \code{trend=TRUE} is known as the \emph{limma-trend} method (Law et al, 2014; Phipson et al, 2016).
 With this option, an intensity-dependent trend is fitted to the prior variances \code{s2.prior}.
@@ -153,7 +159,7 @@ topTable(fit,coef=2)
 ordinary.t <- fit$coef[,2] / fit$stdev.unscaled[,2] / fit$sigma
 
 # Treat relative to a 10% fold-change
-tfit <- treat(fit,lfc=log2(1.1))
+tfit <- treat(fit, fc=1.1)
 topTreat(tfit,coef=2)
 }
 

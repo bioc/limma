@@ -1,9 +1,9 @@
 ###  treat.R
 
-treat <- function(fit, lfc=log2(1.2), trend=FALSE, robust=FALSE, winsor.tail.p=c(0.05,0.1))
+treat <- function(fit, fc=1.2, lfc=NULL, trend=FALSE, robust=FALSE, winsor.tail.p=c(0.05,0.1))
 #	Moderated t-statistics relative to a logFC threshold.
 #	Davis McCarthy, Gordon Smyth
-#	25 July 2008.  Last revised 12 Apr 2020.
+#	25 July 2008.  Last revised 13 Mar 2021.
 {
 #	Check fit
 	if(!is(fit,"MArrayLM")) stop("fit must be an MArrayLM object")
@@ -36,6 +36,7 @@ treat <- function(fit, lfc=log2(1.2), trend=FALSE, robust=FALSE, winsor.tail.p=c
 	df.pooled <- sum(df.residual,na.rm=TRUE)
 	df.total <- pmin(df.total,df.pooled)
 	fit$df.total <- df.total
+	if(is.null(lfc)) lfc <- log2(fc)
 	lfc <- abs(lfc)
 	acoef <- abs(coefficients)
 	se <- stdev.unscaled*sqrt(fit$s2.post)
