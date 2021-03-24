@@ -1,3 +1,9 @@
+24 Mar 2021: limma 3.47.11
+
+- The average log-expression column written by write.fit() now has
+  column heading "AveExpr" to match the output from topTable().
+  The column was previously called "A".
+
  8 Mar 2021: limma 3.47.10
 
 - New argument `fc` for treat() so that the fold-change threshold can
