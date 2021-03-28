@@ -1,3 +1,12 @@
+28 Mar 2021: limma 3.47.12
+
+- Rewrite the MDS calculations performed by plotMDS(). The function no
+  longer calls cmdscale() but instead performs the necessary
+  eigenvector computations directly. Proportion of variance explained
+  by each dimension is now computed. The `ndim` argument is now
+  removed. All eigenvectors are now stored so that plotMDS.MDS does
+  not need to recompute them if different dimensions are requested.
+
 24 Mar 2021: limma 3.47.11
 
 - The average log-expression column written by write.fit() now has
