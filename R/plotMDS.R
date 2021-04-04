@@ -10,15 +10,15 @@ setMethod("show","MDS",function(object) {
 
 plotMDS <- function(x,...) UseMethod("plotMDS")
 
-plotMDS.MDS <- function(x,labels=NULL,pch=NULL,cex=1,dim.plot=NULL,xlab=NULL,ylab=NULL,...)
+plotMDS.MDS <- function(x,labels=NULL,pch=NULL,cex=1,dim.plot=NULL,xlab=NULL,ylab=NULL,var.explained=TRUE,...)
 #	Method for MDS objects
-#	Create a new plot using MDS coordinates or distances previously created
+#	Create a new plot using MDS coordinates previously computed.
 #	Gordon Smyth and Yifang Hu
-#	21 May 2011.  Last modified 29 December 2014
+#	21 May 2011.  Last modified 28 March 2021
 {
 #	Check labels
 	if(is.null(labels) & is.null(pch)) {
-		labels <- colnames(x$distance.matrix)
+		labels <- colnames(x$distance.matrix.squared)
 		if(is.null(labels)) labels <- 1:length(x$x)
 	}
 
@@ -26,11 +26,15 @@ plotMDS.MDS <- function(x,labels=NULL,pch=NULL,cex=1,dim.plot=NULL,xlab=NULL,yla
 	if(is.null(dim.plot)) {
 		dim.plot <- x$dim.plot
 	} else {
-		if(any(dim.plot != x$dim.plot)) {
-			ndim <- max(dim.plot)
-			if(ndim > ncol(x$cmdscale.out)) x$cmdscale.out <- cmdscale(as.dist(x$distance.matrix),k=ndim)
-			x$x <- x$cmdscale.out[,dim.plot[1]]
-			x$y <- x$cmdscale.out[,dim.plot[2]]
+		if(!identical(dim.plot,x$dim.plot)) {
+			x$dim.plot <- dim.plot
+			lambda <- pmax(x$eigen.values,0)
+			i <- dim.plot[1]
+			mds$x <- mds$eigen.vectors[,i] * sqrt(lambda[i])
+			if(lambda[i] < 1e-13) warning("dimension ", i, " is degenerate or all zero")
+			i <- dim.plot[2]
+			mds$y <- mds$eigen.vectors[,i] * sqrt(lambda[i])
+			if(lambda[i] < 1e-13) warning("dimension ", i, " is degenerate or all zero")
 		}
 	}
 
@@ -38,6 +42,11 @@ plotMDS.MDS <- function(x,labels=NULL,pch=NULL,cex=1,dim.plot=NULL,xlab=NULL,yla
 	if(is.null(x$axislabel)) x$axislabel <- "Principal Coordinate"
 	if(is.null(xlab)) xlab <- paste(x$axislabel,dim.plot[1])
 	if(is.null(ylab)) ylab <- paste(x$axislabel,dim.plot[2])
+	if(var.explained) {
+		Perc <- round(x$var.explained[dim.plot]*100)
+		xlab <- paste0(xlab," (",Perc[1],"%)")
+		ylab <- paste0(ylab," (",Perc[2],"%)")
+	}
 
 #	Make the plot
 	if(is.null(labels)){
@@ -58,10 +67,10 @@ plotMDS.MDS <- function(x,labels=NULL,pch=NULL,cex=1,dim.plot=NULL,xlab=NULL,yla
 	invisible(x)
 }
 
-plotMDS.default <- function(x,top=500,labels=NULL,pch=NULL,cex=1,dim.plot=c(1,2),ndim=max(dim.plot),gene.selection="pairwise",xlab=NULL,ylab=NULL,plot=TRUE,...)
+plotMDS.default <- function(x,top=500,labels=NULL,pch=NULL,cex=1,dim.plot=c(1,2),gene.selection="pairwise",xlab=NULL,ylab=NULL,plot=TRUE,...)
 #	Multi-dimensional scaling with top-distance
 #	Di Wu and Gordon Smyth
-#	19 March 2009.  Last modified 6 Oct 2016
+#	19 March 2009.  Last modified 28 March 2021.
 {
 #	Check x
 	x <- as.matrix(x)
@@ -88,6 +97,7 @@ plotMDS.default <- function(x,top=500,labels=NULL,pch=NULL,cex=1,dim.plot=c(1,2)
 	if(length(dim.plot) != 2L) stop("dim.plot must specify two dimensions to plot")
 
 #	Check dim
+	ndim <- max(dim.plot)
 	if(ndim < 2L) stop("Need at least two dim.plot")
 	if(nsamples < ndim) stop("ndim is greater than number of samples")
 	if(nprobes < ndim) stop("ndim is greater than number of rows of data")
@@ -102,7 +112,7 @@ plotMDS.default <- function(x,top=500,labels=NULL,pch=NULL,cex=1,dim.plot=c(1,2)
 		topindex <- nprobes-top+1L
 		for (i in 2L:(nsamples))
 		for (j in 1L:(i-1L))
-			dd[i,j]=sqrt(mean(sort.int((x[,i]-x[,j])^2,partial=topindex)[topindex:nprobes]))
+			dd[i,j]=mean(sort.int((x[,i]-x[,j])^2,partial=topindex)[topindex:nprobes])
 		axislabel <- "Leading logFC dim"
 	} else {
 #		Same genes used for all comparisons
@@ -112,27 +122,36 @@ plotMDS.default <- function(x,top=500,labels=NULL,pch=NULL,cex=1,dim.plot=c(1,2)
 			x <- x[o[1L:top],,drop=FALSE]
 		}
 		for (i in 2L:(nsamples))
-			dd[i,1L:(i-1L)]=sqrt(colMeans((x[,i]-x[,1:(i-1),drop=FALSE])^2))
+			dd[i,1L:(i-1L)]=colMeans((x[,i]-x[,1:(i-1),drop=FALSE])^2)
 		axislabel <- "Principal Component"
 	}
 
 #	Multi-dimensional scaling
-	a1 <- suppressWarnings(cmdscale(as.dist(dd),k=ndim))
+	dd <- dd + t(dd)
+	rm <- rowMeans(dd)
+	dd <- dd - rm
+	dd <- t(dd) - (rm - mean(rm))
+	mds <- eigen(-dd/2, symmetric=TRUE)
+	names(mds) <- c("eigen.values","eigen.vectors")
 
-#	Make MDS object and call plotMDS method
-	mds <- new("MDS",list(dim.plot=dim.plot,distance.matrix=dd,cmdscale.out=a1,top=top,gene.selection=gene.selection))
-	if(dim.plot[1] > ncol(a1)) {
-		mds$x <- rep_len(0,length.out=nsamples)
-		warning(paste("dimension",dim.plot[1],"is degenerate or all zero"))
-	} else
-		mds$x <- a1[,dim.plot[1]]
-	if(dim.plot[2] > ncol(a1)) {
-		mds$y <- rep_len(0,length.out=nsamples)
-		warning(paste("dimension",dim.plot[2],"is degenerate or all zero"))
-	} else
-		mds$y <- a1[,dim.plot[2]]
-	mds$top <- top
+#	Make MDS object
+	lambda <- pmax(mds$eigen.values,0)
+	mds$var.explained <- lambda / sum(lambda)
+	mds$dim.plot=dim.plot
+	mds$distance.matrix.squared=dd
+	mds$top=top
+	mds$gene.selection=gene.selection
 	mds$axislabel <- axislabel
+	mds <- new("MDS",unclass(mds))
+
+#	Add coordinates for plot
+	i <- dim.plot[1]
+	mds$x <- mds$eigen.vectors[,i] * sqrt(lambda[i])
+	if(lambda[i] < 1e-13) warning("dimension ", i, " is degenerate or all zero")
+	i <- dim.plot[2]
+	mds$y <- mds$eigen.vectors[,i] * sqrt(lambda[i])
+	if(lambda[i] < 1e-13) warning("dimension ", i, " is degenerate or all zero")
+
 	if(plot)
 		plotMDS(mds,labels=labels,pch=pch,cex=cex,xlab=xlab,ylab=ylab,...)
 	else

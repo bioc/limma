@@ -32,7 +32,7 @@ No value is produced but a file is written to the current working directory.
 }
 
 \details{
-This function writes a delimited text file containing for each gene (1) the average log2-intensity, (2) the coefficients or contrasts (log2-fold-changes), (3) moderated t-statistics, (4) t-statistic P-values, (5) F-statistic if available, (6) F-statistic P-values if available, (7) decideTests results if available and (8) gene names and annotation.
+This function writes a delimited text file containing for each gene (1) the average log2-intensity (\code{AveExpr}), (2) the coefficients or contrasts (log2-fold-changes, \code{Coef}), (3) moderated t-statistics, (4) t-statistic P-values, (5) F-statistic if available, (6) F-statistic P-values if available, (7) decideTests results if available and (8) gene names and annotation.
 
 The \code{results} argument is optional. If supplied, it should be the output from \code{decideTests} for the same fit object, which indicates whether each contrast for each gene is considered statistically significant or not (coded 1 or -1 for positive or negative significant differences and 0 for non-significant values).
 

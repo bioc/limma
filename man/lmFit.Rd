@@ -9,7 +9,8 @@ lmFit(object, design=NULL, ndups=NULL, spacing=NULL, block=NULL, correlation, we
 \arguments{
   \item{object}{A matrix-like data object containing log-ratios or log-expression values for a series of arrays, with rows corresponding to genes and columns to samples.
   Any type of data object that can be processed by \code{\link{getEAWP}} is acceptable.}
-  \item{design}{the design matrix of the microarray experiment, with rows corresponding to arrays and columns to coefficients to be estimated.  Defaults to the unit vector meaning that the arrays are treated as replicates.} 
+  \item{design}{the design matrix of the microarray experiment, with rows corresponding to samples and columns to coefficients to be estimated.
+  Defaults to \code{object$design} if that is non-NULL, otherwise to the unit vector meaning that all samples will be treated as replicates of a single treatment group.} 
   \item{ndups}{positive integer giving the number of times each distinct probe is printed on each array.}
   \item{spacing}{positive integer giving the spacing between duplicate occurrences of the same probe, \code{spacing=1} for consecutive rows.}
   \item{block}{vector or factor specifying a blocking variable on the arrays. Has length equal to the number of arrays. Must be \code{NULL} if \code{ndups>2}.}

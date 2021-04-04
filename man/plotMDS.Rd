@@ -12,10 +12,10 @@ Plot samples on a two-dimensional scatterplot so that distances on the plot appr
 
 \usage{
 \method{plotMDS}{default}(x, top = 500, labels = NULL, pch = NULL, cex = 1,
-     dim.plot = c(1,2), ndim = max(dim.plot), gene.selection = "pairwise",
+     dim.plot = c(1,2), gene.selection = "pairwise",
      xlab = NULL, ylab = NULL, plot = TRUE, \dots)
 \method{plotMDS}{MDS}(x, labels = NULL, pch = NULL, cex = 1, dim.plot = NULL,
-     xlab = NULL, ylab = NULL, \dots)
+     xlab = NULL, ylab = NULL, var.explained = TRUE, \dots)
 }
 
 \arguments{
@@ -25,11 +25,11 @@ Plot samples on a two-dimensional scatterplot so that distances on the plot appr
   \item{pch}{plotting symbol or symbols. See \code{\link{points}} for possible values. Ignored if \code{labels} is non-\code{NULL}.}
   \item{cex}{numeric vector of plot symbol expansions.}
   \item{dim.plot}{integer vector of length two specifying which principal components should be plotted.}
-  \item{ndim}{number of dimensions in which data is to be represented.}
   \item{gene.selection}{character, \code{"pairwise"} to choose the top genes separately for each pairwise comparison between the samples or \code{"common"} to select the same genes for all comparisons.}
   \item{xlab}{title for the x-axis.}
   \item{ylab}{title for the y-axis.}
   \item{plot}{logical. If \code{TRUE} then a plot is created on the current graphics device.}
+  \item{var.explained}{logical. If \code{TRUE} then the percentage variation explained is included in the axis labels.}
   \item{\dots}{any other arguments are passed to \code{plot}, and also to \code{text} (if \code{pch} is \code{NULL}).}
 }
 
@@ -50,12 +50,14 @@ See \code{\link[graphics]{text}} for possible values for \code{col} and \code{ce
 }
 
 \value{
-If \code{plot=TRUE}, a plot is created on the current graphics device.
+If \code{plot=TRUE} or if \code{x} is an object of class \code{"MDS"}, then a plot is created on the current graphics device.
 
 An object of class \code{"MDS"} is also invisibly returned.
 This is a list containing the following components:
-\item{distance.matrix}{numeric matrix of pairwise distances between columns of \code{x}}
-\item{cmdscale.out}{output from the function \code{cmdscale} given the distance matrix}
+\item{eigen.values}{eigen values}
+\item{eigen.vectors}{eigen vectors}
+\item{var.explained}{proportion of variance explained by each dimension}
+\item{distance.matrix.squared}{numeric matrix of squared pairwise distances between columns of \code{x}}
 \item{dim.plot}{dimensions plotted}
 \item{x}{x-xordinates of plotted points}
 \item{y}{y-cordinates of plotted points}
@@ -65,14 +67,13 @@ This is a list containing the following components:
 \author{Di Wu and Gordon Smyth}
 
 \references{
-Ritchie, ME, Phipson, B, Wu, D, Hu, Y, Law, CW, Shi, W, and Smyth, GK (2015).
+Ritchie ME, Phipson B, Wu D, Hu Y, Law CW, Shi W, and Smyth GK (2015).
 limma powers differential expression analyses for RNA-sequencing and microarray studies.
 \emph{Nucleic Acids Research} 43, e47.
 \url{http://nar.oxfordjournals.org/content/43/7/e47}
 }
 
 \seealso{
-\code{\link{cmdscale}}
 
 An overview of diagnostic functions available in LIMMA is given in \link{09.Diagnostics}.
 }

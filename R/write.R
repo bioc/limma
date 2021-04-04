@@ -3,7 +3,7 @@
 write.fit <- function(fit, results=NULL, file, digits=NULL, adjust="none", method="separate", F.adjust="none", quote=FALSE, sep="\t", row.names=TRUE, ...)
 #	Write an MArrayLM fit to a file
 #	Gordon Smyth
-#	14 Nov 2003.  Last modified 3 Sep 2020.
+#	14 Nov 2003.  Last modified 24 Mar 2021.
 {
 	if(!is(fit, "MArrayLM")) stop("fit should be an MArrayLM object")
 	if(!is.null(results) && !is(results,"TestResults")) stop("results should be a TestResults object")
@@ -25,7 +25,7 @@ write.fit <- function(fit, results=NULL, file, digits=NULL, adjust="none", metho
 
 #	Prepare output as list
 	tab <- list()
-	tab$A <- fit$Amean
+	tab$AveExpr <- fit$Amean
 	tab$Coef <- drop(fit$coefficients)
 	tab$t <- drop(fit$t)
 	tab$P.value <- drop(p.value)
@@ -43,7 +43,7 @@ write.fit <- function(fit, results=NULL, file, digits=NULL, adjust="none", metho
 				NULL
 			else
 				round(x,digits=digits)
-		tab$A <- rn(tab$A,digits=digits-1)
+		tab$AveExpr <- rn(tab$AveExpr,digits=digits-1)
 		tab$Coef <- rn(tab$Coef,digits=digits)
 		tab$t <- rn(tab$t,digits=digits-1)
 		tab$P.value <- rn(tab$P.value,digits=digits+2)
