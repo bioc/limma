@@ -3,6 +3,44 @@
 \encoding{UTF-8}
 
 
+\section{Version 3.48.0}{
+
+  \subsection{New functionality}{\itemize{
+
+    \item
+  plotMDS() no
+  longer calls cmdscale() but instead performs the necessary
+  eigenvector computations directly. Proportion of variance explained
+  by each dimension is now computed and is optionally added to the dimension labels.
+  The `ndim` argument is now
+  removed. All eigenvectors are now stored so that plotMDS.MDS does
+  not need to recompute them when different dimensions are plotted.
+
+  }}
+
+  \subsection{Code improvements}{\itemize{
+
+    \item
+    TBA
+ 
+  }}
+
+  \subsection{Documentation}{\itemize{
+
+    \item
+    TBA
+ 
+  }}
+
+  \subsection{Bug fixes}{\itemize{
+
+    \item
+    TBA
+ 
+  }}
+}
+
+
 \section{Version 3.46.0}{
 
   \subsection{New functionality}{\itemize{
