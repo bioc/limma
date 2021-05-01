@@ -1,3 +1,7 @@
+ 1 May 2021: limma 3.47.13
+ 
+- Fix typo in voom() warning when negative counts are detected.
+
 28 Mar 2021: limma 3.47.12
 
 - Rewrite the MDS calculations performed by plotMDS(). The function no

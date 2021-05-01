@@ -2,7 +2,7 @@ voom <- function(counts,design=NULL,lib.size=NULL,normalize.method="none",block=
 #	Linear modelling of count data with mean-variance modelling at the observation level.
 #	Creates an EList object for entry to lmFit() etc in the limma pipeline.
 #	Gordon Smyth and Charity Law
-#	Created 22 June 2011.  Last modified 23 January 2020.
+#	Created 22 June 2011.  Last modified 1 May 2021.
 {
 	out <- list()
 
@@ -29,7 +29,7 @@ voom <- function(counts,design=NULL,lib.size=NULL,normalize.method="none",block=
 	if(n < 2L) stop("Need at least two genes to fit a mean-variance trend")
 	m <- min(counts)
 	if(is.na(m)) stop("NA counts not allowed")
-	if(m < 0) stop("Negative counts now allowed")
+	if(m < 0) stop("Negative counts not allowed")
 
 #	Check design
 	if(is.null(design)) {
