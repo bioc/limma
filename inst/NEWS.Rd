@@ -8,34 +8,87 @@
   \subsection{New functionality}{\itemize{
 
     \item
-  plotMDS() no
-  longer calls cmdscale() but instead performs the necessary
-  eigenvector computations directly. Proportion of variance explained
-  by each dimension is now computed and is optionally added to the dimension labels.
-  The `ndim` argument is now
-  removed. All eigenvectors are now stored so that plotMDS.MDS does
-  not need to recompute them when different dimensions are plotted.
+    Explicitly setting `weights=NULL` in a call to lmFit() no longer
+    over-rides the `weights` value found in `object`.
+    Default settings in lmFit() changed from `ndups=` and `spacing=1`
+    to `ndups=NULL` and `spacing=NULL`, although this doesn't change function behavior
+    from a user point of view.
+
+    \item
+    A number of improvements to duplicateCorrelation() to make the results more robust
+    and to make the interface consistent with lmFit().
+    duplicateCorrelation() sets `weights` same as lmFit(). Setting
+    `weights=NULL` in the function call no longer overwrites weights
+    found in `object`.
+    duplicateCorrelation() now checks whether the block factor is
+    spanned by the design matrix. If so, it returns intrablock
+    correlations of zero with a warning. Previously this usage error
+    was not specifically trapped and could lead to correlations that
+    were or NA or close to 1 depending on floating point errors.
+    duplicateCorrelation() now issues a simplified message when design
+    is not of full rank and uses message() to do so instead of cat().
+    In terms of output, duplicateCorrelation() now bounds the genewise correlations away
+    from the upper and lower bounds by 0.01 so that the correlation
+    matrix will always be positive-definite.
+    There is also a fix to the value returned by duplicateCorrelation() when no blocks or
+    duplicates are present.
+
+    \item
+    New argument `fc` for treat() so that the fold-change threshold can
+	optionally be specified on the fold-change scale rather than as a
+	log2-fold-change.
+
+    \item
+    plotMDS() no longer calls cmdscale() but instead performs the necessary
+    eigenvector computations directly. Proportion of variance explained
+    by each dimension is now computed and is optionally added to the dimension labels.
+    The `ndim` argument is now
+    removed. All eigenvectors are now stored so that plotMDS.MDS does
+    not need to recompute them when different dimensions are plotted.
+
+    \item
+    New arguments `path` and `bgxpath` for read.idat().
+    read.idat() now checks for gzipped IDAT files and, if detected,
+    gives an informative error message.
+    read.idat() now checks for existence of input files before calling
+    illuminaio read functions.
 
   }}
 
-  \subsection{Code improvements}{\itemize{
+  \subsection{Other code improvements}{\itemize{
 
     \item
-    TBA
+    The average log-expression column written by write.fit() now has
+	column heading "AveExpr" to match the output from topTable().
+	The column was previously called "A".
  
   }}
 
   \subsection{Documentation}{\itemize{
 
     \item
-    TBA
+    Additional documentation for the `design` argument of `lmFit`
+    using the term "samples" instead of "arrays" and mentioning that
+    the design matrix defaults to `object$design` when that component
+    is not NULL.
+ 
+    \item
+    duplicateCorrelation() help page revised including new code example.
+ 
+    \item
+    Help page for voom() now explains that the design matrix will be
+    set from the `group` factor of the DGEList object if available.
+ 
+    \item
+    coolmap() help page now clarifies which heatmap.2() arguments are
+    reserved and which can be included in the coolmap call.
  
   }}
 
   \subsection{Bug fixes}{\itemize{
-
+ 
     \item
-    TBA
+    Fix typo in voom() warning when negative counts are detected.
  
   }}
 }
