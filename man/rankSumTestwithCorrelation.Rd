@@ -49,7 +49,7 @@ A statistical framework for testing functional categories in microarray data.
 
 Wu, D, and Smyth, GK (2012). Camera: a competitive gene set test accounting for inter-gene correlation.
 \emph{Nucleic Acids Research} 40, e133.
-\url{http://nar.oxfordjournals.org/content/40/17/e133}
+\doi{10.1093/nar/gks461}
 
 Zar, JH (1999). \emph{Biostatistical Analysis 4th Edition}.
 Prentice-Hall International, Upper Saddle River, New Jersey.

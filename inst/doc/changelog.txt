@@ -1,3 +1,7 @@
+10 May 2021: limma 3.47.15
+ 
+- Use \doi{} for accessing doi URLs in help pages.
+
  9 May 2021: limma 3.47.14
  
 - Update test output for Bioconductor 3.13 organism packages.

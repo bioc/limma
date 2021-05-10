@@ -72,7 +72,7 @@ read.idat(idatfiles, bgxfile, path = NULL, bgxpath = path,
 \references{
 Smith ML, Baggerly KA, Bengtsson H, Ritchie ME, Hansen KD (2013). 
 illuminaio: An open source IDAT parsing tool. \emph{F1000 Research} 2, 264.
-\url{https://doi.org/10.12688/f1000research.2-264.v1}
+\doi{10.12688/f1000research.2-264.v1}
 }
 
 \author{Matt Ritchie and Gordon Smyth}

@@ -99,7 +99,7 @@
   \subsection{New functionality}{\itemize{
 
     \item
-    Add new function chooseLowessSpan().
+    New function chooseLowessSpan().
 
     \item
     fitFDist() with a non-NULL `covariate` now fits a smoother trend
@@ -108,7 +108,7 @@
     `trend=TRUE`.
 
     \item
-    Add new argument `output.style` to weightedLowess().
+    New argument `output.style` to weightedLowess().
 
     \item
     write.fit() now outputs a blank column heading for the row names
