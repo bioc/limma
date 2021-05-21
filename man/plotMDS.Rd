@@ -13,7 +13,7 @@ Plot samples on a two-dimensional scatterplot so that distances on the plot appr
 \usage{
 \method{plotMDS}{default}(x, top = 500, labels = NULL, pch = NULL, cex = 1,
      dim.plot = c(1,2), gene.selection = "pairwise",
-     xlab = NULL, ylab = NULL, plot = TRUE, \dots)
+     xlab = NULL, ylab = NULL, plot = TRUE, var.explained = TRUE, \dots)
 \method{plotMDS}{MDS}(x, labels = NULL, pch = NULL, cex = 1, dim.plot = NULL,
      xlab = NULL, ylab = NULL, var.explained = TRUE, \dots)
 }

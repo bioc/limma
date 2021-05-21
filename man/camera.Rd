@@ -85,7 +85,7 @@ To reproduce the earlier default, use \code{allow.neg.cor=TRUE} and \code{inter.
 \references{
 Wu, D, and Smyth, GK (2012). Camera: a competitive gene set test accounting for inter-gene correlation.
 \emph{Nucleic Acids Research} 40, e133.
-\url{http://nar.oxfordjournals.org/content/40/17/e133}
+\doi{10.1093/nar/gks461}
 
 Goeman, JJ, and Buhlmann, P (2007).
 Analyzing gene expression data in terms of gene sets: methodological issues.

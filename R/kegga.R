@@ -77,7 +77,7 @@ kegga.MArrayLM <- function(de, coef = ncol(de), geneid = rownames(de), FDR = 0.0
 kegga.default <- function(de, universe=NULL,  restrict.universe=FALSE, species="Hs", species.KEGG=NULL, convert=FALSE, gene.pathway=NULL, pathway.names = NULL,prior.prob=NULL, covariate=NULL, plot=FALSE, ...)
 #	KEGG (Kyoto Encyclopedia of Genes and Genomes) pathway analysis of DE genes
 #	Gordon Smyth and Yifang Hu
-#	Created 18 May 2015.  Modified 19 May 2019.
+#	Created 18 May 2015.  Modified 18 May 2021.
 {
 #	Ensure de is a list
 	if(is.list(de)) {
@@ -231,7 +231,7 @@ kegga.default <- function(de, universe=NULL,  restrict.universe=FALSE, species="
 			               BiasedUrn::dWNCHypergeo(S[i,1L+j], S[i,"N"], M2[i], nde[j], Odds[i])
 
 #		Remove sum of prob column, not needed for output
-		S <- S[,-ncol(S)]
+		S <- S[,-ncol(S),drop=FALSE]
 
 	} else {
 

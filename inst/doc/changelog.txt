@@ -1,3 +1,24 @@
+18 May 2021: limma 3.47.16
+ 
+- Fix minor bug in kegga.default() when there is only one pathway and
+  `trend=TRUE`.
+
+- Add `var.explained` argument to plotMDS.default().
+
+10 May 2021: limma 3.47.15
+ 
+- Use \doi{} for accessing doi URLs in help pages.
+
+ 9 May 2021: limma 3.47.14
+ 
+- Update test output for Bioconductor 3.13 organism packages.
+
+- Update NEWS.Rd for Bioconductor 3.13 release.
+
+ 1 May 2021: limma 3.47.13
+ 
+- Fix typo in voom() warning when negative counts are detected.
+
 28 Mar 2021: limma 3.47.12
 
 - Rewrite the MDS calculations performed by plotMDS(). The function no

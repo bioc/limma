@@ -86,8 +86,8 @@ There is a topic page on \link{10.GeneSetTests}.
 
 \references{
 Wu, D, and Smyth, GK (2012). Camera: a competitive gene set test accounting for inter-gene correlation.
-\emph{Nucleic Acids Research}, doi: 10.1093/nar/gks461.
-\url{http://nar.oxfordjournals.org/content/early/2012/05/24/nar.gks461.abstract}
+\emph{Nucleic Acids Research} 40(17), e133.
+\doi{10.1093/nar/gks461}
 
 Goeman, JJ, and Buhlmann P (2007).
 Analyzing gene expression data in terms of gene sets: methodological issues.
@@ -96,7 +96,7 @@ Analyzing gene expression data in terms of gene sets: methodological issues.
 Michaud, J, Simpson, KM, Escher, R, Buchet-Poyau, K, Beissbarth, T, Carmichael, C, Ritchie, ME, Schutz, F, Cannon, P, Liu, M, Shen, X, Ito, Y, Raskind, WH, Horwitz, MS, Osato, M, Turner, DR, Speed, TP, Kavallaris, M, Smyth, GK, and Scott, HS (2008).
 Integrative analysis of RUNX1 downstream pathways and target genes.
 \emph{BMC Genomics} 9, 363.
-\url{http://www.biomedcentral.com/1471-2164/9/363}
+\doi{10.1186/1471-2164-9-363}
 }
 
 \examples{
