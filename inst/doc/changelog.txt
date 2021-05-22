@@ -1,3 +1,6 @@
+20 May 2021: limma 3.49.0 (Bioconductor 3.14 Developmental Branch)
+20 May 2021: limma 3.48.0 (Bioconductor 3.13 Release Branch)
+
 18 May 2021: limma 3.47.16
  
 - Fix minor bug in kegga.default() when there is only one pathway and
