@@ -1,3 +1,7 @@
+24 Jun 2021: limma 3.49.1
+
+- Expand explanation of fry() mixed p-values on the fry() help page.
+ 
 20 May 2021: limma 3.49.0 (Bioconductor 3.14 Developmental Branch)
 20 May 2021: limma 3.48.0 (Bioconductor 3.13 Release Branch)
 
