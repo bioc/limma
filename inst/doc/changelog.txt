@@ -1,3 +1,9 @@
+24 Jun 2021: limma 3.48.1
+
+- Expand explanation of fry() mixed p-values on the fry() help page.
+ 
+20 May 2021: limma 3.48.0 (Bioconductor 3.13 Release Branch)
+
 18 May 2021: limma 3.47.16
  
 - Fix minor bug in kegga.default() when there is only one pathway and
