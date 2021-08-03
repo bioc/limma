@@ -1,7 +1,7 @@
 read.idat <- function(idatfiles, bgxfile, path=NULL, bgxpath=path, dateinfo=FALSE, annotation="Symbol", tolerance=0L, verbose=TRUE)
 #	Read GenomeStudio IDAT files for Illumina gene expression BeadChips
 #	Matt Ritchie and Gordon Smyth
-#	Created 30 September 2013.  Last modified 23 Dec 2020.
+#	Created 30 September 2013.  Last modified 3 Aug 2021.
 {
 #	Need illuminaio package
 	OK <- requireNamespace("illuminaio",quietly=TRUE)
@@ -49,8 +49,9 @@ read.idat <- function(idatfiles, bgxfile, path=NULL, bgxpath=path, dateinfo=FALS
 	elist$genes$Status[(nregprobes+1):nprobes] <- bgx$controls[,"Reporter_Group_Name"]
 
 #	Add optional annotation columns
-	if(!is.null(annotation) && !is.na(annotation)) {
+	if(!is.null(annotation)) {
 		annotation <- as.character(annotation)
+		if(anyNA(annotation)) annotation <- annotation[!is.na(annotation)]
 		annotation <- intersect(names(bgx$probes),annotation)
 	}
 	if(length(annotation)) {
@@ -63,8 +64,7 @@ read.idat <- function(idatfiles, bgxfile, path=NULL, bgxpath=path, dateinfo=FALS
 	}	
 
 #	Initalize expression matrices
-	elist$E <- matrix(0, nprobes, nsamples)
-	elist$E[] <- NA
+	elist$E <- matrix(NA_real_, nprobes, nsamples)
 	colnames(elist$E) <- removeExt(idatfiles)
 	rownames(elist$E) <- elist$genes[,"Array_Address_Id"]	
 	elist$other$STDEV <- elist$other$NumBeads <- elist$E

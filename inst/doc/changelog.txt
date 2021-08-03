@@ -1,3 +1,10 @@
+ 3 Aug 2021: limma 3.49.2
+
+- Fix bug in read.idat() when `annotation` contains NA values.
+
+- Revise plots in Section 18.1.10 of User's Guide so that coloring of
+  X and Y genes is consistent.
+
 24 Jun 2021: limma 3.49.1
 
 - Expand explanation of fry() mixed p-values on the fry() help page.
