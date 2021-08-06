@@ -14,7 +14,7 @@ plotMDS.MDS <- function(x,labels=NULL,pch=NULL,cex=1,dim.plot=NULL,xlab=NULL,yla
 #	Method for MDS objects
 #	Create a new plot using MDS coordinates previously computed.
 #	Gordon Smyth and Yifang Hu
-#	21 May 2011.  Last modified 28 March 2021
+#	21 May 2011.  Last modified 6 Aug 2021
 {
 #	Check labels
 	if(is.null(labels) & is.null(pch)) {
@@ -30,10 +30,10 @@ plotMDS.MDS <- function(x,labels=NULL,pch=NULL,cex=1,dim.plot=NULL,xlab=NULL,yla
 			x$dim.plot <- dim.plot
 			lambda <- pmax(x$eigen.values,0)
 			i <- dim.plot[1]
-			mds$x <- mds$eigen.vectors[,i] * sqrt(lambda[i])
+			x$x <- x$eigen.vectors[,i] * sqrt(lambda[i])
 			if(lambda[i] < 1e-13) warning("dimension ", i, " is degenerate or all zero")
 			i <- dim.plot[2]
-			mds$y <- mds$eigen.vectors[,i] * sqrt(lambda[i])
+			x$y <- x$eigen.vectors[,i] * sqrt(lambda[i])
 			if(lambda[i] < 1e-13) warning("dimension ", i, " is degenerate or all zero")
 		}
 	}
