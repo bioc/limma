@@ -46,7 +46,7 @@ The gene set signature is defined either by \code{index} and \code{index2} or by
 The signature can be either unidirectional or bidirectional.
 A unidirectional signature is a simple set of genes (defined by \code{index}), optionally accompanied by a set of positive magnitude scores (specified by \code{gene.weights}).
 Typically this is a set of genes representing a pathway or biological process that are expected to be co-regulated in the same direction.
-A bidirectional signature consists of a set of up-genes and a set of down-genes or, more generally, a set of genes with accompanying magnitude scores that are either positive or negative.
+A bidirectional signature consists of a set of up-genes and a set of down-genes (specified by \code{index} and \code{index2}) or, more generally, a set of genes with accompanying magnitude scores that are either positive or negative (specified by \code{gene.weights}).
 
 Technically, this function plots the positions of one or two gene sets in a ranked list of statistics.
 If there are two sets, then one is considered to be the positive set and the other the down set.
