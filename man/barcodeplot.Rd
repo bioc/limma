@@ -38,7 +38,17 @@ No value is returned but a plot is produced as a side effect.
 }
 
 \details{
-This function plots the positions of one or two gene sets in a ranked list of statistics.
+The function displays the enrichment of a specified gene set signature in a ranked list of genes.
+The vector \code{statistics} defines the ranking of the population of genes.
+This vector can represent any useful ranking but often it provides t-statistics or a log-fold-changes arising from a differential analysis.
+The gene set signature is defined either by \code{index} and \code{index2} or by \code{gene.weights}.
+
+The signature can be either unidirectional or bidirectional.
+A unidirectional signature is a simple set of genes (defined by \code{index}), optionally accompanied by a set of positive magnitude scores (specified by \code{gene.weights}).
+Typically this is a set of genes representing a pathway or biological process that are expected to be co-regulated in the same direction.
+A bidirectional signature consists of a set of up-genes and a set of down-genes or, more generally, a set of genes with accompanying magnitude scores that are either positive or negative.
+
+Technically, this function plots the positions of one or two gene sets in a ranked list of statistics.
 If there are two sets, then one is considered to be the positive set and the other the down set.
 For example, the first set and second sets often correspond to genes that are expected to be up- or down-regulated respectively.
 The function can optionally display varying weights for different genes, for example log-fold-changes from a previous experiment.
