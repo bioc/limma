@@ -1,3 +1,22 @@
+ 6 Aug 2021: limma 3.49.3
+
+- Fix bug in plotMDS.MDS() (introduced in 3.47.12) when new `dim.plot`
+  values are set.
+
+ 3 Aug 2021: limma 3.49.2
+
+- Fix bug in read.idat() when `annotation` contains NA values.
+
+- Revise plots in Section 18.1.10 of User's Guide so that coloring of
+  X and Y genes is consistent.
+
+24 Jun 2021: limma 3.49.1
+
+- Expand explanation of fry() mixed p-values on the fry() help page.
+ 
+20 May 2021: limma 3.49.0 (Bioconductor 3.14 Developmental Branch)
+20 May 2021: limma 3.48.0 (Bioconductor 3.13 Release Branch)
+
 18 May 2021: limma 3.47.16
  
 - Fix minor bug in kegga.default() when there is only one pathway and

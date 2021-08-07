@@ -146,10 +146,12 @@ To improve the performance of the gene set statistics, \code{roast} and \code{mr
 By default, an approximate closed-form transformation is used (\code{approx.zscore=TRUE}), which is very much faster than the exact transformation and performs just as well.
 In Bioconductor 2.10, the transformation used has been changed from Hill's (1970) approximation to Bailey's (1980) formula because the latter is faster and gives more even accuracy; see \code{\link{zscoreT}} for more details.
 
-\code{fry} is a fast approximation to \code{mroast}.
-In the special case that \code{df.prior} is large and \code{set.statistic="mean"}, \code{fry} gives the same result that\code{mroast} would give if an infinite number of rotations were performed.
+\code{fry} is a fast alternative designed to approximate what \code{mroast} with \code{set.stat="mean"} would give for a very large (infinite) number of rotations.
+In the special case that \code{df.prior} is very large and \code{set.statistic="mean"}, \code{fry} gives the same directional p-values that \code{mroast} would give if an infinite number of rotations could be performed.
 In other circumstances, when genes have different variances, \code{fry} uses a standardization strategy to approximate the \code{mroast} results.
 Using \code{fry} is recommended when performing tests for a large number of sets because it is fast and because it returns higher resolution p-values that are not limited by the number of rotations performed.
+Note, the close approximation of \code{fry} to \code{mroast} is only for the directional p-values.
+The \code{fry} mixed p-values are computed by a different method and will not necessarily be very close to those from \code{mroast}.
 }
 
 \note{
