@@ -1,3 +1,7 @@
+ 8 Aug 2021: limma 3.49.4
+
+- Expand details section of help page of barcodeplot().
+
  6 Aug 2021: limma 3.49.3
 
 - Fix bug in plotMDS.MDS() (introduced in 3.47.12) when new `dim.plot`
