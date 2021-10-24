@@ -3,6 +3,25 @@
 \encoding{UTF-8}
 
 
+\section{Version 3.50.0}{\itemize{
+
+  \item
+  Improve help pages for fry() and barcodeplot().
+
+  \item
+  Revise Section 18.1.10 of User's Guide so that coloring of
+  X and Y genes is consistent between plots.
+
+  \item
+  Fix bug in the MDS class method of plotMDS() (introduced in the previous release) when new `dim.plot`
+  values are set.
+
+  \item
+  Fix bug in read.idat() when `annotation` contains NA values.
+
+}}
+
+
 \section{Version 3.48.0}{
 
   \subsection{New functionality}{\itemize{
