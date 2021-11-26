@@ -95,8 +95,8 @@ idatfiles <- dir(pattern="idat")
 bgxfile <- dir(pattern="bgx")
 x <- read.idat(idatfiles, bgxfile)
 x$other$Detection <- detectionPValues(x)
-propexpr(data)
-y <- neqc(data)
+propexpr(x)
+y <- neqc(x)
 }
 }
 
