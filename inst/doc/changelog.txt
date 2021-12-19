@@ -1,3 +1,7 @@
+19 Dec 2021: limma 3.51.2
+
+- New function readSampleInfoFromGEO().
+
 27 Nov 2021: limma 3.51.1
 
 - Improve checking for incorrectly specified `contrasts` argument in
