@@ -3,10 +3,29 @@
 lmFit <- function(object,design=NULL,ndups=NULL,spacing=NULL,block=NULL,correlation,weights=NULL,method="ls",...)
 #	Fit genewise linear models
 #	Gordon Smyth
-#	30 June 2003.  Last modified 22 Nov 2020.
+#	30 June 2003.  Last modified 14 Jan 2022.
 {
-#	Extract components from y
-	y <- getEAWP(object)
+#	Extract components from object
+	if(inherits(object,"data.frame")) {
+#		object should not be a data.frame, but beginner users sometimes read data from a file and input it straight to lmFit()
+		ColumnIsNumeric <- vapply(object,is.numeric,FUN.VALUE=TRUE)
+		if(all(ColumnIsNumeric))
+			y <- list(exprs=as.matrix(object))
+		else {
+			WhichNotNumeric <- which(!ColumnIsNumeric)
+			if(identical(sum(WhichNotNumeric),1L) && length(ColumnIsNumeric) > 1L) {
+				y <- list()
+				y$exprs <- as.matrix(object[,-1,drop=FALSE])
+				y$probes <- object[,1,drop=FALSE]
+				message("Converting data.frame to matrix, treating first column as gene IDs.")
+			} else {
+				stop("Expression object should be numeric, instead it is a data.frame with ",length(WhichNotNumeric)," non-numeric columns")
+			}
+		}
+	} else {
+#		Extract components from standard object types
+		y <- getEAWP(object)
+	}
 	if(!nrow(y$exprs)) stop("expression matrix has zero rows")
 
 #	Check design matrix
@@ -404,7 +423,7 @@ residuals.MArrayLM <- function(object,y,...)
 getEAWP <- function(object)
 #	Given any data object, extract information needed for linear modelling.
 #	Gordon Smyth
-#	Created 9 March 2008. Last modified 7 Aug 2020.
+#	Created 9 March 2008. Last modified 6 Jan 2022.
 {
 	if(missing(object)) stop("no data object specified", call. = FALSE)
 	if(is.null(object)) stop("data object is NULL", call. = FALSE)
@@ -458,16 +477,15 @@ getEAWP <- function(object)
 		y$Amean <- rowMeans(y$exprs,na.rm=TRUE)
 		if("weights" %in% Biobase::assayDataElementNames(object)) y$weights <- Biobase::assayDataElement(object,"weights")
 	} else {
-#		Default method for matrices, data.frames, vsn objects etc.
+#		Default method for matrices, vsn objects etc.
 		if(is.vector(object))
 			y$exprs <- matrix(object,nrow=1)
-		else
+		else {
 			y$exprs <- as.matrix(object)
+		}
+		if(mode(y$exprs) != "numeric") stop("Data object doesn't contain numeric expression values")
 		y$Amean <- rowMeans(y$exprs,na.rm=TRUE)
 	}}}}}
-
-#	Check expression values are numeric
-	if(mode(y$exprs) != "numeric") stop("Data object doesn't contain numeric expression values")
 
 #	Get rownames from probes?
 	if(is.null(rownames(y$exprs)) && !is.null(row.names(y$probes))) rownames(y$exprs) <- row.names(y$probes)
