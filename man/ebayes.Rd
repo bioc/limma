@@ -16,7 +16,7 @@ treat(fit, fc = 1.2, lfc = NULL, trend = FALSE, robust = FALSE, winsor.tail.p = 
   For \code{ebayes} only, \code{fit} can alternatively be an unclassed list produced by \code{lm.series}, \code{gls.series} or \code{mrlm} containing components \code{coefficients}, \code{stdev.unscaled}, \code{sigma} and \code{df.residual}.}
   \item{proportion}{numeric value between 0 and 1, assumed proportion of genes which are differentially expressed}
   \item{stdev.coef.lim}{numeric vector of length 2, assumed lower and upper limits for the standard deviation of log2-fold-changes for differentially expressed genes}
-  \item{trend}{logical, should an intensity-trend be allowed for the prior variance? Default is that the prior variance is constant.}
+  \item{trend}{logical, should an intensity-dependent trend be allowed for the prior variance? If \code{FALSE} then the prior variance is constant. Alternatively, \code{trend} can be a row-wise numeric vector, which will be used as the covariate for the prior variance.}
   \item{robust}{logical, should the estimation of \code{df.prior} and \code{var.prior} be robustified against outlier sample variances?}
   \item{winsor.tail.p}{numeric vector of length 1 or 2, giving left and right tail proportions of \code{x} to Winsorize. Used only when \code{robust=TRUE}.}
   \item{fc}{a minimum fold-change below which changes are not considered scientifically meaningful.}

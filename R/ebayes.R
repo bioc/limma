@@ -4,9 +4,9 @@ eBayes <- function(fit,proportion=0.01,stdev.coef.lim=c(0.1,4),trend=FALSE,robus
 #	Empirical Bayes statistics to select differentially expressed genes.
 #	Accepts and returns an MArrayLM object.
 #	Gordon Smyth
-#	4 August 2003.  Last modified 18 Feb 2018.
+#	4 August 2003.  Last modified 10 Feb 2022.
 {
-	if(trend) if(is.null(fit$Amean)) stop("Need Amean component in fit to estimate trend")
+	if(is.logical(trend) && trend && is.null(fit$Amean)) stop("Need Amean component in fit to estimate trend")
 	eb <- .ebayes(fit=fit,proportion=proportion,stdev.coef.lim=stdev.coef.lim,trend=trend,robust=robust,winsor.tail.p=winsor.tail.p)
 	fit$df.prior <- eb$df.prior
 	fit$s2.prior <- eb$s2.prior
@@ -33,7 +33,7 @@ eBayes <- function(fit,proportion=0.01,stdev.coef.lim=c(0.1,4),trend=FALSE,robus
 .ebayes <- function(fit,proportion=0.01,stdev.coef.lim=c(0.1,4),trend=FALSE,robust=FALSE,winsor.tail.p=c(0.05,0.1))
 #	Empirical Bayes statistics to select differentially expressed genes
 #	Gordon Smyth
-#	Created 8 Sept 2002.  Last revised 12 Apr 2020.
+#	Created 8 Sept 2002.  Last revised 10 Feb 2022.
 #	Made a non-exported function 18 Feb 2018.
 {
 	coefficients <- fit$coefficients
@@ -43,11 +43,17 @@ eBayes <- function(fit,proportion=0.01,stdev.coef.lim=c(0.1,4),trend=FALSE,robus
 	if(is.null(coefficients) || is.null(stdev.unscaled) || is.null(sigma) || is.null(df.residual)) stop("No data, or argument is not a valid lmFit object")
 	if(max(df.residual)==0) stop("No residual degrees of freedom in linear model fits")
 	if(!any(is.finite(sigma))) stop("No finite residual standard deviations")
-	if(trend) {
-		covariate <- fit$Amean
-		if(is.null(covariate)) stop("Need Amean component in fit to estimate trend")
+	if(is.logical(trend)) {
+		if(trend) {
+			covariate <- fit$Amean
+			if(is.null(covariate)) stop("Need Amean component in fit to estimate trend")
+		} else {
+			covariate <- NULL
+		}
 	} else {
-		covariate <- NULL
+		if(!is.numeric(trend)) stop("trend should be either a logical scale or a numeric vector")
+		if(!identical(length(sigma),length(trend))) stop("If trend is numeric then it should have length equal to the number of genes")
+		covariate <- trend
 	}
 
 #	Moderated t-statistic
