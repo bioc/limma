@@ -29,7 +29,7 @@ coolmap(x, cluster.by="de pattern", col=NULL,
 }
 
 \details{
-This function calls the \code{heatmap.2} function in the ggplots package with sensible argument settings for genomic log-expression data.
+This function calls the \code{heatmap.2} function in the gplots package with sensible argument settings for genomic log-expression data.
 The default settings for \code{heatmap.2} are often not ideal for expression data, and overriding the defaults requires explicit calls to \code{hclust} and \code{as.dendrogram} as well as prior standardization of the data values.
 The \code{coolmap} function implements our preferred defaults for the two most common types of heatmaps.
 When clustering by relative expression (\code{cluster.by="de pattern"}), it implements a row standardization that takes account of \code{NA} values and standard deviations that might be zero.

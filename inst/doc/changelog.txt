@@ -1,3 +1,7 @@
+17 Feb 2022: limma 3.51.5
+
+- Fix typo ggplots to gplots in details section of coolmap() help page.
+
 10 Feb 2022: limma 3.51.4
 
 - Allow the `trend` argument of eBayes() to specify a general variance
