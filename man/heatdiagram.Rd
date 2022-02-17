@@ -45,7 +45,7 @@ It should not be confused with "heatmaps" often used to display results from clu
 \value{An image is created on the current graphics device.
 A matrix with named rows containing the coefficients used in the plot is also invisibly returned.}
 \author{Gordon Smyth}
-\seealso{\code{\link[graphics]{image}}.}
+\seealso{\code{\link{image}}.}
 \examples{
 \dontrun{
 MA <- normalizeWithinArrays(RG)
@@ -57,4 +57,4 @@ results <- decideTests(fit,method="global",p=0.1)
 heatDiagram(results,fit$coef,primary="Difference")
 }
 }
-\keyword{hplot}
+\concept{plots}

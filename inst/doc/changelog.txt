@@ -1,7 +1,21 @@
+17 Feb 2022: limma 3.50.1
+
+- Fix typo ggplots to gplots in details section of coolmap() help page.
+- Allow the `trend` argument of eBayes() to specify a general variance
+  covariate.
+- More detailed checking and error messages when the `object` input to
+  lmFit() is a data.frame.
+- New function readSampleInfoFromGEO().
+- Improve checking for incorrectly specified `contrasts` argument in
+  contrasts.fit().
+- Rerun case study in Section 17.4 of the User's Guide
+  (time-course experiment with Agilent rat microarrays)
+
+27 Oct 2021: limma 3.50.0 (Bioconductor 3.14 Release Branch)
+
 24 Oct 2021: limma 3.49.5
 
 - Update News.Rd ready for the Bioconductor 3.14 release.
-
 - Rerun package tests using the latest developmental packages, including organism packages.
 
  8 Aug 2021: limma 3.49.4
@@ -16,7 +30,6 @@
  3 Aug 2021: limma 3.49.2
 
 - Fix bug in read.idat() when `annotation` contains NA values.
-
 - Revise plots in Section 18.1.10 of User's Guide so that coloring of
   X and Y genes is consistent.
 
@@ -41,7 +54,6 @@
  9 May 2021: limma 3.47.14
  
 - Update test output for Bioconductor 3.13 organism packages.
-
 - Update NEWS.Rd for Bioconductor 3.13 release.
 
  1 May 2021: limma 3.47.13
@@ -68,7 +80,6 @@
 - New argument `fc` for treat() so that the fold-change threshold can
   optionally be specified on the fold-change scale rather than as a
   log2-fold-change.
-
 - Additional documentation for the `design` argument of `lmFit`
   using the term "samples" instead of "arrays" and mentioning that
   the design matrix defaults to `object$design` when that component
@@ -84,7 +95,6 @@
 - The upper/lower calculation introduced yesterday in
   duplicateCorrelation() didn't allow for NA correlations for some
   genes. Now fixed.
-
 - Edit duplicateCorrelation() help page including new code example.
 
 15 Feb 2021: limma 3.47.7
@@ -106,10 +116,8 @@
   correlations of zero with a warning. Previously this usage error
   was not specifically trapped and could lead to correlations that
   were or NA or close to 1 depending on floating point errors.
-
 - duplicateCorrelation() now issues a simplified message when design
   is not of full rank and uses message() to do so instead of cat().
-
 - Fix to value returned by duplicateCorrelation() when no blocks or
   duplicates are present.
 
@@ -121,7 +129,6 @@
 22 Dec 2020: limma 3.47.3
 
 - Add new arguments `path` and `bgxpath` for read.idat().
-
 - read.idat() now checks for existence of input files before calling
   illuminaio read functions.
 
@@ -134,7 +141,6 @@
 
 - Explicitly setting `weights=NULL` in a call to lmFit() no longer
   over-rides the `weights` value found in `object`.
-
 - Default settings in lmFit() changed from `ndups=` and `spacing=1`
   to `ndups=NULL` and `spacing=NULL`. No change to function behavior
   from a user point of view.
@@ -164,7 +170,6 @@
 16 Oct 2020: limma 3.45.15
 
 - Update NEWS.Rd ready for the Bioconductor 3.12 release.
-
 - volcanoplot() now prompts user to run eBayes() if the object
   doesn't contain p-values.
 
@@ -187,7 +192,6 @@
   so that the number of column names in the delimited output file
   will agree with the number of columns (similar to write.csv in the
   base package).
-
 - Add more explanation about "heirarchical" method in the details
   section of the decideTests() help page.
 

@@ -5,7 +5,7 @@ contrasts.fit <- function(fit,contrasts=NULL,coefficients=NULL)
 #	Note: does not completely take probe-wise weights into account
 #	because this would require refitting the linear model for each probe
 #	Gordon Smyth
-#	Created 13 Oct 2002.  Last modified 19 Oct 2020.
+#	Created 13 Oct 2002.  Last modified 27 Nov 2021.
 {
 #	Check number of arguments
 	if(identical(is.null(contrasts),is.null(coefficients))) stop("Must specify exactly one of contrasts or coefficients")
@@ -28,6 +28,7 @@ contrasts.fit <- function(fit,contrasts=NULL,coefficients=NULL)
 	ncoef <- ncol(fit$coefficients)
 
 #	Check contrasts.
+	if(!is.numeric(contrasts)) stop("contrasts must be a numeric matrix")
 	if(anyNA(contrasts)) stop("NAs not allowed in contrasts")
 	contrasts <- as.matrix(contrasts)
 	if(!identical(nrow(contrasts),ncoef)) stop("Number of rows of contrast matrix must match number of coefficients in fit")
