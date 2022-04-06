@@ -3,20 +3,22 @@
 lmFit <- function(object,design=NULL,ndups=NULL,spacing=NULL,block=NULL,correlation,weights=NULL,method="ls",...)
 #	Fit genewise linear models
 #	Gordon Smyth
-#	30 June 2003.  Last modified 14 Jan 2022.
+#	30 June 2003.  Last modified 5 Apr 2022.
 {
 #	Extract components from object
 	if(inherits(object,"data.frame")) {
 #		object should not be a data.frame, but beginner users sometimes read data from a file and input it straight to lmFit()
 		ColumnIsNumeric <- vapply(object,is.numeric,FUN.VALUE=TRUE)
-		if(all(ColumnIsNumeric))
+		if(all(ColumnIsNumeric)) {
 			y <- list(exprs=as.matrix(object))
-		else {
+			y$Amean <- rowMeans(y$exprs,na.rm=TRUE)
+		} else {
 			WhichNotNumeric <- which(!ColumnIsNumeric)
 			if(identical(sum(WhichNotNumeric),1L) && length(ColumnIsNumeric) > 1L) {
 				y <- list()
 				y$exprs <- as.matrix(object[,-1,drop=FALSE])
 				y$probes <- object[,1,drop=FALSE]
+				y$Amean <- rowMeans(y$exprs,na.rm=TRUE)
 				message("Converting data.frame to matrix, treating first column as gene IDs.")
 			} else {
 				stop("Expression object should be numeric, instead it is a data.frame with ",length(WhichNotNumeric)," non-numeric columns")
