@@ -1,3 +1,13 @@
+ 6 Apr 2022: limma 3.50.3
+
+- Update changeLog.txt
+
+ 5 Apr 2022: limma 3.50.2
+
+- Fix bug on lmFit() when `object` is a data.frame. lmFit() was not
+  adding `Amean` to the output object in that case. Bug was introduced
+  in limma 3.50.1.
+
 17 Feb 2022: limma 3.50.1
 
 - Fix typo ggplots to gplots in details section of coolmap() help page.
