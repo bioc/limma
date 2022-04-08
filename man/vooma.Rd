@@ -43,8 +43,8 @@ The weights can then used by other functions such as \code{lmFit} to adjust for 
 
 \value{
 An EList object with the following components:
-\item{E}{numeric matrix of as input}
-\item{weights}{numeric matrix of weights}
+\item{E}{numeric matrix of log-expression values. Equal to \code{y} for \code{vooma} or log2-counts-per-million for \code{voomaByGroup}.}
+\item{weights}{numeric matrix of observation precision weights}
 \item{design}{numeric matrix of experimental design}
 \item{genes}{dataframe of gene annotation, only if \code{counts} was a \code{DGEList} object}
  }
@@ -59,5 +59,5 @@ An EList object with the following components:
 Law, C. (2013).
 \emph{Precision weights for gene expression analysis}.
 PhD Thesis. University of Melbourne, Australia.
-\url{http://repository.unimelb.edu.au/10187/17598}
+\url{http://hdl.handle.net/11343/38150}
 }

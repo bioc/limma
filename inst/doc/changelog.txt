@@ -1,4 +1,8 @@
- 4 Apr 2022: limma 3.51.6
+ 8 Apr 2022: limma 3.51.7
+
+- Update reference in vooma() help page.
+
+ 6 Apr 2022: limma 3.51.6
 
 - Fix bug on lmFit() when `object` is a data.frame. lmFit() was not
   adding `Amean` to the output object in that case. Bug was introduced
