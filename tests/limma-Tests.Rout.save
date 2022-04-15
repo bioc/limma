@@ -1,6 +1,6 @@
 
-R version 4.1.1 (2021-08-10) -- "Kick Things"
-Copyright (C) 2021 The R Foundation for Statistical Computing
+R version 4.2.0 RC (2022-04-14 r82179 ucrt) -- "Vigorous Calisthenics"
+Copyright (C) 2022 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -1432,11 +1432,11 @@ GO:0065010 extracellular membrane-boun...  CC  8  0    4 1.0000000 0.003047199
 GO:0043230        extracellular organelle  CC  8  0    4 1.0000000 0.003047199
 GO:1903561          extracellular vesicle  CC  8  0    4 1.0000000 0.003047199
 GO:0032501 multicellular organismal pr...  BP 31  7    7 0.6203726 0.009111120
-GO:0031982                        vesicle  CC 19  2    5 0.9677460 0.020081679
 GO:0051604             protein maturation  BP  7  1    3 0.8497705 0.020760307
 GO:0016485             protein processing  BP  7  1    3 0.8497705 0.020760307
+GO:0031982                        vesicle  CC 20  3    5 0.8982815 0.025464546
 GO:0009887     animal organ morphogenesis  BP  3  0    2 1.0000000 0.025788497
 > 
 > proc.time()
    user  system elapsed 
-   2.93    0.51    3.37 
+   2.84    0.37    3.43 

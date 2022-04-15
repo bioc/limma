@@ -3,6 +3,26 @@
 \encoding{UTF-8}
 
 
+\section{Version 3.52.0}{\itemize{
+
+  \item
+  New function readSampleInfoFromGEO().
+
+  \item
+  Allow the `trend` argument of eBayes() to specify a general variance
+  covariate.
+
+  \item
+
+  More detailed checking and error messages when the `object` input to
+  lmFit() is a data.frame.
+
+  \item
+  Improve checking for incorrectly specified `contrasts` argument in
+  contrasts.fit().
+}}
+
+
 \section{Version 3.50.0}{\itemize{
 
   \item
