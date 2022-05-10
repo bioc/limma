@@ -35,7 +35,7 @@ If an alias can't be mapped, then \code{NA} is returned.
 
 \code{species} can be any character string XX for which an organism package org.XX.eg.db exists and is installed.
 The only requirement of the organism package is that it contains objects \code{org.XX.egALIAS2EG} and \code{org.XX.egSYMBOL} linking the aliases and symbols to Entrez Gene Ids.
-At the time of writing, the following organism packages are available from Bioconductor 3.6:
+At the time of writing, the following organism packages are available from Bioconductor 3.16:
 \tabular{lll}{
 \tab Package \tab Species\cr
 \tab org.Ag.eg.db \tab  Anopheles\cr
