@@ -1,4 +1,8 @@
-15 Apr 2022: limma 3.53.1
+15 May 2022: limma 3.53.2
+
+- lmFit() now checks explicitly for NAs in the design matrix.
+
+10 May 2022: limma 3.53.1
 
 - Update alias2Symbol.Rd for Bioconductor 3.16.
 
