@@ -3,7 +3,7 @@
 lmFit <- function(object,design=NULL,ndups=NULL,spacing=NULL,block=NULL,correlation,weights=NULL,method="ls",...)
 #	Fit genewise linear models
 #	Gordon Smyth
-#	30 June 2003.  Last modified 5 Apr 2022.
+#	30 June 2003.  Last modified 15 May 2022.
 {
 #	Extract components from object
 	if(inherits(object,"data.frame")) {
@@ -36,8 +36,9 @@ lmFit <- function(object,design=NULL,ndups=NULL,spacing=NULL,block=NULL,correlat
 		design <- matrix(1,ncol(y$exprs),1)
 	else {
 		design <- as.matrix(design)
-		if(mode(design) != "numeric") stop("design must be a numeric matrix")
-		if(nrow(design) != ncol(y$exprs)) stop("row dimension of design doesn't match column dimension of data object")
+		if(!identical(mode(design),"numeric")) stop("design must be a numeric matrix")
+		if(!identical(nrow(design),ncol(y$exprs))) stop("row dimension of design doesn't match column dimension of data object")
+		if(anyNA(design)) stop("NAs not allowed in design matrix")
 	}
 	ne <- nonEstimable(design)
 	if(!is.null(ne)) cat("Coefficients not estimable:",paste(ne,collapse=" "),"\n")
