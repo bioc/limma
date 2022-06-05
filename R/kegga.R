@@ -253,9 +253,9 @@ kegga.default <- function(de, universe=NULL,  restrict.universe=FALSE, species="
 getGeneKEGGLinks <- function(species.KEGG="hsa", convert=FALSE)
 #	Read pathway-gene mapping from KEGG website
 #	Gordon Smyth
-#	Created 7 Jan 2016.  Last modified 11 Feb 2016.
+#	Created 7 Jan 2016.  Last modified 5 Jun 2022.
 {
-	URL <- paste("http://rest.kegg.jp/link/pathway",species.KEGG,sep="/")
+	URL <- paste("https://rest.kegg.jp/link/pathway",species.KEGG,sep="/")
 	Path.Gene <- read.table(URL,sep="\t",quote="\"",fill=TRUE,comment.char="",stringsAsFactors=FALSE)
 	colnames(Path.Gene) <- c("GeneID","PathwayID")
 
@@ -264,7 +264,7 @@ getGeneKEGGLinks <- function(species.KEGG="hsa", convert=FALSE)
 
 	if(convert) {
 #		Convert KEGG IDs to Entrez Gene IDs
-		URL <- paste("http://rest.kegg.jp/conv",species.KEGG,"ncbi-geneid",sep="/")
+		URL <- paste("https://rest.kegg.jp/conv",species.KEGG,"ncbi-geneid",sep="/")
 		EntrezID.KEGGGeneID <- read.table(URL,sep="\t",quote="\"",fill=TRUE,comment.char="",stringsAsFactors=FALSE)
 		m <- match(Path.Gene[,1],EntrezID.KEGGGeneID[,2])
 		Path.Gene[,1] <- EntrezID.KEGGGeneID[m,1]
@@ -278,9 +278,9 @@ getGeneKEGGLinks <- function(species.KEGG="hsa", convert=FALSE)
 getKEGGPathwayNames <- function(species.KEGG=NULL, remove.qualifier=FALSE)
 #	Read pathways from KEGG website
 #	Gordon Smyth
-#	Created 7 Jan 2016.  Last modified 8 Jan 2016.
+#	Created 7 Jan 2016.  Last modified 5 Jun 2022.
 {
-	URL <- "http://rest.kegg.jp/list/pathway"
+	URL <- "https://rest.kegg.jp/list/pathway"
 	if(!is.null(species.KEGG)) URL <- paste(URL,species.KEGG,sep="/")
 	PathID.PathName <- read.table(URL,sep="\t",quote="\"",fill=TRUE,comment.char="",stringsAsFactors=FALSE)
 	colnames(PathID.PathName) <- c("PathwayID","Description")
