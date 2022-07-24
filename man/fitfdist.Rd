@@ -50,16 +50,16 @@ The \code{prob.outlier} value, which is the lower bound for \code{df2.shrunk}, m
 \author{Gordon Smyth and Belinda Phipson}
 
 \references{
-Smyth, G. K. (2004). Linear models and empirical Bayes methods for
-     assessing differential expression in microarray experiments.
-     \emph{Statistical Applications in Genetics and Molecular Biology}, \bold{3},
-     No. 1, Article 3.
-     \url{http://www.statsci.org/smyth/pubs/ebayes.pdf}
+Smyth, G. K. (2004).
+Linear models and empirical Bayes methods for assessing differential expression in microarray experiments.
+\emph{Statistical Applications in Genetics and Molecular Biology} Volume 3, Issue 1, Article 3.
+\doi{10.2202/1544-6115.1027}
+\url{http://www.statsci.org/smyth/pubs/ebayes.pdf}
 
 Phipson, B, Lee, S, Majewski, IJ, Alexander, WS, and Smyth, GK (2016).
 Robust hyperparameter estimation protects against hypervariable genes and improves power to detect differential expression.
 \emph{Annals of Applied Statistics} 10, 946-963.
-\url{http://projecteuclid.org/euclid.aoas/1469199900}
+\doi{10.1214/16-AOAS920}
 }
 
 \seealso{

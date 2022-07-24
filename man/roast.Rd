@@ -169,26 +169,28 @@ See \link{10.GeneSetTests} for a description of other functions used for gene se
 \author{Gordon Smyth and Di Wu}
 
 \references{
-Goeman, JJ, and Buhlmann, P (2007).
+Goeman JJ, Buhlmann P (2007).
 Analyzing gene expression data in terms of gene sets: methodological issues.
 \emph{Bioinformatics} 23, 980-987. 
 
-Langsrud, O (2005).
+Langsrud O (2005).
 Rotation tests.
 \emph{Statistics and Computing} 15, 53-60.
 
-Phipson B, and Smyth GK (2010).
+Phipson B, Smyth GK (2010).
 Permutation P-values should never be zero: calculating exact P-values when permutations are randomly drawn.
-\emph{Statistical Applications in Genetics and Molecular Biology}, Volume 9, Article 39.
-\url{http://www.statsci.org/smyth/pubs/PermPValuesPreprint.pdf}
+\emph{Statistical Applications in Genetics and Molecular Biology}, Volume 9, Issue 1, Article 39.
+\doi{10.2202/1544-6115.1585}.
+See also the Preprint Version \url{http://www.statsci.org/smyth/pubs/PermPValuesPreprint.pdf} with corrections.
 
 Routledge, RD (1994).
 Practicing safe statistics with the mid-p.
 \emph{Canadian Journal of Statistics} 22, 103-110.
 
-Wu, D, Lim, E, Francois Vaillant, F, Asselin-Labat, M-L, Visvader, JE, and Smyth, GK (2010). ROAST: rotation gene set tests for complex microarray experiments.
+Wu D, Lim E, Vaillant F, Asselin-Labat M-L, Visvader JE, Smyth GK (2010).
+ROAST: rotation gene set tests for complex microarray experiments.
 \emph{Bioinformatics} 26, 2176-2182.
-\url{http://bioinformatics.oxfordjournals.org/content/26/17/2176}
+\doi{10.1093/bioinformatics/btq401}
 }
 
 \examples{

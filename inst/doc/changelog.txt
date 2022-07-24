@@ -1,3 +1,11 @@
+24 Jul 2022: limma 3.53.5
+
+- Update reference URLs in help pages with DOIs.
+
+11 Jul 2022: limma 3.53.4
+
+- Fix typos in camera.Rd.
+
  5 Jun 2022: limma 3.53.3
 
 - Use https instead of http links when reading from rest.kegg.jp.
