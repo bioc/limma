@@ -9,11 +9,13 @@ Extract a table of the top-ranked genes from a linear model fit.
 }
 
 \usage{
-topTable(fit, coef=NULL, number=10, genelist=fit$genes, adjust.method="BH",
-         sort.by="B", resort.by=NULL, p.value=1, lfc=0, confint=FALSE)
-topTableF(fit, number=10, genelist=fit$genes, adjust.method="BH",
-         sort.by="F", p.value=1, lfc=0)
-topTreat(fit, coef=1, sort.by="p", resort.by=NULL, \dots)
+topTable(fit, coef = NULL, number = 10, genelist = fit$genes,
+         adjust.method = "BH", sort.by = "B", resort.by = NULL,
+         p.value = 1, fc = NULL, lfc = NULL, confint = FALSE)
+topTableF(fit, number = 10, genelist = fit$genes,
+          adjust.method="BH", sort.by="F",
+          p.value = 1, fc = NULL, lfc = NULL)
+topTreat(fit, coef = 1, sort.by = "p", resort.by = NULL, \dots)
 }
 
 \arguments{
@@ -36,8 +38,12 @@ topTreat(fit, coef=1, sort.by="p", resort.by=NULL, \dots)
     character string specifying statistic to sort the selected genes by in the output data.frame.  Possibilities are the same as for \code{sort.by}.
   }
   \item{p.value}{cutoff value for adjusted p-values. Only genes with lower p-values are listed.}
+  \item{fc}{
+    minimum fold-change required (optional).
+  }
   \item{lfc}{
-    minimum absolute log2-fold-change required.
+    minimum absolute log2-fold-change required (optional).
+    \code{fc} and \code{lfc} are alternative ways to specify a fold-change cutoff and, if both are specified, then \code{fc} take precedence.
     \code{topTable} and \code{topTableF} include only genes with (at least one) absolute log-fold-change greater than \code{lfc}.
     \code{topTreat} does not remove genes but ranks genes by evidence that their log-fold-change exceeds \code{lfc}.
   }
@@ -95,7 +101,7 @@ A related method is \code{as.data.frame(fit)} which coerces an \code{MArrayLM} o
 By default \code{number} probes are listed.
 Alternatively, by specifying \code{p.value} and \code{number=Inf}, all genes with adjusted p-values below a specified value can be listed.
 
-The argument \code{lfc} gives the ability to filter genes by log-fold change.
+The arguments \code{fc} and \code{lfc} give the ability to filter genes by log-fold change, but see the Note below.
 This argument is not available for \code{topTreat} because \code{treat} already handles fold-change thresholding in a more sophisticated way.
 
 The function \code{topTableF} is scheduled for removal in a future version of limma.
@@ -103,7 +109,7 @@ It is equivalent to \code{topTable} with \code{coef=NULL}.
 }
 
 \note{
-Although \code{topTable} enables users to set p-value and lfc cutoffs simultaneously, this is not generally recommended.
+Although \code{topTable} enables users to set both p-value and fold-change cutoffs, the use of fold-change cutoffs is not generally recommended.
 If the fold changes and p-values are not highly correlated, then the use of a fold change cutoff can increase the false discovery rate above the nominal level.
 Users wanting to use fold change thresholding are usually recommended to use \code{treat} and \code{topTreat} instead.
 

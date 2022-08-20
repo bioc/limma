@@ -1,7 +1,7 @@
-topTableF <- function(fit,number=10,genelist=fit$genes,adjust.method="BH",sort.by="F",p.value=1,lfc=0)
+topTableF <- function(fit,number=10,genelist=fit$genes,adjust.method="BH",sort.by="F",p.value=1,fc=NULL,lfc=NULL)
 #	Summary table of top genes by F-statistic
 #	Gordon Smyth
-#	27 August 2006. Last modified 24 June 2014.
+#	27 August 2006. Last modified 20 August 2022.
 {
 #	Deprecated message added 6 June 2020
 	message("topTableF is obsolete and will be removed in a future version of limma. Please considering using topTable instead.")
@@ -40,7 +40,15 @@ topTableF <- function(fit,number=10,genelist=fit$genes,adjust.method="BH",sort.b
 #	Apply multiple testing adjustment
 	adj.P.Value <- p.adjust(Fp,method=adjust.method)
 
-#	Thin out fit by lfc and p.value thresholds
+#	Set log2-fold-change cutoff
+	if(is.null(fc)) {
+		if(is.null(lfc)) lfc <- 0
+	} else {
+		if(fc < 1) stop("fc must be greater than or equal to 1")
+		lfc <- log2(fc)
+	}
+
+#	Thin out fit by lfc and p.value cutoffs
 	if(lfc > 0 || p.value < 1) {
 		if(lfc>0)
 			big <- rowSums(abs(M)>lfc,na.rm=TRUE)>0

@@ -1,6 +1,11 @@
+20 Aug 2022: limma 3.53.6
+
+- Add new argument `fc` to topTable() and topTableF().
+  Change default for `lfc` to NULL instead of 0.
+
 24 Jul 2022: limma 3.53.5
 
-- Update reference URLs in help pages with DOIs.
+- Update help page reference URLs with DOIs.
 
 11 Jul 2022: limma 3.53.4
 

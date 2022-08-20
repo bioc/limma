@@ -1,9 +1,9 @@
 #  TOPTABLE.R
 
-topTable <- function(fit,coef=NULL,number=10,genelist=fit$genes,adjust.method="BH",sort.by="B",resort.by=NULL,p.value=1,lfc=0,confint=FALSE)
+topTable <- function(fit,coef=NULL,number=10,genelist=fit$genes,adjust.method="BH",sort.by="B",resort.by=NULL,p.value=1,fc=NULL,lfc=NULL,confint=FALSE)
 #	Summary table of top genes, object-orientated version
 #	Gordon Smyth
-#	4 August 2003.  Last modified 8 Jun 2020.
+#	4 August 2003.  Last modified 20 Aug 2022.
 {
 #	Check fit
 	if(!is(fit,"MArrayLM")) stop("fit must be an MArrayLM object")
@@ -11,6 +11,7 @@ topTable <- function(fit,coef=NULL,number=10,genelist=fit$genes,adjust.method="B
 	if(is.null(fit$coefficients)) stop("coefficients not found in fit object")
 	if(confint && is.null(fit$stdev.unscaled)) stop("stdev.unscaled not found in fit object")
 
+#	Check coef
 	if(is.null(coef)) {
 		if(is.null(fit$treat.lfc)) {
 			coef <- 1:ncol(fit)
@@ -25,6 +26,16 @@ topTable <- function(fit,coef=NULL,number=10,genelist=fit$genes,adjust.method="B
 		} else
 			coef <- ncol(fit)
 	}
+
+#	Set log2-fold-change cutoff
+	if(is.null(fc)) {
+		if(is.null(lfc)) lfc <- 0
+	} else {
+		if(fc < 1) stop("fc must be greater than or equal to 1")
+		lfc <- log2(fc)
+	}
+
+#	If testing for multiple coefficients, call low-level topTable function for F-statistics
 	if(length(coef)>1) {
 		if(!is.null(fit$treat.lfc)) stop("Treat p-values can only be displayed for single coefficients")
 		coef <- unique(coef)
@@ -32,6 +43,8 @@ topTable <- function(fit,coef=NULL,number=10,genelist=fit$genes,adjust.method="B
 		if(sort.by=="B") sort.by <- "F"
 		return(.topTableF(fit,number=number,genelist=genelist,adjust.method=adjust.method,sort.by=sort.by,p.value=p.value,lfc=lfc))
 	}
+
+#	Call low-level topTable function for t-statistics
 	fit <- unclass(fit)
 	ebcols <- c("t","p.value","lods")
 	if(confint) ebcols <- c("s2.post","df.total",ebcols)
