@@ -1,8 +1,15 @@
 11 Sep 2022: limma 3.52.3
 
-- Update goana() and kegga() code to catch NA gene IDs or covariate values.
-- goana() and kegga() no longer give an error when a trend is estimated but there are no DE genes.
-- Updates to reference URLs on various function help pages.
+- Update goana() and kegga() code to catch NA gene IDs or covariate
+  values.
+
+- goana() and kegga() no longer give an error when a trend is
+  estimated but there are no DE genes.
+
+- Update reference URLs on various function help pages, converting
+  some to DOIs.
+
+- Fix typos in camera.Rd.
 
  5 Jun 2022: limma 3.52.2
 
@@ -20,7 +27,8 @@
 
 - Update News.Rd ready for the Bioconductor 3.15 release.
 
-- Rerun package tests using the latest developmental packages, including organism packages.
+- Rerun package tests using the latest developmental packages, including
+  organism packages.
 
  8 Apr 2022: limma 3.51.7
 
