@@ -4,7 +4,7 @@
 \title{Estimate Scale Factor in Mixture of t-Distributions}
 \description{
 These functions estimate the unscaled standard deviation of the true (unobserved) log fold changes for differentially expressed genes.
-They are used by the functions \code{ebayes} and \code{eBayes} and are not intended to be called directly by users.
+They are used internally by the \code{eBayes} function and are not intended to be called directly by users.
 }
 \usage{
 tmixture.vector(tstat, stdev.unscaled, df, proportion, v0.lim = NULL)

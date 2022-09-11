@@ -117,26 +117,33 @@ An overview of linear model functions in limma is given by \link{06.LinearModels
 \author{Gordon Smyth and Davis McCarthy}
 
 \references{
-Law, CW, Chen, Y, Shi, W, Smyth, GK (2014).
+Law CW, Chen Y, Shi W, Smyth GK (2014).
 Voom: precision weights unlock linear model analysis tools for RNA-seq read counts.
 \emph{Genome Biology} 15, R29.
-\url{http://genomebiology.com/2014/15/2/R29}
+\doi{10.1186/gb-2014-15-2-r29}.
+See also the Preprint Version at \url{http://www.statsci.org/smyth/pubs/VoomPreprint.pdf} incorporating some notational corrections.
 
-Loennstedt, I., and Speed, T. P. (2002). Replicated microarray data. \emph{Statistica Sinica} \bold{12}, 31-46.
+Loennstedt I, and Speed TP (2002).
+Replicated microarray data.
+\emph{Statistica Sinica} 12, 31-46.
 
-McCarthy, D. J., and Smyth, G. K. (2009).
+McCarthy D J, Smyth GK (2009).
 Testing significance relative to a fold-change threshold is a TREAT.
 \emph{Bioinformatics} 25, 765-771.
-\url{http://bioinformatics.oxfordjournals.org/content/25/6/765}
+\doi{10.1093/bioinformatics/btp053}
 
-Phipson, B, Lee, S, Majewski, IJ, Alexander, WS, and Smyth, GK (2016).
+Phipson B, Lee S, Majewski IJ, Alexander WS, Smyth GK (2016).
 Robust hyperparameter estimation protects against hypervariable genes and improves power to detect differential expression.
 \emph{Annals of Applied Statistics} 10, 946-963.
-\url{http://projecteuclid.org/euclid.aoas/1469199900}
+\doi{10.1214/16-AOAS920}
 
-Smyth, G. K. (2004). Linear models and empirical Bayes methods for assessing differential expression in microarray experiments.
-\emph{Statistical Applications in Genetics and Molecular Biology} 3, Article 3.
+Smyth GK (2004).
+Linear models and empirical Bayes methods for assessing differential expression in microarray experiments.
+\emph{Statistical Applications in Genetics and Molecular Biology} Volume 3, Issue 1, Article 3.
+\doi{10.2202/1544-6115.1027}.
+See also the Preprint Version
 \url{http://www.statsci.org/smyth/pubs/ebayes.pdf}
+incorporating corrections to 30 June 2009.
 }
 
 \examples{

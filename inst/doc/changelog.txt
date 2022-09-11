@@ -1,3 +1,9 @@
+11 Sep 2022: limma 3.52.3
+
+- Update goana() and kegga() code to catch NA gene IDs or covariate values.
+- goana() and kegga() no longer give an error when a trend is estimated but there are no DE genes.
+- Updates to reference URLs on various function help pages.
+
  5 Jun 2022: limma 3.52.2
 
 - Use https instead of http links when reading from rest.kegg.jp.
