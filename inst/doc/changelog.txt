@@ -1,3 +1,13 @@
+11 Sep 2022: limma 3.52.7
+
+- Update goana() and kegga() code to catch NA gene IDs or covariate
+  values.
+- goana() and kegga() no longer give an error when a trend is
+  estimated but there are no DE genes.
+- Trends estimated by goana() and kegga() are now squeezed slightly
+  towards constancy to provide stability when the number of DE genes
+  is small.
+
 20 Aug 2022: limma 3.53.6
 
 - Add new argument `fc` to topTable() and topTableF().

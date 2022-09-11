@@ -3,7 +3,7 @@ goana <- function(de,...) UseMethod("goana")
 goana.MArrayLM <- function(de, coef = ncol(de), geneid = rownames(de), FDR = 0.05, trend = FALSE, ...)
 #	Gene ontology analysis of DE genes from linear model fit
 #	Gordon Smyth and Yifang Hu
-#	Created 20 June 2014.  Last modified 1 May 2015.
+#	Created 20 June 2014.  Last modified 11 Sep 2022.
 {
 #	Avoid argument collision with default method
 	dots <- names(list(...))
@@ -35,15 +35,17 @@ goana.MArrayLM <- function(de, coef = ncol(de), geneid = rownames(de), FDR = 0.0
 		if(trend) {
 			covariate <- de$Amean
 			if(is.null(covariate)) stop("Amean not found in fit")
+		} else {
+			covariate <- NULL
 		}
 	} else {
 		if(is.numeric(trend)) {
-			if(length(trend) != ngenes) stop("If trend is numeric, then length must equal nrow(de)")
+			if(!identical(length(trend),ngenes)) stop("If trend is numeric, then length must equal nrow(de)")
 			covariate <- trend
 			trend <- TRUE
 		} else {
 			if(is.character(trend)) {
-				if(length(trend) != 1L) stop("If trend is character, then length must be 1")
+				if(!identical(length(trend),1L)) stop("If trend is character, then length must be 1")
 				covariate <- de$genes[[trend]]
 				if(is.null(covariate)) stop("Column ",trend," not found in de$genes")
 				trend <- TRUE
@@ -52,9 +54,21 @@ goana.MArrayLM <- function(de, coef = ncol(de), geneid = rownames(de), FDR = 0.0
 		}
 	}
 
+#	Check for NA gene IDs or covariate values
+	if(anyNA(universe) || anyNA(covariate)) {
+		isna <- is.na(universe)
+		if(all(isna)) stop("Gene IDs are all NA")
+		if(trend) {
+			isna[is.na(covariate)] <- TRUE
+			covariate <- covariate[!isna]
+		}
+		universe <- universe[!isna]
+		de <- de[!isna,]
+	}
+
 #	Check FDR
 	if(!is.numeric(FDR) | length(FDR) != 1) stop("FDR must be numeric and of length 1.")
-	if(FDR < 0 | FDR > 1) stop("FDR should be between 0 and 1.")
+	if(FDR < 0 || FDR > 1) stop("FDR should be between 0 and 1.")
 
 #	Get up and down DE genes
 	fdr.coef <- p.adjust(de$p.value[,coef], method = "BH")
@@ -63,21 +77,18 @@ goana.MArrayLM <- function(de, coef = ncol(de), geneid = rownames(de), FDR = 0.0
 	DEGenes <- list(Up=EG.DE.UP, Down=EG.DE.DN)
 
 #	If no DE genes, return data.frame with 0 rows
-	if(length(EG.DE.UP)==0 && length(EG.DE.DN)==0) {
+	if( identical(length(EG.DE.UP),0L) && identical(length(EG.DE.DN),0L) ) {
 		message("No DE genes")
 		return(data.frame())
 	}
 
-	if(trend)
-		goana(de=DEGenes, universe = universe, covariate=covariate, ...)
-	else
-		goana(de=DEGenes, universe = universe, ...)
+	goana(de=DEGenes, universe = universe, covariate=covariate, ...)
 }
 
 goana.default <- function(de, universe = NULL, species = "Hs", prior.prob = NULL, covariate=NULL, plot=FALSE, ...)
 #	Gene ontology analysis of DE genes
 #	Gordon Smyth and Yifang Hu
-#	Created 20 June 2014.  Last modified 19 May 2019.
+#	Created 20 June 2014.  Last modified 11 Sep 2022.
 {
 #	Get access to package of GO terms
 	suppressPackageStartupMessages(OK <- requireNamespace("GO.db",quietly=TRUE))
@@ -104,12 +115,28 @@ goana.default <- function(de, universe = NULL, species = "Hs", prior.prob = NULL
 		i <- !duplicated(GeneID.PathID[,c("gene_id", "go_id")])
 		GeneID.PathID <- GeneID.PathID[i, ]
 		universe <- unique(GeneID.PathID[,1])
-		prior.prob <- covariate <- NULL
+		if( !(is.null(prior.prob) && is.null(covariate)) ) {
+			message("Ignoring covariate and prior.prob because universe not set")
+			prior.prob <- covariate <- NULL
+		}
 	} else {
 		universe <- as.character(universe)
 		lu <- length(universe)
 		if(!is.null(prior.prob) && length(prior.prob)!=lu) stop("universe and prior.prob must have same length")
 		if(!is.null(covariate) && length(covariate)!=lu) stop("universe and covariate must have same length")
+		if(anyNA(universe) || anyNA(covariate) || anyNA(prior.prob)) {
+			isna <- is.na(universe)
+			if(all(isna)) stop("Gene IDs are all NA")
+			if(!is.null(covariate)) {
+				isna[is.na(covariate)] <- TRUE
+				covariate <- covariate[!isna]
+			}
+			if(!is.null(prior.prob)) {
+				isna[is.na(prior.prob)] <- TRUE
+				prior.prob <- prior.prob[!isna]
+			}
+			universe <- universe[!isna]
+		}
 		if(anyDuplicated(universe)) {
 			i <- !duplicated(universe)
 			if(!is.null(covariate)) covariate <- covariate[i]
@@ -168,11 +195,20 @@ goana.default <- function(de, universe = NULL, species = "Hs", prior.prob = NULL
 		if(!is.null(prior.prob)) message("prior.prob being recomputed from covariate")
 		covariate <- as.numeric(covariate)
 		isDE <- (universe %in% unlist(de))
-		o <- order(covariate)
-		prior.prob <- covariate
-		span <- approx(x=c(20,200),y=c(1,0.5),xout=sum(isDE),rule=2,ties=list("ordered",mean))$y
-		prior.prob[o] <- tricubeMovingAverage(isDE[o],span=span)
-		if(plot) barcodeplot(covariate, index=isDE, worm=TRUE, span.worm=span, main="DE status vs covariate")
+		nDE <- sum(isDE)
+		if(identical(nDE,0L)) {
+			message("No DE genes")
+			prior.prob <- covariate <- NULL
+		} else {
+			o <- order(covariate)
+			prior.prob <- covariate
+			span <- approx(x=c(20,200),y=c(1,0.5),xout=sum(isDE),rule=2,ties=list("ordered",mean))$y
+			prior.prob[o] <- tricubeMovingAverage(isDE[o],span=span)
+#			Squeeze slightly towards constant prior.prob
+			n0 <- 2
+			prior.prob <- (nDE*prior.prob + n0*nDE/NGenes)/(nDE+n0)
+			if(plot) barcodeplot(covariate, index=isDE, worm=TRUE, span.worm=span, main="DE status vs covariate")
+		}
 	}
 
 #	Overlap pathways with DE genes
@@ -210,7 +246,7 @@ goana.default <- function(de, universe = NULL, species = "Hs", prior.prob = NULL
 			               BiasedUrn::dWNCHypergeo(S[i,1L+j], S[i,"N"], M2[i], nde[j], Odds[i])
 
 #		Remove sum of prob column, not needed for output
-		S <- S[,-ncol(S)]
+		S <- S[,-ncol(S),drop=FALSE]
 
 	} else {
 

@@ -39,15 +39,15 @@ topTreat(fit, coef = 1, sort.by = "p", resort.by = NULL, \dots)
   }
   \item{p.value}{cutoff value for adjusted p-values. Only genes with lower p-values are listed.}
   \item{fc}{
-    minimum fold-change required (optional).
+    optional minimum fold-change required.
   }
   \item{lfc}{
-    minimum absolute log2-fold-change required (optional).
+    optional minimum log2-fold-change required, equal to \code{log2(fc)}.
     \code{fc} and \code{lfc} are alternative ways to specify a fold-change cutoff and, if both are specified, then \code{fc} take precedence.
-    \code{topTable} and \code{topTableF} include only genes with (at least one) absolute log-fold-change greater than \code{lfc}.
-    \code{topTreat} does not remove genes but ranks genes by evidence that their log-fold-change exceeds \code{lfc}.
+    If specified, then the results from \code{topTable}, \code{topTableF} or \code{topTreat} will include only genes with (at least one) absolute log-fold-change greater than \code{lfc}.
+    This argument is not normally used with \code{topTreat}, which handles fold-change thresholds differently via the \code{treat} function.
   }
-  \item{confint}{logical, should confidence 95\% intervals be output for \code{logFC}?  Alternatively, can take a numeric value between zero and one specifying the confidence level required.}
+  \item{confint}{logical, should confidence 95\% intervals be output for \code{logFC}?  Alternatively, can be a numeric value between zero and one specifying the confidence level required.}
   \item{\dots}{other \code{topTreat} arguments are passed to \code{topTable}.}
 }
 \value{
