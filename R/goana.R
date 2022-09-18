@@ -200,14 +200,7 @@ goana.default <- function(de, universe = NULL, species = "Hs", prior.prob = NULL
 			message("No DE genes")
 			prior.prob <- covariate <- NULL
 		} else {
-			o <- order(covariate)
-			prior.prob <- covariate
-			span <- approx(x=c(20,200),y=c(1,0.5),xout=sum(isDE),rule=2,ties=list("ordered",mean))$y
-			prior.prob[o] <- tricubeMovingAverage(isDE[o],span=span)
-#			Squeeze slightly towards constant prior.prob
-			n0 <- 2
-			prior.prob <- (nDE*prior.prob + n0*nDE/NGenes)/(nDE+n0)
-			if(plot) barcodeplot(covariate, index=isDE, worm=TRUE, span.worm=span, main="DE status vs covariate")
+			prior.prob <- goanaTrend(isDE,covariate,plot=plot)
 		}
 	}
 

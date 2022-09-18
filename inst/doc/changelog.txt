@@ -1,9 +1,24 @@
+18 Sep 2022: limma 3.52.8
+
+- New function goanaTrend() to estimate a covariate-dependent trend in
+  the probability of differential expression for use in goana() and
+  kegga() with `trend=TRUE`. The trend estimated by goanaTrend() is
+  squeezed slightly towards constancy to provide stability when the
+  number of DE genes is small. The amount of squeezing decreases with
+  the number of DE genes.
+
+- goana() and kegga() now call goanaTrend() when the `trend` argument
+  is used. When `plot=TRUE` the plot is now created by goanaTrend()
+  instead of by barcodeplot().
+
 11 Sep 2022: limma 3.52.7
 
 - Update goana() and kegga() code to catch NA gene IDs or covariate
   values.
+
 - goana() and kegga() no longer give an error when a trend is
   estimated but there are no DE genes.
+
 - Trends estimated by goana() and kegga() are now squeezed slightly
   towards constancy to provide stability when the number of DE genes
   is small.
@@ -40,7 +55,8 @@
 
 - Update News.Rd ready for the Bioconductor 3.15 release.
 
-- Rerun package tests using the latest developmental packages, including organism packages.
+- Rerun package tests using the latest developmental packages,
+  including organism packages.
 
  8 Apr 2022: limma 3.51.7
 
@@ -85,7 +101,8 @@
 
 - Update News.Rd ready for the Bioconductor 3.14 release.
 
-- Rerun package tests using the latest developmental packages, including organism packages.
+- Rerun package tests using the latest developmental packages,
+  including organism packages.
 
  8 Aug 2021: limma 3.49.4
 

@@ -125,6 +125,7 @@ Unlike the goseq package, the gene identifiers here must be Entrez Gene IDs and 
 The goseq package has additional functionality to convert gene identifiers and to provide gene lengths.
 The only methodological difference is that \code{goana} and \code{kegga} computes gene length or abundance bias using \code{\link{tricubeMovingAverage}} instead of monotonic regression.
 While \code{\link{tricubeMovingAverage}} does not enforce monotonicity, it has the advantage of numerical stability when \code{de} contains only a small number of genes.
+The trend is estimated by the \code{\link{goanaTrend}} function.
 }
 
 \note{
@@ -164,14 +165,14 @@ The output from \code{kegga} is the same except that row names become KEGG pathw
 }
 
 \references{
-  Young, M. D., Wakefield, M. J., Smyth, G. K., Oshlack, A. (2010).
+  Young MD, Wakefield MJ, Smyth GK, Oshlack A (2010).
   Gene ontology analysis for RNA-seq: accounting for selection bias.
   \emph{Genome Biology} 11, R14.
-  \url{http://genomebiology.com/2010/11/2/R14}
+  \doi{10.1186/gb-2010-11-2-r14}
 }
 
 \seealso{
-\code{\link{topGO}}, \code{\link{topKEGG}}
+\code{\link{topGO}}, \code{\link{topKEGG}}, \code{\link{goana}}
 
 The goseq package provides an alternative implementation of methods from Young et al (2010).
 Unlike the limma functions documented here, goseq will work with a variety of gene identifiers and includes a database of gene length information for various species.
