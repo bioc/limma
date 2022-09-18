@@ -16,11 +16,11 @@ Test for over-representation of gene ontology (GO) terms or KEGG pathways in one
 \usage{
 \method{goana}{MArrayLM}(de, coef = ncol(de), geneid = rownames(de), FDR = 0.05, trend = FALSE, \dots)
 \method{kegga}{MArrayLM}(de, coef = ncol(de), geneid = rownames(de), FDR = 0.05, trend = FALSE, \dots)
-\method{goana}{default}(de, universe = NULL, species = "Hs", prior.prob = NULL, covariate=NULL,
+\method{goana}{default}(de, universe = NULL, species = "Hs", null.prob = NULL, covariate=NULL,
       plot=FALSE, \dots)
 \method{kegga}{default}(de, universe = NULL, restrict.universe = FALSE, species = "Hs", species.KEGG = NULL,
       convert = FALSE, gene.pathway = NULL, pathway.names = NULL,
-      prior.prob = NULL, covariate=NULL, plot=FALSE, \dots)
+      null.prob = NULL, covariate=NULL, plot=FALSE, \dots)
 getGeneKEGGLinks(species.KEGG = "hsa", convert = FALSE)
 getKEGGPathwayNames(species.KEGG = NULL, remove.qualifier = FALSE)
 }
@@ -60,14 +60,14 @@ getKEGGPathwayNames(species.KEGG = NULL, remove.qualifier = FALSE)
 
   \item{restrict.universe}{logical, should the \code{universe} be restricted to gene identifiers found in at least one pathway in \code{gene.pathway}?}
 
-  \item{prior.prob}{optional numeric vector of the same length as \code{universe} giving the prior probability that each gene in the universe appears in a gene set.
+  \item{null.prob}{optional numeric vector of the same length as \code{universe} giving the null probability that each gene in the universe will appear in a gene set without enrichment.
   Will be computed from \code{covariate} if the latter is provided.
   Ignored if \code{universe} is \code{NULL}.}
 
-  \item{covariate}{optional numeric vector of the same length as \code{universe} giving a covariate against which \code{prior.prob} should be computed.
+  \item{covariate}{optional numeric vector of the same length as \code{universe} giving a covariate against which \code{null.prob} should be computed.
   Ignored if \code{universe} is \code{NULL}.}
 
-  \item{plot}{logical, should the \code{prior.prob} vs \code{covariate} trend be plotted?}
+  \item{plot}{logical, should the \code{null.prob} vs \code{covariate} trend be plotted?}
 
   \item{\dots}{any other arguments in a call to the \code{MArrayLM} methods are passed to the corresponding default method.}
 }
@@ -107,18 +107,18 @@ In that case, set \code{species.KEGG="ko"}.
 
 The ability to supply data.frame annotation to \code{kegga} means that \code{kegga} can in principle be used in conjunction with any user-supplied set of annotation terms.
 
-The default \code{goana} and \code{kegga} methods accept a vector \code{prior.prob} giving the prior probability that each gene in the universe appears in a gene set.
+The default \code{goana} and \code{kegga} methods accept a vector \code{null.prob} giving the prior probability that each gene in the universe appears in a gene set.
 This vector can be used to correct for unwanted trends in the differential expression analysis associated with gene length, gene abundance or any other covariate (Young et al, 2010).
-The \code{MArrayLM} object computes the \code{prior.prob} vector automatically when \code{trend} is non-\code{NULL}.
+The \code{MArrayLM} object computes the \code{null.prob} vector automatically when \code{trend} is non-\code{NULL}.
 
-If \code{prior.prob=NULL}, the function computes one-sided hypergeometric tests equivalent to Fisher's exact test.
+If \code{null.prob=NULL}, the function computes one-sided hypergeometric tests equivalent to Fisher's exact test.
 If prior probabilities are specified, then a test based on the Wallenius' noncentral hypergeometric distribution is used to adjust for the relative probability that each gene will appear in a gene set, following the approach of Young et al (2010).
 
 The \code{MArrayLM} methods performs over-representation analyses for the up and down differentially expressed genes from a linear model analysis.
 In this case, the universe is all the genes found in the fit object.
 
-\code{trend=FALSE} is equivalent to \code{prior.prob=NULL}.
-If \code{trend=TRUE} or a covariate is supplied, then a trend is fitted to the differential expression results and this is used to set \code{prior.prob}.
+\code{trend=FALSE} is equivalent to \code{null.prob=NULL}.
+If \code{trend=TRUE} or a covariate is supplied, then a trend is fitted to the differential expression results and this is used to set \code{null.prob}.
 
 The statistical approach provided here is the same as that provided by the goseq package, with one methodological difference and a few restrictions.
 Unlike the goseq package, the gene identifiers here must be Entrez Gene IDs and the user is assumed to be able to supply gene lengths if necessary.

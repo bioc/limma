@@ -85,7 +85,7 @@ goana.MArrayLM <- function(de, coef = ncol(de), geneid = rownames(de), FDR = 0.0
 	goana(de=DEGenes, universe = universe, covariate=covariate, ...)
 }
 
-goana.default <- function(de, universe = NULL, species = "Hs", prior.prob = NULL, covariate=NULL, plot=FALSE, ...)
+goana.default <- function(de, universe = NULL, species = "Hs", null.prob = NULL, covariate=NULL, plot=FALSE, ...)
 #	Gene ontology analysis of DE genes
 #	Gordon Smyth and Yifang Hu
 #	Created 20 June 2014.  Last modified 11 Sep 2022.
@@ -115,39 +115,39 @@ goana.default <- function(de, universe = NULL, species = "Hs", prior.prob = NULL
 		i <- !duplicated(GeneID.PathID[,c("gene_id", "go_id")])
 		GeneID.PathID <- GeneID.PathID[i, ]
 		universe <- unique(GeneID.PathID[,1])
-		if( !(is.null(prior.prob) && is.null(covariate)) ) {
-			message("Ignoring covariate and prior.prob because universe not set")
-			prior.prob <- covariate <- NULL
+		if( !(is.null(null.prob) && is.null(covariate)) ) {
+			message("Ignoring covariate and null.prob because universe not set")
+			null.prob <- covariate <- NULL
 		}
 	} else {
 		universe <- as.character(universe)
 		lu <- length(universe)
-		if(!is.null(prior.prob) && length(prior.prob)!=lu) stop("universe and prior.prob must have same length")
+		if(!is.null(null.prob) && length(null.prob)!=lu) stop("universe and null.prob must have same length")
 		if(!is.null(covariate) && length(covariate)!=lu) stop("universe and covariate must have same length")
-		if(anyNA(universe) || anyNA(covariate) || anyNA(prior.prob)) {
+		if(anyNA(universe) || anyNA(covariate) || anyNA(null.prob)) {
 			isna <- is.na(universe)
 			if(all(isna)) stop("Gene IDs are all NA")
 			if(!is.null(covariate)) {
 				isna[is.na(covariate)] <- TRUE
 				covariate <- covariate[!isna]
 			}
-			if(!is.null(prior.prob)) {
-				isna[is.na(prior.prob)] <- TRUE
-				prior.prob <- prior.prob[!isna]
+			if(!is.null(null.prob)) {
+				isna[is.na(null.prob)] <- TRUE
+				null.prob <- null.prob[!isna]
 			}
 			universe <- universe[!isna]
 		}
 		if(anyDuplicated(universe)) {
 			i <- !duplicated(universe)
 			if(!is.null(covariate)) covariate <- covariate[i]
-			if(!is.null(prior.prob)) prior.prob <- prior.prob[i]
+			if(!is.null(null.prob)) null.prob <- null.prob[i]
 			universe <- universe[i]
 		}
 #		Make universe and set of all annotated genes agree
 		i <- (universe %in% AnnotationDbi::Lkeys(egGO2ALLEGS))
 		universe <- universe[i]
 		if(!is.null(covariate)) covariate <- covariate[i]
-		if(!is.null(prior.prob)) prior.prob <- prior.prob[i]
+		if(!is.null(null.prob)) null.prob <- null.prob[i]
 		AnnotationDbi::Lkeys(egGO2ALLEGS) <- universe
 #		Convert GO annotation to data.frame
 		GeneID.PathID <- AnnotationDbi::toTable(egGO2ALLEGS)[,c("gene_id","go_id","Ontology")]
@@ -190,44 +190,44 @@ goana.default <- function(de, universe = NULL, species = "Hs", prior.prob = NULL
 	if(sum(i)==0L) stop("Pathways do not overlap with universe")
 	GeneID.PathID <- GeneID.PathID[i,]
 
-#	Get prior.prob trend in DE with respect to the covariate, combining all de lists
+#	Get null.prob trend in DE with respect to the covariate, combining all de lists
 	if(!is.null(covariate)) {
-		if(!is.null(prior.prob)) message("prior.prob being recomputed from covariate")
+		if(!is.null(null.prob)) message("null.prob being recomputed from covariate")
 		covariate <- as.numeric(covariate)
 		isDE <- (universe %in% unlist(de))
 		nDE <- sum(isDE)
 		if(identical(nDE,0L)) {
 			message("No DE genes")
-			prior.prob <- covariate <- NULL
+			null.prob <- covariate <- NULL
 		} else {
-			prior.prob <- goanaTrend(isDE,covariate,plot=plot)
+			null.prob <- goanaTrend(isDE,covariate,plot=plot)
 		}
 	}
 
 #	Overlap pathways with DE genes
 #	Create incidence matrix (X) of gene.pathway by DE sets
-	if(is.null(prior.prob)) {
+	if(is.null(null.prob)) {
 		X <- matrix(1,nrow(GeneID.PathID),nsets+1)
 		colnames(X) <- c("N",names(de))
 	} else {
-		names(prior.prob) <- universe
+		names(null.prob) <- universe
 		X <- matrix(1,nrow(GeneID.PathID),nsets+2)
-		X[,nsets+2] <- prior.prob[GeneID.PathID[,1]]
+		X[,nsets+2] <- null.prob[GeneID.PathID[,1]]
 		colnames(X) <- c("N",names(de),"PP")
 	}
 	for (s in 1:nsets) X[,s+1] <- (GeneID.PathID[,1] %in% de[[s]])
 
-#	Count #genes and #DE genes and sum prior.prob for each pathway
+#	Count #genes and #DE genes and sum null.prob for each pathway
 	S <- rowsum(X, group=GeneID.PathID[,2], reorder=FALSE)
 
 #	Overlap tests
 	PValue <- matrix(0,nrow=nrow(S),ncol=nsets)
 	colnames(PValue) <- paste("P", names(de), sep=".")
 	nde <- lengths(de, use.names=FALSE)
-	if(!is.null(prior.prob)) {
+	if(!is.null(null.prob)) {
 
 #		Probability ratio for each pathway vs rest of universe
-		SumPP <- sum(prior.prob)
+		SumPP <- sum(null.prob)
 		M2 <- NGenes-S[,"N"]
 		Odds <- S[,"PP"] / (SumPP-S[,"PP"]) * M2 / S[,"N"]
 

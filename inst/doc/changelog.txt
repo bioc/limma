@@ -1,4 +1,8 @@
-18 Sep 2022: limma 3.52.8
+18 Sep 2022: limma 3.53.9
+
+- Rename argument `prior.prob` to `null.prob` in goana() and kegga().
+
+18 Sep 2022: limma 3.53.8
 
 - New function goanaTrend() to estimate a covariate-dependent trend in
   the probability of differential expression for use in goana() and
@@ -11,7 +15,7 @@
   is used. When `plot=TRUE` the plot is now created by goanaTrend()
   instead of by barcodeplot().
 
-11 Sep 2022: limma 3.52.7
+11 Sep 2022: limma 3.53.7
 
 - Update goana() and kegga() code to catch NA gene IDs or covariate
   values.
