@@ -37,7 +37,7 @@ The approximation is usually acceptable.
 If not, then the issue can be avoided by redefining the design matrix to fit the contrasts directly.
 
 Even with precision weights, the results from \code{contrasts.fit} are always exact if the coefficients being compared are statistically independent.
-This will always be true, for example, if the original fit was a oneway model and the group-means (no-intercept) parametrization was used for the design matrix.
+This will be true, for example, if the original fit was a oneway model without blocking and the group-means (no-intercept) parametrization was used for the design matrix.
 }
 \seealso{
 An overview of linear model functions in limma is given by \link{06.LinearModels}.

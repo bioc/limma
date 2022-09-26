@@ -1,3 +1,8 @@
+26 Sep 2022: limma 3.52.4
+
+- Fix bug introduced in 3.52.3 whereby kegga.MArrayLM was returning GO
+  results instead of KEGG.
+
 11 Sep 2022: limma 3.52.3
 
 - Update goana() and kegga() code to catch NA gene IDs or covariate
