@@ -1,3 +1,8 @@
+26 Sep 2022: limma 3.53.10
+
+- Fix bug introduced in 3.53.9 whereby kegga.MArrayLM was returning GO
+  results instead of KEGG results.
+
 18 Sep 2022: limma 3.53.9
 
 - Rename argument `prior.prob` to `null.prob` in goana() and kegga().

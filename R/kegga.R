@@ -82,7 +82,7 @@ kegga.MArrayLM <- function(de, coef = ncol(de), geneid = rownames(de), FDR = 0.0
 		return(data.frame())
 	}
 
-	goana(de=DEGenes, universe = universe, covariate=covariate, ...)
+	kegga(de=DEGenes, universe = universe, covariate=covariate, ...)
 }
 
 kegga.default <- function(de, universe=NULL,  restrict.universe=FALSE, species="Hs", species.KEGG=NULL, convert=FALSE, gene.pathway=NULL, pathway.names = NULL,null.prob=NULL, covariate=NULL, plot=FALSE, ...)
