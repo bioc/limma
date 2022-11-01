@@ -3,6 +3,47 @@
 \encoding{UTF-8}
 
 
+\section{Version 3.54.0}{\itemize{
+
+  \item
+  New function goanaTrend() to estimate a covariate-dependent trend in
+  the probability of differential expression for use in goana() and
+  kegga() with `trend=TRUE`. The trend estimated by goanaTrend() is
+  squeezed slightly towards constancy to provide stability when the
+  number of DE genes is small. The amount of squeezing decreases with
+  the number of DE genes.
+
+  goana() and kegga() now call goanaTrend() when the `trend` argument
+  is used. When `plot=TRUE` the plot is now created by goanaTrend()
+  instead of by barcodeplot().
+
+  \item
+  Rename argument `prior.prob` to `null.prob` in goana() and kegga().
+
+  \item
+  Update goana() and kegga() code to catch NA gene IDs or covariate
+  values.
+
+  \item
+  goana() and kegga() no longer give an error when a trend is
+  estimated but there are no DE genes.
+
+  \item
+  kegga() now uses https instead of http links when reading from rest.kegg.jp.
+
+  \item
+  Add new argument `fc` to topTable() and topTableF().
+  Change default for `lfc` to NULL instead of 0.
+
+  \item
+  lmFit() now checks explicitly for NAs in the design matrix.
+
+  \item
+  Update references listed on help pages to use DOIs instead of URLs.
+
+}}
+
+
 \section{Version 3.52.0}{\itemize{
 
   \item
@@ -20,6 +61,7 @@
   \item
   Improve checking for incorrectly specified `contrasts` argument in
   contrasts.fit().
+
 }}
 
 
