@@ -1,3 +1,16 @@
+29 Nov 2022: limma 3.55.1
+
+- eBayes() now checks whether `fit` is a list object before
+  undertaking other tests.
+
+- Revise voom.Rd to specify that y-values in voom plot are sqrt
+  residual standard deviations.
+
+- Update limma-Tests.Rout.save for Bioc 3.16 annotation packages.
+
+ 2 Nov 2022: limma 3.55.0 (Bioconductor 3.17 Developmental Branch)
+ 2 Nov 2022: limma 3.54.0 (Bioconductor 3.16 Release Branch)
+
 29 Oct 2022: limma 3.53.11
 
 - Fix typos in User's Guide. Update some spellings to American
