@@ -1,3 +1,7 @@
+22 Dec 2022: limma 3.55.2
+
+- Add new argument `p.value` for topGO() and topKEGG().
+
 29 Nov 2022: limma 3.55.1
 
 - eBayes() now checks whether `fit` is a list object before
