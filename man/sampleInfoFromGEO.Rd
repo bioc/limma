@@ -24,7 +24,7 @@ Each sample corresponds to one row.
 
 \details{
 This function parses a GEO series matrix file.
-Sample characteristics associated with expression channels 1 and 2 are separated into separate data.frames.
+Sample characteristics associated with expression channels 1 and 2 are separated into separate character matrices.
 The function particularly allows for the fact that not every sample characteristic will have an entry for every sample.
 }
 
