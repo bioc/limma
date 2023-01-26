@@ -1,3 +1,9 @@
+26 Jan 2023: limma 3.55.4
+
+- Update NEWS.Rd.
+
+- Minor edit to sampleInfoFromGEO() help page details section.
+
 26 Jan 2023: limma 3.55.3
 
 - Rename readSampleInfoFromGEO() to sampleInfoFromGEO().

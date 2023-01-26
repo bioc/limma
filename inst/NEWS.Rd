@@ -3,6 +3,25 @@
 \encoding{UTF-8}
 
 
+\section{Version 3.55.3}{\itemize{
+
+  \item
+  Rename readSampleInfoFromGEO() to sampleInfoFromGEO().
+
+  \item
+  Add new argument `p.value` for topGO() and topKEGG().
+
+  \item
+  eBayes() now checks whether `fit` is a list object before
+  undertaking other tests.
+
+  \item
+  Revise voom.Rd to specify that y-values in voom plot are sqrt
+  residual standard deviations.
+
+}}
+
+
 \section{Version 3.54.0}{\itemize{
 
   \item
