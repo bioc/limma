@@ -1,5 +1,5 @@
 library(limma)
-options(warnPartialMatchArgs=TRUE,warnPartialMatchAttr=TRUE,warnPartialMatchDollar=TRUE)
+options(warnPartialMatchArgs=TRUE,warnPartialMatchAttr=TRUE,warnPartialMatchDollar=TRUE,width=120)
 
 set.seed(0); u <- runif(100)
 

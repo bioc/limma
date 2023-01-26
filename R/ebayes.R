@@ -4,8 +4,9 @@ eBayes <- function(fit,proportion=0.01,stdev.coef.lim=c(0.1,4),trend=FALSE,robus
 #	Empirical Bayes statistics to select differentially expressed genes.
 #	Accepts and returns an MArrayLM object.
 #	Gordon Smyth
-#	4 August 2003.  Last modified 10 Feb 2022.
+#	4 August 2003.  Last modified 29 Nov 2022.
 {
+	if(!is.list(fit)) stop("fit is not a valid MArrayLM object")
 	if(is.logical(trend) && trend && is.null(fit$Amean)) stop("Need Amean component in fit to estimate trend")
 	eb <- .ebayes(fit=fit,proportion=proportion,stdev.coef.lim=stdev.coef.lim,trend=trend,robust=robust,winsor.tail.p=winsor.tail.p)
 	fit$df.prior <- eb$df.prior
@@ -22,10 +23,7 @@ eBayes <- function(fit,proportion=0.01,stdev.coef.lim=c(0.1,4),trend=FALSE,robus
 		fit$F <- as.vector(F.stat)
 		df1 <- attr(F.stat,"df1")
 		df2 <- attr(F.stat,"df2")
-		if(df2[1] > 1e6) # Work around bug in R 2.1
-			fit$F.p.value <- pchisq(df1*fit$F,df1,lower.tail=FALSE)
-		else
-			fit$F.p.value <- pf(fit$F,df1,df2,lower.tail=FALSE)
+		fit$F.p.value <- pf(fit$F,df1,df2,lower.tail=FALSE)
 	}
 	fit
 }
@@ -41,7 +39,7 @@ eBayes <- function(fit,proportion=0.01,stdev.coef.lim=c(0.1,4),trend=FALSE,robus
 	sigma <- fit$sigma
 	df.residual <- fit$df.residual
 	if(is.null(coefficients) || is.null(stdev.unscaled) || is.null(sigma) || is.null(df.residual)) stop("No data, or argument is not a valid lmFit object")
-	if(max(df.residual)==0) stop("No residual degrees of freedom in linear model fits")
+	if(identical(max(df.residual),0)) stop("No residual degrees of freedom in linear model fits")
 	if(!any(is.finite(sigma))) stop("No finite residual standard deviations")
 	if(is.logical(trend)) {
 		if(trend) {

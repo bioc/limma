@@ -9,8 +9,8 @@ Extract top GO terms from goana output or top KEGG pathways from kegga output.
 
 \usage{
 topGO(results, ontology = c("BP", "CC", "MF"), sort = NULL, number = 20L, 
-      truncate.term = NULL)
-topKEGG(results, sort = NULL, number = 20L, truncate.path = NULL)
+      truncate.term = NULL, p.value = 1)
+topKEGG(results, sort = NULL, number = 20L, truncate.path = NULL, p.value = 1)
 }
 
 \arguments{
@@ -20,6 +20,7 @@ topKEGG(results, sort = NULL, number = 20L, truncate.path = NULL)
   \item{number}{maximum number of top GO terms or top KEGG pathways to list. For all terms or all pathways, set \code{number=Inf}.}
   \item{truncate.term}{truncate the name of the GO term at this number of characters.}
   \item{truncate.path}{truncate the name of the KEGG pathway at this number of characters.}
+  \item{p.value}{p.value cutoff. Only GO terms or pathways with lower p-values are included in the output.}
 }
 
 \details{

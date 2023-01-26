@@ -259,10 +259,10 @@ goana.default <- function(de, universe = NULL, species = "Hs", null.prob = NULL,
 	Results
 }
 
-topGO <- function(results, ontology = c("BP", "CC", "MF"), sort = NULL, number = 20L, truncate.term=NULL)
+topGO <- function(results, ontology = c("BP", "CC", "MF"), sort = NULL, number = 20L, truncate.term = NULL, p.value = 1)
 #	Extract top GO terms from goana output 
 #	Gordon Smyth and Yifang Hu
-#	Created 20 June 2014. Last modified 23 June 2016.
+#	Created 20 June 2014. Last modified 22 Dec 2022.
 {
 #	Check results
 	if(!is.data.frame(results)) stop("results should be a data.frame.")
@@ -279,7 +279,7 @@ topGO <- function(results, ontology = c("BP", "CC", "MF"), sort = NULL, number =
 
 #	Check number
 	if(!is.numeric(number)) stop("number should be a positive integer")
-	if(number > dimres[1L]) number <- dimres[1]
+	if(number > dimres[1]) number <- dimres[1]
 	if(number < 1L) return(results[integer(0),])
 
 #	Number of gene lists for which results are reported
@@ -297,13 +297,17 @@ topGO <- function(results, ontology = c("BP", "CC", "MF"), sort = NULL, number =
 		if(!length(isort)) stop("sort column not found in results")
 	}
 
-#	Sort by minimum p-value for specified gene lists
+#	Filter by minimum p-value for specified gene lists
 	P.col <- 3L+nsets+isort
 	if(length(P.col)==1L) {
 		P <- results[,P.col]
 	} else {
 		P <- do.call("pmin",as.data.frame(results[,P.col,drop=FALSE]))
 	}
+	if(p.value < 1) number <- min(number, sum(P <= p.value))
+	if(number < 1L) return(results[integer(0),])
+
+#	Sort by minimum p-value
 	o <- order(P,results$N,results$Term)
 	tab <- results[o[1L:number],,drop=FALSE]
 

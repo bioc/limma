@@ -317,10 +317,10 @@ getKEGGPathwayNames <- function(species.KEGG=NULL, remove.qualifier=FALSE)
 	PathID.PathName
 }
 
-topKEGG <- function(results, sort = NULL, number = 20L, truncate.path=NULL)
+topKEGG <- function(results, sort = NULL, number = 20L, truncate.path = NULL, p.value = 1)
 #	Extract top KEGG pathways from kegga output 
 #	Gordon Smyth and Yifang Hu
-#	Created 15 May 2015. Modified 25 Jan 2016.
+#	Created 15 May 2015. Modified 22 Dec 2022.
 {
 #	Check results
 	if(!is.data.frame(results)) stop("results should be a data.frame.")
@@ -346,12 +346,16 @@ topKEGG <- function(results, sort = NULL, number = 20L, truncate.path=NULL)
 		if(!length(isort)) stop("sort column not found in results")
 	}
 
-#	Sort by minimum p-value for specified gene lists
+#	Filter by minimum p-value for specified gene lists
 	P.col <- 2L+nsets+isort
 	if(nsets==1L)
 		P <- results[,P.col]
 	else
 		P <- do.call(pmin,results[,P.col,drop=FALSE])
+	if(p.value < 1) number <- min(number, sum(P <= p.value))
+	if(number < 1L) return(results[integer(0),])
+
+#	Sort by minimum p-value
 	o <- order(P,results$N,results$Pathway)
 	tab <- results[o[1L:number],,drop=FALSE]
 

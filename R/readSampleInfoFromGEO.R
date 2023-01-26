@@ -1,4 +1,4 @@
-readSampleInfoFromGEO <- function(file, remove.constant.columns=TRUE)
+sampleInfoFromGEO <- readSampleInfoFromGEO <- function(file, remove.constant.columns=TRUE)
 # Parse sample information from a GEO series matrix file into character matrices
 # Gordon Smyth
 # Created 7 Nov 2021.
