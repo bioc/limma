@@ -1,12 +1,12 @@
-\name{readSampleInfoFromGEO}
-\alias{readSampleInfoFromGEO}
+\name{sampleInfoFromGEO}
+\alias{sampleInfoFromGEO}
 
 \title{Read Sample Characteristics From GEO Series Matrix File}
 \description{
 Read sample annotation from a GEO Series Matrix File into data.frames.}
 
 \usage{
-readSampleInfoFromGEO(file, remove.constant.columns = TRUE)
+sampleInfoFromGEO(file, remove.constant.columns = TRUE)
 }
 
 \arguments{
@@ -37,7 +37,7 @@ An overview of LIMMA functions for reading data is given in \link{03.ReadingData
 \dontrun{
 url <- "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE40nnn/GSE40115/matrix/GSE40115-GPL15931_series_matrix.txt.gz"
 download.file(url, "GSE40115.txt.gz")
-a <- readSampleInfoFromGEO("GSE40115.txt.gz")
+a <- sampleInfoFromGEO("GSE40115.txt.gz")
 colnames(a$SampleInfo)
 colnames(a$CharacteristicsCh1)
 colnames(a$CharacteristicsCh2)

@@ -1,3 +1,7 @@
+26 Jan 2023: limma 3.55.3
+
+- Rename readSampleInfoFromGEO() to sampleInfoFromGEO().
+
 22 Dec 2022: limma 3.55.2
 
 - Add new argument `p.value` for topGO() and topKEGG().
