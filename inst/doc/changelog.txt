@@ -1,3 +1,13 @@
+28 Feb 2023: limma 3.54.2
+
+- Fix a problem with inconsistent pathway names from KEGG. Due to a
+  change on the KEGG website, pathway names from getGeneKEGGLinks()
+  have "path:" prefixes but pathway names from getKEGGPathwayNames()
+  do not. To make the pathway names consistent, getGeneKEGGLinks() now
+  removes the "path:" prefix.
+
+- New (non-exported) function .removePrefix().
+
 26 Jan 2023: limma 3.54.1
 
 - Rename readSampleInfoFromGEO() to sampleInfoFromGEO() keeping legacy
