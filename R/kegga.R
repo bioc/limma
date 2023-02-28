@@ -282,7 +282,7 @@ kegga.default <- function(de, universe=NULL,  restrict.universe=FALSE, species="
 getGeneKEGGLinks <- function(species.KEGG="hsa", convert=FALSE)
 #	Read pathway-gene mapping from KEGG website
 #	Gordon Smyth
-#	Created 7 Jan 2016.  Last modified 5 Jun 2022.
+#	Created 7 Jan 2016.  Last modified 28 Feb 2023.
 {
 	URL <- paste("https://rest.kegg.jp/link/pathway",species.KEGG,sep="/")
 	Path.Gene <- read.table(URL,sep="\t",quote="\"",fill=TRUE,comment.char="",stringsAsFactors=FALSE)
@@ -297,10 +297,12 @@ getGeneKEGGLinks <- function(species.KEGG="hsa", convert=FALSE)
 		EntrezID.KEGGGeneID <- read.table(URL,sep="\t",quote="\"",fill=TRUE,comment.char="",stringsAsFactors=FALSE)
 		m <- match(Path.Gene[,1],EntrezID.KEGGGeneID[,2])
 		Path.Gene[,1] <- EntrezID.KEGGGeneID[m,1]
-		Path.Gene[,1] <- sub("^ncbi-geneid:", "", Path.Gene[,1])
-	} else {
-		Path.Gene[,1] <- sub(paste0("^",species.KEGG,":"), "", Path.Gene[,1])
 	}
+
+#	Remove prefixes from Entrez Gene IDs and pathway names
+	Path.Gene[,1] <- .removePrefix(Path.Gene[,1])
+	Path.Gene[,2] <- .removePrefix(Path.Gene[,2])
+
 	Path.Gene
 }
 
@@ -370,4 +372,18 @@ topKEGG <- function(results, sort = NULL, number = 20L, truncate.path = NULL, p.
 	}
 
 	tab
+}
+
+.removePrefix <- function(x,split=":")
+#	Remove prefixes like "hsa:" from gene IDs or "path:" from pathway names.
+#	Gordon Smyth
+#	Created 28 Feb 2023.
+{
+	s <- strsplit(x[1],split=split)[[1]]
+	if(length(s) > 1L) {
+		n <- nchar(s[1])
+		return(substr(x,n+2L,1000L))
+	} else {
+		return(x)
+	}
 }
