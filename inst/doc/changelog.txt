@@ -1,3 +1,7 @@
+28 Mar 2023: limma 3.55.6
+
+- Update two reference URLs in propTrueNull() help page.
+
 28 Feb 2023: limma 3.55.5
 
 - Fix a problem with inconsistent pathway names from KEGG. Due to a
