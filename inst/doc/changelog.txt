@@ -1,3 +1,8 @@
+10 Apr 2023: limma 3.55.7
+
+- Update limma-Tests.Rout.save for R 4.3.0beta and new Bioconductor
+  organism packages.
+
 28 Mar 2023: limma 3.55.6
 
 - Update two reference URLs in propTrueNull() help page.
