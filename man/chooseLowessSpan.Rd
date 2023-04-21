@@ -44,7 +44,7 @@ Freedman, D. and Diaconis, P. (1981). On the histogram as a density estimator: L
 \emph{Zeitschrift fur Wahrscheinlichkeitstheorie und verwandte Gebiete}, 57, 453-476.
 
 Hyndman, R. J. (1995). The problem with Sturges' rule for constructing histograms.
-\url{http://robjhyndman.com/papers/sturges.pdf}.
+\url{https://robjhyndman.com/papers/sturges.pdf}.
 
 Scott, D. W. (1979). On optimal and data-based histograms.
 \emph{Biometrika}, 66, 605-610.

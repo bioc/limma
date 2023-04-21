@@ -42,7 +42,7 @@ The proportion of non-DE genes is estimated and taken into account in the calcul
 Phipson, B. (2013).
 \emph{Empirical Bayes modelling of expression profiles and their associations}.
 PhD Thesis. University of Melbourne, Australia.
-\url{http://repository.unimelb.edu.au/10187/17614}
+\url{http://hdl.handle.net/11343/38162}
 }
 
 \examples{

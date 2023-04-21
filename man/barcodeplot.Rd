@@ -84,21 +84,22 @@ There is a topic page on \link{10.GeneSetTests}.
 Ng, AP, Hu, Y, Metcalf, D, Hyland, CD, Ierino, H, Phipson, B, Wu, D, Baldwin, TM, Kauppi, M, Kiu, H, Di, Rago, L, Hilton, DJ, Smyth, GK, Alexander, WS (2015).
 Early lineage priming by trisomy of Erg leads to myeloproliferation in a down syndrome model.
 \emph{PLOS Genetics} 11, e1005211. 
-\url{http://www.ncbi.nlm.nih.gov/pubmed/25973911}
+\doi{10.1371/journal.pgen.1005211}
 
 Lim E, Vaillant F, Wu D, Forrest NC, Pal B, Hart AH, Asselin-Labat ML, Gyorki DE, Ward T, Partanen A, Feleppa F, Huschtscha LI, Thorne HJ; kConFab; Fox SB, Yan M, French JD, Brown MA, Smyth GK, Visvader JE, and Lindeman GJ (2009).
 Aberrant luminal progenitors as the candidate target population for basal tumor development in BRCA1 mutation carriers.
 \emph{Nature Medicine} 15, 907-913.
+\doi{10.1038/nm.2000}
 
 Liu, GJ, Cimmino, L, Jude, JG, Hu, Y, Witkowski, MT, McKenzie, MD, Kartal-Kaess, M, Best, SA, Tuohey, L, Liao, Y, Shi, W, Mullighan, CG, Farrar, MA, Nutt, SL, Smyth, GK, Zuber, J, and Dickins, RA (2014).
 Pax5 loss imposes a reversible differentiation block in B progenitor acute lymphoblastic leukemia.
 \emph{Genes & Development} 28, 1337-1350. 
-\url{http://www.ncbi.nlm.nih.gov/pubmed/24939936}
+\doi{10.1101/gad.240416.114}
 
 Sheikh, B, Lee, S, El-saafin, F, Vanyai, H, Hu, Y, Pang, SHM, Grabow, S, Strasser, A, Nutt, SL, Alexander, WS, Smyth, GK, Voss, AK, and Thomas, T (2015). 
 MOZ regulates B cell progenitors in mice, consequently, Moz haploinsufficiency dramatically retards MYC-induced lymphoma development. 
 \emph{Blood} 125, 1910-1921.
-\url{http://www.ncbi.nlm.nih.gov/pubmed/25605372}
+\doi{10.1182/blood-2014-08-594655}
 
 Subramanian A, Tamayo P, Mootha VK, Mukherjee S, Ebert BL, Gillette MA, Paulovich A, Pomeroy SL, Golub TR, Lander ES, and Mesirov JP (2005).
 Gene set enrichment analysis: a knowledge-based approach for interpreting genome-wide expression profiles.
@@ -107,7 +108,7 @@ Gene set enrichment analysis: a knowledge-based approach for interpreting genome
 Witkowski, MT, Cimmino, L, Hu, Y, Trimarchi, T, Tagoh, H, McKenzie, MD, Best, SA, Tuohey, L, Willson, TA, Nutt, SL, Meinrad Busslinger, M, Aifantis, I, Smyth, GK, and Dickins, RA (2015). 
 Activated Notch counteracts Ikaros tumor suppression in mouse and human T cell acute lymphoblastic leukemia.
 \emph{Leukemia} 29, 1301-1311.
-\url{http://www.ncbi.nlm.nih.gov/pubmed/25655195}
+\doi{10.1038/leu.2015.27}
 }
 
 \examples{

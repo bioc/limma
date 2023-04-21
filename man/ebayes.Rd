@@ -8,7 +8,8 @@
 \usage{
 eBayes(fit, proportion = 0.01, stdev.coef.lim = c(0.1,4),
        trend = FALSE, robust = FALSE, winsor.tail.p = c(0.05,0.1))
-treat(fit, fc = 1.2, lfc = NULL, trend = FALSE, robust = FALSE, winsor.tail.p = c(0.05,0.1))
+treat(fit, fc = 1.2, lfc = NULL, trend = FALSE,
+      robust = FALSE, winsor.tail.p = c(0.05,0.1))
 }
 
 \arguments{

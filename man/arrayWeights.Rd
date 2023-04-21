@@ -69,12 +69,12 @@ the slots or components in the data \code{object}.
 Liu, R., Holik, A. Z., Su, S., Jansz, N., Chen, K., Leong, H. S., Blewitt, M. E., Asselin-Labat, M.-L., Smyth, G. K., Ritchie, M. E. (2015).
 Why weight? Combining voom with estimates of sample quality improves power in RNA-seq analyses.
 \emph{Nucleic Acids Research} 43, e97.
-\url{http://nar.oxfordjournals.org/content/43/15/e97}
+\doi{https://doi.org/10.1093/nar/gkv412}
 
 Ritchie, M. E., Diyagama, D., Neilson, van Laar, R., J., Dobrovic, A., Holloway, A., and Smyth, G. K. (2006).
 Empirical array quality weights in the analysis of microarray data.
 \emph{BMC Bioinformatics} \bold{7}, 261.
-\url{http://www.biomedcentral.com/1471-2105/7/261}
+\doi{10.1186/1471-2105-7-261}
 
 Smyth, G. K. (2002).
 An efficient algorithm for REML in heteroscedastic regression.

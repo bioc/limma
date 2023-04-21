@@ -58,8 +58,8 @@ At the time of writing, the following organism packages are available from Bioco
 
 \code{alias2SymbolUsingNCBI} is analogous to \code{alias2SymbolTable} but uses a gene-info file from NCBI instead of a Bioconductor organism package.
 It also gives the option of returning multiple columns from the gene-info file.
-NCBI gene-info files can be downloaded from \url{ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO}.
-For example, the human file is \url{ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Mammalia/Homo_sapiens.gene_info.gz} and the mouse file is \url{ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Mammalia/Mus_musculus.gene_info.gz}.
+NCBI gene-info files can be downloaded from \url{https://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/}.
+For example, the human file is \url{https://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Mammalia/Homo_sapiens.gene_info.gz} and the mouse file is \url{ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Mammalia/Mus_musculus.gene_info.gz}.
 }
 \value{
 \code{alias2Symbol} and \code{alias2SymbolTable} produce a character vector of gene symbols.

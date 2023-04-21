@@ -44,7 +44,7 @@ Improved background correction for spotted DNA microarrays.
 Ritchie, M. E., Silver, J., Oshlack, A., Silver, J., Holmes, M., Diyagama, D., Holloway, A., and Smyth, G. K. (2007).
 A comparison of background correction methods for two-colour microarrays.
 \emph{Bioinformatics} 23, 2700-2707.
-\url{https://www.ncbi.nlm.nih.gov/pubmed/17720982}
+\doi{10.1093/bioinformatics/btm412}
 }
 	
 \seealso{

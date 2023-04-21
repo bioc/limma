@@ -40,7 +40,7 @@ Internatational Statistics Institute; Paper 116.
 Smyth, GK, and Altman, NS (2013).
 Separate-channel analysis of two-channel microarrays: recovering inter-spot information.
 \emph{BMC Bioinformatics} 14, 165.
-\url{http://www.biomedcentral.com/1471-2105/14/165}
+\doi{10.1186/1471-2105-14-165}
 }
 
 \examples{

@@ -71,7 +71,7 @@ Opposing roles of polycomb repressive complexes in hematopoietic stem and progen
 Phipson, B. (2013).
 \emph{Empirical Bayes modelling of expression profiles and their associations}.
 PhD Thesis. University of Melbourne, Australia.
-\url{http://repository.unimelb.edu.au/10187/17614}
+\url{http://hdl.handle.net/11343/38162}
 
 Ritchie, ME, Phipson, B, Wu, D, Hu, Y, Law, CW, Shi, W, and Smyth, GK (2015).
 limma powers differential expression analyses for RNA-sequencing and microarray studies.

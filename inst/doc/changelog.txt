@@ -1,3 +1,11 @@
+21 Apr 2023: limma 3.55.8
+
+- Update URLs in help pages.
+
+- Update URL for Rsubread RNAseqCaseStudy in User's Guide.
+
+- Convert CITATION to bibentry() instead of citEntry().
+
 10 Apr 2023: limma 3.55.7
 
 - Update limma-Tests.Rout.save for R 4.3.0beta and new Bioconductor

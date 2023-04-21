@@ -3,8 +3,8 @@
 \title{Linear Model for Series of Arrays}
 \description{Fit linear model for each gene given a series of arrays}
 \usage{
-lmFit(object, design=NULL, ndups=NULL, spacing=NULL, block=NULL, correlation, weights=NULL,
-      method="ls", \dots)
+lmFit(object, design = NULL, ndups = NULL, spacing = NULL, block = NULL, correlation,
+      weights = NULL, method = "ls", \dots)
 }
 \arguments{
   \item{object}{A matrix-like data object containing log-ratios or log-expression values for a series of arrays, with rows corresponding to genes and columns to samples.

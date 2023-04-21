@@ -7,7 +7,8 @@ Combine voom observational-level weights with sample-specific quality weights in
 \usage{
 voomWithQualityWeights(counts, design = NULL, lib.size = NULL, normalize.method = "none",
              plot = FALSE, span = 0.5, var.design = NULL, var.group = NULL,
-             method = "genebygene", maxiter = 50, tol = 1e-5, trace = FALSE, col = NULL, ...) 
+             method = "genebygene", maxiter = 50, tol = 1e-5, trace = FALSE,
+             col = NULL, \dots)
 }
 \arguments{
 \item{counts}{

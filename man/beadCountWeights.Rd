@@ -62,10 +62,10 @@ A list object with the following components:
 }
 
 \references{
-Law, CW (2013).
+Law CW (2013).
 \emph{Precision weights for gene expression analysis}.
 PhD Thesis. University of Melbourne, Australia.
-\url{http://repository.unimelb.edu.au/10187/17598}
+\url{http://hdl.handle.net/11343/38150}
 }
 
 \author{Charity Law and Gordon Smyth}

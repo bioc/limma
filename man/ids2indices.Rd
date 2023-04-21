@@ -18,7 +18,7 @@ list of integer vectors, each vector containing the indices of a gene set in the
 \details{
 This function used to create input for \code{romer}, \code{mroast} and \code{camera} function.
 Typically, \code{identifiers} is the vector of Entrez Gene IDs, and \code{gene.sets} is obtained constructed from a database of gene sets, 
-for example a representation of the Molecular Signatures Database (MSigDB) downloaded from \url{http://bioinf.wehi.edu.au/software/MSigDB}.
+for example a representation of the Molecular Signatures Database (MSigDB) downloaded from \url{https://bioinf.wehi.edu.au/software/MSigDB/}.
 }
 
 \seealso{
@@ -31,7 +31,7 @@ There is a topic page on \link{10.GeneSetTests}.
 
 \dontrun{
 
-download.file("http://bioinf.wehi.edu.au/software/MSigDB/human_c2_v5p2.rdata", 
+download.file("https://bioinf.wehi.edu.au/software/MSigDB/human_c2_v5p2.rdata", 
 	      "human_c2_v5p2.rdata", mode = "wb")
 
 load("human_c2_v5p2.rdata")

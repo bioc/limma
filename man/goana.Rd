@@ -39,7 +39,7 @@ getKEGGPathwayNames(species.KEGG = NULL, remove.qualifier = FALSE)
   See \code{\link{alias2Symbol}} for other possible values.
   Ignored if \code{species.KEGG} or is not \code{NULL} or if \code{gene.pathway} and \code{pathway.names} are not \code{NULL}.}
 
-  \item{species.KEGG}{three-letter KEGG species identifier. See \url{http://www.kegg.jp/kegg/catalog/org_list.html} or \url{http://rest.kegg.jp/list/organism} for possible values.
+  \item{species.KEGG}{three-letter KEGG species identifier. See \url{https://www.kegg.jp/kegg/catalog/org_list.html} or \url{https://rest.kegg.jp/list/organism} for possible values.
   Alternatively, if \code{de} contains KEGG ortholog Ids (\code{"k00001"} etc) instead of gene Ids, then set \code{species.KEGG="ko"}.
   This argument is ignored if \code{gene.pathway} and \code{pathway.names} are both not \code{NULL}.}
 
@@ -91,7 +91,7 @@ See \code{\link{alias2Symbol}} for other possible values for \code{species}.
 For \code{kegga}, the species name can be provided in either Bioconductor or KEGG format.
 Examples of KEGG format are \code{"hsa"} for human, \code{"mmu"} for mouse of \code{"dme"} for fly.
 \code{kegga} can be used for any species supported by KEGG, of which there are more than 14,000 possibilities.
-By default, \code{kegga} obtains the KEGG annotation for the specified species from the \url{http://rest.kegg.jp} website using \code{getGeneKEGGLinks} and \code{getKEGGPathwayNames}.
+By default, \code{kegga} obtains the KEGG annotation for the specified species from the \url{https://rest.kegg.jp} website using \code{getGeneKEGGLinks} and \code{getKEGGPathwayNames}.
 Alternatively one can supply the required pathway annotation to \code{kegga} in the form of two data.frames.
 If this is done, then an internet connection is not required.
 

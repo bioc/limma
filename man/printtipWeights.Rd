@@ -51,10 +51,10 @@ will over-ride the slots or components in the data \code{object}.
 \value{A matrix of sub-array weights.}
 
 \references{
-Ritchie, M. E., Diyagama, D., Neilson, van Laar, R., J., Dobrovic, A., Holloway, A., and Smyth, G. K. (2006).
+Ritchie ME, Diyagama D, Neilson J, van Laar R, Dobrovic A, Holloway A, Smyth GK (2006).
 Empirical array quality weights in the analysis of microarray data.
 \emph{BMC Bioinformatics} 7, 261.
-\url{http://www.biomedcentral.com/1471-2105/7/261/abstract}
+\doi{10.1186/1471-2105-7-261}
 }
 
 \seealso{
