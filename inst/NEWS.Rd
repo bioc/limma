@@ -3,7 +3,7 @@
 \encoding{UTF-8}
 
 
-\section{Version 3.55.3}{\itemize{
+\section{Version 3.56.0}{\itemize{
 
   \item
   Rename readSampleInfoFromGEO() to sampleInfoFromGEO().
@@ -12,12 +12,26 @@
   Add new argument `p.value` for topGO() and topKEGG().
 
   \item
+  Fix a problem with inconsistent pathway names from KEGG. Due to a
+  change on the KEGG website, pathway names from getGeneKEGGLinks()
+  have "path:" prefixes but pathway names from getKEGGPathwayNames()
+  do not. To make the pathway names consistent, getGeneKEGGLinks() now
+  removes the "path:" prefix.
+
+  \item
   eBayes() now checks whether `fit` is a list object before
   undertaking other tests.
 
   \item
   Revise voom.Rd to specify that y-values in voom plot are sqrt
   residual standard deviations.
+
+  \item
+  Update out-of-date URLs in the help pages and the User's Guide.
+  Convert reference URLs to DOIs.
+
+  \item
+  Convert CITATION to use the newer bibentry() instead of citEntry().
 
 }}
 

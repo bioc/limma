@@ -1,3 +1,7 @@
+22 Apr 2023: limma 3.55.9
+
+- Update NEWS.Rd for imminent Bioconductor 3.17 Release.
+
 21 Apr 2023: limma 3.55.8
 
 - Update URLs in help pages.
