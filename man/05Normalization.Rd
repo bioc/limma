@@ -36,7 +36,7 @@ It performs variance stabilizing normalization, an algorithm which includes back
 \references{
 Smyth, G. K., and Speed, T. P. (2003). Normalization of cDNA microarray data.
 \emph{Methods} 31, 265-273.
-\url{http://www.statsci.org/smyth/pubs/normalize.pdf}
+\url{https://gksmyth.github.io/pubs/normalize.pdf}
 }
 
 \seealso{

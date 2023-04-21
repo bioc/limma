@@ -32,7 +32,7 @@ The function may take long time to execute.
 \references{
 Smyth, G. K. (2005). Individual channel analysis of two-colour microarray data.
 \emph{Proceedings of the 55th Session of the International Statistics Institute}, 5-12 April 2005, Sydney, Australia, Paper 116.
-\url{http://www.statsci.org/smyth/pubs/ISI2005-116.pdf}
+\url{https://gksmyth.github.io/pubs/ISI2005-116.pdf}
 }
 
 \seealso{

@@ -61,7 +61,7 @@ The function \code{plotPrintorder} or \code{normalizeForPrintorder.rg} with \cod
   \item{G.trend}{numeric vector containing the fitted printorder trend for the green channe}
 }
 \references{
-Smyth, G. K. Print-order normalization of cDNA microarrays. March 2002.  \url{http://www.statsci.org/smyth/pubs/porder/porder.html}
+Smyth, G. K. Print-order normalization of cDNA microarrays. March 2002.  \url{https://gksmyth.github.io/pubs/porder/porder.html}
 }
 \author{Gordon Smyth}
 \seealso{

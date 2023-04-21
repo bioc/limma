@@ -108,7 +108,7 @@ Law, CW, Chen, Y, Shi, W, Smyth, GK (2014).
 Voom: precision weights unlock linear model analysis tools for RNA-seq read counts.
 \emph{Genome Biology} 15, R29.
 \doi{10.1186/gb-2014-15-2-r29}.
-See also the Preprint Version at \url{http://www.statsci.org/smyth/pubs/VoomPreprint.pdf} incorporating some notational corrections.
+See also the Preprint Version at \url{https://gksmyth.github.io/pubs/VoomPreprint.pdf} incorporating some notational corrections.
 
 Law, CW, Alhamdoosh, M, Su, S, Smyth, GK, Ritchie, ME (2016).
 RNA-seq analysis is easy as 1-2-3 with limma, Glimma and edgeR.

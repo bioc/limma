@@ -50,7 +50,7 @@ An overview of linear model functions in limma is given by \link{06.LinearModels
 \references{
 Smyth, G. K., Michaud, J., and Scott, H. (2005). The use of within-array replicate spots for assessing differential expression in microarray experiments. \emph{Bioinformatics} 21(9), 2067-2075.
 [\url{http://bioinformatics.oxfordjournals.org/content/21/9/2067}]
-[Preprint with corrections: \url{http://www.statsci.org/smyth/pubs/dupcor.pdf}]
+[Preprint with corrections: \url{https://gksmyth.github.io/pubs/dupcor.pdf}]
 }
 
 \examples{

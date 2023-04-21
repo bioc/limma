@@ -47,7 +47,7 @@ Statistical analysis of an RNA titration series evaluates microarray precision a
 Smyth, G. K. (1996).
 Partitioned algorithms for maximum likelihood and other nonlinear estimation.
 \emph{Statistics and Computing}, 6, 201-216. 
-\url{http://www.statsci.org/smyth/pubs/partitio.pdf}
+\url{https://gksmyth.github.io/pubs/partitio.pdf}
 }
 
 \examples{

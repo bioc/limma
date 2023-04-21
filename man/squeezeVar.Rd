@@ -67,7 +67,7 @@ Linear models and empirical Bayes methods for assessing differential expression 
 \emph{Statistical Applications in Genetics and Molecular Biology} Volume 3, Issue 1, Article 3.
 \doi{10.2202/1544-6115.1027}.
 See also the Preprint Version
-\url{http://www.statsci.org/smyth/pubs/ebayes.pdf}
+\url{https://gksmyth.github.io/pubs/ebayes.pdf}
 incorporating corrections to 30 June 2009.
 }
 

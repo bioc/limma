@@ -121,7 +121,7 @@ Law CW, Chen Y, Shi W, Smyth GK (2014).
 Voom: precision weights unlock linear model analysis tools for RNA-seq read counts.
 \emph{Genome Biology} 15, R29.
 \doi{10.1186/gb-2014-15-2-r29}.
-See also the Preprint Version at \url{http://www.statsci.org/smyth/pubs/VoomPreprint.pdf} incorporating some notational corrections.
+See also the Preprint Version at \url{https://gksmyth.github.io/pubs/VoomPreprint.pdf} incorporating some notational corrections.
 
 Loennstedt I, and Speed TP (2002).
 Replicated microarray data.
@@ -142,7 +142,7 @@ Linear models and empirical Bayes methods for assessing differential expression 
 \emph{Statistical Applications in Genetics and Molecular Biology} Volume 3, Issue 1, Article 3.
 \doi{10.2202/1544-6115.1027}.
 See also the Preprint Version
-\url{http://www.statsci.org/smyth/pubs/ebayes.pdf}
+\url{https://gksmyth.github.io/pubs/ebayes.pdf}
 incorporating corrections to 30 June 2009.
 }
 

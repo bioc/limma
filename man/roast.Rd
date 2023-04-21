@@ -181,7 +181,7 @@ Phipson B, Smyth GK (2010).
 Permutation P-values should never be zero: calculating exact P-values when permutations are randomly drawn.
 \emph{Statistical Applications in Genetics and Molecular Biology}, Volume 9, Issue 1, Article 39.
 \doi{10.2202/1544-6115.1585}.
-See also the Preprint Version \url{http://www.statsci.org/smyth/pubs/PermPValuesPreprint.pdf} with corrections.
+See also the Preprint Version \url{https://gksmyth.github.io/pubs/PermPValuesPreprint.pdf} with corrections.
 
 Routledge, RD (1994).
 Practicing safe statistics with the mid-p.

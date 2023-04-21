@@ -24,9 +24,9 @@ The bivariate values are stored as columns of \code{x}.
 \value{A plot is created on the current graphics device.}
 
 \references{
-Cleveland, W. S., (1993). Visualizing Data. Hobart Press.
+Cleveland WS (1993). \emph{Visualizing Data}. Hobart Press.
 
-Bland, J. M., and Altman, D. G. (1986). Statistical methods for assessing agreement between two methods of clinical measurement. Lancet 327, 307-310.
+Bland JM, Altman DG (1986). Statistical methods for assessing agreement between two methods of clinical measurement. \emph{Lancet} 327, 307-310.
 
 See also \url{http://www.statsci.org/micrarra/refs/maplots.html}
 }

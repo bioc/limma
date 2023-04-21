@@ -79,7 +79,7 @@ Empirical array quality weights in the analysis of microarray data.
 Smyth, G. K. (2002).
 An efficient algorithm for REML in heteroscedastic regression.
 \emph{Journal of Computational and Graphical Statistics} \bold{11}, 836-847.
-\url{http://www.statsci.org/smyth/pubs/remlalgo.pdf}
+\url{https://gksmyth.github.io/pubs/remlalgo.pdf}
 }
 
 \seealso{

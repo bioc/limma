@@ -54,7 +54,7 @@ Smyth, G. K. (2004).
 Linear models and empirical Bayes methods for assessing differential expression in microarray experiments.
 \emph{Statistical Applications in Genetics and Molecular Biology} Volume 3, Issue 1, Article 3.
 \doi{10.2202/1544-6115.1027}
-\url{http://www.statsci.org/smyth/pubs/ebayes.pdf}
+\url{https://gksmyth.github.io/pubs/ebayes.pdf}
 
 Phipson, B, Lee, S, Majewski, IJ, Alexander, WS, and Smyth, GK (2016).
 Robust hyperparameter estimation protects against hypervariable genes and improves power to detect differential expression.
