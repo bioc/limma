@@ -1,3 +1,10 @@
+22 Apr 2023: limma 3.55.10
+
+- Revisions to Notes section at the end of the User's Guide. Refer to
+  package description and help pages instead listing individual
+  co-authors. Remove citations for software projects using limma
+  because most are out-of-date.
+
 22 Apr 2023: limma 3.55.9
 
 - Update NEWS.Rd for imminent Bioconductor 3.17 Release.
