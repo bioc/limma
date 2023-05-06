@@ -1,8 +1,15 @@
+ 6 May 2023: limma 3.56.1
+
+- treat() now works when there are NA coefficients. Previously it gave
+  an error if any estimated coefficient was NA.
+
+25 Apr 2023: limma 3.56.0 (Bioconductor 3.17 Release Branch)
+
 22 Apr 2023: limma 3.55.10
 
 - Revisions to Notes section at the end of the User's Guide. Refer to
   package description and help pages instead listing individual
-  co-authors. Remove citations for software projects using limma
+  co-authors. Remove citations of software projects using limma
   because most are out-of-date.
 
 22 Apr 2023: limma 3.55.9
