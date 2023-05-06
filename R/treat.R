@@ -3,7 +3,7 @@
 treat <- function(fit, fc=1.2, lfc=NULL, trend=FALSE, robust=FALSE, winsor.tail.p=c(0.05,0.1))
 #	Moderated t-statistics relative to a logFC threshold.
 #	Davis McCarthy, Gordon Smyth
-#	25 July 2008.  Last revised 13 Mar 2021.
+#	25 July 2008.  Last revised 6 May 2023.
 {
 #	Check fit
 	if(!is(fit,"MArrayLM")) stop("fit must be an MArrayLM object")
@@ -45,6 +45,7 @@ treat <- function(fit, fc=1.2, lfc=NULL, trend=FALSE, robust=FALSE, winsor.tail.
 	fit$t <- array(0,dim(coefficients),dimnames=dimnames(coefficients))
 	fit$p.value <- pt(tstat.right, df=df.total,lower.tail=FALSE) + pt(tstat.left,df=df.total,lower.tail=FALSE)
 	tstat.right <- pmax(tstat.right,0)
+	if(anyNA(coefficients)) coefficients[is.na(coefficients)] <- 0
 	fc.up <- (coefficients > lfc)
 	fc.down <- (coefficients < -lfc)
 	fit$t[fc.up] <- tstat.right[fc.up]
