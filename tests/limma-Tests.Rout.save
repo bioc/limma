@@ -1,5 +1,5 @@
 
-R version 4.3.0 beta (2023-04-07 r84200 ucrt) -- "Already Tomorrow"
+R version 4.3.0 (2023-04-21 ucrt) -- "Already Tomorrow"
 Copyright (C) 2023 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
@@ -1246,8 +1246,6 @@ Gene95 -1.907074  1.26297763 -2.106861 0.0589594023 0.58959402 -4.4117140
 + "1370","137075","1371","137209","1373","137362","1374","137492","1375","1376",
 + "137682","137695","137735","1378","137814","137868","137872","137886","137902","137964")
 > go <- goana(fit,FDR=0.8,geneid=EB)
-Warning message:
-replacing previous import 'utils::findMatches' by 'S4Vectors::findMatches' when loading 'AnnotationDbi' 
 > topGO(go,number=10,truncate.term=30)
                                      Term Ont  N Up Down        P.Up      P.Down
 GO:0032502          developmental process  BP 24  4    7 0.871310423 0.001532528
@@ -1275,4 +1273,4 @@ GO:0009887     animal organ morphogenesis  BP  3  0    2 1.0000000 0.025788497
 > 
 > proc.time()
    user  system elapsed 
-   3.03    0.28    3.28 
+   2.87    0.51    3.51 

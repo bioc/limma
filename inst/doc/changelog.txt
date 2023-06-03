@@ -1,3 +1,8 @@
+ 3 June 2023: limma 3.57.2
+
+- Add new argument 'group' for removeBatchEffect(). Revise help page
+  example to use the new argument.
+
  6 May 2023: limma 3.57.1
 
 - treat() now works when there are NA coefficients. Previously it gave
