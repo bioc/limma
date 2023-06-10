@@ -1,0 +1,33 @@
+---
+title: limma Package Introduction
+date: "23 October 2004 (last revised 10 June 2023)"
+output:
+  BiocStyle::html_document
+vignette: >
+  %\VignetteIndexEntry{Introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  prompt = TRUE,
+  comment = NA
+)
+```
+
+Limma is an R package for the analysis of gene expression microarray data, especially the use of linear models for analysing designed experiments and the assessment of differential expression.
+Limma provides the ability to analyse comparisons between many RNA targets simultaneously in arbitrary complicated designed experiments.
+Empirical Bayesian methods are used to provide stable results even when the number of arrays is small.
+The normalization and data analysis functions are for two-color spotted microarrays.
+The linear model and differential expression functions apply to all microarray technologies including Affymetrix and other single-channel oligonucleotide platforms.
+
+The edgeR User's Guide is available by
+```{r, eval=FALSE, echo=TRUE}
+library(limma)
+limmaRUsersGuide()
+```
+or alternatively from the [limma landing page](https://bioconductor.org/packages/limma).
+
+Documentation for specific functions is available through the usual R help system, e.g., `?lmFit`.
+Further questions about the package should be directed to the [Bioconductor support site](https://support.bioconductor.org).
