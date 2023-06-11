@@ -1,6 +1,13 @@
+11 June 2023: limma 3.57.4
+
+- Use LaTeX includepdf to import usersguide.pdf into Sweave vignette.
+
+- Expand Introduction vignette.
+
 10 June 2023: limma 3.57.3
 
-- Convert vignette from Sweave and pdf to Rmarkdown and html.
+- Convert Introduction vignette from Sweave and pdf to Rmarkdown and
+  html.
 
  3 June 2023: limma 3.57.2
 
