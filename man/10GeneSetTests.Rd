@@ -18,6 +18,9 @@ This page gives an overview of the LIMMA functions for gene set testing and path
 \item{ \code{\link{camera}} }{
 	Competitive gene set testing.}
 
+\item{ \code{\link{cameraPR}} }{
+	Competitive gene set testing with a pre-ranked gene set.}
+
 \item{ \code{\link{romer}} and \code{\link{topRomer}} }{
 	Gene set enrichment analysis.}
 
