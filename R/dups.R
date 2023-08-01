@@ -108,7 +108,6 @@ duplicateCorrelation <- function(object,design=NULL,ndups=2L,spacing=1L,block=NU
 	}
 
 #	Compute genewise correlations
-	if(!requireNamespace("statmod",quietly=TRUE)) stop("statmod package required but is not installed (or can't be loaded)")
 	rho <- rep_len(NA_real_,ngenes)
 	nafun <- function(e) NA
 	for (i in 1:ngenes) {
@@ -123,9 +122,9 @@ duplicateCorrelation <- function(object,design=NULL,ndups=2L,spacing=1L,block=NU
 			Z <- model.matrix(~0+A)
 			if(!is.null(weights)) {
 				w <- drop(weights[i,])[o]
-				s <- tryCatch(suppressWarnings(statmod::mixedModel2Fit(y,X,Z,w,only.varcomp=TRUE,maxit=20)$varcomp),error=nafun)
+				s <- tryCatch(suppressWarnings(mixedModel2Fit(y,X,Z,w,only.varcomp=TRUE,maxit=20)$varcomp),error=nafun)
 			} else
-				s <- tryCatch(suppressWarnings(statmod::mixedModel2Fit(y,X,Z,only.varcomp=TRUE,maxit=20)$varcomp),error=nafun)
+				s <- tryCatch(suppressWarnings(mixedModel2Fit(y,X,Z,only.varcomp=TRUE,maxit=20)$varcomp),error=nafun)
 			if(!is.na(s[1])) rho[i] <- s[2]/sum(s)
 		}
 	}

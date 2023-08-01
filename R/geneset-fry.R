@@ -49,9 +49,7 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid=NU
 	if(!standardize=="none") {
 
 #		Estimate genewise sds robustly
-		OK <- requireNamespace("statmod",quietly=TRUE)
-		if(!OK) stop("statmod package required but isn't installed (or can't be loaded)")
-		gq <- statmod::gauss.quad.prob(128,"uniform")
+		gq <- gauss.quad.prob(128,"uniform")
 		df.residual <- ncol(Effects)-1
 		Eu2max <- sum( (df.residual+1)*gq$nodes^df.residual*qchisq(gq$nodes,df=1)*gq$weights )
 		u2max <- apply(Effects^2,1,max)

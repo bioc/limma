@@ -83,11 +83,11 @@ An overview of diagnostic functions available in LIMMA is given in \link{09.Diag
 # Samples are in two groups
 # First 50 probes are differentially expressed in second group
 sd <- 0.3*sqrt(4/rchisq(1000,df=4))
-x <- matrix(rnorm(1000*6,sd=sd),1000,6)
-rownames(x) <- paste("Gene",1:1000)
-x[1:50,4:6] <- x[1:50,4:6] + 2
+ExprMatrix <- matrix(rnorm(1000*6,sd=sd),1000,6)
+rownames(ExprMatrix) <- paste("Gene",1:1000)
+ExprMatrix[1:50,4:6] <- ExprMatrix[1:50,4:6] + 2
 # without labels, indexes of samples are plotted.
-mds <- plotMDS(x,  col=c(rep("black",3), rep("red",3)) )
+mds <- plotMDS(ExprMatrix,  col=c(rep("black",3), rep("red",3)) )
 # or labels can be provided, here group indicators:
 plotMDS(mds,  col=c(rep("black",3), rep("red",3)), labels= c(rep("Grp1",3), rep("Grp2",3)))
 }

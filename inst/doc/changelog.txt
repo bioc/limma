@@ -1,23 +1,27 @@
-19 June 2023: limma 3.57.6
+02 Aug 2023: limma 3.57.7
+
+- limma now imports statmod rather than suggesting it.
+
+19 Jun 2023: limma 3.57.6
 
 - Add BiocStyle to Suggests field of DESCRIPTION.
 
-18 June 2023: limma 3.57.5
+18 Jun 2023: limma 3.57.5
 
 - Add cameraPR() to 10GeneSetTests.Rd help topic.
 
-11 June 2023: limma 3.57.4
+11 Jun 2023: limma 3.57.4
 
 - Use LaTeX includepdf to import usersguide.pdf into Sweave vignette.
 
 - Expand Introduction vignette.
 
-10 June 2023: limma 3.57.3
+10 Jun 2023: limma 3.57.3
 
 - Convert Introduction vignette from Sweave and pdf to Rmarkdown and
   html.
 
- 3 June 2023: limma 3.57.2
+ 3 Jun 2023: limma 3.57.2
 
 - Add new argument 'group' for removeBatchEffect(). Revise help page
   example to use the new argument.

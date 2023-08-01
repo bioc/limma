@@ -111,8 +111,7 @@ fitFDistRobustly <- function(x,df1,covariate=NULL,winsor.tail.p=c(0.05,0.1),trac
 	if(trace) cat("Variance of Winsorized Fisher-z",zwvar,"\n")
 
 #	Theoretical Winsorized moments
-	if(!requireNamespace("statmod",quietly=TRUE)) stop("statmod package required but is not installed")
-	g <- statmod::gauss.quad.prob(128,dist="uniform")
+	g <- gauss.quad.prob(128,dist="uniform")
 	linkfun <- function(x) x/(1+x)
 	linkinv <- function(x) x/(1-x)
 	winsorizedMoments <- function(df1=df1,df2=df2,winsor.tail.p=winsor.tail.p) {
