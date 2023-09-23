@@ -1,3 +1,7 @@
+23 Sep 2023: limma 3.57.8
+
+- New argument `covariate` for vooma().
+
 02 Aug 2023: limma 3.57.7
 
 - limma now imports statmod rather than suggesting it.

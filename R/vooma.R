@@ -1,8 +1,9 @@
-vooma <- function(y,design=NULL,correlation,block=NULL,plot=FALSE,span=NULL)
+vooma <- function(y,design=NULL,correlation,block=NULL,plot=FALSE,span=NULL,covariate=NULL)
 # Linear modelling of microarray data with mean-variance modelling at the observational level.
+# y must not contain NAs
 # Creates an EList object for entry to lmFit() etc in the limma pipeline.
-# Gordon Smyth and Charity Law
-# Created 31 July 2012.  Last modified 17 May 2019.
+# Gordon Smyth, Charity Law, Mengbo Li.
+# Created 31 July 2012.  Last modified 23 Sep 2023.
 {
 #	Check y
 	if(!is(y,"EList")) y <- new("EList",list(E=as.matrix(y)))
@@ -35,16 +36,34 @@ vooma <- function(y,design=NULL,correlation,block=NULL,plot=FALSE,span=NULL)
 		fit <- lm.fit(X,z)
 		mu <- crossprod(cholV,fit$fitted.values)
 	}
+	mu <- t(mu)
 	s2 <- colMeans(fit$effects[-(1:fit$rank),,drop=FALSE]^2)
 
-#	Fit lowess trend to sqrt-standard-deviations by ave log intensity
+#	Prepare to predict sqrt-standard-deviations by ave log intensity
 	sx <- rowMeans(y$E)
 	sy <- sqrt(sqrt(s2))
+
+#	Optionally combine ave log intensity with covariate predictor
+	if(!is.null(covariate)) {
+		sxc <- rowMeans(covariate)
+		vartrend <- lm.fit(cbind(1,sx,sxc),sy)
+		beta <- coef(vartrend)
+#		To ease interpretation, make new sx equal to old sx plus modifications that add to zero.
+		beta <- beta/beta[2]
+		beta[1] <- -mean(beta[3]*sxc)
+		sx <- beta[1] + sx + beta[3]*sxc
+		mu <- beta[1] + mu + beta[3]*covariate
+		xlab <- "Predictor from average log2-expression and covariate"
+	} else {
+		xlab <- "Average log2 expression"
+	}
+
+#	Fit lowess trend
 	if(is.null(span)) if(ngenes<=10) span <- 1 else span <- 0.3+0.7*(10/ngenes)^0.5
 	l <- lowess(sx,sy,f=span)
 	if(plot) {
-		plot(sx,sy,xlab="Average log2 expression",ylab="Sqrt( standard deviation )",pch=16,cex=0.25)
-		title("voom: Mean-variance trend")
+		plot(sx,sy,xlab=xlab,ylab="Sqrt( standard deviation )",pch=16,cex=0.25)
+		title("vooma: Mean-variance trend")
 		lines(l,col="red")
 	}
 
@@ -52,7 +71,7 @@ vooma <- function(y,design=NULL,correlation,block=NULL,plot=FALSE,span=NULL)
 	f <- approxfun(l, rule=2, ties=list("ordered",mean))
 
 #	Apply trend to individual observations
-	w <- 1/f(t(mu))^4
+	w <- 1/f(mu)^4
 	dim(w) <- dim(y)
 	colnames(w) <- colnames(y)
 	rownames(w) <- rownames(y)

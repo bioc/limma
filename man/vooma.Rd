@@ -9,10 +9,11 @@ Estimate the mean-variance relationship and use this to compute appropriate obse
 }
 
 \usage{
-vooma(y, design=NULL, correlation, block=NULL, plot=FALSE, span=NULL)
-voomaByGroup(y, group, design=NULL, correlation, block=NULL,
-             plot=FALSE, span=NULL, col=NULL, lwd=1, alpha=0.5,
-             pch=16, cex=0.3, legend="topright")
+vooma(y, design = NULL, correlation, block = NULL, plot = FALSE,
+      span = NULL, covariate = NULL)
+voomaByGroup(y, group, design = NULL, correlation, block = NULL,
+             plot = FALSE, span = NULL, col = NULL, lwd = 1, alpha = 0.5,
+             pch = 16, cex = 0.3, legend = "topright")
 }
 
 \arguments{
@@ -21,6 +22,7 @@ voomaByGroup(y, group, design=NULL, correlation, block=NULL,
   \item{block}{vector or factor specifying a blocking variable on the arrays. Has length equal to the number of arrays.}
   \item{correlation}{intra-block correlation}
   \item{span}{width of the smoothing window, as a proportion of the data set.}
+  \item{covariate}{numeric matrix of the same dimensions as \code{y} containing a covariate to be combined with log-intensity to predict the variance.}
   \item{plot}{\code{logical} value indicating whether a plot of mean-variance trend should be displayed.}
   \item{group}{categorical vector or factor giving group membership of columns of \code{y}.}
   \item{col}{vector of colors for plotting group trends}
