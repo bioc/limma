@@ -3,7 +3,7 @@ vooma <- function(y,design=NULL,correlation,block=NULL,plot=FALSE,span=NULL,cova
 # y must not contain NAs
 # Creates an EList object for entry to lmFit() etc in the limma pipeline.
 # Gordon Smyth, Charity Law, Mengbo Li.
-# Created 31 July 2012.  Last modified 23 Sep 2023.
+# Created 31 July 2012.  Last modified 29 Sep 2023.
 {
 #	Check y
 	if(!is(y,"EList")) y <- new("EList",list(E=as.matrix(y)))
@@ -48,11 +48,8 @@ vooma <- function(y,design=NULL,correlation,block=NULL,plot=FALSE,span=NULL,cova
 		sxc <- rowMeans(covariate)
 		vartrend <- lm.fit(cbind(1,sx,sxc),sy)
 		beta <- coef(vartrend)
-#		To ease interpretation, make new sx equal to old sx plus modifications that add to zero.
-		beta <- beta/beta[2]
-		beta[1] <- -mean(beta[3]*sxc)
-		sx <- beta[1] + sx + beta[3]*sxc
-		mu <- beta[1] + mu + beta[3]*covariate
+		sx <- vartrend$fitted.values
+		mu <- beta[1] + beta[2]*mu + beta[3]*covariate
 		xlab <- "Predictor from average log2-expression and covariate"
 	} else {
 		xlab <- "Average log2 expression"
