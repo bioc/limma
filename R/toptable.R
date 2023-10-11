@@ -3,7 +3,7 @@
 topTable <- function(fit,coef=NULL,number=10,genelist=fit$genes,adjust.method="BH",sort.by="B",resort.by=NULL,p.value=1,fc=NULL,lfc=NULL,confint=FALSE)
 #	Summary table of top genes, object-orientated version
 #	Gordon Smyth
-#	4 August 2003.  Last modified 20 Aug 2022.
+#	4 August 2003.  Last modified 11 October 2023.
 {
 #	Check fit
 	if(!is(fit,"MArrayLM")) stop("fit must be an MArrayLM object")
@@ -26,6 +26,9 @@ topTable <- function(fit,coef=NULL,number=10,genelist=fit$genes,adjust.method="B
 		} else
 			coef <- ncol(fit)
 	}
+
+#	Check adjust.method
+	if(is.null(adjust.method)) adjust.method <- "BH"
 
 #	Set log2-fold-change cutoff
 	if(is.null(fc)) {

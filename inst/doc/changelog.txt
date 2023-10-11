@@ -1,3 +1,9 @@
+11 Oct 2023: limma 3.57.10
+
+- Fix behaviour of topTable() with `adjust.method=NULL` so that it
+  gives "BH" adjustment as documented. Previously the argument was
+  passed to p.adjust() which gave "holm" adjustment.
+
 29 Sep 2023: limma 3.57.9
 
 - Simplify the x-axis for the mean-variance plot from vooma() when
