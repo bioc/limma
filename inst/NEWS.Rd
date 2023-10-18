@@ -3,6 +3,44 @@
 \encoding{UTF-8}
 
 
+\section{Version 3.58.0}{\itemize{
+
+  \item
+  New argument `covariate` for vooma(), which allows the variance
+  trend to depend on extra covariates in addition to average
+  log-expression.
+
+  \item
+  New argument 'group' to simplify the typical calling sequence for removeBatchEffect().
+  The `group` argument provides an alternative and possibly simpler way to specify the experimental conditions to be preserved.
+
+  \item
+  treat() now works when there are NA coefficients. Previously it gave
+  an error if any estimated coefficient was NA.
+
+  \item
+  Fix behaviour of topTable() with `adjust.method=NULL` so that it
+  gives "BH" adjustment as documented. Previously the argument was
+  passed to p.adjust(), which gave "holm" adjustment.
+
+  \item
+  Convert Introduction vignette from Sweave/pdf from to Rmarkdown/html.
+  The Introduction vignette is also somewhat expanded.
+
+  \item
+  cameraPR() has been addeed to the `10GeneSetTests.Rd` help topic.
+
+  \item
+  The pdf limma User's Guide is now formally listed as a vignette.
+
+  \item
+  Non-user-visible changes:
+  limma now imports statmod rather than suggesting it.
+  BiocStyle has been added to the Suggests field of DESCRIPTION.
+
+}}
+
+
 \section{Version 3.56.0}{\itemize{
 
   \item

@@ -1,3 +1,7 @@
+18 Oct 2023: limma 3.57.11
+
+- Update NEWS.Rd for imminent Bioconductor 3.18 Release.
+
 11 Oct 2023: limma 3.57.10
 
 - Fix behaviour of topTable() with `adjust.method=NULL` so that it
