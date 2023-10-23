@@ -3,7 +3,7 @@
 lmFit <- function(object,design=NULL,ndups=NULL,spacing=NULL,block=NULL,correlation,weights=NULL,method="ls",...)
 #	Fit genewise linear models
 #	Gordon Smyth
-#	30 June 2003.  Last modified 15 May 2022.
+#	30 June 2003.  Last modified 24 October 2023.
 {
 #	Extract components from object
 	if(inherits(object,"data.frame")) {
@@ -62,9 +62,10 @@ lmFit <- function(object,design=NULL,ndups=NULL,spacing=NULL,block=NULL,correlat
 	}
 
 #	Dispatch fitting algorithms
-	if(method=="robust")
+	if(method=="robust") {
+		if(!is.null(block) || ndups>1) warning("Correlation cannot be combined with robust regression. If you wish to use blocking or duplicate correlation, then use least squares regression.")
 		fit <- mrlm(y$exprs,design=design,ndups=ndups,spacing=spacing,weights=weights,...)
-	else
+	} else
 		if(ndups < 2 && is.null(block))
 			fit <- lm.series(y$exprs,design=design,ndups=ndups,spacing=spacing,weights=weights)
 		else {

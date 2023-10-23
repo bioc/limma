@@ -16,7 +16,7 @@ lmFit(object, design = NULL, ndups = NULL, spacing = NULL, block = NULL, correla
   \item{block}{vector or factor specifying a blocking variable on the arrays. Has length equal to the number of arrays. Must be \code{NULL} if \code{ndups>2}.}
   \item{correlation}{the inter-duplicate or inter-technical replicate correlation}
   \item{weights}{non-negative precision weights.  Can be a numeric matrix of individual weights of same size as the object expression matrix, or a numeric vector of array weights with length equal to \code{ncol} of the expression matrix, or a numeric vector of gene weights with length equal to \code{nrow} of the expression matrix.}
-  \item{method}{fitting method; \code{"ls"} for least squares or \code{"robust"} for robust regression}
+  \item{method}{fitting method; \code{"ls"} for least squares or \code{"robust"} for robust regression. Note that the \code{block} and \code{correlation} arguments will be ignored if \code{method="robust"}.}
   \item{\dots}{other optional arguments to be passed to \code{lm.series}, \code{gls.series} or \code{mrlm}}
 }
 
@@ -64,6 +64,7 @@ The actual linear model computations are done by passing the data to one the low
 The function \code{mrlm} is used if \code{method="robust"}.
 If \code{method="ls"}, then \code{gls.series} is used if a correlation structure has been specified, i.e., if \code{ndups>1} or \code{block} is non-null and \code{correlation} is different from zero.
 If \code{method="ls"} and there is no correlation structure, \code{lm.series} is used.
+If \code{method="robust"} then any correlation structure will be ignored.
 }
 
 \seealso{

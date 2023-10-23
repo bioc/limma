@@ -1,3 +1,8 @@
+24 Oct 2023: limma 3.57.12
+
+- Add warning to lmFit() and more explanation to lmFit.Rd to explain
+  that correlation cannot be combined with method="robust".
+
 18 Oct 2023: limma 3.57.11
 
 - Update NEWS.Rd for imminent Bioconductor 3.18 Release.
