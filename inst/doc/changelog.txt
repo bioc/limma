@@ -1,3 +1,6 @@
+25 Oct 2023: limma 3.59.0 (Bioconductor 3.19 Developmental Branch)
+25 Oct 2023: limma 3.58.0 (Bioconductor 3.18 Release Branch)
+
 24 Oct 2023: limma 3.57.12
 
 - Add warning to lmFit() and more explanation to lmFit.Rd to explain
