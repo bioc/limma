@@ -66,15 +66,17 @@ Also see the limma User's Guide for a discussion of the statistical properties o
 }
 
 \note{
-Although this function enables users to set p-value and lfc cutoffs simultaneously, this combination criterion is not generally recommended.
+Although this function enables users to set p-value and lfc cutoffs simultaneously, this combination criterion is not recommended.
+logFC cutoffs tend to favor low expressed genes and thereby reduce rather than increase biological significance.
 Unless the fold changes and p-values are very highly correlated, the addition of a fold change cutoff can increase the family-wise error rate or false discovery rate above the nominal level.
 Users wanting to use fold change thresholding are recommended to use \code{treat} instead of \code{eBayes} and to leave \code{lfc} at the default value when using \code{decideTests}.
 }
 
 \references{
-Michaud, J, Simpson, KM, Escher, R, Buchet-Poyau, K, Beissbarth, T, Carmichael, C, Ritchie, ME, Schutz, F, Cannon, P, Liu, M, Shen, X, Ito, Y, Raskind, WH, Horwitz, MS, Osato, M, Turner, DR, Speed, TP, Kavallaris, M, Smyth, GK, and Scott, HS (2008).
+Michaud J, Simpson KM, Escher R, Buchet-Poyau K, Beissbarth T, Carmichael C, Ritchie ME, Schutz F, Cannon P, Liu M, Shen X, Ito Y, Raskind WH, Horwitz MS, Osato M, Turner DR, Speed TP, Kavallaris M, Smyth GK, Scott HS (2008).
 Integrative analysis of RUNX1 downstream pathways and target genes.
 \emph{BMC Genomics} 9, 363. 
+\doi{10.1186/1471-2164-9-363}
 }
 
 \seealso{
