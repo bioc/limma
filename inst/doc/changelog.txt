@@ -1,3 +1,10 @@
+30 Oct 2023: limma 3.59.1
+
+- Minor edits to decideTests.Rd.
+
+- Update limma-Tests.Rout.save for Bioconductor 3.18 organism
+  packages.
+
 25 Oct 2023: limma 3.59.0 (Bioconductor 3.19 Developmental Branch)
 25 Oct 2023: limma 3.58.0 (Bioconductor 3.18 Release Branch)
 
