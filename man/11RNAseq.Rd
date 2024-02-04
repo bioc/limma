@@ -43,6 +43,8 @@ limma powers differential expression analyses for RNA-sequencing and microarray 
 See also the edgeR package for normalization and data summaries of RNA-seq data, as well as for alternative differential expression methods based on the negative binomial distribution.
 \code{voom} accepts DGEList objects and normalization factors from edgeR.
 
+The edgeR function \code{voomLmFit} is a drop-in replacement for either \code{voom} or \code{voomWithQualityWeights}.
+
 \link{01.Introduction},
 \link{02.Classes},
 \link{03.ReadingData},

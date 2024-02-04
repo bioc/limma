@@ -1,3 +1,12 @@
+ 4 Feb 2024: limma 3.59.2
+
+- vooma() argument `covariate` renamed to `predictor`.
+- Changes to title and xlab for vooma variance trend plot when `predictor` is non-NULL.
+- The default `span` estimated by vooma() is increased.
+- The order of arguments for vooma() is adjusted to match \code{voom()} and \code{lmFit()}.
+- Example added to the vooma() help page.
+- Edits to the help pages for voom(), voomWithQualityWeights(), vooma() and 11RNAseq.Rd.
+
 30 Oct 2023: limma 3.59.1
 
 - Minor edits to decideTests.Rd.

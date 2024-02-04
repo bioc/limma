@@ -1,9 +1,13 @@
-vooma <- function(y,design=NULL,correlation,block=NULL,plot=FALSE,span=NULL,covariate=NULL)
-# Linear modelling of microarray data with mean-variance modelling at the observational level.
-# y must not contain NAs
+vooma <- function(y,design=NULL,block=NULL,correlation,predictor=NULL,span=NULL,plot=FALSE)
+# Linear modelling of continuous log-expression data
+#   with mean-variance modelling at the observational level.
+# Analogous to voom() but for non-count data and
+#   estimates `span` from nrow(y) and
+#   incorporates an extra optional precision predictor in addition to average log-expression.
+# y must not contain NAs.
 # Creates an EList object for entry to lmFit() etc in the limma pipeline.
 # Gordon Smyth, Charity Law, Mengbo Li.
-# Created 31 July 2012.  Last modified 29 Sep 2023.
+# Created 31 July 2012.  Last modified 4 Feb 2024.
 {
 #	Check y
 	if(!is(y,"EList")) y <- new("EList",list(E=as.matrix(y)))
@@ -43,24 +47,26 @@ vooma <- function(y,design=NULL,correlation,block=NULL,plot=FALSE,span=NULL,cova
 	sx <- rowMeans(y$E)
 	sy <- sqrt(sqrt(s2))
 
-#	Optionally combine ave log intensity with covariate predictor
-	if(!is.null(covariate)) {
-		sxc <- rowMeans(covariate)
+#	Optionally combine ave log intensity with precision predictor
+	if(!is.null(predictor)) {
+		sxc <- rowMeans(predictor)
 		vartrend <- lm.fit(cbind(1,sx,sxc),sy)
 		beta <- coef(vartrend)
 		sx <- vartrend$fitted.values
-		mu <- beta[1] + beta[2]*mu + beta[3]*covariate
-		xlab <- "Predictor from average log2-expression and covariate"
+		mu <- beta[1] + beta[2]*mu + beta[3]*predictor
+		xlab <- "Combined predictor"
+		main.title <- "vooma variance trend"
 	} else {
-		xlab <- "Average log2 expression"
+		xlab <- "Average log-expression"
+		main.title <- "vooma mean-variance trend"
 	}
 
 #	Fit lowess trend
-	if(is.null(span)) if(ngenes<=10) span <- 1 else span <- 0.3+0.7*(10/ngenes)^0.5
+	if(is.null(span)) if(ngenes<=50) span <- 1 else span <- 0.3+0.7*(50/ngenes)^0.4
 	l <- lowess(sx,sy,f=span)
 	if(plot) {
 		plot(sx,sy,xlab=xlab,ylab="Sqrt( standard deviation )",pch=16,cex=0.25)
-		title("vooma: Mean-variance trend")
+		title(main.title)
 		lines(l,col="red")
 	}
 
@@ -81,9 +87,12 @@ vooma <- function(y,design=NULL,correlation,block=NULL,plot=FALSE,span=NULL,cova
 	y
 }
 
-voomaByGroup <- function(y,group,design=NULL,correlation,block=NULL,plot=FALSE,span=NULL,col=NULL,lwd=1,alpha=0.5,pch=16,cex=0.3,legend="topright")
+voomaByGroup <- function(y,group,design=NULL,block=NULL,correlation,
+  span=NULL,plot=FALSE,col=NULL,lwd=1,
+  pch=16,cex=0.3,alpha=0.5,legend="topright")
 #	Vooma by group
-#	Linear modelling of microarray data with mean-variance modelling at the observational level by fitting group-specific trends.
+#	Linear modelling of microarray data with mean-variance modeling
+#	at the observational level by fitting group-specific trends.
 #	Creates an EList object for entry to lmFit() etc in the limma pipeline.
 #	Charity Law and Gordon Smyth
 #	Created 13 Feb 2013.  Modified 8 Sept 2014.
