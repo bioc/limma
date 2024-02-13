@@ -1,8 +1,8 @@
 13 Feb 2024: limma 3.59.3
 
 - New argument `legacy` for vooma() to optionally restore the old
-  default settings for `span`, intended for users who want
-  backward compatibility.
+  default settings for `span`, for users who want backward
+  compatibility.
 
  4 Feb 2024: limma 3.59.2
 
@@ -2621,8 +2621,8 @@ org.Hs.eg.db 3.8.1
 
 10 March 2013: limma 3.15.15
 
-- new function voomaByGroup(), similar to vooma() but with different
-  variances for different groups.
+- new function voomaByGroup(), similar to vooma() but with separate
+  mean-variance curves for different groups.
 
 - vennDiagram() can now plot up to five sets (previously limited to
   three).
