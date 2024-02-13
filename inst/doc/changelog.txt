@@ -1,11 +1,27 @@
+13 Feb 2024: limma 3.59.3
+
+- New argument `legacy` for vooma() to optionally restore the old
+  default settings for `span`, intended for users who want
+  backward compatibility.
+
  4 Feb 2024: limma 3.59.2
 
 - vooma() argument `covariate` renamed to `predictor`.
-- Changes to title and xlab for vooma variance trend plot when `predictor` is non-NULL.
-- The default `span` estimated by vooma() is increased.
-- The order of arguments for vooma() is adjusted to match \code{voom()} and \code{lmFit()}.
+
+- Changes to title and xlab for vooma variance trend plot when
+  `predictor` is non-NULL.
+
+- The default `span` set by vooma() is slightly increased. It is still
+  dependent on the number of genes but the curve is now slightly
+  higher curve.
+
+- The order of arguments for vooma() is adjusted to match voom() and
+  lmFit().
+
 - Example added to the vooma() help page.
-- Edits to the help pages for voom(), voomWithQualityWeights(), vooma() and 11RNAseq.Rd.
+
+- Edits to the help pages for voom(), voomWithQualityWeights(),
+  vooma() and 11RNAseq.Rd.
 
 30 Oct 2023: limma 3.59.1
 

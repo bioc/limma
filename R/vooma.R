@@ -1,4 +1,4 @@
-vooma <- function(y,design=NULL,block=NULL,correlation,predictor=NULL,span=NULL,plot=FALSE)
+vooma <- function(y,design=NULL,block=NULL,correlation,predictor=NULL,span=NULL,legacy=FALSE,plot=FALSE)
 # Linear modelling of continuous log-expression data
 #   with mean-variance modelling at the observational level.
 # Analogous to voom() but for non-count data and
@@ -7,7 +7,7 @@ vooma <- function(y,design=NULL,block=NULL,correlation,predictor=NULL,span=NULL,
 # y must not contain NAs.
 # Creates an EList object for entry to lmFit() etc in the limma pipeline.
 # Gordon Smyth, Charity Law, Mengbo Li.
-# Created 31 July 2012.  Last modified 4 Feb 2024.
+# Created 31 July 2012.  Last modified 12 Feb 2024.
 {
 #	Check y
 	if(!is(y,"EList")) y <- new("EList",list(E=as.matrix(y)))
@@ -61,8 +61,14 @@ vooma <- function(y,design=NULL,block=NULL,correlation,predictor=NULL,span=NULL,
 		main.title <- "vooma mean-variance trend"
 	}
 
+#	Choose span based on the number of genes
+	if(is.null(span))
+		if(legacy)
+			if(ngenes<=10) span <- 1 else span <- 0.3+0.7*(10/ngenes)^0.5
+		else
+			if(ngenes<=50) span <- 1 else span <- 0.3+0.7*(50/ngenes)^0.4
+
 #	Fit lowess trend
-	if(is.null(span)) if(ngenes<=50) span <- 1 else span <- 0.3+0.7*(50/ngenes)^0.4
 	l <- lowess(sx,sy,f=span)
 	if(plot) {
 		plot(sx,sy,xlab=xlab,ylab="Sqrt( standard deviation )",pch=16,cex=0.25)
@@ -88,14 +94,14 @@ vooma <- function(y,design=NULL,block=NULL,correlation,predictor=NULL,span=NULL,
 }
 
 voomaByGroup <- function(y,group,design=NULL,block=NULL,correlation,
-  span=NULL,plot=FALSE,col=NULL,lwd=1,
+  span=NULL,legacy=FALSE,plot=FALSE,col=NULL,lwd=1,
   pch=16,cex=0.3,alpha=0.5,legend="topright")
 #	Vooma by group
 #	Linear modelling of microarray data with mean-variance modeling
 #	at the observational level by fitting group-specific trends.
 #	Creates an EList object for entry to lmFit() etc in the limma pipeline.
 #	Charity Law and Gordon Smyth
-#	Created 13 Feb 2013.  Modified 8 Sept 2014.
+#	Created 13 Feb 2013.  Modified 13 Sept 2024.
 {
 #	Check y
 	if(!is(y,"EList")) y <- new("EList",list(E=as.matrix(y)))
@@ -128,7 +134,7 @@ voomaByGroup <- function(y,group,design=NULL,block=NULL,correlation,
 		i <- intgroup==lev
 		yi <- y[,i]
 		designi <- design[i,,drop=FALSE]
-		voomi <- vooma(y=yi,design=designi,correlation=correlation, block=block[i], plot=FALSE, span=span)
+		voomi <- vooma(y=yi,design=designi,correlation=correlation, block=block[i], plot=FALSE, span=span, legacy=legacy)
 		w[,i] <- voomi$weights
 		sx[,lev] <- voomi$meanvar.trend$x
 		sy[,lev] <- voomi$meanvar.trend$y	

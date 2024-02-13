@@ -10,10 +10,10 @@ Estimate the mean-variance relationship and use it to compute appropriate observ
 
 \usage{
 vooma(y, design = NULL, block = NULL, correlation,
-      predictor = NULL, span = NULL, plot = FALSE)
+      predictor = NULL, span = NULL, legacy = FALSE, plot = FALSE)
 
 voomaByGroup(y, group, design = NULL, block = NULL, correlation,
-             span = NULL, plot = FALSE, col = NULL, lwd = 1,
+             span = NULL, legacy = FALSE, plot = FALSE, col = NULL, lwd = 1,
              pch = 16, cex = 0.3, alpha = 0.5, legend = "topright")
 }
 
@@ -32,7 +32,8 @@ voomaByGroup(y, group, design = NULL, block = NULL, correlation,
     Defaults to a value that depends the number of genes (\code{nrow(y)}).
     Equal to 1 if the number of genes is less than or equal to 50, then decreases slowly to 0.3 if the number of genes is very large.
   }
-  \item{plot}{\code{logical} value indicating whether a plot of mean-variance trend should be displayed.}
+  \item{legacy}{logical. If \code{TRUE}, then the original default setting will be used for \code{span}, which is slightly smaller than the new default.}
+  \item{plot}{logical. If \code{TRUE}, a plot of the mean-variance trend is displayed.}
   \item{group}{categorical vector or factor giving group membership of columns of \code{y}.}
   \item{col}{vector of colors for plotting group trends}
   \item{lwd}{line width for plotting group trends}
@@ -51,17 +52,25 @@ The mean-variance trend is estimated from gene-level data but is extrapolated ba
 The weights can then used by other functions such as \code{lmFit} to adjust for heteroscedasticity.
 
 \code{vooma} has a couple of enhancements compared to \code{voom}.
-An optimal value is estimated for the \code{span} argument from the number of genes \code{ngenes = nrow(y)}.
+An optimal value is estimated for the \code{span} argument depending on the number of genes \code{ngenes = nrow(y)}.
 If \code{ngenes <= 50} then \code{span <- 1}.
 Otherwise \code{span <- 0.3 + 0.7*(50/ngenes)^0.4}.
 This ensures that \code{span} gradually decreases towards a minimum of 0.3 as the number of genes becomes very large.
+
+The current formula for \code{span} was introduced in limma version 3.59.2.
+Prior to that, the setting for \code{span} was similar but slightly smaller in most cases.
+The difference mainly affects datasets with only a small number of genes.
+For example, with 1000 genes, the old setting for \code{span} was 0.37 whereas the new value is 0.51.
+If desired, the previous setting for \code{span} can be restored by setting \code{legacy=TRUE}.
 
 Another enhancement is that the variance can be modeled using a second optional \code{predictor} as well as in terms of log-expression.
 If \code{predictor} is not \code{NULL}, then the variance trend is modeled as a function of both the mean log-expression and the \code{predictor} using a multiple linear regression with the two predictors.
 In this case, the \code{predictor} is some prior predictor of the precision or standard deviation of each log-expression value.
 Any \code{predictor} that is correlated with the precision of each observation should give good results.
 
-\code{voomaByGroup} estimates precision weights separately for each group.  In other words, it allows for different mean-variance curves in different groups.
+\code{voomaByGroup} estimates precision weights separately for different groups of samples.
+In other words, it allows for different mean-variance curves in different groups.
+\code{voomaByGroup} assumes that the \code{design} matrix defines a oneway layout.
 }
 
 \value{

@@ -15,7 +15,7 @@ read.columns(file, required.col=NULL, text.to.search="", sep="\t", quote="\"", s
   \item{sep}{the field separator character}
   \item{quote}{character string of characters to be treated as quote marks}
   \item{skip}{the number of lines of the data file to skip before beginning to read data.} 
-  \item{fill}{logical: if \code{TRUE} then in case the rows have unequal length, blank fields are implicitly added.} 
+  \item{fill}{logical. If \code{TRUE} then in case the rows have unequal length, blank fields are implicitly added.} 
   \item{blank.lines.skip}{logical: if \code{TRUE} blank lines in the input are ignored.}
   \item{comment.char}{character: a character vector of length one containing a single character or an empty string.}
   \item{allowEscapes}{logical. Should C-style escapes such as \samp{\\n} be processed or read verbatim (the default)?} 
