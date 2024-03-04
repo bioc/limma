@@ -180,10 +180,12 @@ voomaLmFit <- function(
 	}
 	if(SampleWeights) {
 		fit$targets <- y$targets
-		if(is.null(fit$targets))
+		if(is.null(fit$targets)) {
 			fit$targets <- data.frame(sample.weight=sw)
-		else
+			row.names(fit$targets) <- colnames(y)
+		} else {
 			fit$targets$sample.weight <- sw
+		}
 	}
 	fit$weights <- weights
 	fit$span <- span
