@@ -1,4 +1,4 @@
-voom <- function(counts,design=NULL,lib.size=NULL,normalize.method="none",block=NULL,correlation=NULL,weights=NULL,span=0.5,plot=FALSE,save.plot=FALSE)
+voom <- function(counts,design=NULL,lib.size=NULL,normalize.method="none",block=NULL,correlation=NULL,weights=NULL,span=0.5,adaptive.span=FALSE,plot=FALSE,save.plot=FALSE)
 #	Linear modelling of count data with mean-variance modelling at the observation level.
 #	Creates an EList object for entry to lmFit() etc in the limma pipeline.
 #	Gordon Smyth and Charity Law
@@ -25,8 +25,8 @@ voom <- function(counts,design=NULL,lib.size=NULL,normalize.method="none",block=
 	}
 
 #	Check counts
-	n <- nrow(counts)
-	if(n < 2L) stop("Need at least two genes to fit a mean-variance trend")
+	ngenes <- nrow(counts)
+	if(ngenes < 2L) stop("Need at least two genes to fit a mean-variance trend")
 	m <- min(counts)
 	if(is.na(m)) stop("NA counts not allowed")
 	if(m < 0) stop("Negative counts not allowed")
@@ -40,6 +40,11 @@ voom <- function(counts,design=NULL,lib.size=NULL,normalize.method="none",block=
 
 #	Check lib.size
 	if(is.null(lib.size)) lib.size <- colSums(counts)
+
+#	Choose span based on the number of genes
+	if(adaptive.span)
+		if(ngenes<=50) span <- 1 else span <- 0.3+0.7*(50/ngenes)^0.4
+
 
 #	Fit linear model to log2-counts-per-million
 	y <- t(log2(t(counts+0.5)/(lib.size+1)*1e6))
@@ -112,7 +117,7 @@ voom <- function(counts,design=NULL,lib.size=NULL,normalize.method="none",block=
 	else
 		out$targets$lib.size <- lib.size
 	if(save.plot) {
-		out$voom.xy <- list(x=sx,y=sy,xlab="log2( count size + 0.5 )",ylab="Sqrt( standard deviation )")
+		out$voom.xy <- list(x=sx,y=sy,xlab="log2( count size + 0.5 )",ylab="Sqrt( standard deviation )",pch=16,cex=0.25)
 		out$voom.line <- l
 	}
 

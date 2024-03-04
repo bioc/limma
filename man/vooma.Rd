@@ -2,18 +2,19 @@
 \alias{vooma}
 \alias{voomaByGroup}
 
-\title{Convert Mean-Variance Trend to Observation-specific Precision Weights for Microarray-style Data}
+\title{Convert Variance Trend to Observation Precision Weights for Microarray-style Data}
 
 \description{
-Estimate the mean-variance relationship and use it to compute appropriate observational-level weights.
+Estimate the variance trend for microarray data and use it to compute appropriate observational-level weights.
+The variance trend optionally depends on a second predictor as well as on average log-expression.
 }
 
 \usage{
 vooma(y, design = NULL, block = NULL, correlation,
-      predictor = NULL, span = NULL, legacy = FALSE, plot = FALSE)
+      predictor = NULL, span = NULL, legacy.span = FALSE, plot = FALSE, save.plot = FALSE)
 
 voomaByGroup(y, group, design = NULL, block = NULL, correlation,
-             span = NULL, legacy = FALSE, plot = FALSE, col = NULL, lwd = 1,
+             span = NULL, legacy.span = FALSE, plot = FALSE, col = NULL, lwd = 1,
              pch = 16, cex = 0.3, alpha = 0.5, legend = "topright")
 }
 
@@ -32,8 +33,11 @@ voomaByGroup(y, group, design = NULL, block = NULL, correlation,
     Defaults to a value that depends the number of genes (\code{nrow(y)}).
     Equal to 1 if the number of genes is less than or equal to 50, then decreases slowly to 0.3 if the number of genes is very large.
   }
-  \item{legacy}{logical. If \code{TRUE}, then the original default setting will be used for \code{span}, which is slightly smaller than the new default.}
+  \item{legacy.span}{logical. If \code{TRUE}, then the original default setting will be used for \code{span}, which is slightly smaller than the new default.}
   \item{plot}{logical. If \code{TRUE}, a plot of the mean-variance trend is displayed.}
+  \item{save.plot}{
+    logical, should the coordinates and line of the plot be saved in the output?
+  }
   \item{group}{categorical vector or factor giving group membership of columns of \code{y}.}
   \item{col}{vector of colors for plotting group trends}
   \item{lwd}{line width for plotting group trends}
@@ -65,7 +69,7 @@ If desired, the previous setting for \code{span} can be restored by setting \cod
 
 Another enhancement is that the variance can be modeled using a second optional \code{predictor} as well as in terms of log-expression.
 If \code{predictor} is not \code{NULL}, then the variance trend is modeled as a function of both the mean log-expression and the \code{predictor} using a multiple linear regression with the two predictors.
-In this case, the \code{predictor} is some prior predictor of the precision or standard deviation of each log-expression value.
+In this case, the \code{predictor} is assumed to be some prior predictor of the precision or standard deviation of each log-expression value.
 Any \code{predictor} that is correlated with the precision of each observation should give good results.
 
 \code{voomaByGroup} estimates precision weights separately for different groups of samples.
@@ -79,7 +83,9 @@ An EList object with the following components:
 \item{weights}{numeric matrix of observation precision weights.}
 \item{design}{numeric matrix of experimental design.}
 \item{genes}{data-frame of gene annotation, only if \code{counts} was a \code{DGEList} object.}
- }
+\item{voom.xy}{if \code{save.plot}, list containing x and y coordinates for points in mean-variance plot}
+\item{voom.line}{if \code{save.plot}, list containing coordinates of lowess line in the mean-variance plot}
+}
 
 \author{Charity Law and Gordon Smyth}
 

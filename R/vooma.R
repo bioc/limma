@@ -1,13 +1,9 @@
-vooma <- function(y,design=NULL,block=NULL,correlation,predictor=NULL,span=NULL,legacy=FALSE,plot=FALSE)
-# Linear modelling of continuous log-expression data
-#   with mean-variance modelling at the observational level.
-# Analogous to voom() but for non-count data and
-#   estimates `span` from nrow(y) and
-#   incorporates an extra optional precision predictor in addition to average log-expression.
-# y must not contain NAs.
-# Creates an EList object for entry to lmFit() etc in the limma pipeline.
-# Gordon Smyth, Charity Law, Mengbo Li.
-# Created 31 July 2012.  Last modified 12 Feb 2024.
+vooma <- function(y,design=NULL,block=NULL,correlation,predictor=NULL,span=NULL,legacy.span=FALSE,plot=FALSE,save.plot=FALSE)
+#	Linear modelling of continuous log-expression data with mean-variance modeling at the observational level.
+#	Analogous to voom() but for non-count data.
+#	y must not contain NAs.
+#	Gordon Smyth, Charity Law, Mengbo Li.
+#	Created 31 July 2012.  Last modified 13 Feb 2024.
 {
 #	Check y
 	if(!is(y,"EList")) y <- new("EList",list(E=as.matrix(y)))
@@ -63,7 +59,7 @@ vooma <- function(y,design=NULL,block=NULL,correlation,predictor=NULL,span=NULL,
 
 #	Choose span based on the number of genes
 	if(is.null(span))
-		if(legacy)
+		if(legacy.span)
 			if(ngenes<=10) span <- 1 else span <- 0.3+0.7*(10/ngenes)^0.5
 		else
 			if(ngenes<=50) span <- 1 else span <- 0.3+0.7*(50/ngenes)^0.4
@@ -86,15 +82,19 @@ vooma <- function(y,design=NULL,block=NULL,correlation,predictor=NULL,span=NULL,
 	rownames(w) <- rownames(y)
 
 #	Output
-	y$meanvar.trend <- list(x=sx,y=sy)
 	y$weights <- w
 	y$design <- design
 	y$span <- span
+	if(save.plot) {
+		fit$voom.xy <- list(x=sx,y=sy,xlab=xlab,ylab="Sqrt( standard deviation )",pch=16,cex=0.25)
+		fit$voom.line <- l
+		fit$voom.line$col <- "red"
+	}
 	y
 }
 
 voomaByGroup <- function(y,group,design=NULL,block=NULL,correlation,
-  span=NULL,legacy=FALSE,plot=FALSE,col=NULL,lwd=1,
+  span=NULL,legacy.span=FALSE,plot=FALSE,col=NULL,lwd=1,
   pch=16,cex=0.3,alpha=0.5,legend="topright")
 #	Vooma by group
 #	Linear modelling of microarray data with mean-variance modeling
@@ -134,7 +134,7 @@ voomaByGroup <- function(y,group,design=NULL,block=NULL,correlation,
 		i <- intgroup==lev
 		yi <- y[,i]
 		designi <- design[i,,drop=FALSE]
-		voomi <- vooma(y=yi,design=designi,correlation=correlation, block=block[i], plot=FALSE, span=span, legacy=legacy)
+		voomi <- vooma(y=yi,design=designi,correlation=correlation, block=block[i], plot=FALSE, span=span, legacy.span=legacy.span)
 		w[,i] <- voomi$weights
 		sx[,lev] <- voomi$meanvar.trend$x
 		sy[,lev] <- voomi$meanvar.trend$y	

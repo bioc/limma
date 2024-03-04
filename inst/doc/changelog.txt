@@ -1,3 +1,16 @@
+04 Mar 2024: limma 3.59.4
+
+- New function voomaLmFit() to automate estimation of sample weights
+  and intrablock correlation from vooma().
+
+- New argument `save.plot` for vooma().
+
+- Edits to vooma.Rd title and description.
+
+- New argument `adaptive.span` for voom().
+
+- Argument `legacy` for vooma() renamed to `legacy.span`.
+
 13 Feb 2024: limma 3.59.3
 
 - New argument `legacy` for vooma() to optionally restore the old

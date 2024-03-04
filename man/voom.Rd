@@ -9,7 +9,7 @@ The logCPM and associated precision weights are then ready for linear modeling.
 \usage{
 voom(counts, design = NULL, lib.size = NULL, normalize.method = "none",
      block = NULL, correlation = NULL, weights = NULL,
-     span = 0.5, plot = FALSE, save.plot = FALSE)
+     span = 0.5, adaptive.span = FALSE, plot = FALSE, save.plot = FALSE)
 }
 
 \arguments{
@@ -47,6 +47,10 @@ voom(counts, design = NULL, lib.size = NULL, normalize.method = "none",
   \item{span}{
     width of the smoothing window used for the lowess mean-variance trend.
     Expressed as a proportion between 0 and 1.
+  }
+  \item{adaptive.span}{
+    logical.
+    If \code{TRUE}, then an optimal value for \code{span} will be chosen depending on the number of genes.
   }
   \item{plot}{
     logical, should a plot of the mean-variance trend be displayed?
