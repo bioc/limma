@@ -3,7 +3,7 @@ vooma <- function(y,design=NULL,block=NULL,correlation,predictor=NULL,span=NULL,
 #	Analogous to voom() but for non-count data.
 #	y must not contain NAs.
 #	Gordon Smyth, Charity Law, Mengbo Li.
-#	Created 31 July 2012.  Last modified 13 Feb 2024.
+#	Created 31 July 2012.  Last modified 7 Apr 2024.
 {
 #	Check y
 	if(!is(y,"EList")) y <- new("EList",list(E=as.matrix(y)))
@@ -60,9 +60,9 @@ vooma <- function(y,design=NULL,block=NULL,correlation,predictor=NULL,span=NULL,
 #	Choose span based on the number of genes
 	if(is.null(span))
 		if(legacy.span)
-			if(ngenes<=10) span <- 1 else span <- 0.3+0.7*(10/ngenes)^0.5
+			span <- chooseLowessSpan(ngenes,small.n=10,min.span=0.3,power=0.5) 
 		else
-			if(ngenes<=50) span <- 1 else span <- 0.3+0.7*(50/ngenes)^0.4
+			span <- chooseLowessSpan(ngenes,small.n=50,min.span=0.3,power=1/3)
 
 #	Fit lowess trend
 	l <- lowess(sx,sy,f=span)

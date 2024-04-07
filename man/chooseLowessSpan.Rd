@@ -7,14 +7,14 @@ Choose an optimal span, depending on the number of points, for lowess smoothing 
 }
 
 \usage{
-chooseLowessSpan(n=1000, small.n=25, min.span=0.2, power=1/3)
+chooseLowessSpan(n=1000, small.n=50, min.span=0.3, power=1/3)
 }
 
 \arguments{
   \item{n}{the number of points the lowess curve will be applied to.}
-  \item{small.n}{the span will be set to 1 for any \code{n} less than or equal to size value.}
+  \item{small.n}{the span will be set to 1 for any \code{n} less than or equal to this value.}
   \item{min.span}{the minimum span for large \code{n}.}
-  \item{power}{numeric power between 0 and 1 how fast the chosen span decreases with \code{n>}.}
+  \item{power}{numeric power between 0 and 1 that determines how fast the chosen span decreases with \code{n}.}
 }
 
 \details{
@@ -23,14 +23,15 @@ When there a few points, a large span should be used to ensure a smooth curve.
 When there are a large number of points, smaller spans can be used because each span window still contains good coverage.
 By default, the chosen span decreases as the cube-root of the number of points, a rule that is motivated by analogous rules to choose the number of bins for a histogram (Scott, 1979; Freedman & Diaconis, 1981; Hyndman, 1995).
 
-The span returned is essentially
-\code{min.span + (1-min.span) * (small.n/n)^power}.
-The span is set to 1 for any \code{n} less than \code{small.n}.
+The span returned is
+\code{min.span + (1-min.span) * (small.n/n)^power}
+except that the span is set to 1 for any \code{n} less than \code{small.n}.
+Note that the fitted lowess curve will still estimate a trend (i.e., will not be constant) even if \code{span=1}.
 
 The function is tuned for smoothing of mean-variance trends, for which the trend is usually monotonic, so preference is given to moderately large spans.
-Even for the large datasets, the span is always greater than \code{min.span}.
+Even for the very large datasets, the span is always greater than \code{min.span}.
 
-This function is used to create the default span for \code{vooma}, \code{eBayes}, \code{squeezeVar} and \code{fitFDistRobustly}.
+This function is used to create adaptive spans for \code{voom}, \code{vooma} and \code{voomaLmFit} where \code{n} is the number of genes in the analysis.
 }
 
 \value{
@@ -41,13 +42,13 @@ A numeric vector of length 1 containing the span value.
 
 \references{
 Freedman, D. and Diaconis, P. (1981). On the histogram as a density estimator: L_2 theory.
-\emph{Zeitschrift fur Wahrscheinlichkeitstheorie und verwandte Gebiete}, 57, 453-476.
+\emph{Zeitschrift fur Wahrscheinlichkeitstheorie und verwandte Gebiete} 57, 453-476.
 
 Hyndman, R. J. (1995). The problem with Sturges' rule for constructing histograms.
 \url{https://robjhyndman.com/papers/sturges.pdf}.
 
 Scott, D. W. (1979). On optimal and data-based histograms.
-\emph{Biometrika}, 66, 605-610.
+\emph{Biometrika} 66, 605-610.
 }
 
 \seealso{
@@ -62,7 +63,7 @@ chooseLowessSpan(1e6)
 
 n <- 10:5000
 span <- chooseLowessSpan(n)
-plot(n,span,type="l")
+plot(n,span,type="l",log="x")
 }
 
 \concept{locally-weighted regression smoothing}

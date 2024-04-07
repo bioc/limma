@@ -81,6 +81,10 @@ Like \code{vooma}, \code{voomaLmFit} estimates the mean-variance relationship in
 The mean-variance trend is estimated from gene-level data but is extrapolated back to individual observations to obtain a precision weight (inverse variance) for each observation.
 The weights can then used by other functions such as \code{lmFit} to adjust for heteroscedasticity.
 
+If \code{span=NULL}, then an optimal span value is estimated depending on \code{nrow(y)}.
+The span is chosen by \code{chooseLowessSpan} with \code{n=nrow(y)}, \code{small.n=50}, \code{min.span=0.3} and \code{power=1.3}.
+If \code{legacy.span=TRUE}, then the \code{chooseLowessSpan} arguments are reset to \code{small.n=10}, \code{min.span=0.3} and \code{power=0.5} to match the settings used by \code{vooma} in limma version 3.59.1 and earlier.
+
 If \code{predictor} is not \code{NULL}, then the variance trend is modeled as a function of both the mean log-expression and the \code{predictor} using a multiple linear regression with the two predictors.
 In this case, the \code{predictor} is assumed to be some prior predictor of the precision or standard deviation of each log-expression value.
 Any \code{predictor} that is correlated with the precision of each observation should give good results.

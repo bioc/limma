@@ -55,19 +55,11 @@ It is analogous to \code{voom} but for continuous log-expression values rather t
 The mean-variance trend is estimated from gene-level data but is extrapolated back to individual observations to obtain a precision weight (inverse variance) for each observation.
 The weights can then used by other functions such as \code{lmFit} to adjust for heteroscedasticity.
 
-\code{vooma} has a couple of enhancements compared to \code{voom}.
-An optimal value is estimated for the \code{span} argument depending on the number of genes \code{ngenes = nrow(y)}.
-If \code{ngenes <= 50} then \code{span <- 1}.
-Otherwise \code{span <- 0.3 + 0.7*(50/ngenes)^0.4}.
-This ensures that \code{span} gradually decreases towards a minimum of 0.3 as the number of genes becomes very large.
+If \code{span=NULL}, then an optimal span value is estimated depending on \code{nrow(y)}.
+The span is chosen by \code{chooseLowessSpan} with \code{n=nrow(y)}, \code{small.n=50}, \code{min.span=0.3} and \code{power=1.3}.
+If \code{legacy.span=TRUE}, then the \code{chooseLowessSpan} arguments are reset to \code{small.n=10}, \code{min.span=0.3} and \code{power=0.5} to match the settings used by \code{vooma} in limma version 3.59.1 and earlier.
 
-The current formula for \code{span} was introduced in limma version 3.59.2.
-Prior to that, the setting for \code{span} was similar but slightly smaller in most cases.
-The difference mainly affects datasets with only a small number of genes.
-For example, with 1000 genes, the old setting for \code{span} was 0.37 whereas the new value is 0.51.
-If desired, the previous setting for \code{span} can be restored by setting \code{legacy=TRUE}.
-
-Another enhancement is that the variance can be modeled using a second optional \code{predictor} as well as in terms of log-expression.
+The variance trend can be modeled using a second optional \code{predictor} as well as in terms of log-expression.
 If \code{predictor} is not \code{NULL}, then the variance trend is modeled as a function of both the mean log-expression and the \code{predictor} using a multiple linear regression with the two predictors.
 In this case, the \code{predictor} is assumed to be some prior predictor of the precision or standard deviation of each log-expression value.
 Any \code{predictor} that is correlated with the precision of each observation should give good results.

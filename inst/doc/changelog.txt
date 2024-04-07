@@ -1,3 +1,37 @@
+08 Apr 2024: limma 3.59.7
+
+- Add Goknur Giner to author list in DESCRIPTION.
+
+- Increase defaults for `small.n` and `min.span` in
+  chooseLowessSpan().
+
+- Add comment to give creation date in kooperberg() code.
+
+- voom() now calls chooseLowessSpan() to choose an optimal `span` if
+  `adaptive.span=TRUE`.
+  
+- vooma() and voomaLmFit() now call chooseLowessSpan() to choose an
+  optimal `span`. The `power` setting is reduced from 0.4 to 1/3 but
+  other parameters remain the same. The chosen span value is slightly
+  increased but remains less than 0.5 if there are at least 2500
+  genes in the analysis.
+
+- voom() and voomaLmFit() now call chooseLowessSpan() if
+  `adaptive.span=TRUE`. The `power` setting is reduced from 0.4 to
+  1/3 but other parameters remain the same. The chosen span value is
+  slightly increased but remains less than 0.5 if there are at least
+  2500 genes in the analysis.
+
+- The plotMD() example now uses a darker green ("green3" instead of
+  "green").
+
+- Edits to chooseLowessSpan()help page. The example code now uses
+  log-scale for the x-axis of the plot.
+
+- Fix typos in goana.Rd.
+
+- Update test output for Bioc 3.19 organism packages.
+
 15 Mar 2024: limma 3.59.6
 
 - Add RNA-seq to package description.
@@ -18,11 +52,14 @@
 
 - New argument `save.plot` for vooma().
 
+- Argument `legacy` for vooma() renamed to `legacy.span`.
+
 - Edits to vooma.Rd title and description.
 
 - New argument `adaptive.span` for voom().
 
-- Argument `legacy` for vooma() renamed to `legacy.span`.
+- The plot information saved by voom() with `save.plot=TRUE` now
+  includes `pch` and `cex` plotting character settings.
 
 13 Feb 2024: limma 3.59.3
 

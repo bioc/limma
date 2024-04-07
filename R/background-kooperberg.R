@@ -6,7 +6,7 @@ kooperberg <- function (RG, a = TRUE, layout=RG$printer, verbose=TRUE)
 #	Kooperberg Bayesian background correction
 #	Matt Ritchie
 #	Charles Kooperberg contributed 'a' estimation functions (.getas, .varaux1, .varaux2)
-#	Last modified 31 October 2005
+#	Created 15 June 2003. Last modified 31 October 2005
 {
 	if(!is(RG,"RGList")) stop("RG must be an RGList object")
     if(is.null(layout))

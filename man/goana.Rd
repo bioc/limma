@@ -84,7 +84,7 @@ Users should be aware though that p-values are unadjusted, meaning that only ver
 
 \code{goana} uses annotation from the appropriate Bioconductor organism package.
 The \code{species} can be any character string XX for which an organism package org.XX.eg.db is installed.
-Examples are \code{"Hs"} for human for {"Mm"} for mouse.
+Examples are \code{"Hs"} for human or \code{"Mm"} for mouse.
 See \code{\link{alias2Symbol}} for other possible values for \code{species}.
 
 \code{kegga} reads KEGG pathway annotation from the KEGG website.

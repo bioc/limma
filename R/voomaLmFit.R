@@ -7,7 +7,7 @@ voomaLmFit <- function(
 #	vooma+lmFit with iteration of sample weights and intrablock correlation.
 #	Creates an MArrayLM object for entry to eBayes() etc in the limma pipeline.
 #	Mengbo Li and Gordon Smyth
-#	Created 24 Nov 2023. Last modifed 4 Mar 2024.
+#	Created 24 Nov 2023. Last modifed 7 Apr 2024.
 {
 	Block <- !is.null(block)
 	PriorWeights <- !is.null(prior.weights)
@@ -65,9 +65,9 @@ voomaLmFit <- function(
 #	Choose span based on the number of genes
 	if(is.null(span))
 		if(legacy.span)
-			if(ngenes<=10) span <- 1 else span <- 0.3+0.7*(10/ngenes)^0.5
+			span <- chooseLowessSpan(ngenes,small.n=10,min.span=0.3,power=0.5) 
 		else
-			if(ngenes<=50) span <- 1 else span <- 0.3+0.7*(50/ngenes)^0.4
+			span <- chooseLowessSpan(ngenes,small.n=50,min.span=0.3,power=1/3)
 	
 #	Fit lowess trend
 	l <- lowess(sx,sy,f=span)

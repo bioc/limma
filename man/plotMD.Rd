@@ -104,7 +104,7 @@ status[1:3] <- "M=0"
 status[4:6] <- "M=3"
 status[7:9] <- "M=-3"
 values <- c("M=0","M=3","M=-3")
-hl.col <- c("blue","red","green")
+hl.col <- c("blue","red","green3")
 
 plotMD(MA,main="MA-Plot with 12 spiked-in points",
        status=status, values=values, hl.col=hl.col)
