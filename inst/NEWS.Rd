@@ -3,12 +3,71 @@
 \encoding{UTF-8}
 
 
+\section{Version 3.60.0}{\itemize{
+
+  \item
+  The default settings for the `small.n` and `min.span` arguments of
+  chooseLowessSpan() have been increased, increasing the chosen span
+  value.
+
+  \item
+  New argument `adaptive.span` for voom(). If `TRUE`, then
+  chooseLowessSpan() is used to select an optimal `span` value
+  depending on the number of genes, same as is done for vooma(),
+  voomaByGroup() and voomaLmFit().
+
+  \item
+  The plot information saved by voom() when `save.plot=TRUE` now
+  includes `pch` and `cex` plotting character settings.
+
+  \item
+  The default `span` set by vooma() is increased slightly to the value given by
+  `chooseLowessSpan(ngenes, small.n=50, min.span=0.3, power=1/3)`. A new
+  argument `legacy.span` had been added to optionally restore the old
+  default settings for `span` for users who want backward
+  compatibility.
+
+  \item
+  vooma() argument `covariate` renamed to `predictor`.
+
+  \item
+  vooma() has been revised in several other ways to match the
+  behavior of voom() more closely. The order of arguments has been
+  adjusted to match voom() and lmFit(). A new argument `save.plot`
+  has been added similar to the same argument for voom(). Changes to
+  have also been made to the title and xlab for the variance trend
+  plot when `predictor` is non-NULL.
+
+  \item
+  New function voomaLmFit() with the same functionality as vooma() but
+  which automates the estimation of sample weights and intrablock
+  correlation from vooma(). It produces an MArrayLM fit object instead
+  of an EList object. It is the analogous to edgeR::voomLmFit() but
+  for continuous microarray-like data.
+
+  \item
+  Edits to the help pages for decideTests(), voom(),
+  voomWithQualityWeights(), vooma() and "11RNAseq". Example added to
+  the vooma() help page.
+
+  \item
+  Add RNA-seq to package description.
+
+  \item
+  Add Charity Law, Goknur Giner and Mengbo Li to author list in
+  package description.
+
+}}
+
+
 \section{Version 3.58.0}{\itemize{
 
   \item
-  New argument `covariate` for vooma(), which allows the variance
-  trend to depend on extra covariates in addition to average
-  log-expression.
+  New argument `covariate` for vooma() that allows the variance
+  trend to depend on an extra covariate in addition to average
+  log-expression. This allows vooma() to take account of any
+  predictor that is correlated with the precision of each expression
+  value.
 
   \item
   New argument 'group' to simplify the typical calling sequence for removeBatchEffect().
