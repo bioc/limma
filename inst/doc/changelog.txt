@@ -1,3 +1,7 @@
+22 Apr 2024: limma 3.59.9
+
+- Fix to detectionPValues() example.
+
 08 Apr 2024: limma 3.59.8
 
 - Upate NEWS.Rd for limma 3.60.0 ready for Bioconductor 3.19 release.
@@ -124,7 +128,9 @@
 
 23 Sep 2023: limma 3.57.8
 
-- New argument `covariate` for vooma().
+- New argument `covariate` for vooma() to allow variance trend
+  modelling as a function of log-expression and this covariate
+  simultaneously.
 
 02 Aug 2023: limma 3.57.7
 

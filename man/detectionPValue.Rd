@@ -51,7 +51,7 @@ Estimating the proportion of microarray probes expressed in an RNA sample.
 \dontrun{
 # Read Illumina binary IDAT files
 x <- read.idat(idat, bgx)
-x$genes$DectionPValue <- detectionPValues(x)
+x$other$Detection <- detectionPValues(x)
 y <- neqc(x)
 }
 }
