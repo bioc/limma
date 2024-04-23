@@ -1,3 +1,7 @@
+23 Apr 2024: limma 3.59.10
+
+- Update test output for redone Bioc 3.19 organism packages.
+
 22 Apr 2024: limma 3.59.9
 
 - Fix to detectionPValues() example.

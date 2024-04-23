@@ -1,5 +1,5 @@
 
-R version 4.4.0 alpha (2024-04-04 r86334 ucrt)
+R version 4.4.0 RC (2024-04-16 r86458 ucrt) -- "Puppy Cup"
 Copyright (C) 2024 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64
 
@@ -1248,29 +1248,29 @@ Gene95 -1.907074  1.26297763 -2.106861 0.0589594023 0.58959402 -4.4117140
 > go <- goana(fit,FDR=0.8,geneid=EB)
 > topGO(go,number=10,truncate.term=30)
                                      Term Ont  N Up Down        P.Up      P.Down
-GO:0032502          developmental process  BP 24  4    7 0.877678294 0.001637536
-GO:0070062          extracellular exosome  CC  8  0    4 1.000000000 0.003166997
-GO:0065010 extracellular membrane-boun...  CC  8  0    4 1.000000000 0.003166997
-GO:0043230        extracellular organelle  CC  8  0    4 1.000000000 0.003166997
-GO:1903561          extracellular vesicle  CC  8  0    4 1.000000000 0.003166997
-GO:0006915              apoptotic process  BP  5  4    1 0.009879725 0.419661390
-GO:0008219                     cell death  BP  5  4    1 0.009879725 0.419661390
-GO:0012501          programmed cell death  BP  5  4    1 0.009879725 0.419661390
-GO:0042981 regulation of apoptotic pro...  BP  5  4    1 0.009879725 0.419661390
-GO:0043067 regulation of programmed ce...  BP  5  4    1 0.009879725 0.419661390
+GO:0032502          developmental process  BP 24  4    7 0.871310423 0.001532528
+GO:0070062          extracellular exosome  CC  8  0    4 1.000000000 0.003047199
+GO:0065010 extracellular membrane-boun...  CC  8  0    4 1.000000000 0.003047199
+GO:0043230        extracellular organelle  CC  8  0    4 1.000000000 0.003047199
+GO:1903561          extracellular vesicle  CC  8  0    4 1.000000000 0.003047199
+GO:0006915              apoptotic process  BP  5  4    1 0.009503355 0.416247633
+GO:0008219                     cell death  BP  5  4    1 0.009503355 0.416247633
+GO:0012501          programmed cell death  BP  5  4    1 0.009503355 0.416247633
+GO:0042981 regulation of apoptotic pro...  BP  5  4    1 0.009503355 0.416247633
+GO:0043067 regulation of programmed ce...  BP  5  4    1 0.009503355 0.416247633
 > topGO(go,number=10,truncate.term=30,sort="down")
                                      Term Ont  N Up Down      P.Up      P.Down
-GO:0032502          developmental process  BP 24  4    7 0.8776783 0.001637536
-GO:0070062          extracellular exosome  CC  8  0    4 1.0000000 0.003166997
-GO:0065010 extracellular membrane-boun...  CC  8  0    4 1.0000000 0.003166997
-GO:0043230        extracellular organelle  CC  8  0    4 1.0000000 0.003166997
-GO:1903561          extracellular vesicle  CC  8  0    4 1.0000000 0.003166997
-GO:0032501 multicellular organismal pr...  BP 33  7    7 0.7182039 0.014628946
-GO:0016485             protein processing  BP  7  1    3 0.8531481 0.021350744
-GO:0009887     animal organ morphogenesis  BP  3  0    2 1.0000000 0.026299179
-GO:0043009 chordate embryonic developm...  BP  3  0    2 1.0000000 0.026299179
-GO:0072359 circulatory system developm...  BP  3  0    2 1.0000000 0.026299179
+GO:0032502          developmental process  BP 24  4    7 0.8713104 0.001532528
+GO:0070062          extracellular exosome  CC  8  0    4 1.0000000 0.003047199
+GO:0065010 extracellular membrane-boun...  CC  8  0    4 1.0000000 0.003047199
+GO:0043230        extracellular organelle  CC  8  0    4 1.0000000 0.003047199
+GO:1903561          extracellular vesicle  CC  8  0    4 1.0000000 0.003047199
+GO:0032501 multicellular organismal pr...  BP 33  7    7 0.7048432 0.013750585
+GO:0016485             protein processing  BP  7  1    3 0.8497705 0.020760307
+GO:0031982                        vesicle  CC 20  3    5 0.8982815 0.025464546
+GO:0009887     animal organ morphogenesis  BP  3  0    2 1.0000000 0.025788497
+GO:0043009 chordate embryonic developm...  BP  3  0    2 1.0000000 0.025788497
 > 
 > proc.time()
    user  system elapsed 
-   3.00    0.42    3.40 
+   3.06    0.31    3.36 
