@@ -79,7 +79,7 @@ An EList object with the following components:
 \item{voom.line}{if \code{save.plot}, list containing coordinates of lowess line in the mean-variance plot}
 }
 
-\author{Charity Law and Gordon Smyth}
+\author{Charity Law, Gordon Smyth and Mengbo Li}
 
 \references{
 Law CW (2013).
