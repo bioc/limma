@@ -3,7 +3,7 @@ vooma <- function(y,design=NULL,block=NULL,correlation,predictor=NULL,span=NULL,
 #	Analogous to voom() but for non-count data.
 #	y must not contain NAs.
 #	Gordon Smyth, Charity Law, Mengbo Li.
-#	Created 31 July 2012.  Last modified 7 Apr 2024.
+#	Created 31 July 2012.  Last modified 19 May 2024.
 {
 #	Check y
 	if(!is(y,"EList")) y <- new("EList",list(E=as.matrix(y)))
@@ -86,9 +86,9 @@ vooma <- function(y,design=NULL,block=NULL,correlation,predictor=NULL,span=NULL,
 	y$design <- design
 	y$span <- span
 	if(save.plot) {
-		fit$voom.xy <- list(x=sx,y=sy,xlab=xlab,ylab="Sqrt( standard deviation )",pch=16,cex=0.25)
-		fit$voom.line <- l
-		fit$voom.line$col <- "red"
+		y$voom.xy <- list(x=sx,y=sy,xlab=xlab,ylab="Sqrt( standard deviation )",pch=16,cex=0.25)
+		y$voom.line <- l
+		y$voom.line$col <- "red"
 	}
 	y
 }
@@ -101,7 +101,7 @@ voomaByGroup <- function(y,group,design=NULL,block=NULL,correlation,
 #	at the observational level by fitting group-specific trends.
 #	Creates an EList object for entry to lmFit() etc in the limma pipeline.
 #	Charity Law and Gordon Smyth
-#	Created 13 Feb 2013.  Modified 13 Sept 2024.
+#	Created 13 Feb 2013.  Modified 19 May 2024.
 {
 #	Check y
 	if(!is(y,"EList")) y <- new("EList",list(E=as.matrix(y)))
@@ -116,7 +116,7 @@ voomaByGroup <- function(y,group,design=NULL,block=NULL,correlation,
 
 #	Check design
 	if(is.null(design)) design <- y$design
-	if(is.null(design)) design <- model.matrix(~group)
+	if(is.null(design)) design <- model.matrix(~0+group)
 
 #	Check color
 	if(is.null(col))
@@ -126,20 +126,34 @@ voomaByGroup <- function(y,group,design=NULL,block=NULL,correlation,
 			col <- 1L+1L:ngroups
 	col <- rep_len(col,ngroups)
 
+#	Are there any singleton levels?
+	n <- tabulate(intgroup)
+	if(identical(min(n),1L)) {
+		voomall <- vooma(y=y,design=design,correlation=correlation,block=block,plot=FALSE,span=span,legacy.span=legacy.span,save.plot=TRUE)
+	}
+
 	w <- y$E
-	sx <- sy <- matrix(0, nrow=nrow(y), ncol=nlevels(group))
+	sx <- matrix(0, nrow=nrow(y), ncol=ngroups)
 	colnames(sx) <- levgroup
 	rownames(sx) <- rownames(y)
+	sy <- sx
 	for (lev in 1L:ngroups) {
-		i <- intgroup==lev
-		yi <- y[,i]
-		designi <- design[i,,drop=FALSE]
-		voomi <- vooma(y=yi,design=designi,correlation=correlation, block=block[i], plot=FALSE, span=span, legacy.span=legacy.span)
-		w[,i] <- voomi$weights
-		sx[,lev] <- voomi$meanvar.trend$x
-		sy[,lev] <- voomi$meanvar.trend$y	
+		i <- which(intgroup==lev)
+		if(identical(length(i),1L)) {
+			w[,i] <- voomall$weights[,i]
+			sx[,lev] <- voomall$voom.xy$x
+			sy[,lev] <- voomall$voom.xy$y
+		} else {
+			yi <- y[,i]
+			designi <- design[i,,drop=FALSE]
+			voomi <- vooma(y=yi,design=designi,correlation=correlation,block=block[i],plot=FALSE,span=span,legacy.span=legacy.span,save.plot=TRUE)
+			w[,i] <- voomi$weights
+			sx[,lev] <- voomi$voom.xy$x
+			sy[,lev] <- voomi$voom.xy$y
+		}
 	}
 	span <- voomi$span
+	if(is.null(span)) span <- voomall$span
 
 # 	Voom plot	
 	if(plot) {
@@ -154,8 +168,8 @@ voomaByGroup <- function(y,group,design=NULL,block=NULL,correlation,
 		if(is.character(legend)) legend(legend, levels(group), col=col, lty=1, lwd=lwd)
 	}
 
-# 	Output	
-	y$meanvar.trend <- list(x=sx,y=sy)
+#	Output	
+	y$voom.xy <- list(x=sx,y=sy,xlab="Average log-expression",ylab="Sqrt( standard deviation )",pch=16,cex=0.25)
 	y$weights <- w
 	y$design <- design
 	y$span <- span

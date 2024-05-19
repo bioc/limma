@@ -1,3 +1,18 @@
+19 May 2024: limma 3.61.1
+
+- voomaByGroup() now uses the overall mean-variance trend for groups
+  with only one sample for which a separate trend is not estimable.
+
+- Bug fix to voomaByGroup() to save variance plot parameters
+  correctly. Was giving an error message because plot parameters
+  from vooma() were not accessible.
+
+- Bug fix to vooma() when save.plot=TRUE. Previously the plot
+  parameters were not being saved to the final object.
+
+- Add Mengbo Li as author for vooma().
+
+- Add Ravindra et al (2023) reference to voomaByGroup() help page.
 
 01 May 2024: limma 3.61.0 (Bioconductor 3.20 Developmental Branch)
 01 May 2024: limma 3.60.0 (Bioconductor 3.19 Release Branch)
@@ -32,16 +47,10 @@
   increased but remains less than 0.5 if there are at least 2500
   genes in the analysis.
 
-- voom() and voomaLmFit() now call chooseLowessSpan() if
-  `adaptive.span=TRUE`. The `power` setting is reduced from 0.4 to
-  1/3 but other parameters remain the same. The chosen span value is
-  slightly increased but remains less than 0.5 if there are at least
-  2500 genes in the analysis.
-
 - The plotMD() example now uses a darker green ("green3" instead of
   "green").
 
-- Edits to chooseLowessSpan()help page. The example code now uses
+- Edits to chooseLowessSpan() help page. The example code now uses
   log-scale for the x-axis of the plot.
 
 - Fix typos in goana.Rd.
