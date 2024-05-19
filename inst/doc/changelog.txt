@@ -1,3 +1,19 @@
+19 May 2024: limma 3.60.2
+
+- voomaByGroup() now uses the overall mean-variance trend for groups
+  with only one sample for which a separate trend is not estimable.
+
+- Bug fix to voomaByGroup() to save variance plot parameters
+  correctly. Was giving an error message because plot parameters
+  from vooma() were not accessible.
+
+- Bug fix to vooma() when save.plot=TRUE. Previously the plot
+  parameters were not being saved to the final object.
+
+- Add Mengbo Li as author for vooma().
+
+- Add Ravindra et al (2023) reference to voomaByGroup() help page.
+
 19 May 2024: limma 3.60.1
 
 - Edit to voomaByGroup() help page to emphasize that only simple

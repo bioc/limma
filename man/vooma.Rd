@@ -66,8 +66,10 @@ Any \code{predictor} that is correlated with the precision of each observation s
 
 \code{voomaByGroup} estimates precision weights separately for different groups of samples.
 In other words, it allows for different mean-variance curves in different groups.
-\code{voomaByGroup} has a quite simple implementation and will not work work with complex design matrices.
-It essentially assumes that the \code{design} matrix defines a oneway layout and it works best when the oneway layout refers to the same groups as defined by the `group` argument.
+\code{voomaByGroup} has a quite simple implementation and simply subsets the design matrix for each group.
+This subsetting is equivalent to interacting the design factors with the groups and might not work well with complex design matrices.
+It will work fine if the design matrix corresponds to the same groups as defined by the \code{group} argument.
+It can work well for large datasets, for example it has been used by Ravindra et al (2023) to account for TMT groups in proteomics data.
 }
 
 \value{
@@ -87,10 +89,14 @@ Law CW (2013).
 \emph{Precision weights for gene expression analysis}.
 PhD Thesis. University of Melbourne, Australia.
 \url{http://hdl.handle.net/11343/38150}
+
+Ravindra KC, Vaidya VS, Wang Z, Federspiel JD, Virgen-Slane R, Everley RA, Grove JI, Stephens C, Ocana MF, Robles-Diaz M, Isabel Lucena M (2023).
+Tandem mass tag-based quantitative proteomic profiling identifies candidate serum biomarkers of drug-induced liver injury in humans.
+\emph{Nature Communications} 14(1), 1215.
 }
 
 \seealso{
-\code{\link{voom}}, \code{\link{arrayWeights}}
+\code{\link{voomaLmFit}}, \code{\link{voom}}, \code{\link{arrayWeights}}
 }
 
 \examples{
