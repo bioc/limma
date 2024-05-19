@@ -66,7 +66,8 @@ Any \code{predictor} that is correlated with the precision of each observation s
 
 \code{voomaByGroup} estimates precision weights separately for different groups of samples.
 In other words, it allows for different mean-variance curves in different groups.
-\code{voomaByGroup} assumes that the \code{design} matrix defines a oneway layout.
+\code{voomaByGroup} has a quite simple implementation and will not work work with complex design matrices.
+It essentially assumes that the \code{design} matrix defines a oneway layout and it works best when the oneway layout refers to the same groups as defined by the `group` argument.
 }
 
 \value{
@@ -79,7 +80,7 @@ An EList object with the following components:
 \item{voom.line}{if \code{save.plot}, list containing coordinates of lowess line in the mean-variance plot}
 }
 
-\author{Charity Law and Gordon Smyth}
+\author{Charity Law, Gordon Smyth and Mengbo Li. Mengbo Li contributed the functionality associated with the \code{predictor} argument.}
 
 \references{
 Law CW (2013).

@@ -1,3 +1,10 @@
+19 May 2024: limma 3.60.1
+
+- Edit to voomaByGroup() help page to emphasize that only simple
+  `design` matrices are allowed.
+
+01 May 2024: limma 3.60.0 (Bioconductor 3.19 Release Branch)
+
 23 Apr 2024: limma 3.59.10
 
 - Update test output for redone Bioc 3.19 organism packages.
