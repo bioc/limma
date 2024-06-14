@@ -5,12 +5,16 @@
 Normalize the columns of a matrix, cyclicly applying loess normalization to normalize each pair of columns to each other.
 }
 \usage{
-normalizeCyclicLoess(x, weights = NULL, span=0.7, iterations = 3, method = "fast")
+normalizeCyclicLoess(x, weights = NULL, span = 0.7, adaptive.span = FALSE, iterations = 3, method = "fast")
 }
 \arguments{
   \item{x}{numeric matrix, or object which can be coerced to a numeric matrix, containing log-expression values.}
   \item{weights}{numeric vector of probe weights. Must be non-negative.}
   \item{span}{span of loess smoothing window, between 0 and 1.}
+  \item{adaptive.span}{
+    logical.
+    If \code{TRUE}, then an optimal value for \code{span} will be chosen depending on the number of rows of \code{x}.
+  }
   \item{iterations}{number of times to cycle through all pairs of columns.}
   \item{method}{character string specifying which variant of the cyclic loess method to use. Options are \code{"fast"}, \code{"affy"} or \code{"pairs"}.}
 }
@@ -34,17 +38,18 @@ The affy approach is presumably that used by Bolstad et al (2003), although the 
 the reference array being the average of all the arrays.
 This method is relatively fast because computational time is linear in the number of arrays, whereas \code{"pairs"} and \code{"affy"} are quadratic in the number of arrays.
 \code{"fast"} requires n lowess fits per iteration, where n is the number of arrays, whereas \code{"pairs"} and \code{"affy"} require n*(n-1)/2 lowess fits per iteration.
+
+If \code{adaptive.span} is \code{TRUE}, then \code{span} is set to \code{chooseLowessSpan(n=nrow(x), small.n=200, min.span=0.6)}.
 }
 \value{
 A matrix of the same dimensions as \code{x} containing the normalized values.
 }
 \references{
-Bolstad, B. M., Irizarry R. A., Astrand, M., and Speed, T. P. (2003). A comparison of normalization methods for high density oligonucleotide array data based on bias and variance. \emph{Bioinformatics} \bold{19}, 185-193.
+Bolstad BM, Irizarry RA, Astrand M, Speed TP (2003).
+A comparison of normalization methods for high density oligonucleotide array data based on bias and variance.
+\emph{Bioinformatics} \bold{19}, 185-193.
 
-Ballman, KV
-Grill, DE,
-Oberg, AL and
-Therneau, TM (2004).
+Ballman KV, Grill DE, Oberg AL, Therneau TM (2004).
 Faster cyclic loess: normalizing RNA arrays via linear models.
 \emph{Bioinformatics} 20, 2778-2786. 
 }
