@@ -22,6 +22,9 @@
 
 - Add Ravindra et al (2023) reference to voomaByGroup() help page.
 
+- Edit to voomaByGroup() help page to emphasize that only simple
+  `design` matrices are allowed.
+
 01 May 2024: limma 3.61.0 (Bioconductor 3.20 Developmental Branch)
 01 May 2024: limma 3.60.0 (Bioconductor 3.19 Release Branch)
 
