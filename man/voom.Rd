@@ -96,6 +96,8 @@ The voom method takes into account the sequencing depths (library sizes) of the 
 limma-trend, on the other hand, assumes that the library sizes are not wildly different and applies the mean-variance trend on a genewise basis.
 As noted by Law et al (2014), voom should be more powerful than limma-trend if the library sizes are very different but, otherwise, the two methods should give similar results.
 
+If \code{adaptive.span} is \code{TRUE}, then \code{span} is set to \code{chooseLowessSpan(nrow(counts), small.n=50, min.span=0.3, power=1/3)}.
+
 Note that \code{edgeR::voomLmFit} is a further-developed version \code{voom} with more functionality and convenience.
 \code{voomLmFit} is now recommended over \code{voom}, particularly if an intrablock correlation needs to be estimated or if the counts are sparse with a high proportion of zeros.
 }
@@ -116,6 +118,7 @@ An \code{\link[limma:EList]{EList}} object with the following components:
 \item{design}{design matrix}
 \item{lib.size}{numeric vector of total normalized library sizes}
 \item{genes}{data-frame of gene annotation extracted from \code{counts}}
+\item{span}{if \code{adaptive.span}, the chosen value for \code{span} is returned}
 \item{voom.xy}{if \code{save.plot}, list containing x and y coordinates for points in mean-variance plot}
 \item{voom.line}{if \code{save.plot}, list containing coordinates of loess line in the mean-variance plot}
  }

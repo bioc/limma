@@ -6,7 +6,7 @@ Combine voom observational-level precision weights with sample-specific quality 
 }
 \usage{
 voomWithQualityWeights(counts, design = NULL, lib.size = NULL, normalize.method = "none",
-             plot = FALSE, span = 0.5, var.design = NULL, var.group = NULL,
+             plot = FALSE, span = 0.5, adaptive.span = FALSE, var.design = NULL, var.group = NULL,
              method = "genebygene", maxiter = 50, tol = 1e-5, trace = FALSE,
              col = NULL, \dots)
 }
@@ -34,6 +34,10 @@ voomWithQualityWeights(counts, design = NULL, lib.size = NULL, normalize.method 
   \item{span}{
     width of the smoothing window used for the lowess mean-variance trend.
     Expressed as a proportion between 0 and 1.
+  }
+  \item{adaptive.span}{
+    logical.
+    If \code{TRUE}, then an optimal value for \code{span} will be chosen depending on the number of genes.
   }
   \item{var.design}{
     design matrix for the variance model.
@@ -72,6 +76,11 @@ It combines observational-level weights from \code{voom} with sample-specific we
 The method is described by Liu et al (2015).
 }
 
+\note{
+Users are now recommended to use \code{edgeR::voomLmFit}, which is a further developed version of \code{voomWithQualityWeights} with extra capabilities.
+\code{voomLmFit} estimates both sample weights and intrablock correlation and also improves variance estimation for sparse data.
+}
+
 \value{
 An \code{\link[limma:EList]{EList}} object similar to that from \code{\link{voom}},
 with an extra column \code{sample.weights} containing the vector of sample quality factors added to the \code{targets} data.frame.
@@ -88,10 +97,7 @@ Why weight? Combining voom with estimates of sample quality improves power in RN
 }
 
 \seealso{
-\code{\link{voom}}, \code{\link{arrayWeights}}, \code{\link{lmFit}}.
-
-\code{voomLmFit} in the edgeR package is a further developed version of \code{voomWithQualityWeights} with extra capabilities.
-\code{voomLmFit} estimates both sample weights and intrablock correlation and also improves variance estimation for sparse data.
+\code{\link{voom}}, \code{\link{arrayWeights}}, \code{\link{lmFit}}, \code{voomLmFit}.
 
 A summary of limma functions for RNA-seq analysis is given in \link{11.RNAseq}.
 }
