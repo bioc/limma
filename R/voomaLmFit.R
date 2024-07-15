@@ -2,12 +2,13 @@ voomaLmFit <- function(
 	y, design=NULL, prior.weights=NULL,
 	block=NULL,
 	sample.weights=FALSE, var.design=NULL, var.group=NULL, prior.n=10,
-	predictor=NULL, span=NULL, legacy.span=FALSE, plot=FALSE, save.plot=FALSE
+	predictor=NULL, span=NULL, legacy.span=FALSE, plot=FALSE, save.plot=FALSE,
+	keep.EList=TRUE
 )
 #	vooma+lmFit with iteration of sample weights and intrablock correlation.
 #	Creates an MArrayLM object for entry to eBayes() etc in the limma pipeline.
 #	Mengbo Li and Gordon Smyth
-#	Created 24 Nov 2023. Last modifed 7 Apr 2024.
+#	Created 24 Nov 2023. Last modifed 15 Jul 2024.
 {
 	Block <- !is.null(block)
 	PriorWeights <- !is.null(prior.weights)
@@ -187,12 +188,15 @@ voomaLmFit <- function(
 			fit$targets$sample.weight <- sw
 		}
 	}
-	fit$weights <- weights
 	fit$span <- span
 	if(save.plot) {
 		fit$voom.xy <- list(x=sx,y=sy,xlab=xlab,ylab="Sqrt( standard deviation )",pch=16,cex=0.25)
 		fit$voom.line <- l
 		fit$voom.line$col <- "red"
+	}
+	if(keep.EList) {
+		y$weights <- weights
+		fit$EList <- y
 	}
 	fit
 }

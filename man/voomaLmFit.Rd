@@ -12,13 +12,14 @@ Equivalent to calling vooma(), arrayWeights(), duplicateCorrelation() and lmFit(
 \usage{
 voomaLmFit(y, design = NULL, prior.weights = NULL, block = NULL,
            sample.weights = FALSE, var.design = NULL, var.group = NULL, prior.n = 10,
-           predictor = NULL, span = NULL, legacy.span = FALSE, plot = FALSE, save.plot = FALSE)
+           predictor = NULL, span = NULL, legacy.span = FALSE, plot = FALSE, save.plot = FALSE,
+           keep.EList = TRUE)
 }
 
 \arguments{
   \item{y}{
     a numeric \code{matrix}, \code{EList} object, or any object containing log-expression data that can be coerced to a matrix.
-    Rows correpond to genes and columns to samples.
+    Rows correspond to genes and columns to samples.
   }
   \item{design}{
     design matrix with rows corresponding to samples and columns to coefficients to be estimated.
@@ -70,6 +71,9 @@ voomaLmFit(y, design = NULL, prior.weights = NULL, block = NULL,
   \item{save.plot}{
     logical, should the coordinates and line of the plot be saved in the output?
   }
+  \item{keep.EList}{
+    logical. If \code{TRUE}, then the \code{EList} object containing log-expression values and observation weights will be saved in the component \code{EList} of the output object.
+  }
 }
 
 \details{
@@ -100,6 +104,9 @@ If sample weights are estimated, then the output object will include a \code{tar
 
 If \code{save.plot=TRUE} then the output object will include components \code{voom.xy} and \code{voom.line}.
 \code{voom.xy} contains the x and y coordinates of the points in the vooma variance-trend plot and \code{voom.line} contains the estimated trend line.
+
+If \code{keep.EList=TRUE} the output includes component \code{EList} with sub-components \code{Elist$E} and \code{EList$weights}.
+If \code{y} was an EList object, then the output \code{EList} preserves all the components of \code{y} and adds the weights.
 }
 
 \author{Mengbo Li and Gordon Smyth}
@@ -115,10 +122,10 @@ design <- model.matrix(~group)
 y <- matrix(rnorm(500*8),500,8)
 u <- matrix(runif(length(y)),500,8)
 yu <- y*u
-v <- voomaLmFit(yu,design,plot=TRUE,predictor=u)
+fit <- voomaLmFit(yu,design,plot=TRUE,predictor=u)
 
 # Reproducing vooma plot from output object
-v <- voomaLmFit(yu,design,predictor=u,save.plot=TRUE)
-do.call(plot,v$voom.xy)
-do.call(lines,v$voom.line)
+fit <- voomaLmFit(yu,design,predictor=u,save.plot=TRUE)
+do.call(plot,fit$voom.xy)
+do.call(lines,fit$voom.line)
 }

@@ -28,7 +28,7 @@ Creates an MA-plot with color coding for control spots.
        zero.weights = FALSE, \dots)
 \method{plotMA}{MArrayLM}(object, coef = ncol(object), xlab = "Average log-expression",
        ylab = "log-fold-change", main = colnames(object)[coef],
-       status=object$genes$Status, zero.weights = FALSE, \dots)
+       status=object$genes$Status, \dots)
 }
 
 \arguments{

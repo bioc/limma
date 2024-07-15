@@ -26,7 +26,7 @@ plotMA.MAList <- function(object, array=1, xlab="A", ylab="M", main=colnames(obj
 	plotWithHighlights(x=A,y=M,xlab=xlab,ylab=ylab,main=main,status=status,...)
 }
 
-plotMA.MArrayLM <- function(object, coef=ncol(object), xlab="Average log-expression", ylab="log-fold-change", main=colnames(object)[coef], status=object$genes$Status, zero.weights=FALSE, ...)
+plotMA.MArrayLM <- function(object, coef=ncol(object), xlab="Average log-expression", ylab="log-fold-change", main=colnames(object)[coef], status=object$genes$Status, ...)
 #	MA-plot with color coding for controls
 #	Gordon Smyth 7 April 2003, James Wettenhall 27 June 2003.
 #	Last modified 15 Jul 2024.
