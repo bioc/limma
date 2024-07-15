@@ -5,7 +5,7 @@ contrasts.fit <- function(fit,contrasts=NULL,coefficients=NULL)
 #	Note: does not completely take probe-wise weights into account
 #	because this would require refitting the linear model for each probe
 #	Gordon Smyth
-#	Created 13 Oct 2002.  Last modified 27 Nov 2021.
+#	Created 13 Oct 2002.  Last modified 15 Jul 2024.
 {
 #	Check number of arguments
 	if(identical(is.null(contrasts),is.null(coefficients))) stop("Must specify exactly one of contrasts or coefficients")
@@ -34,6 +34,9 @@ contrasts.fit <- function(fit,contrasts=NULL,coefficients=NULL)
 	if(!identical(nrow(contrasts),ncoef)) stop("Number of rows of contrast matrix must match number of coefficients in fit")
 	rn <- rownames(contrasts)
 	cn <- colnames(fit$coefficients)
+#	If necessary, convert intercept label from model.matrix() to valid variable name
+	if(identical(rn[1],"(Intercept)")) rn[1] <- "Intercept"
+	if(identical(cn[1],"(Intercept)")) cn[1] <- "Intercept"
 	if(!is.null(rn) && !is.null(cn) && !identical(rn,cn)) warning("row names of contrasts don't match col names of coefficients")
 	fit$contrasts <- contrasts
 
