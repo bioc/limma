@@ -26,17 +26,17 @@ plotMA.MAList <- function(object, array=1, xlab="A", ylab="M", main=colnames(obj
 	plotWithHighlights(x=A,y=M,xlab=xlab,ylab=ylab,main=main,status=status,...)
 }
 
-plotMA.MArrayLM <- function(object, coef=ncol(object), xlab="Average log-expression", ylab="log-fold-change", main=colnames(object)[coef], status=object$genes$Status, zero.weights=FALSE, ...)
+plotMA.MArrayLM <- function(object, coef=ncol(object), xlab="Average log-expression", ylab="log-fold-change", main=colnames(object)[coef], status=object$genes$Status, ...)
 #	MA-plot with color coding for controls
 #	Gordon Smyth 7 April 2003, James Wettenhall 27 June 2003.
-#	Last modified 18 Sep 2014.
+#	Last modified 15 Jul 2024.
 {
 	if(is.null(object$Amean)) stop("Amean component is absent.")
 	logFC <- as.matrix(object$coef)[,coef]
-	if(!zero.weights && !is.null(object$weights)) {
-		w <- as.matrix(object$weights)[,array]
-		logFC[ is.na(w) | (w <= 0) ] <- NA
-	}
+
+#	Ignoring zero.weights because weights have already been incorporated into the coefficient standard errors.
+#	logFC should already be NA whenever object$stdev.unscaled is, so logFC with infinite or non-estimable standard errors are already not plotted.
+
 	plotWithHighlights(x=object$Amean,y=logFC,xlab=xlab,ylab=ylab,main=main,status=status,...)
 }
 

@@ -28,7 +28,7 @@ Creates a mean-difference plot (aka MA plot) with color coding for highlighted p
        zero.weights = FALSE, \dots)
 \method{plotMD}{MArrayLM}(object, column = ncol(object), coef = NULL, xlab = "Average log-expression",
        ylab = "log-fold-change", main = colnames(object)[column],
-       status=object$genes$Status, zero.weights = FALSE, \dots)
+       status=object$genes$Status, \dots)
 }
 
 \arguments{
