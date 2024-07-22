@@ -21,7 +21,7 @@ importFrom("stats", "approx", "approxfun", "as.dendrogram", "as.dist",
            "qnorm", "qt", "quantile", "residuals", "rnorm", "sd",
            "uniroot", "var", "weighted.mean")
 importFrom("utils", "getFromNamespace", "head", "read.delim", "read.table", "tail", "write.table")
-importFrom("statmod", "gauss.quad.prob", "mixedModel2Fit", "remlscore")
+importFrom("statmod", "logmdigamma", "gauss.quad.prob", "mixedModel2Fit", "remlscore")
 if( tools:::.OStype() == "windows" ) importFrom("utils", "winMenuAddItem")
 
 S3method("[",MAList)

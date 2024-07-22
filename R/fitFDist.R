@@ -2,7 +2,7 @@ fitFDist <- function(x,df1,covariate=NULL)
 #	Moment estimation of the parameters of a scaled F-distribution.
 #	The numerator degrees of freedom is given, the scale factor and denominator df is to be estimated.
 #	Gordon Smyth and Belinda Phipson
-#	Created 8 Sept 2002.  Last revised 11 Jul 2020.
+#	Created 8 Sept 2002.  Last revised 22 Jul 2024.
 {
 #	Check x
 	n <- length(x)
@@ -80,7 +80,7 @@ fitFDist <- function(x,df1,covariate=NULL)
 
 #	Better to work on with log(F)
 	z <- log(x)
-	e <- z-digamma(df1/2)+log(df1/2)
+	e <- z+logmdigamma(df1/2)
 
 	if(is.null(covariate)) {
 		emean <- mean(e)
@@ -105,7 +105,7 @@ fitFDist <- function(x,df1,covariate=NULL)
 	evar <- evar - mean(trigamma(df1/2))
 	if(evar > 0) {
 		df2 <- 2*trigammaInverse(evar)
-		s20 <- exp(emean+digamma(df2/2)-log(df2/2))
+		s20 <- exp(emean-logmdigamma(df2/2))
 	} else {
 		df2 <- Inf
 		if(is.null(covariate))

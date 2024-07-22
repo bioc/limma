@@ -1,3 +1,11 @@
+22 Jul 2024: limma 3.61.5
+
+- Use of the stats package digamma() function in limma programming
+  replaced with logmdigamma() from the statmod package. Slight
+  improvements to speed, accuracy and code simplicity. Results from
+  limma empirical Bayes should remain the same to at least 13
+  significant figures.
+
 15 Jul 2024: limma 3.61.4
 
 - New argument `keep.EList` for voomaLmFit(). The observation weights

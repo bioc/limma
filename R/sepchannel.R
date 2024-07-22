@@ -64,7 +64,7 @@ lmscFit <- function(object,design,correlation)
 intraspotCorrelation <- function(object,design,trim=0.15)
 #	Estimate intra-spot correlation between channels for two channel data
 #	Gordon Smyth
-#	19 April 2004.  Last modified 9 June 2020.
+#	19 April 2004.  Last modified 22 July 2024.
 {
 #	Check input
 	M <- as.matrix(object$M)
@@ -100,7 +100,7 @@ intraspotCorrelation <- function(object,design,trim=0.15)
 	arho <- arho+log(2)
 	degfreNA <- degfre
 	degfreNA[degfre==0] <- NA
-	arhobias <- digamma(degfreNA[,1]/2)-log(degfreNA[,1]/2)-digamma(degfreNA[,2]/2)+log(degfreNA[,2]/2)
+	arhobias <- logmdigamma(degfreNA[,2]/2) - logmdigamma(degfreNA[,1]/2)
 	list(consensus.correlation=tanh(mean(arho-arhobias,trim=trim,na.rm=TRUE)), atanh.correlations=arho, df=degfre)
 }
 
