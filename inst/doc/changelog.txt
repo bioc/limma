@@ -1,3 +1,7 @@
+22 Jul 2024: limma 3.61.6
+
+- Use `identical()` instead of `==` in `if()` in squeezeVar().
+
 22 Jul 2024: limma 3.61.5
 
 - Use of the stats package digamma() function in limma programming
