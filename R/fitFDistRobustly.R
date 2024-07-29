@@ -217,7 +217,7 @@ fitFDistRobustly <- function(x,df1,covariate=NULL,winsor.tail.p=c(0.05,0.1),trac
 
 #		New calculation for df2.outlier
 #		Find df2.outlier to make maxFstat the median of the distribution
-#		Exploit fact that log(TailP) is nearly linearly with positive 2nd deriv as a function of df2
+#		Exploit fact that log(TailP) is nearly linear with positive 2nd deriv as a function of df2
 #		Note that minTailP and NewTailP are always less than 0.5
 		minLogTailP <- min(LogTailP)
 		if(minLogTailP == -Inf) {
