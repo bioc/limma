@@ -1,4 +1,8 @@
-22 Jul 2024: limma 3.61.6
+30 Jul 2024: limma 3.61.7
+
+- Clean up some code in fitFDistRobustly().
+
+29 Jul 2024: limma 3.61.6
 
 - Use `identical()` instead of `==` in `if()` in squeezeVar().
 

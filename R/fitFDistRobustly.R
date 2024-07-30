@@ -3,7 +3,7 @@ fitFDistRobustly <- function(x,df1,covariate=NULL,winsor.tail.p=c(0.05,0.1),trac
 #	given the first degrees of freedom, using first and second
 #	moments of Winsorized z-values
 #	Gordon Smyth and Belinda Phipson
-#	Created 7 Oct 2012.  Last revised 9 Jun 2020.
+#	Created 7 Oct 2012.  Last revised 30 Jul 2024.
 {
 #	Check x
 	n <- length(x)
@@ -51,11 +51,11 @@ fitFDistRobustly <- function(x,df1,covariate=NULL,winsor.tail.p=c(0.05,0.1),trac
 	if(m<=0) stop("Variances are mostly <= 0")
 	i <- (x < m*1e-12)
 	if(any(i)) {
-		nzero <- sum(i)
-		if(nzero==1)
-			warning("One very small variance detected, has been offset away from zero", call.=FALSE)
-		else
-			warning(nzero," very small variances detected, have been offset away from zero", call.=FALSE)
+#		nzero <- sum(i)
+#		if(nzero==1)
+#			warning("One very small variance detected, has been offset away from zero", call.=FALSE)
+#		else
+#			warning(nzero," very small variances detected, have been offset away from zero", call.=FALSE)
 		x[i] <- m*1e-12
 	}
 
@@ -193,9 +193,9 @@ fitFDistRobustly <- function(x,df1,covariate=NULL,winsor.tail.p=c(0.05,0.1),trac
 	ProbNotOutlier <- exp(LogProbNotOutlier)
 	ProbOutlier <- -expm1(LogProbNotOutlier)
 	if(any(LogProbNotOutlier < 0)) {
-		o <- order(LogTailP)
 
 #		Old calculation for df2.outlier
+#		o <- order(LogTailP)
 #		VarOutlier <- max(zresid)^2
 #		VarOutlier <- VarOutlier-trigamma(df1/2)
 #		if(trace) cat("VarOutlier",VarOutlier,"\n")
@@ -247,8 +247,8 @@ fitFDistRobustly <- function(x,df1,covariate=NULL,winsor.tail.p=c(0.05,0.1),trac
 #		df2.shrunk.iso[o] <- isoreg(TailP[o],df2.shrunk.iso[o])$yf
 
 	} else {
-		df2.outlier <- df2.outlier2 <- df2
-		df2.shrunk2 <- df2.shrunk <- rep_len(df2,length.out=n)
+		df2.outlier <- df2
+		df2.shrunk <- rep_len(df2,length.out=n)
 	}
 
 	list(scale=s20,df2=df2,tail.p.value=TailP,prob.outlier=ProbOutlier,df2.outlier=df2.outlier,df2.shrunk=df2.shrunk)
