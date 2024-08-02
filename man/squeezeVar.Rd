@@ -7,15 +7,17 @@ Squeeze a set of sample variances together by computing empirical Bayes posterio
 }
 
 \usage{
-squeezeVar(var, df, covariate=NULL, robust=FALSE, winsor.tail.p=c(0.05,0.1))
+squeezeVar(var, df, covariate = NULL, robust = FALSE, winsor.tail.p = c(0.05,0.1),
+           legacy = NULL)
 }
 
 \arguments{
 \item{var}{numeric vector of independent sample variances.}
-\item{df}{numeric vector of degrees of freedom for the sample variances.}
-\item{covariate}{if non-\code{NULL}, \code{var.prior} will depend on this numeric covariate. Otherwise, \code{var.prior} is constant.}
+\item{df}{numeric vector of degrees of freedom for the sample variances. Can be a unit vector or of same length as \code{var}.}
+\item{covariate}{numeric covariate of same length as \code{var} for estimating a trended prior variance. If \code{NULL}, then the prior variance \code{var.prior} is constant.}
 \item{robust}{logical, should the estimation of \code{df.prior} and \code{var.prior} be robustified against outlier sample variances?}
-\item{winsor.tail.p}{numeric vector of length 1 or 2, giving left and right tail proportions of \code{x} to Winsorize. Used only when \code{robust=TRUE}.}
+\item{winsor.tail.p}{numeric vector of length 1 or 2, giving left and right tail proportions of \code{x} to Winsorize when \code{robust=TRUE}.}
+\item{legacy}{logical. If \code{FALSE} then the new function \code{fitFDistUnequalDF1} will be called internally, otherwise the legacy functions \code{fitFDist} or \code{fitFDistRobustly} will be used. If \code{NULL}, then \code{fitFDistUnequalDF1} will be used whenever the degrees of freedom \code{df} are not all equal.}
 }
 
 \details{
@@ -32,10 +34,17 @@ The scale and degrees of freedom of this prior distribution are estimated from t
 The effect of this function is to squeeze the variances towards a common value, or to a global trend if a \code{covariate} is provided.
 The squeezed variances have a smaller expected mean square error to the true variances than do the sample variances themselves.
 
+The amount of squeezing is controlled by the \code{prior.df}.
+Both the global trend and the prior df are estimated internally but fitting an F-distribution to the sample variances, using either \code{fitFDist()} or \code{fitFDistRobustly()} or \code{fitFDistUnequalDF1()}.
+
 If \code{covariate} is non-null, then the scale parameter of the prior distribution is assumed to depend on the covariate.
 If the covariate is average log-expression, then the effect is an intensity-dependent trend similar to that in Sartor et al (2006).
 
-\code{robust=TRUE} implements the robust empirical Bayes procedure of Phipson et al (2016) which allows some of the \code{var} values to be outliers.
+\code{robust=TRUE} implements the robust empirical Bayes procedure of Phipson et al (2016), which allows some of the \code{var} values to be outliers.
+
+The \code{legacy} argument was added in limma version 3.61.8 (August 2024).
+If \code{legacy=FALSE}, then the new function \code{fitFDistUnequalDF1()} provides improved estimation of the global trend and prior df hyperparameters, especially when the \code{df} values are unequal.
+\code{legacy=TRUE} provides legacy behavior for backward compatibility.
 }
 
 \note{
@@ -74,7 +83,7 @@ incorporating corrections to 30 June 2009.
 \seealso{
 This function is called by \code{\link{eBayes}}.
 
-This function calls \code{\link{fitFDist}}.
+This function calls \code{\link{fitFDist}}, \code{\link{fitFDistRobustly}} or \code{\link{fitFDistUnequalDF1}} .
 
 An overview of linear model functions in limma is given by \link{06.LinearModels}.
 }

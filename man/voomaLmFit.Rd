@@ -12,8 +12,8 @@ Equivalent to calling vooma(), arrayWeights(), duplicateCorrelation() and lmFit(
 \usage{
 voomaLmFit(y, design = NULL, prior.weights = NULL, block = NULL,
            sample.weights = FALSE, var.design = NULL, var.group = NULL, prior.n = 10,
-           predictor = NULL, span = NULL, legacy.span = FALSE, plot = FALSE, save.plot = FALSE,
-           keep.EList = TRUE)
+           predictor = NULL, span = NULL, legacy.span = FALSE,
+           plot = FALSE, save.plot = FALSE, keep.EList = TRUE)
 }
 
 \arguments{

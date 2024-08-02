@@ -6,18 +6,21 @@ backgroundCorrect <- function(RG, method="auto", offset=0, printer=RG$printer, n
 {
 #	Apply background correction to microarray data
 #	Gordon Smyth
-#	12 April 2003.  Last modified 30 August 2010.
+#	12 April 2003.  Last modified 1 August 2024.
 
 	if(is.null(method)) method <- "auto"
 
+#	Single-channel background correction
 	if(is(RG,"EListRaw")) {
 		RG$E <- backgroundCorrect.matrix(RG$E,RG$Eb,method=method,offset=offset,normexp.method=normexp.method,verbose=verbose)
 		RG$Eb <- NULL
 		return(RG)
 	}
 
-	if(class(RG)=="list" && !is.null(RG$R)) RG <- new("RGList",RG)
+#	If RG is an unclassed list with a red channel, then convert to RGList
+	if(!isS4(RG) && is.list(RG) && !is.null(RG$R)) RG <- new("RGList",RG)
 
+#	Two-color background correction
 	if(is(RG,"RGList")) {
 		RG$R <- backgroundCorrect.matrix(RG$R,RG$Rb,method=method,offset=offset,normexp.method=normexp.method,verbose=verbose)
 		RG$Rb <- NULL
@@ -26,6 +29,7 @@ backgroundCorrect <- function(RG, method="auto", offset=0, printer=RG$printer, n
 		return(RG)
 	}
 
+#	Failing all other classes, coerce RG to a matrix
 	RG <- as.matrix(RG)
 	if(!(method %in% c("none","normexp"))) stop(method,"correction requires background intensities")
 	RG <- backgroundCorrect.matrix(RG,method=method,offset=offset,normexp.method=normexp.method,verbose=verbose)

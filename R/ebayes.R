@@ -1,14 +1,14 @@
 #  EMPIRICAL BAYES FUNCTIONS
 
-eBayes <- function(fit,proportion=0.01,stdev.coef.lim=c(0.1,4),trend=FALSE,robust=FALSE,winsor.tail.p=c(0.05,0.1))
+eBayes <- function(fit,proportion=0.01,stdev.coef.lim=c(0.1,4),trend=FALSE,robust=FALSE,winsor.tail.p=c(0.05,0.1),legacy=NULL)
 #	Empirical Bayes statistics to select differentially expressed genes.
 #	Accepts and returns an MArrayLM object.
 #	Gordon Smyth
-#	4 August 2003.  Last modified 29 Nov 2022.
+#	Created 4 Aug 2003.  Last modified 2 Aug 2024.
 {
 	if(!is.list(fit)) stop("fit is not a valid MArrayLM object")
 	if(is.logical(trend) && trend && is.null(fit$Amean)) stop("Need Amean component in fit to estimate trend")
-	eb <- .ebayes(fit=fit,proportion=proportion,stdev.coef.lim=stdev.coef.lim,trend=trend,robust=robust,winsor.tail.p=winsor.tail.p)
+	eb <- .ebayes(fit=fit,proportion=proportion,stdev.coef.lim=stdev.coef.lim,trend=trend,robust=robust,winsor.tail.p=winsor.tail.p,legacy=legacy)
 	fit$df.prior <- eb$df.prior
 	fit$s2.prior <- eb$s2.prior
 	fit$var.prior <- eb$var.prior
@@ -28,11 +28,10 @@ eBayes <- function(fit,proportion=0.01,stdev.coef.lim=c(0.1,4),trend=FALSE,robus
 	fit
 }
 
-.ebayes <- function(fit,proportion=0.01,stdev.coef.lim=c(0.1,4),trend=FALSE,robust=FALSE,winsor.tail.p=c(0.05,0.1))
+.ebayes <- function(fit,proportion=0.01,stdev.coef.lim=c(0.1,4),trend=FALSE,robust=FALSE,winsor.tail.p=c(0.05,0.1),legacy=NULL)
 #	Empirical Bayes statistics to select differentially expressed genes
 #	Gordon Smyth
-#	Created 8 Sept 2002.  Last revised 10 Feb 2022.
-#	Made a non-exported function 18 Feb 2018.
+#	Created 8 Sep 2002. Made non-exported function 18 Feb 2018. Last revised 2 Aug 2024.
 {
 	coefficients <- fit$coefficients
 	stdev.unscaled <- fit$stdev.unscaled
@@ -55,7 +54,7 @@ eBayes <- function(fit,proportion=0.01,stdev.coef.lim=c(0.1,4),trend=FALSE,robus
 	}
 
 #	Moderated t-statistic
-	out <- squeezeVar(sigma^2, df.residual, covariate=covariate, robust=robust, winsor.tail.p=winsor.tail.p)
+	out <- squeezeVar(sigma^2, df.residual, covariate=covariate, robust=robust, winsor.tail.p=winsor.tail.p, legacy=legacy)
 	out$s2.prior <- out$var.prior
 	out$s2.post <- out$var.post
 	out$var.prior <- out$var.post <- NULL

@@ -1,9 +1,9 @@
 #	EMPIRICAL BAYES SQUEEZING OF VARIANCES
 
-squeezeVar <- function(var, df, covariate=NULL, robust=FALSE, winsor.tail.p=c(0.05,0.1))
+squeezeVar <- function(var, df, covariate=NULL, robust=FALSE, winsor.tail.p=c(0.05,0.1), legacy=NULL)
 #	Empirical Bayes posterior variances
 #	Gordon Smyth
-#	Created 2 March 2004.  Last modified 29 July 2024.
+#	Created 2 March 2004.  Last modified 1 August 2024.
 {
 	n <- length(var)
 
@@ -14,13 +14,25 @@ squeezeVar <- function(var, df, covariate=NULL, robust=FALSE, winsor.tail.p=c(0.
 #	When df==0, guard against missing or infinite values in var
 	if(length(df)>1L) var[df==0] <- 0
 
+#	Choose legacy or new method depending whether df are unequal
+	if(is.null(legacy)) {
+		dfp <- df[df>0]
+		legacy <- identical(min(dfp),max(dfp))
+	}
+
 #	Estimate hyperparameters
-	if(robust) {
-		fit <- fitFDistRobustly(var, df1=df, covariate=covariate, winsor.tail.p=winsor.tail.p)
-		df.prior <- fit$df2.shrunk
+	if(legacy) {
+		if(robust) {
+			fit <- fitFDistRobustly(var, df1=df, covariate=covariate, winsor.tail.p=winsor.tail.p)
+			df.prior <- fit$df2.shrunk
+		} else {
+			fit <- fitFDist(var, df1=df, covariate=covariate)
+			df.prior <- fit$df2
+		}
 	} else {
-		fit <- fitFDist(var, df1=df, covariate=covariate)
-		df.prior <- fit$df2
+		fit <- fitFDistUnequalDF1(var, df1=df, covariate=covariate, robust=robust)
+		df.prior <- fit$df.shrunk
+		if(is.null(df.prior)) df.prior <- fit$df2
 	}
 	if(anyNA(df.prior)) stop("Could not estimate prior df")
 
@@ -34,28 +46,29 @@ squeezeVar <- function(var, df, covariate=NULL, robust=FALSE, winsor.tail.p=c(0.
 #	Squeeze posterior variances given hyperparameters
 #	NAs not allowed in df.prior
 #	Gordon Smyth
-#	Created 5 May 2016. Last modified 29 July 2024.
+#	Created 5 May 2016. Last modified 1 August 2024.
 {
+#	If df.prior are all finite, use canonical formula
+	m <- max(df.prior)
+	if(is.finite(m)) return( (df*var + df.prior*var.prior) / (df+df.prior) )
+
+#	Set var.post to var.prior of length n
 	n <- length(var)
-	isfin <- is.finite(df.prior)
-	if(all(isfin)) return( (df*var + df.prior*var.prior) / (df+df.prior) )
-
-#	From here, at least some df.prior are infinite
-
-#	For infinite df.prior, return var.prior
 	if(identical(length(var.prior),n)) {
 		var.post <- var.prior
 	} else {
 		var.post <- rep_len(var.prior, length.out=n)
 	}
 
-#	Maybe some df.prior are finite
-	if(any(isfin)) {
-		i <- which(isfin)
-		if(length(df)>1) df <- df[i]
-		df.prior <- df.prior[i]
-		var.post[i] <- (df*var[i] + df.prior*var.post[i]) / (df+df.prior)
-	}
+#	Check if df.prior all Inf
+	m <- min(df.prior)
+	if(m > 1e100) return(var.post)
+
+#	Only some df.prior are finite
+	i <- which(is.finite(df.prior))
+	if(length(df)>1L) df <- df[i]
+	df.prior <- df.prior[i]
+	var.post[i] <- (df*var[i] + df.prior*var.post[i]) / (df+df.prior)
 
 	var.post
 }

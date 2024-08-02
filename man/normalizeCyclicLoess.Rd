@@ -5,7 +5,8 @@
 Normalize the columns of a matrix, cyclicly applying loess normalization to normalize each pair of columns to each other.
 }
 \usage{
-normalizeCyclicLoess(x, weights = NULL, span = 0.7, adaptive.span = FALSE, iterations = 3, method = "fast")
+normalizeCyclicLoess(x, weights = NULL, span = 0.7, adaptive.span = FALSE,
+                     iterations = 3, method = "fast")
 }
 \arguments{
   \item{x}{numeric matrix, or object which can be coerced to a numeric matrix, containing log-expression values.}
@@ -47,7 +48,7 @@ A matrix of the same dimensions as \code{x} containing the normalized values.
 \references{
 Bolstad BM, Irizarry RA, Astrand M, Speed TP (2003).
 A comparison of normalization methods for high density oligonucleotide array data based on bias and variance.
-\emph{Bioinformatics} \bold{19}, 185-193.
+\emph{Bioinformatics} 19, 185-193.
 
 Ballman KV, Grill DE, Oberg AL, Therneau TM (2004).
 Faster cyclic loess: normalizing RNA arrays via linear models.

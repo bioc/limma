@@ -15,13 +15,13 @@ importFrom("stats", "approx", "approxfun", "as.dendrogram", "as.dist",
            "dist", "density", "df", "dhyper", "dnorm", "filter", "fitted",
            "hat", "hclust", "integrate", "isoreg", "lm", "lm.fit", "lm.wfit", "loess",
            "lowess", "median", "model.matrix", "na.exclude", "na.omit",
-           "nlminb", "nls", "nls.control", "optim", "p.adjust",
+           "nlminb", "nls", "nls.control", "optim", "optimize", "p.adjust",
            "pbeta", "pchisq", "pexp", "pf", "pgamma", "phyper",
            "pnorm", "ppoints", "predict", "pt", "qchisq", "qf",
            "qnorm", "qt", "quantile", "residuals", "rnorm", "sd",
            "uniroot", "var", "weighted.mean")
 importFrom("utils", "getFromNamespace", "head", "read.delim", "read.table", "tail", "write.table")
-importFrom("statmod", "logmdigamma", "gauss.quad.prob", "mixedModel2Fit", "remlscore")
+importFrom("statmod", "gauss.quad.prob", "logmdigamma", "mixedModel2Fit", "remlscore")
 if( tools:::.OStype() == "windows" ) importFrom("utils", "winMenuAddItem")
 
 S3method("[",MAList)

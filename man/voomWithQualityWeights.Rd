@@ -6,7 +6,8 @@ Combine voom observational-level precision weights with sample-specific quality 
 }
 \usage{
 voomWithQualityWeights(counts, design = NULL, lib.size = NULL, normalize.method = "none",
-             plot = FALSE, span = 0.5, adaptive.span = FALSE, var.design = NULL, var.group = NULL,
+             plot = FALSE, span = 0.5, adaptive.span = FALSE,
+             var.design = NULL, var.group = NULL,
              method = "genebygene", maxiter = 50, tol = 1e-5, trace = FALSE,
              col = NULL, \dots)
 }

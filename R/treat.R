@@ -1,9 +1,9 @@
 ###  treat.R
 
-treat <- function(fit, fc=1.2, lfc=NULL, trend=FALSE, robust=FALSE, winsor.tail.p=c(0.05,0.1))
+treat <- function(fit, fc=1.2, lfc=NULL, trend=FALSE, robust=FALSE, winsor.tail.p=c(0.05,0.1), legacy=NULL)
 #	Moderated t-statistics relative to a logFC threshold.
 #	Davis McCarthy, Gordon Smyth
-#	25 July 2008.  Last revised 6 May 2023.
+#	25 July 2008.  Last revised 2 Aug 2024.
 {
 #	Check fit
 	if(!is(fit,"MArrayLM")) stop("fit must be an MArrayLM object")
@@ -28,7 +28,7 @@ treat <- function(fit, fc=1.2, lfc=NULL, trend=FALSE, robust=FALSE, winsor.tail.
 	} else {
 		covariate <- NULL
 	}
-	sv <- squeezeVar(sigma^2, df.residual, covariate=covariate, robust=robust, winsor.tail.p=winsor.tail.p)
+	sv <- squeezeVar(sigma^2, df.residual, covariate=covariate, robust=robust, winsor.tail.p=winsor.tail.p, legacy=legacy)
 	fit$df.prior <- sv$df.prior
 	fit$s2.prior <- sv$var.prior
 	fit$s2.post <- sv$var.post

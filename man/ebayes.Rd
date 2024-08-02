@@ -7,9 +7,9 @@
 
 \usage{
 eBayes(fit, proportion = 0.01, stdev.coef.lim = c(0.1,4),
-       trend = FALSE, robust = FALSE, winsor.tail.p = c(0.05,0.1))
+       trend = FALSE, robust = FALSE, winsor.tail.p = c(0.05,0.1), legacy = NULL)
 treat(fit, fc = 1.2, lfc = NULL, trend = FALSE,
-      robust = FALSE, winsor.tail.p = c(0.05,0.1))
+      robust = FALSE, winsor.tail.p = c(0.05,0.1), legacy = NULL)
 }
 
 \arguments{
@@ -19,7 +19,8 @@ treat(fit, fc = 1.2, lfc = NULL, trend = FALSE,
   \item{stdev.coef.lim}{numeric vector of length 2, assumed lower and upper limits for the standard deviation of log2-fold-changes for differentially expressed genes}
   \item{trend}{logical, should an intensity-dependent trend be allowed for the prior variance? If \code{FALSE} then the prior variance is constant. Alternatively, \code{trend} can be a row-wise numeric vector, which will be used as the covariate for the prior variance.}
   \item{robust}{logical, should the estimation of \code{df.prior} and \code{var.prior} be robustified against outlier sample variances?}
-  \item{winsor.tail.p}{numeric vector of length 1 or 2, giving left and right tail proportions of \code{x} to Winsorize. Used only when \code{robust=TRUE}.}
+  \item{winsor.tail.p}{numeric vector of length 1 or 2, giving left and right tail proportions of \code{x} to Winsorize (if \code{robust=TRUE} and \code{legacy=TRUE}).}
+  \item{legacy}{logical. If \code{FALSE} then the new hyperparameter estimation (introduced in limma 3.61.8) will be used, otherwise the legacy methods will be used. If \code{NULL}, then the new method will be used whenever the residual degrees of freedom are not all equal.}
   \item{fc}{a minimum fold-change below which changes are not considered scientifically meaningful.}
   \item{lfc}{a minimum log2-fold-change below which changes not considered scientifically meaningful. Defaults to \code{log2(fc)}.}
 }
@@ -60,7 +61,7 @@ For each gene (row), the moderated F-statistic tests whether all the contrasts a
 The F-statistic is an overall test computed from the set of t-statistics for that probe.
 This is exactly analogous the relationship between t-tests and F-statistics in conventional anova, except that the residual mean squares have been moderated between genes.
 
-The estimates \code{s2.prior} and \code{df.prior} are computed by \code{fitFDist}.
+The estimates \code{s2.prior} and \code{df.prior} are computed by one of \code{fitFDist}, \code{fitFDistRobustly} or \code{fitFDistUnequalDF1} (depending on settings for \code{robust} and \code{legacy}).
 \code{s2.post} is the weighted average of \code{s2.prior} and \code{sigma^2} with weights proportional to \code{df.prior} and \code{df.residual} respectively.
 The log-odds of differential expression \code{lods} was called the \emph{B-statistic} by Loennstedt and Speed (2002).
 The F-statistics \code{F} are computed by \code{classifyTestsF} with \code{fstat.only=TRUE}.
@@ -102,6 +103,12 @@ limma-trend is recommended for RNA-seq analysis when the library sizes are reaso
 If \code{robust=TRUE} then the robust empirical Bayes procedure of Phipson et al (2016) is used.
 This is frequently useful to protect the empirical Bayes procedure against hyper-variable or hypo-variable genes, especially when analysing RNA-seq data.
 See \code{\link{squeezeVar}} for more details.
+
+In limma 3.61.8 (August 2024), the new function \code{\link{fitFDistUnequalDF1}} was introduced to improve estimation of the hyperparameters \code{s2.prior} and \code{df.prior}, especially when not all genes have the same residual degrees of freedom.
+\code{fitFDistUnequalDF1} is a potential replacement for the original functions \code{fitFDist} and \code{fitFDistRobustly} and the argument \code{legacy} is provided to control backward compatibility.
+The new hyperparameter estimation will be used if \code{legacy=FALSE} and the original methods will be used if \code{legacy=TRUE}.
+If \code{legacy=NULL}, then the new method will be used if the residual degrees of freedom are unequal and the original methods otherwise.
+Unequal residual degrees of freedom arise in limma pipelines when the expression matrix includes missing values or from the quasi-likelihood pipeline in edgeR v4.
 }
 
 \note{

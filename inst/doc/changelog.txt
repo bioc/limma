@@ -1,3 +1,24 @@
+ 1 Aug 2024: limma 3.61.8
+
+- New function fitFDistUnequalDF1(), which improves on fitFDist() and
+  fitFDistRobustly(), with special attention to contexts where the
+  df1 argument is unequal between cases and can include small
+  fractional values, such as those resulting from the edgeR 4.0
+  quasi-likelihood pipeline.
+
+- New argument `legacy` for squeezeVar(). If `legacy=FALSE`, then it
+  uses fitFDistUnequalDF1() instead of fitFDist() or
+  fitFDistRobustly(). If `legacy=NULL` then fitFDistUnequalDF1() will
+  be used when the degrees of freedom `df` are not all equal.
+
+- New argument `legacy` for eBayes() and treat(). If `legacy=FALSE`,
+  then the new hyperparameter estimation implemented via
+  fitFDistUnequalDF1() will be used, otherwise the legacy method will
+  be used. If `legacy=NULL` then the new method will be used when the
+  residual degrees of freedom are not all equal.
+
+- Improved checking for the class of the input in backgroundCorrect.R.
+
 30 Jul 2024: limma 3.61.7
 
 - Clean up some code in fitFDistRobustly().

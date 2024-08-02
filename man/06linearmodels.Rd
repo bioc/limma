@@ -58,7 +58,7 @@ After fitting a linear model, the standard errors are moderated using a simple e
 A moderated t-statistic and a log-odds of differential expression is computed for each contrast for each gene.
 \code{treat} tests whether log-fold-changes are greater than a threshold rather than merely different to zero.
 
-\code{\link{eBayes}} and \code{\link{treat}} use internal functions \code{\link{squeezeVar}}, \code{\link{fitFDist}}, \code{\link{tmixture.matrix}} and \code{\link{tmixture.vector}}.
+\code{\link{eBayes}} and \code{\link{treat}} use internal functions \code{\link{squeezeVar}}, \code{\link{fitFDist}}, \code{\link{fitFDistRobustly}}, \code{\link{fitFDistUnequalDF1}}, \code{\link{tmixture.matrix}} and \code{\link{tmixture.vector}}.
 }
 
 \section{Summarizing Model Fits}{
@@ -104,7 +104,7 @@ Smyth, G. K. (2004). Linear models and empirical Bayes methods for assessing dif
 \emph{Statistical Applications in Genetics and Molecular Biology}, \bold{3}, No. 1, Article 3.
 \url{https://gksmyth.github.io/pubs/ebayes.pdf}
 
-Smyth, G. K., Michaud, J., and Scott, H. (2005). The use of within-array replicate spots for assessing differential expression in microarray experiments. Bioinformatics 21(9), 2067-2075.
+Smyth, G. K., Michaud, J., and Scott, H. (2005). The use of within-array replicate spots for assessing differential expression in microarray experiments. \emph{Bioinformatics} 21(9), 2067-2075.
 }
 
 \seealso{
