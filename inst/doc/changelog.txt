@@ -4,6 +4,8 @@
   with `robust=TRUE`. The `prior.df` were being set equal instead of
   using shrunk prior degrees of freedom for the upper outliers.
 
+- Mention voomLmFit() as producing unequal residual df in fitFDist.Rd.
+
  1 Aug 2024: limma 3.61.8
 
 - New function fitFDistUnequalDF1(), which improves on fitFDist() and
