@@ -45,7 +45,7 @@ Whereas \code{fitFDist} and \code{fitFDistRobustly} use unweighted moment estima
 \code{fitFDistUnequalDF1} uses weighted moment estimation for \code{scale} and profile maximum likelihood for \code{df2}.
 
 \code{fitFDistUnequalDF1} gives improved performance over \code{fitFDist} and \code{fitFDistRobustly}, especially when the degrees of freedom are unequal but also to a lesser extent when the degrees of freedom are equal.
-Unequal residual degrees of freedom arise in limma pipelines when the expression matrix includes missing values or from the quasi-likelihood pipeline in edgeR v4 (Chen et al 2024).
+Unequal residual degrees of freedom arise in limma pipelines when the expression matrix includes missing values, or from \code{edgeR::voomLmFit} or from the quasi-likelihood pipeline in edgeR v4 (Chen et al 2024).
 The edgeR v4 pipeline produces fractional degrees of freedom including, potentially, degrees of freedom less than 1.
 }
 

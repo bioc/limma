@@ -3,7 +3,7 @@
 squeezeVar <- function(var, df, covariate=NULL, robust=FALSE, winsor.tail.p=c(0.05,0.1), legacy=NULL)
 #	Empirical Bayes posterior variances
 #	Gordon Smyth
-#	Created 2 March 2004.  Last modified 1 August 2024.
+#	Created 2 March 2004.  Last modified 4 August 2024.
 {
 	n <- length(var)
 
@@ -31,7 +31,7 @@ squeezeVar <- function(var, df, covariate=NULL, robust=FALSE, winsor.tail.p=c(0.
 		}
 	} else {
 		fit <- fitFDistUnequalDF1(var, df1=df, covariate=covariate, robust=robust)
-		df.prior <- fit$df.shrunk
+		df.prior <- fit$df2.shrunk
 		if(is.null(df.prior)) df.prior <- fit$df2
 	}
 	if(anyNA(df.prior)) stop("Could not estimate prior df")
