@@ -20,9 +20,9 @@ treat(fit, fc = 1.2, lfc = NULL, trend = FALSE,
   \item{trend}{logical, should an intensity-dependent trend be allowed for the prior variance? If \code{FALSE} then the prior variance is constant. Alternatively, \code{trend} can be a row-wise numeric vector, which will be used as the covariate for the prior variance.}
   \item{robust}{logical, should the estimation of \code{df.prior} and \code{var.prior} be robustified against outlier sample variances?}
   \item{winsor.tail.p}{numeric vector of length 1 or 2, giving left and right tail proportions of \code{x} to Winsorize (if \code{robust=TRUE} and \code{legacy=TRUE}).}
-  \item{legacy}{logical. If \code{FALSE} then the new hyperparameter estimation (introduced in limma 3.61.8) will be used, otherwise the legacy methods will be used. If \code{NULL}, then the new method will be used whenever the residual degrees of freedom are not all equal.}
-  \item{fc}{a minimum fold-change below which changes are not considered scientifically meaningful.}
-  \item{lfc}{a minimum log2-fold-change below which changes not considered scientifically meaningful. Defaults to \code{log2(fc)}.}
+  \item{legacy}{logical. If \code{FALSE} then the new hyperparameter estimation (introduced in limma 3.61.8) will be used, if \code{TRUE} the earlier hyperparameter estimation will be used. If \code{NULL}, then the new method will be used when the residual degrees of freedom are not all equal and the old method will be used otherwise.}
+  \item{fc}{minimum fold-change below which changes are not considered scientifically meaningful.}
+  \item{lfc}{minimum log2-fold-change below which changes not considered scientifically meaningful. Defaults to \code{log2(fc)}. If specified then takes precedence over \code{fc}.}
 }
 
 \value{
