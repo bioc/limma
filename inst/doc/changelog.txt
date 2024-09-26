@@ -1,3 +1,7 @@
+27 Sep 2024: limma 3.60.5
+
+- Convert C code from Calloc to R_Calloc so that it builds in R 4.5.0.
+
 15 Jul 2024: limma 3.60.4
 
 - New argument `keep.EList` for voomaLmFit(). The observation weights
