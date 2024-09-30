@@ -1,3 +1,7 @@
+30 Sep 2024: limma 3.60.6
+
+- Convert C code from free/Free to R_Free.
+
 27 Sep 2024: limma 3.60.5
 
 - Convert C code from Calloc to R_Calloc so that it builds in R 4.5.0.

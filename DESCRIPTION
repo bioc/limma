@@ -1,8 +1,8 @@
 Package: limma
-Version: 3.60.5
-Date: 2024-09-27
-Title: Linear Models for Microarray Data
-Description: Data analysis, linear models and differential expression for microarray and RNA-seq data.
+Version: 3.60.6
+Date: 2024-09-30
+Title: Linear Models for Microarray and Omics Data
+Description: Data analysis, linear models and differential expression for omics data.
 Author: Gordon Smyth [cre,aut], Yifang Hu [ctb], Matthew Ritchie [ctb], Jeremy Silver [ctb], James Wettenhall [ctb], Davis McCarthy [ctb], Di Wu [ctb], Wei Shi [ctb], Belinda Phipson [ctb], Aaron Lun [ctb], Natalie Thorne [ctb], Alicia Oshlack [ctb], Carolyn de Graaf [ctb], Yunshun Chen [ctb], Goknur Giner [ctb], Mette Langaas [ctb], Egil Ferkingstad [ctb], Marcus Davy [ctb], Francois Pepin [ctb], Dongseok Choi [ctb], Charity Law [ctb], Mengbo Li [ctb]
 Maintainer: Gordon Smyth <smyth@wehi.edu.au>
 License: GPL (>=2)

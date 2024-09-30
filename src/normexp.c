@@ -3,6 +3,7 @@ normexp fitting
 Jeremy Silver, Dec 2007
 Minor modifications by Gordon Smyth, Sep 2008
 Minor change to memory allocation by Jeremy Silver, Sep 2008
+Use of R_Calloc and R_Free by Lizhong Chen, Sep 2024
 */
 
 #include <stdio.h>
@@ -55,9 +56,9 @@ double normexp_m2loglik_saddle(int m, double *par, void *ex){
   double alpha4 = alpha2 * alpha2;
   double dK, ddK, delta;
 
-  upperbound = (double *) R_Calloc(*n, double);
-  theta = (double *) R_Calloc(*n, double);
-  hasConverged = (int *) R_Calloc(*n, int);
+  upperbound = R_Calloc(*n, double);
+  theta = R_Calloc(*n, double);
+  hasConverged = R_Calloc(*n, int);
 
   c2 = sigma2 * alpha;
 
@@ -121,9 +122,9 @@ double normexp_m2loglik_saddle(int m, double *par, void *ex){
     loglik += logf;
   }
 
-  free(upperbound);
-  free(theta);
-  free(hasConverged);
+  R_Free(upperbound);
+  R_Free(theta);
+  R_Free(hasConverged);
 
   return -2.0 * loglik;
 
