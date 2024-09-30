@@ -3,13 +3,15 @@
 squeezeVar <- function(var, df, covariate=NULL, robust=FALSE, winsor.tail.p=c(0.05,0.1), legacy=NULL)
 #	Empirical Bayes posterior variances
 #	Gordon Smyth
-#	Created 2 March 2004.  Last modified 4 August 2024.
+#	Created 2 March 2004.  Last modified 30 September 2024.
 {
 	n <- length(var)
 
-#	Degenerate special cases
+#	No observations
 	if(identical(n,0L)) stop("var is empty")
-	if(identical(n,1L)) return(list(var.post=var,var.prior=var,df.prior=0))
+
+#	The code will run for n=2 but there is no theoretical advantage from empirical Bayes with less than 3 observations
+	if(n < 3L) return(list(var.post=var,var.prior=var,df.prior=0))
 
 #	When df==0, guard against missing or infinite values in var
 	if(length(df)>1L) var[df==0] <- 0

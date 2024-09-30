@@ -1,3 +1,10 @@
+30 Sep 2024: limma 3.61.12
+
+- squeezeVar() now returns no moderation with df.prior=0 when there
+  only two variances.
+
+- Convert C code from free/Free to R_Free.
+
 25 Sep 2024: limma 3.61.11
 
 - Convert C code from Calloc to R_Calloc ready for R 4.5.0.
