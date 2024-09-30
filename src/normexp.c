@@ -3,6 +3,7 @@ normexp fitting
 Jeremy Silver, Dec 2007
 Minor modifications by Gordon Smyth, Sep 2008
 Minor change to memory allocation by Jeremy Silver, Sep 2008
+Use of R_Calloc and R_Free by Lizhong Chen, Sep 2024
 */
 
 #include <stdio.h>
