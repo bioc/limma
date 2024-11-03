@@ -1,3 +1,15 @@
+ 3 Nov 2024: limma 3.63.1
+
+- voomaLmFit() now allows missing values in both `y` and in
+  `predictor`, provided there are no entirely missing rows and
+  provided all non-NA y values have a non-NA predictor.
+
+- voomaLmFit() now allows `predictor` to be either a matrix or a
+  column vector with genewise values.
+
+30 Oct 2024: limma 3.63.0 (Bioconductor 3.21 Developmental Branch)
+30 Oct 2024: limma 3.62.0 (Bioconductor 3.20 Release Branch)
+
 30 Sep 2024: limma 3.61.12
 
 - squeezeVar() now returns no moderation with df.prior=0 when there

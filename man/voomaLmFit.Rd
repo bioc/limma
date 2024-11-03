@@ -52,7 +52,7 @@ voomaLmFit(y, design = NULL, prior.weights = NULL, block = NULL,
   }
   \item{predictor}{
     precision predictor.
-    Numeric matrix of the same dimensions as \code{y} that predicts the precision of each log-expression value.
+    Either a column vector of length \code{nrow(y)} or a numeric matrix of the same dimensions as \code{y} that predicts the precision of each log-expression value.
     Is used as a second covariate together with the log-intensities to predict the variances and produce the final precision weights.
   }
   \item{span}{

@@ -1,5 +1,5 @@
 
-R version 4.4.1 (2024-06-14 ucrt) -- "Race for Your Life"
+R version 4.4.2 (2024-10-31 ucrt) -- "Pile of Leaves"
 Copyright (C) 2024 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64
 
@@ -1248,7 +1248,7 @@ Gene95 -1.907074  1.26297763 -2.106861 0.0589594023 0.58959402 -4.4117140
 > go <- goana(fit,FDR=0.8,geneid=EB)
 > topGO(go,number=10,truncate.term=30)
                                      Term Ont  N Up Down        P.Up      P.Down
-GO:0032502          developmental process  BP 24  4    7 0.871310423 0.001532528
+GO:0032502          developmental process  BP 26  5    7 0.785697935 0.002720775
 GO:0070062          extracellular exosome  CC  8  0    4 1.000000000 0.003047199
 GO:0065010 extracellular membrane-boun...  CC  8  0    4 1.000000000 0.003047199
 GO:0043230        extracellular organelle  CC  8  0    4 1.000000000 0.003047199
@@ -1260,17 +1260,17 @@ GO:0042981 regulation of apoptotic pro...  BP  5  4    1 0.009503355 0.416247633
 GO:0043067 regulation of programmed ce...  BP  5  4    1 0.009503355 0.416247633
 > topGO(go,number=10,truncate.term=30,sort="down")
                                      Term Ont  N Up Down      P.Up      P.Down
-GO:0032502          developmental process  BP 24  4    7 0.8713104 0.001532528
+GO:0032502          developmental process  BP 26  5    7 0.7856979 0.002720775
 GO:0070062          extracellular exosome  CC  8  0    4 1.0000000 0.003047199
 GO:0065010 extracellular membrane-boun...  CC  8  0    4 1.0000000 0.003047199
 GO:0043230        extracellular organelle  CC  8  0    4 1.0000000 0.003047199
 GO:1903561          extracellular vesicle  CC  8  0    4 1.0000000 0.003047199
-GO:0032501 multicellular organismal pr...  BP 33  7    7 0.7048432 0.013750585
-GO:0016485             protein processing  BP  7  1    3 0.8497705 0.020760307
-GO:0031982                        vesicle  CC 20  3    5 0.8982815 0.025464546
-GO:0009887     animal organ morphogenesis  BP  3  0    2 1.0000000 0.025788497
+GO:0016485             protein processing  BP  6  0    3 1.0000000 0.012551076
 GO:0043009 chordate embryonic developm...  BP  3  0    2 1.0000000 0.025788497
+GO:0072359 circulatory system developm...  BP  3  0    2 1.0000000 0.025788497
+GO:0009790             embryo development  BP  3  0    2 1.0000000 0.025788497
+GO:0009792 embryo development ending i...  BP  3  0    2 1.0000000 0.025788497
 > 
 > proc.time()
    user  system elapsed 
-   1.32    0.15    2.62 
+   1.43    0.68    3.32 
