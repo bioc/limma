@@ -8,7 +8,7 @@ voomaLmFit <- function(
 #	vooma+lmFit with iteration of sample weights and intrablock correlation.
 #	Creates an MArrayLM object for entry to eBayes() etc in the limma pipeline.
 #	Mengbo Li and Gordon Smyth
-#	Created 24 Nov 2023. Last modifed 15 Jul 2024.
+#	Created 24 Nov 2023. Last modifed 3 Nov 2024.
 {
 	Block <- !is.null(block)
 	PriorWeights <- !is.null(prior.weights)
@@ -21,15 +21,37 @@ voomaLmFit <- function(
 	if(!is(y,"EList")) y <- new("EList",list(E=as.matrix(y)))
 	narrays <- ncol(y)
 	ngenes <- nrow(y)
+	if(narrays < 2L) stop("Two few samples")
+	if(ngenes < 2L) stop("Need multiple rows")
+	A <- rowMeans(y$E,na.rm=TRUE)
+	if(anyNA(A)) stop("y contains entirely NA rows")
+
+#	Check predictor
+	if(!is.null(predictor)) {
+		predictor <- as.matrix(predictor)
+		if(!identical(nrow(predictor),ngenes)) stop("predictor is of wrong dimension")
+		if(identical(ncol(predictor),1L)) {
+			predictor <- matrix(predictor,ngenes,narrays)
+		} else {
+			if(!identical(ncol(predictor),narrays)) stop("predictor is of wrong dimension")
+		}
+		if(anyNA(predictor)) {
+			if(anyNA(y$E)) {
+				if(anyNA( predictor[!is.na(y$E)] )) stop("All observed y values must have non-NA predictors")
+			} else {
+				stop("All observed y values must have non-NA predictors")
+			}
+		}
+	}
 	
-#	Check design
+#	Check design	
 	if(is.null(design)) design <- y$design
 	if(is.null(design)) {
 		design <- matrix(1,narrays,1)
 		rownames(design) <- colnames(y)
 		colnames(design) <- "GrandMean"
 	}
-	
+
 #	Expand prior.weights if necessary
 	if(!is.null(prior.weights)) prior.weights <- asMatrixWeights(prior.weights,dim(y))
 	
@@ -45,13 +67,13 @@ voomaLmFit <- function(
 	}
 	
 #	Prepare to fit lowess trend
-	sx <- rowMeans(y$E)
+	sx <- A
 	sy <- sqrt(fit$sigma)
 	mu <- fitted.values
 	
 #	Optionally combine ave log intensity with precision predictor
 	if(!is.null(predictor)) {
-		sxc <- rowMeans(predictor)
+		sxc <- rowMeans(predictor, na.rm = TRUE)
 		vartrend <- lm.fit(cbind(1,sx,sxc),sy)
 		beta <- coef(vartrend)
 		sx <- vartrend$fitted.values
@@ -130,7 +152,7 @@ voomaLmFit <- function(
 			fitted.values <- fit$coefficients %*% t(fit$design)
 		}
 #		Prepare to fit NEW lowess trend
-		sx <- rowMeans(y$E)
+		sx <- A
 		sy <- sqrt(fit$sigma)
 		mu <- fitted.values
 #		Optionally combine ave log intensity with precision predictor for the NEW trend
