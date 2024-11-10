@@ -21,7 +21,7 @@ voomaLmFit <- function(
 	if(!is(y,"EList")) y <- new("EList",list(E=as.matrix(y)))
 	narrays <- ncol(y)
 	ngenes <- nrow(y)
-	if(narrays < 2L) stop("Two few samples")
+	if(narrays < 2L) stop("Too few samples")
 	if(ngenes < 2L) stop("Need multiple rows")
 	A <- rowMeans(y$E,na.rm=TRUE)
 	if(anyNA(A)) stop("y contains entirely NA rows")

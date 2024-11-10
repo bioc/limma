@@ -1,6 +1,12 @@
+ 10 Nov 2024: limma 3.63.2
+
+- vooma() now allows missing values in both `y` and
+  `predictor`, provided there are no entirely missing rows and
+  provided all non-NA y values have a non-NA predictor.
+
  3 Nov 2024: limma 3.63.1
 
-- voomaLmFit() now allows missing values in both `y` and in
+- voomaLmFit() now allows missing values in `y` and
   `predictor`, provided there are no entirely missing rows and
   provided all non-NA y values have a non-NA predictor.
 

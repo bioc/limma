@@ -3,12 +3,32 @@ vooma <- function(y,design=NULL,block=NULL,correlation,predictor=NULL,span=NULL,
 #	Analogous to voom() but for non-count data.
 #	y must not contain NAs.
 #	Gordon Smyth, Charity Law, Mengbo Li.
-#	Created 31 July 2012.  Last modified 19 May 2024.
+#	Created 31 July 2012.  Last modified 6 Nov 2024.
 {
 #	Check y
 	if(!is(y,"EList")) y <- new("EList",list(E=as.matrix(y)))
 	narrays <- ncol(y)
 	ngenes <- nrow(y)
+	A <- rowMeans(y$E,na.rm=TRUE)
+	if(anyNA(A)) stop("y contains entirely NA rows")
+
+#	Check predictor
+	if(!is.null(predictor)) {
+		predictor <- as.matrix(predictor)
+		if(!identical(nrow(predictor),ngenes)) stop("predictor is of wrong dimension")
+		if(identical(ncol(predictor),1L)) {
+			predictor <- matrix(predictor,ngenes,narrays)
+		} else {
+			if(!identical(ncol(predictor),narrays)) stop("predictor is of wrong dimension")
+		}
+		if(anyNA(predictor)) {
+			if(anyNA(y$E)) {
+				if(anyNA( predictor[!is.na(y$E)] )) stop("All observed y values must have non-NA predictors")
+			} else {
+				stop("All observed y values must have non-NA predictors")
+			}
+		}
+	}
 
 #	Check design
 	if(is.null(design)) design <- y$design
@@ -40,12 +60,12 @@ vooma <- function(y,design=NULL,block=NULL,correlation,predictor=NULL,span=NULL,
 	s2 <- colMeans(fit$effects[-(1:fit$rank),,drop=FALSE]^2)
 
 #	Prepare to predict sqrt-standard-deviations by ave log intensity
-	sx <- rowMeans(y$E)
+	sx <- A
 	sy <- sqrt(sqrt(s2))
 
 #	Optionally combine ave log intensity with precision predictor
 	if(!is.null(predictor)) {
-		sxc <- rowMeans(predictor)
+		sxc <- rowMeans(predictor, na.rm = TRUE)
 		vartrend <- lm.fit(cbind(1,sx,sxc),sy)
 		beta <- coef(vartrend)
 		sx <- vartrend$fitted.values
