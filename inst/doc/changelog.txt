@@ -1,4 +1,9 @@
- 10 Nov 2024: limma 3.63.2
+ 9 Jan 2025: limma 3.63.3
+
+- Correction to voomaLmFit help page. Add Li (2024) PhD Thesis as
+  reference.
+
+10 Nov 2024: limma 3.63.2
 
 - vooma() now allows missing values in both `y` and
   `predictor`, provided there are no entirely missing rows and
