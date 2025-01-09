@@ -77,21 +77,22 @@ voomaLmFit(y, design = NULL, prior.weights = NULL, block = NULL,
 }
 
 \details{
-This function is analogous to \code{voomLmFit} but for microarray-like data with continuous log-expression values.
-The function is equivalent to calling vooma() followed by lmFit(), optionally with arrayWeights() and duplicateCorrelation() as well to estimate sample weights and block correlation.
-The function finishes with \code{lmFit} and returns a fitted model object.
+This function is analogous to \code{voomLmFit} in the edgeR package but for microarray-like data with continuous log-expression values.
+The function is equivalent to calling \code{vooma()} followed by \code{lmFit()}, optionally with \code{arrayWeights()} and \code{duplicateCorrelation()} as well to estimate sample weights and block correlation.
+The function finishes with \code{lmFit()} and returns a fitted model object.
 
 Like \code{vooma}, \code{voomaLmFit} estimates the mean-variance relationship in the data and uses it to compute appropriate precision weights for each observation.
 The mean-variance trend is estimated from gene-level data but is extrapolated back to individual observations to obtain a precision weight (inverse variance) for each observation.
-The weights can then used by other functions such as \code{lmFit} to adjust for heteroscedasticity.
+The weights are then used by \code{lmFit()} to adjust for heteroscedasticity.
 
 If \code{span=NULL}, then an optimal span value is estimated depending on \code{nrow(y)}.
-The span is chosen by \code{chooseLowessSpan} with \code{n=nrow(y)}, \code{small.n=50}, \code{min.span=0.3} and \code{power=1.3}.
+The span is chosen by \code{chooseLowessSpan} with \code{n=nrow(y)}, \code{small.n=50}, \code{min.span=0.3} and \code{power=1/3}.
 If \code{legacy.span=TRUE}, then the \code{chooseLowessSpan} arguments are reset to \code{small.n=10}, \code{min.span=0.3} and \code{power=0.5} to match the settings used by \code{vooma} in limma version 3.59.1 and earlier.
 
 If \code{predictor} is not \code{NULL}, then the variance trend is modeled as a function of both the mean log-expression and the \code{predictor} using a multiple linear regression with the two predictors.
 In this case, the \code{predictor} is assumed to be some prior predictor of the precision or standard deviation of each log-expression value.
 Any \code{predictor} that is correlated with the precision of each observation should give good results.
+This ability to model the variance trend using two covariates (mean log-expression and the predictor covariate) was described for the first time by Li (2024).
 
 Sample weights will be estimated using \code{arrayWeights} if \code{sample.weights = TRUE} or if either \code{var.design} or \code{var.group} are non-NULL.
 An intra-block correlation will be estimated using \code{duplicateCorrelation} if \code{block} is non-NULL.
@@ -100,19 +101,26 @@ In either case, the whole estimation pipeline will be repeated twice to update t
 
 \value{
 An MArrayLM object containing linear model fits for each row of data.
-If sample weights are estimated, then the output object will include a \code{targets} data.frame component with the sample weights as a column.
+If sample weights are estimated, then the output object will include a \code{targets} data.frame component with the sample weights as a column with heading \code{"sample.weights"}.
 
 If \code{save.plot=TRUE} then the output object will include components \code{voom.xy} and \code{voom.line}.
 \code{voom.xy} contains the x and y coordinates of the points in the vooma variance-trend plot and \code{voom.line} contains the estimated trend line.
 
-If \code{keep.EList=TRUE} the output includes component \code{EList} with sub-components \code{Elist$E} and \code{EList$weights}.
+If \code{keep.EList=TRUE}, then the output includes component \code{EList} with sub-components \code{Elist$E} and \code{EList$weights}.
 If \code{y} was an EList object, then the output \code{EList} preserves all the components of \code{y} and adds the weights.
 }
 
 \author{Mengbo Li and Gordon Smyth}
 
+\references{
+Li M (2024).
+Linear Models and Empirical Bayes Methods for Mass Spectrometry-based Proteomics Data.
+PhD Thesis, University of Melbourne.
+http://hdl.handle.net/11343/351600
+}
+
 \seealso{
-\code{\link{vooma}}, \code{\link{lmFit}}, \code{voomLmFit}.
+\code{\link{vooma}}, \code{\link{lmFit}}, \code{voomLmFit} (in the edgeR package).
 }
 
 \examples{
