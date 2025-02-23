@@ -21,10 +21,10 @@ interGeneCorrelation <- function(y, design)
 
 camera <- function(y,...) UseMethod("camera")
 
-camera.default <- function(y,index,design=NULL,contrast=ncol(design),weights=NULL,use.ranks=FALSE,allow.neg.cor=FALSE,inter.gene.cor=0.01,trend.var=FALSE,sort=TRUE,...)
+camera.default <- function(y,index,design=NULL,contrast=ncol(design),weights=NULL,use.ranks=FALSE,allow.neg.cor=FALSE,inter.gene.cor=0.01,trend.var=FALSE,sort=TRUE,directional=TRUE,...)
 #	Competitive gene set test allowing for correlation between genes
 #	Gordon Smyth and Di Wu
-#	Created 2007.  Last modified 9 June 2020.
+#	Created 2007.  Last modified 23 Feb 2025.
 {
 #	Issue warning if extra arguments found
 	dots <- names(list(...))
@@ -60,6 +60,14 @@ camera.default <- function(y,index,design=NULL,contrast=ncol(design),weights=NUL
 
 #	Check inter.gene.cor
 	fixed.cor <- !(is.na(inter.gene.cor) || is.null(inter.gene.cor))
+
+#	Check directional
+	if(!directional) {
+		if(!use.ranks) {
+			use.ranks <- TRUE
+			warning("Setting `use.ranks=TRUE` for non-directional tests",call.=FALSE)
+		}
+	}
 
 #	Set df for camera tests
 	if(fixed.cor) {
@@ -138,16 +146,19 @@ camera.default <- function(y,index,design=NULL,contrast=ncol(design),weights=NUL
 	if(trend.var) A <- rowMeans(y) else A <- NULL
 	sv <- squeezeVar(sigma2,df=df.residual,covariate=A)
 	modt <- unscaledt / sqrt(sv$var.post)
-	if(use.ranks)
+	if(use.ranks) {
 		Stat <- modt
-	else {
+		if(!directional) Stat <- abs(Stat)
+	} else {
 		df.total <- min(df.residual+sv$df.prior, G*df.residual)
 		Stat <- zscoreT(modt, df=df.total, approx=TRUE, method="hill")
 	}
 
 #	Global statistics
-	meanStat <- mean(Stat)
-	varStat <- var(Stat)
+	if(!use.ranks) {
+		meanStat <- mean(Stat)
+		varStat <- var(Stat)
+	}
 
 	tab <- matrix(0,nsets,5)
 	rownames(tab) <- names(index)
@@ -189,13 +200,19 @@ camera.default <- function(y,index,design=NULL,contrast=ncol(design),weights=NUL
 	}
 	tab[,5] <- 2*pmin(tab[,3],tab[,4])
 
-#	New column names (Jan 2013)
+#	Asemble into data.frame
 	tab <- data.frame(tab,stringsAsFactors=FALSE)
-	Direction <- rep_len("Up",length.out=nsets)
-	Direction[tab$Down < tab$Up] <- "Down"
-	tab$Direction <- Direction
-	tab$PValue <- tab$TwoSided
-	tab$Down <- tab$Up <- tab$TwoSided <- NULL
+	if(directional) {
+#		New column names (Jan 2013)
+		Direction <- rep_len("Up",length.out=nsets)
+		Direction[tab$Down < tab$Up] <- "Down"
+		tab$Direction <- Direction
+		tab$PValue <- tab$TwoSided
+		tab$Down <- tab$Up <- tab$TwoSided <- NULL
+	} else {
+		tab$Down <- tab$TwoSided <- NULL
+		names(tab)[3] <- "PValue"
+	}
 
 #	Remove correlation column if it was not estimated
 	if(fixed.cor) tab$Correlation <- NULL

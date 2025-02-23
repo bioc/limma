@@ -1,6 +1,10 @@
+23 Feb 2025: limma 3.63.4
+
+- New argument `directional` for camera() and cameraPR().
+
  9 Jan 2025: limma 3.63.3
 
-- Correction to voomaLmFit help page. Add Li (2024) PhD Thesis as
+- Corrections to voomaLmFit() help page. Add Li (2024) PhD Thesis as
   reference.
 
 10 Nov 2024: limma 3.63.2

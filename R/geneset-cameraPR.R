@@ -1,9 +1,9 @@
 cameraPR <- function(statistic,...) UseMethod("cameraPR")
 
-cameraPR.default <- function(statistic,index,use.ranks=FALSE,inter.gene.cor=0.01,sort=TRUE,...)
+cameraPR.default <- function(statistic,index,use.ranks=FALSE,inter.gene.cor=0.01,sort=TRUE,directional=TRUE,...)
 #	Competitive gene set test allowing for correlation between genes: pre-ranked statistic.
 #	Gordon Smyth
-#	Created 18 April 2017.
+#	Created 18 April 2017. Last modified 23 Feb 2025.
 {
 #	Issue warning if extra arguments found
 	dots <- names(list(...))
@@ -23,13 +23,25 @@ cameraPR.default <- function(statistic,index,use.ranks=FALSE,inter.gene.cor=0.01
 
 #	Check inter.gene.cor
 	if(anyNA(inter.gene.cor)) stop("NA inter.gene.cor not allowed")
-	if(any(abs(inter.gene.cor) >= 1)) stop("inter.gene.cor too large or small")
+	if(max(abs(inter.gene.cor) >= 1)) stop("`inter.gene.cor` must be strictly between -1 and 1")
 	if(length(inter.gene.cor) > 1L) {
-		if(length(inter.gene.cor) != nsets) stop("Length of inter.gene.cor doesn't match number of sets")
+		if(length(inter.gene.cor) != nsets) stop("Length of `inter.gene.cor` doesn't match number of sets")
 		fixed.cor <- FALSE
 	} else {
 		fixed.cor <- TRUE
 		inter.gene.cor <- rep_len(inter.gene.cor,nsets)
+	}
+
+#	Check directional
+	if(!directional) {
+		if(min(statistic) < 0) {
+			statistic <- abs(statistic)
+			warning("Converting `statistic` to absolute values for non-directional tests",call.=FALSE)
+		}
+		if(!use.ranks) {
+			use.ranks <- TRUE
+			warning("Setting `use.ranks=TRUE` for non-directional tests",call.=FALSE)
+		}
 	}
 
 #	Set df
@@ -67,13 +79,20 @@ cameraPR.default <- function(statistic,index,use.ranks=FALSE,inter.gene.cor=0.01
 	TwoSided <- 2*pmin(Down,Up)
 
 #	Assemble into data.frame
-	D <- (Down < Up)
-	Direction <- rep_len("Up",nsets)
-	Direction[D] <- "Down"
-	if(fixed.cor)
-		tab <- data.frame(NGenes=NGenes,Direction=Direction,PValue=TwoSided,stringsAsFactors=FALSE)
-	else
-		tab <- data.frame(NGenes=NGenes,Correlation=inter.gene.cor,Direction=Direction,PValue=TwoSided,stringsAsFactors=FALSE)
+	if(directional) {
+		D <- (Down < Up)
+		Direction <- rep_len("Up",nsets)
+		Direction[D] <- "Down"
+		if(fixed.cor)
+			tab <- data.frame(NGenes=NGenes,Direction=Direction,PValue=TwoSided,stringsAsFactors=FALSE)
+		else
+			tab <- data.frame(NGenes=NGenes,Correlation=inter.gene.cor,Direction=Direction,PValue=TwoSided,stringsAsFactors=FALSE)
+	} else {
+		if(fixed.cor)
+			tab <- data.frame(NGenes=NGenes,PValue=Up,stringsAsFactors=FALSE)
+		else
+			tab <- data.frame(NGenes=NGenes,Correlation=inter.gene.cor,PValue=Up,stringsAsFactors=FALSE)
+	}
 	rownames(tab) <- names(index)
 
 #	Add FDR

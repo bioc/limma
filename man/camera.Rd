@@ -11,8 +11,9 @@ Test whether a set of genes is highly ranked relative to other genes in terms of
 \usage{
 \method{camera}{default}(y, index, design, contrast = ncol(design), weights = NULL,
        use.ranks = FALSE, allow.neg.cor=FALSE, inter.gene.cor=0.01, trend.var = FALSE,
-       sort = TRUE, \dots)
-\method{cameraPR}{default}(statistic, index, use.ranks = FALSE, inter.gene.cor=0.01, sort = TRUE, \dots)
+       sort = TRUE, directional = TRUE, \dots)
+\method{cameraPR}{default}(statistic, index, use.ranks = FALSE, inter.gene.cor=0.01,
+       sort = TRUE, directional = TRUE, \dots)
 interGeneCorrelation(y, design)
 }
 \arguments{
@@ -32,6 +33,7 @@ interGeneCorrelation(y, design)
   \item{inter.gene.cor}{numeric, optional preset value for the inter-gene correlation within tested sets.  If \code{NA} or \code{NULL}, then an inter-gene correlation will be estimated for each tested set.}
   \item{trend.var}{logical, should an empirical Bayes trend be estimated?  See \code{\link{eBayes}} for details.}
   \item{sort}{logical, should the results be sorted by p-value?}
+  \item{directional}{are the gene sets directional? If \code{TRUE}, will test for genes changing in the same direction within each set. If \code{FALSE}, will test for large effects without regard to direction in each set.}
   \item{\dots}{other arguments are not currently used}
 }
 
@@ -61,6 +63,11 @@ With the default value \code{inter.gene.cor=0.01}, \code{camera} will rank biolo
 This gives a useful compromise between strict error rate control and interpretable gene set rankings.
 
 \code{cameraPR} is a "pre-ranked" version of \code{camera} where the genes are pre-ranked according to a pre-computed statistic.
+
+If \code{direction=TRUE}, then the gene sets are assumed to contain genes changing in the same direction and the functions will do two-sided directional tests for each gene set.
+If \code{direction=FALSE}, then the gene sets are assumed to be non-directional, so that significant genes in each set could be changing in different directions.
+In this case, the functions will test for large changes in each set without regard to direction of change.
+If \code{direction=FALSE}, then \code{use.ranks} should be \code{TRUE} and \code{statistic} should be non-negative.
 }
 
 \note{The default settings for \code{inter.gene.cor} and \code{allow.neg.cor} were changed to the current values in limma 3.29.6.
@@ -125,6 +132,9 @@ camera(y, list(set1=index1,set2=index2), design, inter.gene.cor=0.01)
 # Pre-ranked version
 fit <- eBayes(lmFit(y, design))
 cameraPR(fit$t[,2], list(set1=index1,set2=index2))
+
+# Non-directional tests
+cameraPR(abs(fit$t[,2]), list(set1=index1,set2=index2), use.ranks=TRUE, directional=FALSE)
 }
 
 \concept{gene set tests}
