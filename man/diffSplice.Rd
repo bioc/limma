@@ -23,6 +23,7 @@ Results are sorted by geneid and by exonid within gene.
   \item{gene.F}{numeric matrix of moderated F-statistics, one row for each gene.}
   \item{gene.F.p.value}{numeric matrix of p-values corresponding to \code{gene.F}}
   \item{gene.simes.p.value}{numeric matrix of Simes adjusted p-values, one row for each gene.}
+  \item{gene.bonferroni.p.value}{numeric matrix of Bonferroni adjusted p-values, one row for each gene.}
   \item{gene.genes}{data.frame of gene annotation.}
 }
 \details{
@@ -32,7 +33,8 @@ Testing for differential exon usage is equivalent to testing whether the log-fol
 Two different tests are provided.
 The first is an F-test for differences between the log-fold-changes.
 The other is a series of t-tests in which each exon is compared to the average of all other exons for the same gene.
-The exon-level t-tests are converted into a genewise test by adjusting the p-values for the same gene by Simes method.
+The exon-level t-tests are converted into genewise tests by adjusting the p-values for the same gene by Simes method.
+Alternatively, the exon-level t-tests are also converted into genewise tests by adjusting the smallest p-value for each gene by Bonferroni's method.
 The minimum adjusted p-value is then used for each gene.
 
 This function can be used on data from an exon microarray or can be used in conjunction with voom for exon-level RNA-seq counts.

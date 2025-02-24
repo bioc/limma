@@ -1,3 +1,8 @@
+24 Feb 2025: limma 3.63.5
+
+- diffSplice() now returns Bonferroni adjusted p-values as an
+  alternative to Simes method.
+
 23 Feb 2025: limma 3.63.4
 
 - New argument `directional` for camera() and cameraPR().

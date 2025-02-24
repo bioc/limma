@@ -143,5 +143,13 @@ diffSplice <- function(fit,geneid,exonid=NULL,robust=FALSE,verbose=TRUE)
 		out$gene.simes.p.value[,j] <- p.adj[o][gene.firstexon-0L:(ngenes-1L)]
 	}
 
+#	Bonferroni adjustment of exon level p-values
+	out$gene.bonferroni.p.value <- gene.F.p.value
+	for (j in 1:ncol(fit)) {
+		o <- order(g,exon.p.value[,j])
+		p.adj <- pmin(exon.p.value[o,j][gene.firstexon]*(gene.nexons),1)
+		out$gene.bonferroni.p.value[,j] <- p.adj
+	}
+
 	out
 }
