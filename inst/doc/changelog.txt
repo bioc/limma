@@ -1,3 +1,8 @@
+02 Mar 2025: limma 3.63.8
+
+- Simes output from diffSplice.MArrayLM() was wrongly named when
+  converted to full Simes method in version 3.36.6. Now fixed.
+
 02 Mar 2025: limma 3.63.7
 
 - diffSplice.MArrayLM() now allows for exons with df.residual=0 and

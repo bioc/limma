@@ -4,7 +4,7 @@ diffSplice.MArrayLM <- function(fit,geneid,exonid=NULL,robust=FALSE,verbose=TRUE
 #	Test for splicing variants between conditions
 #	using linear model fit of exon data.
 #	Gordon Smyth and Charity Law
-#	Created 13 Dec 2013.  Last modified 2 Mar 2025.
+#	Created 13 Dec 2013.  Last modified 3 Mar 2025.
 {
 #	Make sure there is always an annotation frame
 	exon.genes <- fit$genes
@@ -139,12 +139,12 @@ diffSplice.MArrayLM <- function(fit,geneid,exonid=NULL,robust=FALSE,verbose=TRUE
 	penalty[gene.firstexon[-1]] <- 1L-gene.nexons[-ngenes]
 	penalty <- cumsum(penalty)
 	penalty <- rep(gene.nexons,gene.nexons) / penalty
-	out$gene.simes2.p.value <- gene.F.p.value
+	out$gene.simes.p.value <- gene.F.p.value
 	for (j in 1:ncol(fit)) {
 		o <- order(g,exon.p.value[,j])
 		p.adj <- exon.p.value[o,j] * penalty
 		o <- order(g,p.adj)
-		out$gene.simes2.p.value[,j] <- p.adj[o][gene.firstexon]
+		out$gene.simes.p.value[,j] <- p.adj[o][gene.firstexon]
 	}
 
 #	Bonferroni adjustment of exon level p-values
