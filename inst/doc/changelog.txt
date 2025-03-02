@@ -1,3 +1,21 @@
+02 Mar 2025: limma 3.63.6
+
+- In topSplice(), the default for `test` is now "F" instead of
+  "simes".
+
+- diffSplice() is now an S3 generic function with a method 
+  for MArrayLM objects.
+
+- diffSplice() now adjusts transcript-level p-values using the full
+  Simes method, instead of a modified Simes method leaving out the
+  largest p-value for each gene that has been used until now. This 
+  will cause the Simes p-values returned by diffSplice() to be
+  slightly more conservative than before.
+
+- The `gene.genes` data.frame returned by diffSplice() now has row
+  names set to the gene IDs. Previously the last exon ID for each gene
+  was used.
+
 24 Feb 2025: limma 3.63.5
 
 - diffSplice() now returns Bonferroni adjusted p-values as an

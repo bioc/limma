@@ -1,8 +1,10 @@
-diffSplice <- function(fit,geneid,exonid=NULL,robust=FALSE,verbose=TRUE)
+diffSplice <- function(fit,...) UseMethod("diffSplice")
+
+diffSplice.MArrayLM <- function(fit,geneid,exonid=NULL,robust=FALSE,verbose=TRUE,...)
 #	Test for splicing variants between conditions
 #	using linear model fit of exon data.
 #	Gordon Smyth and Charity Law
-#	Created 13 Dec 2013.  Last modified 20 April 2017.
+#	Created 13 Dec 2013.  Last modified 2 Mar 2025.
 {
 #	Make sure there is always an annotation frame
 	exon.genes <- fit$genes
@@ -124,23 +126,24 @@ diffSplice <- function(fit,geneid,exonid=NULL,robust=FALSE,verbose=TRUE)
 	isdup <- vapply(exon.genes,duplicated,no)[-gene.firstexon,,drop=FALSE]
 	isgenelevel <- apply(isdup,2,all)
 	out$gene.genes <- exon.genes[gene.lastexon,isgenelevel, drop=FALSE]
+	row.names(out$gene.genes) <- out$gene.genes[[genecolname]]
 	out$gene.genes$NExons <- gene.nexons
 	out$gene.firstexon <- gene.firstexon
 	out$gene.lastexon <- gene.lastexon
 
 #	Simes adjustment of exon level p-values
+#	Full Simes adjustment implemented 2 March 2025. Previously a
+#	modified version on the top nexons-1 exons for each gene was used.
 	penalty <- rep_len(1L,length(g))
-	penalty[gene.lastexon] <- 1L-gene.nexons
-	penalty <- cumsum(penalty)[-gene.lastexon]
-	penalty <- penalty / rep(gene.nexons-1L,gene.nexons-1L)
-	g2 <- g[-gene.lastexon]
-
-	out$gene.simes.p.value <- gene.F.p.value
+	penalty[gene.firstexon[-1]] <- 1L-gene.nexons[-ngenes]
+	penalty <- cumsum(penalty)
+	penalty <- rep(gene.nexons,gene.nexons) / penalty
+	out$gene.simes2.p.value <- gene.F.p.value
 	for (j in 1:ncol(fit)) {
 		o <- order(g,exon.p.value[,j])
-		p.adj <- pmin(exon.p.value[o,j][-gene.lastexon] / penalty, 1)
-		o <- order(g2,p.adj)
-		out$gene.simes.p.value[,j] <- p.adj[o][gene.firstexon-0L:(ngenes-1L)]
+		p.adj <- exon.p.value[o,j] * penalty
+		o <- order(g,p.adj)
+		out$gene.simes2.p.value[,j] <- p.adj[o][gene.firstexon]
 	}
 
 #	Bonferroni adjustment of exon level p-values

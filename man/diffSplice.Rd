@@ -1,9 +1,10 @@
 \name{diffSplice}
 \alias{diffSplice}
+\alias{diffSplice.MArrayLM}
 \title{Test for Differential Splicing}
 \description{Given a linear model fit at the exon level, test for differences in exon retention between experimental conditions.}
 \usage{
-diffSplice(fit, geneid, exonid=NULL, robust=FALSE, verbose=TRUE)
+\method{diffSplice}{MArrayLM}(fit, geneid, exonid = NULL, robust = FALSE, verbose = TRUE, \dots)
 }
 \arguments{
   \item{fit}{an \code{MArrayLM} fitted model object produced by \code{lmFit} or \code{contrasts.fit}. Rows should correspond to exons.}
@@ -11,6 +12,7 @@ diffSplice(fit, geneid, exonid=NULL, robust=FALSE, verbose=TRUE)
   \item{exonid}{exon identifiers. Either a vector of length \code{nrow(fit)} or the name of the column of \code{fit$genes} containing the exon identifiers.}
   \item{robust}{logical, should the estimation of the empirical Bayes prior parameters be robustified against outlier sample variances?}
   \item{verbose}{logical, if \code{TRUE} some diagnostic information about the number of genes and exons is output.}
+  \item{\dots}{other arguments are not currently used.}
 }
 \value{
 An object of class \code{MArrayLM} containing both exon level and gene level tests.

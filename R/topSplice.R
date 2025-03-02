@@ -1,7 +1,7 @@
-topSplice <- function(fit, coef=ncol(fit), test="simes", number=10L, FDR=1, sort.by="p")
+topSplice <- function(fit, coef=ncol(fit), test="F", number=10L, FDR=1, sort.by="p")
 #	Collate diffSplice results into data.frame, ordered from most significant at top
 #	Gordon Smyth and Yunshun Chen
-#	Created 18 Dec 2013.  Last modified 29 Sep 2017.
+#	Created 18 Dec 2013.  Last modified 25 Feb 2025.
 {
 #	Check fit is as produced by diffSplice
 	if(is.null(fit$gene.genes$NExons)) stop("fit should be fit object produced by diffSplice")

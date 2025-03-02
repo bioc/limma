@@ -5,7 +5,7 @@
 Top table ranking the most differentially spliced genes or exons.
 }
 \usage{
-topSplice(fit, coef = ncol(fit), test = "simes", number = 10, FDR=1, sort.by = "p")
+topSplice(fit, coef = ncol(fit), test = "F", number = 10, FDR=1, sort.by = "p")
 }
 \arguments{
   \item{fit}{\code{MArrayLM} fit object produced by \code{diffSplice}.}
@@ -25,16 +25,17 @@ topSplice(fit, coef = ncol(fit), test = "simes", number = 10, FDR=1, sort.by = "
 }
 
 \details{
-Ranks genes or exons by evidence for differential splicing.
-The F-statistic tests for any differences in exon usage between experimental conditions.
-The exon-level t-statistics test for differences between each exon and all other exons for the same gene.
+Ranks genes or exons by evidence of differential exon-usage arising from differential splicing.
+Choosing \code{test="F"} or \code{test="simes"} gives gene-level tests, where the null hypothesis is that all exons are used equally.
+Choosing \code{test="t"} gives exon-level tests of usage for each exon vs all other exons for the same gene.
 
-The Simes processes the exon-level p-values to give an overall call of differential splicing for each gene.
-It returns the minimum Simes-adjusted p-values for each gene.
-
+The F-statistic option chosen by \code{test="F"} conducts an ANOVA-like F-tests of differential usage for each gene.
+Simes method chosen by \code{test="simes"} processes the exon-level p-values for each gene to give an overall call of differential splicing for that gene.
 The F-tests are likely to be powerful for genes in which several exons are differentially splices.
 The Simes p-values is likely to be more powerful when only a minority of the exons for a gene are differentially spliced.
-The exon-level t-tests are not recommended for formal error rate control.
+
+The F-test option gives the best error rate control.
+Simes method and the exon-level t-tests are both slightly liberal in terms of error rate control.
 }
 
 \value{A data.frame with any annotation columns found in \code{fit} plus the following columns
