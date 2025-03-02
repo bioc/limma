@@ -1,3 +1,8 @@
+02 Mar 2025: limma 3.63.7
+
+- diffSplice.MArrayLM() now allows for exons with df.residual=0 and
+  sigma=NA.
+
 02 Mar 2025: limma 3.63.6
 
 - In topSplice(), the default for `test` is now "F" instead of

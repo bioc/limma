@@ -47,6 +47,7 @@ diffSplice.MArrayLM <- function(fit,geneid,exonid=NULL,robust=FALSE,verbose=TRUE
 	exon.stdev.unscaled <- fit$stdev.unscaled[o,,drop=FALSE]
 	exon.df.residual <- fit$df.residual[o]
 	exon.s2 <- fit$sigma[o]^2
+	if(min(exon.df.residual) < 1e-6) exon.s2[exon.df.residual < 1e-6] <- 0
 
 # 	Count exons by gene and get genewise variances
 	exon.stat <- cbind(1,exon.df.residual,exon.s2)
