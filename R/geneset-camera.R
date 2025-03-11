@@ -24,7 +24,7 @@ camera <- function(y,...) UseMethod("camera")
 camera.default <- function(y,index,design=NULL,contrast=ncol(design),weights=NULL,use.ranks=FALSE,allow.neg.cor=FALSE,inter.gene.cor=0.01,trend.var=FALSE,sort=TRUE,directional=TRUE,...)
 #	Competitive gene set test allowing for correlation between genes
 #	Gordon Smyth and Di Wu
-#	Created 2007.  Last modified 23 Feb 2025.
+#	Created 2007.  Last modified 4 Mar 2025.
 {
 #	Issue warning if extra arguments found
 	dots <- names(list(...))
@@ -35,7 +35,7 @@ camera.default <- function(y,index,design=NULL,contrast=ncol(design),weights=NUL
 	G <- nrow(y$exprs)
 	n <- ncol(y$exprs)
 	ID <- rownames(y$exprs)
-	if(G<3) stop("Two few genes in dataset: need at least 3")
+	if(G<3) stop("Too few genes in dataset: need at least 3")
 
 #	Check index
 	if(!is.list(index)) index <- list(set1=index)

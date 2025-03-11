@@ -1,3 +1,11 @@
+10 Mar 2025: limma 3.63.9
+
+- New argument `legacy` for diffSplice.MArrayLM().
+
+- Bug fix to diffSplice.MArrayLM() when fitFDistUnequalDF1() was
+  called with `robust=TRUE`, i.e., whenever `robust=TRUE` and the
+  number of transcripts differs between genes.
+
 02 Mar 2025: limma 3.63.8
 
 - Simes output from diffSplice.MArrayLM() was wrongly named when

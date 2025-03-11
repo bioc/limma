@@ -1,10 +1,10 @@
 diffSplice <- function(fit,...) UseMethod("diffSplice")
 
-diffSplice.MArrayLM <- function(fit,geneid,exonid=NULL,robust=FALSE,verbose=TRUE,...)
-#	Test for splicing variants between conditions
+diffSplice.MArrayLM <- function(fit,geneid,exonid=NULL,robust=FALSE,legacy=FALSE,verbose=TRUE,...)
+#	Test for differential exon usage between conditions
 #	using linear model fit of exon data.
 #	Gordon Smyth and Charity Law
-#	Created 13 Dec 2013.  Last modified 3 Mar 2025.
+#	Created 13 Dec 2013.  Last modified 10 Mar 2025.
 {
 #	Make sure there is always an annotation frame
 	exon.genes <- fit$genes
@@ -64,7 +64,7 @@ diffSplice.MArrayLM <- function(fit,geneid,exonid=NULL,robust=FALSE,verbose=TRUE
 	}
 
 #	Posterior genewise variances
-	squeeze <- squeezeVar(var=gene.s2, df=gene.df.residual, robust=robust)
+	squeeze <- squeezeVar(var=gene.s2, df=gene.df.residual, robust=robust, legacy=legacy)
 
 #	Remove genes with only 1 exon
 	gene.keep <- gene.nexons>1
@@ -81,7 +81,7 @@ diffSplice.MArrayLM <- function(fit,geneid,exonid=NULL,robust=FALSE,verbose=TRUE
 	gene.nexons <- gene.nexons[gene.keep]
 	gene.df.test <- gene.nexons-1
 	gene.df.residual <- gene.df.residual[gene.keep]
-	if(robust) squeeze$df.prior <- squeeze$df.prior[gene.keep]
+	if(length(squeeze$df.prior) > 1L) squeeze$df.prior <- squeeze$df.prior[gene.keep]
 	gene.df.total <- gene.df.residual+squeeze$df.prior
 	gene.df.total <- pmin(gene.df.total,sum(gene.df.residual))
 	gene.s2.post <- squeeze$var.post[gene.keep]

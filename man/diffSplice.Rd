@@ -2,15 +2,17 @@
 \alias{diffSplice}
 \alias{diffSplice.MArrayLM}
 \title{Test for Differential Splicing}
-\description{Given a linear model fit at the exon level, test for differences in exon retention between experimental conditions.}
+\description{Given a linear model fit at the exon (transcript) level, test for differences in exon (transcript) usage between experimental conditions.}
 \usage{
-\method{diffSplice}{MArrayLM}(fit, geneid, exonid = NULL, robust = FALSE, verbose = TRUE, \dots)
+\method{diffSplice}{MArrayLM}(fit, geneid, exonid = NULL,
+     robust = FALSE, legacy = FALSE, verbose = TRUE, \dots)
 }
 \arguments{
-  \item{fit}{an \code{MArrayLM} fitted model object produced by \code{lmFit} or \code{contrasts.fit}. Rows should correspond to exons.}
+  \item{fit}{an \code{MArrayLM} fitted model object produced by \code{lmFit} or \code{contrasts.fit}. Rows should correspond to exons, exon-exon junctions or transcripts.}
   \item{geneid}{gene identifiers. Either a vector of length \code{nrow(fit)} or the name of the column of \code{fit$genes} containing the gene identifiers. Rows with the same ID are assumed to belong to the same gene.}
   \item{exonid}{exon identifiers. Either a vector of length \code{nrow(fit)} or the name of the column of \code{fit$genes} containing the exon identifiers.}
   \item{robust}{logical, should the estimation of the empirical Bayes prior parameters be robustified against outlier sample variances?}
+  \item{legacy}{logical. If \code{FALSE} then the new empirical Bayes hyperparameter estimation (introduced in limma 3.61.8) will be used, if \code{TRUE} the earlier hyperparameter estimation will be used. The new method is particularly appropriate when the residual degrees of freedom are not all equal, which is likely to be the case for \code{diffSplice}.}
   \item{verbose}{logical, if \code{TRUE} some diagnostic information about the number of genes and exons is output.}
   \item{\dots}{other arguments are not currently used.}
 }
@@ -28,28 +30,33 @@ Results are sorted by geneid and by exonid within gene.
   \item{gene.bonferroni.p.value}{numeric matrix of Bonferroni adjusted p-values, one row for each gene.}
   \item{gene.genes}{data.frame of gene annotation.}
 }
-\details{
-This function tests for differential exon usage for each gene and for each column of \code{fit}.
 
-Testing for differential exon usage is equivalent to testing whether the log-fold-changes in the \code{fit} differ between exons for the same gene.
+\details{
+This function tests for differential usage of the row-wise genomic features for each gene and for each column of \code{fit}.
+The genomic features are usually transcripts, exons, or exon-exon junctions.
+
+Testing for differential exon (transcript) usage is equivalent to testing whether the log-fold-changes in the \code{fit} differ between exons for the same gene.
 Two different tests are provided.
-The first is an F-test for differences between the log-fold-changes.
-The other is a series of t-tests in which each exon is compared to the average of all other exons for the same gene.
+The first is a F-test for differences between the log-fold-changes for each gene.
+This is equivalent to testing for interaction between the exons for that gene and the coefficient of the linear model.
+The other is a series of t-tests in which each exon is compared to the weighted average of all other exons for the same gene.
 The exon-level t-tests are converted into genewise tests by adjusting the p-values for the same gene by Simes method.
 Alternatively, the exon-level t-tests are also converted into genewise tests by adjusting the smallest p-value for each gene by Bonferroni's method.
-The minimum adjusted p-value is then used for each gene.
 
-This function can be used on data from an exon microarray or can be used in conjunction with voom for exon-level RNA-seq counts.
+This function can be used on data from an exon microarray or can be used in conjunction with \code{voom} or \code{voomLmFit} for exon-level RNA-seq counts.
 }
+
 \seealso{
 \code{\link{topSplice}}, \code{\link{plotSplice}}
 
 A summary of functions available in LIMMA for RNA-seq analysis is given in \link{11.RNAseq}.
 }
+
 \author{Gordon Smyth and Charity Law}
 
 \examples{
 \dontrun{
+# Consider using edgeR::voomLmFit() instead of voom() and lmFit()
 v <- voom(dge,design)
 fit <- lmFit(v,design)
 ex <- diffSplice(fit,geneid="EntrezID")

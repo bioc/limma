@@ -3,7 +3,7 @@ cameraPR <- function(statistic,...) UseMethod("cameraPR")
 cameraPR.default <- function(statistic,index,use.ranks=FALSE,inter.gene.cor=0.01,sort=TRUE,directional=TRUE,...)
 #	Competitive gene set test allowing for correlation between genes: pre-ranked statistic.
 #	Gordon Smyth
-#	Created 18 April 2017. Last modified 23 Feb 2025.
+#	Created 18 April 2017. Last modified 4 Mar 2025.
 {
 #	Issue warning if extra arguments found
 	dots <- names(list(...))
@@ -15,7 +15,7 @@ cameraPR.default <- function(statistic,index,use.ranks=FALSE,inter.gene.cor=0.01
 	if(anyNA(statistic)) stop("NA values for statistic not allowed")
 	G <- length(statistic)
 	ID <- names(statistic)
-	if(G<3) stop("Two few genes in dataset: need at least 3")
+	if(G<3) stop("Too few genes in dataset: need at least 3")
 
 #	Check index
 	if(!is.list(index)) index <- list(set1=index)
