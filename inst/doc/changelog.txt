@@ -1,3 +1,7 @@
+19 Mar 2025: limma 3.63.10
+
+- Update limma-Tests.Rout.save for R 4.5.0.
+
 10 Mar 2025: limma 3.63.9
 
 - New argument `legacy` for diffSplice.MArrayLM().

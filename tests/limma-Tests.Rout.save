@@ -1,6 +1,6 @@
 
-R version 4.4.2 (2024-10-31 ucrt) -- "Pile of Leaves"
-Copyright (C) 2024 The R Foundation for Statistical Computing
+R version 4.5.0 alpha (2025-03-18 r87998 ucrt)
+Copyright (C) 2025 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -515,13 +515,13 @@ Array 2 corrected
  Max.   :4.56193   Max.   :6.37932   Max.   :5.0486   Max.   :6.6295  
 > MA <- normalizeWithinArrays(RGb,method="loess")
 > summary(MA$M)
-       V1                V2          
- Min.   :-5.8801   Min.   :-5.66985  
- 1st Qu.:-1.1850   1st Qu.:-1.57014  
- Median :-0.2164   Median : 0.04823  
- Mean   : 0.0349   Mean   :-0.05481  
- 3rd Qu.: 1.4964   3rd Qu.: 1.45113  
- Max.   : 7.0751   Max.   : 6.19744  
+       V1                 V2          
+ Min.   :-5.88010   Min.   :-5.66985  
+ 1st Qu.:-1.18496   1st Qu.:-1.57014  
+ Median :-0.21642   Median : 0.04823  
+ Mean   : 0.03489   Mean   :-0.05481  
+ 3rd Qu.: 1.49638   3rd Qu.: 1.45113  
+ Max.   : 7.07506   Max.   : 6.19744  
 > #MA <- normalizeWithinArrays(RG[,1:2], mouse.setup, method="robustspline")
 > #MA$M[1:5,]
 > #MA <- normalizeWithinArrays(mouse.data, mouse.setup)
@@ -1273,4 +1273,4 @@ GO:0009792 embryo development ending i...  BP  3  0    2 1.0000000 0.025788497
 > 
 > proc.time()
    user  system elapsed 
-   1.43    0.68    3.32 
+   2.42    0.79    3.25 
