@@ -3,7 +3,69 @@
 \encoding{UTF-8}
 
 
-\section{Version 3.62.0}{\itemize{
+\section{version 3.64.0 (2025-04-16)}{\itemize{
+
+  \item
+  In topSplice(), the default for `test` is now "F" instead of
+  "simes".
+
+  \item
+  diffSplice() is now an S3 generic function with a method 
+  for MArrayLM objects.
+
+  \item
+  New argument `legacy` for diffSplice().
+
+  \item
+  diffSplice() now adjusts transcript-level p-values using the full
+  Simes method, instead of a modified Simes method leaving out the
+  largest p-value for each gene that has been used until now. This 
+  will cause the Simes p-values returned by diffSplice() to be
+  slightly more conservative than before.
+
+  \item
+  diffSplice() now returns Bonferroni adjusted p-values as an
+  alternative to Simes method.
+
+  \item
+  The `gene.genes` data.frame returned by diffSplice() now has row
+  names set to the gene IDs. Previously the last exon ID for each gene
+  was used.
+
+  \item
+  diffSplice() now allows for exons with df.residual=0 and
+  sigma=NA.
+
+  \item
+  Bug fix to diffSplice() when fitFDistUnequalDF1() was
+  called with `robust=TRUE`, i.e., whenever `robust=TRUE` and the
+  number of transcripts differs between genes.
+
+  \item
+  New argument `directional` for camera() and cameraPR().
+
+  \item
+  vooma() now allows missing values in both `y` and
+  `predictor`, provided there are no entirely missing rows and
+  provided all non-NA y values have a non-NA predictor.
+
+  \item
+  voomaLmFit() now allows missing values in `y` and
+  `predictor`, provided there are no entirely missing rows and
+  provided all non-NA y values have a non-NA predictor.
+
+  \item
+  voomaLmFit() now allows `predictor` to be either a matrix or a
+  column vector with genewise values.
+
+  \item
+  Edit voomaLmFit() help page. Add Li (2024) PhD Thesis as
+  reference.
+
+}}
+
+
+\section{version 3.62.0 (2024-10-30)}{\itemize{
 
   \item
   New function fitFDistUnequalDF1() for improved empirical Bayes
@@ -76,7 +138,7 @@
 }}
 
 
-\section{Version 3.60.0}{\itemize{
+\section{version 3.60.0 (2024-05-01)}{\itemize{
 
   \item
   The default settings for the `small.n` and `min.span` arguments of
@@ -133,7 +195,7 @@
 }}
 
 
-\section{Version 3.58.0}{\itemize{
+\section{version 3.58.0 (2023-10-2That's correct 5)}{\itemize{
 
   \item
   New argument `covariate` for vooma() that allows the variance
@@ -173,7 +235,7 @@
 }}
 
 
-\section{Version 3.56.0}{\itemize{
+\section{version 3.56.0 (2023-04-25)}{\itemize{
 
   \item
   Rename readSampleInfoFromGEO() to sampleInfoFromGEO().
@@ -206,7 +268,7 @@
 }}
 
 
-\section{Version 3.54.0}{\itemize{
+\section{version 3.54.0 (2022-11-02)}{\itemize{
 
   \item
   New function goanaTrend() to estimate a covariate-dependent trend in
@@ -247,7 +309,7 @@
 }}
 
 
-\section{Version 3.52.0}{\itemize{
+\section{version 3.52.0 (2022-04-27)}{\itemize{
 
   \item
   New function readSampleInfoFromGEO().
@@ -268,7 +330,7 @@
 }}
 
 
-\section{Version 3.50.0}{\itemize{
+\section{version 3.50.0 (2021-04-27)}{\itemize{
 
   \item
   Improve help pages for fry() and barcodeplot().
@@ -287,7 +349,7 @@
 }}
 
 
-\section{Version 3.48.0}{
+\section{version 3.48.0 (2021-05-20)}{
 
   \subsection{New functionality}{\itemize{
 
@@ -378,7 +440,7 @@
 }
 
 
-\section{Version 3.46.0}{
+\section{version 3.46.0 (2020-10-28)}{
 
   \subsection{New functionality}{\itemize{
 
@@ -494,7 +556,7 @@
 }
 
 
-\section{Version 3.44.0}{
+\section{version 3.44.0 (2020-04-28)}{
 
   \subsection{New functionality}{\itemize{
 
@@ -580,7 +642,7 @@
 }
 
 
-\section{Version 3.42.0}{
+\section{version 3.42.0 (2019-10-30)}{
 
   \subsection{New functionality}{\itemize{
 
@@ -692,7 +754,7 @@
 }
 
 
-\section{Version 3.40.0}{\itemize{
+\section{version 3.40.0 (2019-05-03)}{\itemize{
 
 \item
 Major rewrite of arrayWeights() to improve speed and stability.
@@ -750,7 +812,7 @@ Add Research Fields to the biocViews entry in the package
 }}
 
 
-\section{Version 3.38.0}{\itemize{
+\section{version 3.38.0 (2018-10-31)}{\itemize{
 
 \item
 New function plotExonJunc() to plot results from diffSplice().
@@ -793,7 +855,7 @@ Bug fix for cumOverlap(), which was under-counting overlaps in some
 }}
 
 
-\section{Version 3.36.0}{\itemize{
+\section{version 3.36.0 (2018-05-01)}{\itemize{
 
 \item
 New arguments 'quote' and 'row.names' for write.fit(). Write.fit()
@@ -860,7 +922,7 @@ This allows the functions to accept precision weights, or gene weights, or sampl
 }}
 
 
-\section{Version 3.34.0}{\itemize{
+\section{version 3.34.0}{\itemize{
 
 \item 
 read.idat() can now handle idat files in SNP format.
@@ -923,7 +985,7 @@ Bug fixes for beadCountWeights(). Default is now set correct for
 }}
 
 
-\section{Version 3.32.0}{\itemize{
+\section{version 3.32.0}{\itemize{
 
 \item
 New function cameraPR(), which implemented a pre-ranked version
@@ -1020,7 +1082,7 @@ Bug fix to printHead() for arrays with 1 column.
 }}
 
 
-\section{Version 3.30.0}{\itemize{
+\section{version 3.30.0}{\itemize{
 
 \item
   New function cumOverlap() to analyse the overlap between two
@@ -1129,7 +1191,7 @@ Bug fix to printHead() for arrays with 1 column.
 }}
 
 
-\section{Version 3.28.0}{\itemize{
+\section{version 3.28.0}{\itemize{
 
 \item
   Improved capabilities and performance for fry().  fry() has two
@@ -1226,7 +1288,7 @@ Bug fix to printHead() for arrays with 1 column.
 }}
 
 
-\section{Version 3.26.0}{\itemize{
+\section{version 3.26.0}{\itemize{
 
 \item
   New functions kegga() and topKEGG() to conduct KEGG pathway over-representation analyses.
@@ -1351,7 +1413,7 @@ Bug fix to printHead() for arrays with 1 column.
 }}
 
 
-\section{Version 3.24.0}{\itemize{
+\section{version 3.24.0}{\itemize{
 \item
 Limma review article (Ritchie et al, Nucleic Acids Research, 2015) is now published, and becomes the primary citation for limma.
 References in User's Guide, help files and CITATION have been updated to refer to this article.
@@ -1466,7 +1528,7 @@ Fix a bug in the MAList method for plotDensities that was introduced with
 }}
 
 
-\section{Version 3.22.0}{\itemize{
+\section{version 3.22.0}{\itemize{
 \item
 New functions goana() and topGO() provide gene ontology analyses of differentially genes from a linear model fit.
 The tests include the ability to adjust for gene length or abundance biases in differential expression detection, similar to the goseq package.
@@ -1575,7 +1637,7 @@ Bug fix to read.ilmn() when sep=",".
 }}
 
 
-\section{Version 3.20.0}{\itemize{
+\section{version 3.20.0}{\itemize{
 
 \item
 New functions diffSplice(), topSplice() and plotSplice() provide functionality to analyse differential splicing using exon-level expression data from either microarrays or RNA-seq.
@@ -1692,7 +1754,7 @@ bug fix to topTable() and topTableF() when sorting by F-statistic combined with 
 }}
 
 
-\section{Version 3.18.0}{\itemize{
+\section{version 3.18.0}{\itemize{
 
 \item
 new function beadCountWeights() to estimate quantitative weights
@@ -1825,7 +1887,7 @@ when df2 is estimated to be Inf.
 }}
 
 
-\section{Version 3.16.0}{\itemize{
+\section{version 3.16.0}{\itemize{
 
 \item
 New section in User's Guide on time course experiments with many time points.
@@ -1925,7 +1987,7 @@ Bug fix to readTargets() to avoid warning message when targets$Label is used to 
 }}
 
 
-\section{Version 3.14.0}{\itemize{
+\section{version 3.14.0}{\itemize{
 
 \item
 limma license upgraded to GPL (>=2) instead of LGPL to match R itself.
@@ -2007,7 +2069,7 @@ Bug fix for roast() when the fitted model has only one coefficient.
 }}
 
 
-\section{Version 3.12.0}{\itemize{
+\section{version 3.12.0}{\itemize{
 
 \item
 read.maimages() with source="agilent" now reads median foreground
@@ -2073,7 +2135,7 @@ neqc(), nec() and normexp.fit.control() now give user-friendly error messages wh
 
 }}
 
-\section{Version 3.10.0}{\itemize{
+\section{version 3.10.0}{\itemize{
 
 \item
 New function voom() allows RNA-Seq experiments to be analysed using the standard limma pipeline.

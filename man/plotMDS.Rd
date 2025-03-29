@@ -1,4 +1,4 @@
-\title{Multidimensional scaling plot of distances between gene expression profiles}
+\title{Multidimensional Scaling Plot of Distances Between Expression Profiles}
 \name{plotMDS}
 \alias{plotMDS}
 \alias{plotMDS.MDS}

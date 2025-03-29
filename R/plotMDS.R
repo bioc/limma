@@ -14,7 +14,7 @@ plotMDS.MDS <- function(x,labels=NULL,pch=NULL,cex=1,dim.plot=NULL,xlab=NULL,yla
 #	Method for MDS objects
 #	Create a new plot using MDS coordinates previously computed.
 #	Gordon Smyth and Yifang Hu
-#	21 May 2011.  Last modified 6 Aug 2021
+#	21 May 2011.  Last modified 23 Aug 2025
 {
 #	Check labels
 	if(is.null(labels) & is.null(pch)) {
@@ -107,12 +107,12 @@ plotMDS.default <- function(x,top=500,labels=NULL,pch=NULL,cex=1,dim.plot=c(1,2)
 
 #	Distance matrix from pairwise leading fold changes
 	dd <- matrix(0,nrow=nsamples,ncol=nsamples,dimnames=list(cn,cn))
-	if(gene.selection=="pairwise") {
+	if(identical(gene.selection,"pairwise")) {
 #		Distance measure is mean of top squared deviations for each pair of arrays
 		topindex <- nprobes-top+1L
 		for (i in 2L:(nsamples))
 		for (j in 1L:(i-1L))
-			dd[i,j]=mean(sort.int((x[,i]-x[,j])^2,partial=topindex)[topindex:nprobes])
+			dd[i,j] <- mean(sort.int((x[,i]-x[,j])^2,partial=topindex)[topindex:nprobes])
 		axislabel <- "Leading logFC dim"
 	} else {
 #		Same genes used for all comparisons
@@ -122,7 +122,7 @@ plotMDS.default <- function(x,top=500,labels=NULL,pch=NULL,cex=1,dim.plot=c(1,2)
 			x <- x[o[1L:top],,drop=FALSE]
 		}
 		for (i in 2L:(nsamples))
-			dd[i,1L:(i-1L)]=colMeans((x[,i]-x[,1:(i-1),drop=FALSE])^2)
+			dd[i,1L:(i-1L)] <- colMeans((x[,i]-x[,1:(i-1),drop=FALSE])^2)
 		axislabel <- "Principal Component"
 	}
 
@@ -137,10 +137,10 @@ plotMDS.default <- function(x,top=500,labels=NULL,pch=NULL,cex=1,dim.plot=c(1,2)
 #	Make MDS object
 	lambda <- pmax(mds$eigen.values,0)
 	mds$var.explained <- lambda / sum(lambda)
-	mds$dim.plot=dim.plot
-	mds$distance.matrix.squared=dd
-	mds$top=top
-	mds$gene.selection=gene.selection
+	mds$dim.plot <- dim.plot
+	mds$distance.matrix.squared <- dd
+	mds$top <- top
+	mds$gene.selection <- gene.selection
 	mds$axislabel <- axislabel
 	mds <- new("MDS",unclass(mds))
 
