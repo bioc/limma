@@ -42,6 +42,11 @@
   number of transcripts differs between genes.
 
   \item
+  Bug fix to genewise variance pooling in diffSplice() when the
+  residual df are unequal. Previously the exon-wise variances were
+  not weighted by df when pooling.
+
+  \item
   New argument `directional` for camera() and cameraPR().
 
   \item

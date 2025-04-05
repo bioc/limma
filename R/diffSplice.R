@@ -4,7 +4,7 @@ diffSplice.MArrayLM <- function(fit,geneid,exonid=NULL,robust=FALSE,legacy=FALSE
 #	Test for differential exon usage between conditions
 #	using linear model fit of exon data.
 #	Gordon Smyth and Charity Law
-#	Created 13 Dec 2013.  Last modified 10 Mar 2025.
+#	Created 13 Dec 2013.  Last modified 4 Apr 2025.
 {
 #	Make sure there is always an annotation frame
 	exon.genes <- fit$genes
@@ -50,11 +50,11 @@ diffSplice.MArrayLM <- function(fit,geneid,exonid=NULL,robust=FALSE,legacy=FALSE
 	if(min(exon.df.residual) < 1e-6) exon.s2[exon.df.residual < 1e-6] <- 0
 
 # 	Count exons by gene and get genewise variances
-	exon.stat <- cbind(1,exon.df.residual,exon.s2)
+	exon.stat <- cbind(1,exon.df.residual,exon.df.residual*exon.s2)
 	gene.sum <- rowsum(exon.stat,geneid,reorder=FALSE)
 	gene.nexons <- gene.sum[,1]
 	gene.df.residual <- gene.sum[,2]
-	gene.s2 <- gene.sum[,3] / gene.sum[,1]
+	gene.s2 <- gene.sum[,3] / gene.sum[,2]
 	if(verbose) {
 		cat("Total number of exons: ", length(geneid), "\n")
 		cat("Total number of genes: ", length(gene.nexons), "\n")

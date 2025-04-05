@@ -1,3 +1,9 @@
+04 Apr 2025: limma 3.63.12
+
+- Bug fix to gene-wise variance pooling in diffSplice() when the
+  residual df are unequal. Previously the exon-wise variances were
+  not weighted by df when pooling.
+
 29 Mar 2025: limma 3.63.11
 
 - Update NEWS.Rd for Bioc 3.21 release. Add dates for historical releases.
