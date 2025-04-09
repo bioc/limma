@@ -1,3 +1,8 @@
+09 Apr 2025: limma 3.63.13
+
+- plotSA() no longer plots genes with df.residual=0 and no longer
+  gives a warning when such genes are present.
+
 04 Apr 2025: limma 3.63.12
 
 - Bug fix to gene-wise variance pooling in diffSplice() when the

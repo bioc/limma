@@ -193,45 +193,60 @@ heatdiagram <- function(stat,coef,primary=1,names=NULL,treatments=colnames(stat)
 plotSA <- function(fit, xlab="Average log-expression", ylab="sqrt(sigma)", zero.weights=FALSE, pch=16, cex=0.3, col=c("black","red"),...)
 #	Plot log-residual variance vs intensity
 #	Gordon Smyth
-#	Created 14 Jan 2009. Last modified 12 April 2017.
+#	Created 14 Jan 2009. Last modified 9 April 2025.
 {
+#	Check fit and extract components
 	if(!is(fit,"MArrayLM")) stop("fit must be an MArrayLM object")
 	x <- fit$Amean
-	y <- sqrt(fit$sigma)
-	if(!(is.null(fit$weights) || zero.weights)) {
-		allzero <- rowSums(fit$weights>0,na.rm=TRUE) == 0
-		y[allzero] <- NA
+	y <- fit$sigma
+	dfg <- fit$df.residual
+	df0 <- fit$df.prior
+	s20 <- fit$s2.prior
+	if(is.null(x)) stop("fit$Amean is NULL")
+	if(is.null(y)) stop("fit$sigma is NULL")
+	if(is.null(dfg)) stop("fit$df.residual is NULL")
+
+#	By default, don't plot non-estimable variances
+	if(zero.weights) {
+#		Avoid NA later from pf()
+		dfg <- pmax(dfg, 1e-6)
+	} else {
+		y[dfg < 1e-6] <- NA
+		if(!is.null(fit$weights)) {
+			allzero <- rowSums(fit$weights>0,na.rm=TRUE) == 0
+			y[allzero] <- NA
+		}
 	}
+
+#	Make vector of background color
 	colv <- rep_len(col[1],nrow(fit))
 
-#	Check for outlier variances
-	if(length(fit$df.prior)>1L) {
-		df2 <- max(fit$df.prior)
-		s2 <- fit$sigma^2 / fit$s2.prior
-		pdn <- pf(s2, df1=fit$df.residual, df2=df2)
-		pup <- pf(s2, df1=fit$df.residual, df2=df2, lower.tail=FALSE)
+#	If robust eBayes, identify and highlight outlier variances
+	if(length(df0) > 1L) {
+		df2 <- max(df0)
+		s2 <- y^2 / s20
+		pdn <- pf(s2, df1=dfg, df2=df2)
+		pup <- pf(s2, df1=dfg, df2=df2, lower.tail=FALSE)
 		FDR <- p.adjust(2*pmin(pdn,pup),method="BH")
 		colv[FDR <= 0.5] <- col[2]
 	}
 
+#	Plot residual variances
+	y <- sqrt(y)
 	plot(x,y,xlab=xlab,ylab=ylab,pch=pch,cex=cex,col=colv,...)
-#	if(anyNA(x) || anyNA(y)) {
-#		ok <- !(is.na(x) | is.na(y))
-#		lines(lowess(x[ok],y[ok],f=0.4),col="red")
-#	} else {
-#		lines(lowess(x,y,f=0.4),col="red")
-#	}
-	if(!is.null(fit$s2.prior)) {
-		if(length(fit$s2.prior)==1L) {
-			abline(h=sqrt(sqrt(fit$s2.prior)),col="blue")
+
+#	Add prior variance
+	if(!is.null(s20)) {
+		if(identical(length(s20),1L)) {
+			abline(h=sqrt(sqrt(s20)),col="blue")
 		} else {
 			o <- order(x)
-			lines(x[o],sqrt(sqrt(fit$s2.prior[o])),col="blue")
-#			legend("topright",legend=c("lowess","prior"),col=c("red","blue"),lty=1)
+			lines(x[o],sqrt(sqrt(s20[o])),col="blue")
 		}
 	}
 
-	if(length(fit$df.prior)>1L) legend("topright",legend=c("Normal","Outlier"),col=col,pch=pch)
+#	If robust eBayes, add legend about outliers
+	if(length(df0) > 1L) legend("topright",legend=c("Normal","Outlier"),col=col,pch=pch)
 
-	invisible()
+	invisible(list(x=x,y=y))
 }
