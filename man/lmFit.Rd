@@ -38,9 +38,13 @@ The probe-wise fitted model results are stored in a compact form suitable for fu
 
 The function allows for missing values and accepts quantitative precision weights through the \code{weights} argument.
 It also supports two different correlation structures.
-If \code{block} is not \code{NULL} then different arrays are assumed to be correlated.
-If \code{block} is \code{NULL} and \code{ndups} is greater than one then replicate spots on the same array are assumed to be correlated.  
+If \code{block} is non-NULL, then different arrays are assumed to be correlated.
+If \code{block} is NULL and \code{ndups} is greater than one, then replicate spots on the same array are assumed to be correlated.  
 It is not possible at this time to fit models with both a block structure and a duplicate-spot correlation structure simultaneously.
+If the argument \code{block} is used, then it is assumed that \code{ndups=1}.
+
+If either correlation structure is used, with \code{block} non-NULL or \code{ndups} greater than 1, then a consensus correlation should be estimated before running \code{lmFit} and entered as the \code{correlation} argument.
+The correlation estimation is usually done by running \code{\link{duplicateCorrelation}}.
 
 If \code{object} is a matrix then it should contain log-ratios or log-expression data with rows corresponding to probes and columns to arrays.
 (A numeric vector is treated the same as a matrix with one column.)
@@ -51,14 +55,9 @@ If \code{object} is of class \code{ExpressionSet}, then the expression matrix is
 If \code{object} is of class \code{PLMset} then the matrix of chip coefficients \code{chip.coefs} is extracted.
 
 The arguments \code{design}, \code{ndups}, \code{spacing} and \code{weights} will be extracted from the data \code{object} if available.
-On the other hand, if any of these are set to a non-NULL value in the function call then this value will over-ride the value found in \code{object}.
+On the other hand, if any of these are set to a non-NULL value in the function call, then the argument value will override the value found in \code{object}.
 If \code{object} is an \code{PLMset}, then weights are computed as \code{1/pmax(object@se.chip.coefs, 1e-05)^2}.
 If \code{object} is an \code{ExpressionSet} object, then weights are not computed.
-
-If the argument \code{block} is used, then it is assumed that \code{ndups=1}.
-
-The \code{correlation} argument has a default value of \code{0.75}, but in normal use this default value should not be relied on and the correlation value should be estimated using the function \code{duplicateCorrelation}.
-The default value is likely to be too high in particular if used with the \code{block} argument.
 
 The actual linear model computations are done by passing the data to one the lower-level functions \code{lm.series}, \code{gls.series} or \code{mrlm}.
 The function \code{mrlm} is used if \code{method="robust"}.

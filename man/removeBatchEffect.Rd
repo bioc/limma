@@ -6,7 +6,7 @@ Remove batch effects from expression data.
 }
 \usage{
 removeBatchEffect(x, batch = NULL, batch2 = NULL, covariates = NULL,
-                  design = matrix(1,ncol(x),1), group = NULL, \dots)
+                  design = NULL, group = NULL, \dots)
 }
 \arguments{
   \item{x}{numeric matrix, or any data object that can be processed by \code{\link{getEAWP}} containing log-expression values for a series of samples.
@@ -14,7 +14,7 @@ removeBatchEffect(x, batch = NULL, batch2 = NULL, covariates = NULL,
   \item{batch}{factor or vector indicating batches.}
   \item{batch2}{factor or vector indicating a second series of batches.}
   \item{covariates}{matrix or vector of numeric covariates to be adjusted for.}
-  \item{design}{design matrix relating to experimental conditions to be preserved, usually the design matrix with all experimental factors other than the batch effects. Ignored if \code{group} is not \code{NULL}.}
+  \item{design}{design matrix relating to experimental conditions to be preserved, usually the design matrix with all experimental factors other than the batch effects. Ignored if \code{group} is not \code{NULL}. Defaults to an intercept column, implying that the experiment is one group.}
   \item{group}{factor defining the experimental conditions to be preserved. An alternative way to specify the design matrix \code{design}.}
   \item{\dots}{other arguments are passed to \code{\link{lmFit}}.}
 }
@@ -44,7 +44,7 @@ If \code{x} contains weights, then these will be used in estimating the batch ef
 \note{
 This function is intended for plotting and data exploration purposes.
 This function is not intended to be used to prepare data for linear modeling by \code{lmFit}.
-For linear modeling, it is better to include the batch factors in the linear model so fhat \code{lmFit} can correctly assess the standard errors of the linear model parameters.
+For linear modeling, it is better to include the batch factors in the linear model so that \code{lmFit} can correctly assess the standard errors of the linear model parameters.
 }
 
 \seealso{

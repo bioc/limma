@@ -1,3 +1,16 @@
+21 May 2025: limma 3.64.1
+
+- Revise help page for lmFit(), removing out-of-date mention of
+  default correlation.
+
+- The columns of the `covariates` matrix in removeBatchEffect() are
+  now mean-corrected.
+
+- removeBatchEffect() now gives a message if `design` is not
+  specified.
+
+16 Apr 2025: limma 3.64.0 (Bioconductor 3.21 Release Branch)
+
 15 Apr 2025: limma 3.63.14
 
 - Update User's Guide.

@@ -3,10 +3,10 @@
 #  A refinement would be to empirical Bayes shrink
 #  the batch effects before subtracting them.
 
-removeBatchEffect <- function(x,batch=NULL,batch2=NULL,covariates=NULL,design=matrix(1,ncol(x),1),group=NULL,...)
+removeBatchEffect <- function(x,batch=NULL,batch2=NULL,covariates=NULL,design=NULL,group=NULL,...)
 #  Remove batch effects from matrix of expression data
 #  Gordon Smyth and Carolyn de Graaf
-#  Created 1 Aug 2008. Last revised 3 June 2023.
+#  Created 1 Aug 2008. Last revised 7 May 2025.
 {
 #	Covariates to remove (batch effects)
 	if(is.null(batch) && is.null(batch2) && is.null(covariates)) return(as.matrix(x))
@@ -20,13 +20,22 @@ removeBatchEffect <- function(x,batch=NULL,batch2=NULL,covariates=NULL,design=ma
 		contrasts(batch2) <- contr.sum(levels(batch2))
 		batch2 <- model.matrix(~batch2)[,-1,drop=FALSE]
 	}
-	if(!is.null(covariates)) covariates <- as.matrix(covariates)
+	if(!is.null(covariates)) {
+		covariates <- as.matrix(covariates)
+		covariates <- t(t(covariates) - colMeans(covariates))
+	}
 	X.batch <- cbind(batch,batch2,covariates)
 
 #	Covariates to keep (experimental conditions)
 	if(!is.null(group)) {
 		group <- as.factor(group)
 		design <- model.matrix(~group)
+	}
+
+#	Check design
+	if(is.null(design)) {
+		message("design matrix of interest not specified. Assuming a one-group experiment.")
+		design <- matrix(1,ncol(x),1)
 	}
 
 #	Fit combined linear model
