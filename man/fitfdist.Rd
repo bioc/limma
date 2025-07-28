@@ -10,8 +10,10 @@ These functions are called internally by \code{eBayes} and \code{squeezeVar} and
 }
 \usage{
 fitFDist(x, df1, covariate = NULL)
-fitFDistRobustly(x, df1, covariate = NULL, winsor.tail.p = c(0.05,0.1), trace = FALSE)
-fitFDistUnequalDF1(x, df1, covariate = NULL, robust = FALSE, prior.weights = NULL)
+fitFDistRobustly(x, df1, covariate = NULL,
+                 winsor.tail.p = c(0.05,0.1), trace = FALSE)
+fitFDistUnequalDF1(x, df1, covariate = NULL, span = NULL,
+                   robust = FALSE, prior.weights = NULL)
 }
 \arguments{
   \item{x}{numeric vector or array of positive values representing a sample from a scaled F-distribution.}
@@ -19,6 +21,7 @@ fitFDistUnequalDF1(x, df1, covariate = NULL, robust = FALSE, prior.weights = NUL
   \item{covariate}{if non-\code{NULL}, the estimated scale value will depend on this numeric covariate.}
   \item{winsor.tail.p}{numeric vector of length 1 or 2, giving left and right tail proportions of \code{x} to Winsorize.}
   \item{trace}{logical value indicating whether a trace of the iteration progress should be printed.}
+  \item{span}{lowess span parameter. Defaults to \code{chooseLowessSpan(length(x),small.n=500)}.}
   \item{robust}{logical. Should outlier values of \code{x} be down-weighted with results similar to \code{fitFDistRobustly}?}
   \item{prior.weights}{numeric vector of (non-negative) prior weights.}
 }

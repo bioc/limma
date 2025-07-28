@@ -1,11 +1,11 @@
 \name{mrlm}
 \alias{mrlm}
-\title{Fit Linear Model to Microrray Data by Robust Regression}
+\title{Fit Linear Model to Microarray Data by Robust Regression}
 \description{Fit a linear model genewise to expression data from a series of arrays.
 The fit is by robust M-estimation allowing for a small proportion of outliers.
 This is a utility function for \code{lmFit}.}
 \usage{
-mrlm(M,design=NULL,ndups=1,spacing=1,weights=NULL,\dots)
+mrlm(M, design = NULL, ndups = 1, spacing = 1, weights = NULL, \dots)
 }
 \arguments{
   \item{M}{numeric matrix containing log-ratio or log-expression values for a series of microarrays, rows correspond to genes and columns to arrays.}
@@ -15,14 +15,6 @@ mrlm(M,design=NULL,ndups=1,spacing=1,weights=NULL,\dots)
   \item{weights}{numeric matrix of the same dimension as \code{M} containing weights. If it is of different dimension to \code{M}, it will be filled out to the same size. \code{NULL} is equivalent to equal weights.}
   \item{\dots}{any other arguments are passed to \code{rlm.default}.}
 }
-\value{
-  A list with components
-  \item{coefficients}{numeric matrix containing the estimated coefficients for each linear model. Same number of rows as \code{M}, same number of columns as \code{design}.}
-  \item{stdev.unscaled}{numeric matrix conformal with \code{coef} containing the unscaled standard deviations for the coefficient estimators. The standard errors are given by \code{stdev.unscaled * sigma}.}
-  \item{sigma}{numeric vector containing the residual standard deviation for each gene.}
-  \item{df.residual}{numeric vector giving the degrees of freedom corresponding to \code{sigma}.}
-  \item{qr}{QR decomposition of \code{design}.}
-}
 \details{
 This is a utility function used by the higher level function \code{\link{lmFit}}.
 Most users should not use this function directly but should use \code{\link{lmFit}} instead.
@@ -31,6 +23,14 @@ This function fits a linear model for each gene by calling the function \code{rl
 
 Warning: don't use weights with this function unless you understand how \code{rlm} treats weights.
 The treatment of weights is somewhat different from that of \code{lm.series} and \code{gls.series}.
+}
+\value{
+  A list with components
+  \item{coefficients}{numeric matrix containing the estimated coefficients for each linear model. Same number of rows as \code{M}, same number of columns as \code{design}.}
+  \item{stdev.unscaled}{numeric matrix conformal with \code{coef} containing the unscaled standard deviations for the coefficient estimators. The standard errors are given by \code{stdev.unscaled * sigma}.}
+  \item{sigma}{numeric vector containing the residual standard deviation for each gene.}
+  \item{df.residual}{numeric vector giving the degrees of freedom corresponding to \code{sigma}.}
+  \item{qr}{QR decomposition of \code{design}.}
 }
 \seealso{
 \code{\link[MASS]{rlm}}.

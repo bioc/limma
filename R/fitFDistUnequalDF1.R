@@ -1,9 +1,9 @@
-fitFDistUnequalDF1 <- function(x,df1,covariate=NULL,robust=FALSE,prior.weights=NULL)
+fitFDistUnequalDF1 <- function(x,df1,covariate=NULL,span=NULL,robust=FALSE,prior.weights=NULL)
 # Robust estimation of the parameters of a scaled F-distribution given df1.
 # This version gives special attention to the possibility that df1 may vary
 # substantially between observations.
 # Gordon Smyth and Lizhong Chen
-# Created 18 Jul 2024. Last modified 31 Jul 2024.
+# Created 18 Jul 2024. Last modified 12 Jul 2025.
 {
   n <- length(x)
 
@@ -74,7 +74,7 @@ fitFDistUnequalDF1 <- function(x,df1,covariate=NULL,robust=FALSE,prior.weights=N
   if(is.null(covariate)) {
     emean <- sum(w*e)/sum(w)
   } else {
-    span <- chooseLowessSpan(n,small.n=500)
+    if(is.null(span)) span <- chooseLowessSpan(n,small.n=500)
     emean <- loessFit(e, covariate, weights=w/quantile(w,probs=0.75), min.weight=1e-8, max.weight=1e2, span=span, iterations=1)$fitted
   }
 
