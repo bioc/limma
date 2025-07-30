@@ -1,9 +1,9 @@
 #	EMPIRICAL BAYES SQUEEZING OF VARIANCES
 
-squeezeVar <- function(var, df, covariate=NULL, robust=FALSE, winsor.tail.p=c(0.05,0.1), legacy=NULL)
+squeezeVar <- function(var, df, covariate=NULL, span=NULL, robust=FALSE, winsor.tail.p=c(0.05,0.1), legacy=NULL)
 #	Empirical Bayes posterior variances
 #	Gordon Smyth
-#	Created 2 March 2004.  Last modified 30 September 2024.
+#	Created 2 March 2004.  Last modified 12 July 2025.
 {
 	n <- length(var)
 
@@ -16,7 +16,10 @@ squeezeVar <- function(var, df, covariate=NULL, robust=FALSE, winsor.tail.p=c(0.
 #	When df==0, guard against missing or infinite values in var
 	if(length(df)>1L) var[df==0] <- 0
 
-#	Choose legacy or new method depending whether df are unequal
+#	span is only implemented for new hyperparameter function
+    if(!is.null(span)) legacy <- FALSE
+
+#	Choose legacy or new hyperparameter method depending whether df are unequal
 	if(is.null(legacy)) {
 		dfp <- df[df>0]
 		legacy <- identical(min(dfp),max(dfp))
@@ -32,7 +35,7 @@ squeezeVar <- function(var, df, covariate=NULL, robust=FALSE, winsor.tail.p=c(0.
 			df.prior <- fit$df2
 		}
 	} else {
-		fit <- fitFDistUnequalDF1(var, df1=df, covariate=covariate, robust=robust)
+		fit <- fitFDistUnequalDF1(var, df1=df, covariate=covariate, span=span, robust=robust)
 		df.prior <- fit$df2.shrunk
 		if(is.null(df.prior)) df.prior <- fit$df2
 	}

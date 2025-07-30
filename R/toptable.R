@@ -152,7 +152,7 @@ topTable <- function(fit,coef=NULL,number=10,genelist=fit$genes,adjust.method="B
 .topTableT <- function(fit,coef=1,number=10,genelist=NULL,A=NULL,eb=NULL,adjust.method="BH",sort.by="B",resort.by=NULL,p.value=1,lfc=0,confint=FALSE,...)
 #	Summary table of top genes for a single coefficient
 #	Gordon Smyth
-#	Created 21 Nov 2002. Was called toptable() until 1 Feb 2018. Last revised 12 Apr 2020.
+#	Created 21 Nov 2002. Was called toptable() until 1 Feb 2018. Last revised 30 Jul 2025.
 {
 #	Check fit
 	fit$coefficients <- as.matrix(fit$coefficients)
@@ -223,6 +223,12 @@ topTable <- function(fit,coef=NULL,number=10,genelist=fit$genes,adjust.method="B
 #	Apply multiple testing adjustment
 	adj.P.Value <- p.adjust(P.Value,method=adjust.method)
 
+#	Optional confident intervals
+	if(confint) {
+		if(is.numeric(confint)) alpha <- (1+confint[1])/2 else alpha <- 0.975
+		margin.error <- sqrt(eb$s2.post)*fit$stdev.unscaled[,coef]*qt(alpha,df=eb$df.total)
+	}
+
 #	Thin out fit by p.value and lfc thresholds	
 	if(p.value < 1 | lfc > 0) {
 		sig <- (adj.P.Value <= p.value) & (abs(M) >= lfc)
@@ -236,6 +242,7 @@ topTable <- function(fit,coef=NULL,number=10,genelist=fit$genes,adjust.method="B
 		adj.P.Value <- adj.P.Value[sig]
 		if(include.B) B <- B[sig]
 		rn <- rn[sig]
+		if(confint) margin.error <- margin.error[sig]
 	}
 
 #	Are enough rows left?
@@ -260,10 +267,8 @@ topTable <- function(fit,coef=NULL,number=10,genelist=fit$genes,adjust.method="B
 		tab <- data.frame(genelist[top,,drop=FALSE],logFC=M[top],stringsAsFactors=FALSE)
 	}
 	if(confint) {
-		if(is.numeric(confint)) alpha <- (1+confint[1])/2 else alpha <- 0.975
-		margin.error <- sqrt(eb$s2.post[top])*fit$stdev.unscaled[top,coef]*qt(alpha,df=eb$df.total[top])
-		tab$CI.L <- M[top]-margin.error
-		tab$CI.R <- M[top]+margin.error
+		tab$CI.L <- tab$logFC - margin.error[top]
+		tab$CI.R <- tab$logFC + margin.error[top]
 	}
 	if(!is.null(A)) tab$AveExpr <- A[top]
 	tab <- data.frame(tab,t=tstat[top],P.Value=P.Value[top],adj.P.Val=adj.P.Value[top])

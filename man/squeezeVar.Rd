@@ -7,17 +7,18 @@ Squeeze a set of sample variances together by computing empirical Bayes posterio
 }
 
 \usage{
-squeezeVar(var, df, covariate = NULL, robust = FALSE, winsor.tail.p = c(0.05,0.1),
-           legacy = NULL)
+squeezeVar(var, df, covariate = NULL, span = NULL,
+           robust = FALSE, winsor.tail.p = c(0.05,0.1), legacy = NULL)
 }
 
 \arguments{
 \item{var}{numeric vector of independent sample variances.}
 \item{df}{numeric vector of degrees of freedom for the sample variances. Can be a unit vector or of same length as \code{var}.}
 \item{covariate}{numeric covariate of same length as \code{var} for estimating a trended prior variance. If \code{NULL}, then the prior variance \code{var.prior} is constant.}
+\item{span}{lowess span used for prior variance trend.}
 \item{robust}{logical, should the estimation of \code{df.prior} and \code{var.prior} be robustified against outlier sample variances?}
 \item{winsor.tail.p}{numeric vector of length 1 or 2, giving left and right tail proportions of \code{x} to Winsorize when \code{robust=TRUE}.}
-\item{legacy}{logical. If \code{FALSE} then the new function \code{fitFDistUnequalDF1} will be called internally, otherwise the legacy functions \code{fitFDist} or \code{fitFDistRobustly} will be used. If \code{NULL}, then \code{fitFDistUnequalDF1} will be used whenever the degrees of freedom \code{df} are not all equal.}
+\item{legacy}{logical. If \code{FALSE} then the new function \code{fitFDistUnequalDF1} will be called internally, otherwise the legacy functions \code{fitFDist} or \code{fitFDistRobustly} will be used. If \code{NULL}, then \code{fitFDistUnequalDF1} will be used whenever the degrees of freedom \code{df} are not all equal. If \code{span} is set, then this argument will be ignored and \code{fitFDistUnequalDF1} will be used.}
 }
 
 \details{

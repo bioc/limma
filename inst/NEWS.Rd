@@ -990,7 +990,7 @@ Bug fixes for beadCountWeights(). Default is now set correct for
 }}
 
 
-\section{version 3.32.0}{\itemize{
+\section{version 3.32.0 (2017-04-25)}{\itemize{
 
 \item
 New function cameraPR(), which implemented a pre-ranked version
@@ -1087,7 +1087,7 @@ Bug fix to printHead() for arrays with 1 column.
 }}
 
 
-\section{version 3.30.0}{\itemize{
+\section{version 3.30.0 (2016-10-18)}{\itemize{
 
 \item
   New function cumOverlap() to analyse the overlap between two
@@ -1196,7 +1196,7 @@ Bug fix to printHead() for arrays with 1 column.
 }}
 
 
-\section{version 3.28.0}{\itemize{
+\section{version 3.28.0 (2016-05-04)}{\itemize{
 
 \item
   Improved capabilities and performance for fry().  fry() has two
@@ -1293,7 +1293,7 @@ Bug fix to printHead() for arrays with 1 column.
 }}
 
 
-\section{version 3.26.0}{\itemize{
+\section{version 3.26.0 (2015-10-14)}{\itemize{
 
 \item
   New functions kegga() and topKEGG() to conduct KEGG pathway over-representation analyses.
@@ -1418,7 +1418,7 @@ Bug fix to printHead() for arrays with 1 column.
 }}
 
 
-\section{version 3.24.0}{\itemize{
+\section{version 3.24.0 (2015-04-17)}{\itemize{
 \item
 Limma review article (Ritchie et al, Nucleic Acids Research, 2015) is now published, and becomes the primary citation for limma.
 References in User's Guide, help files and CITATION have been updated to refer to this article.
@@ -1533,7 +1533,7 @@ Fix a bug in the MAList method for plotDensities that was introduced with
 }}
 
 
-\section{version 3.22.0}{\itemize{
+\section{version 3.22.0 (2014-10-14)}{\itemize{
 \item
 New functions goana() and topGO() provide gene ontology analyses of differentially genes from a linear model fit.
 The tests include the ability to adjust for gene length or abundance biases in differential expression detection, similar to the goseq package.
@@ -1642,7 +1642,7 @@ Bug fix to read.ilmn() when sep=",".
 }}
 
 
-\section{version 3.20.0}{\itemize{
+\section{version 3.20.0 (2014-04-12)}{\itemize{
 
 \item
 New functions diffSplice(), topSplice() and plotSplice() provide functionality to analyse differential splicing using exon-level expression data from either microarrays or RNA-seq.
@@ -1759,7 +1759,7 @@ bug fix to topTable() and topTableF() when sorting by F-statistic combined with 
 }}
 
 
-\section{version 3.18.0}{\itemize{
+\section{version 3.18.0 (2013-10-15)}{\itemize{
 
 \item
 new function beadCountWeights() to estimate quantitative weights
@@ -1892,7 +1892,7 @@ when df2 is estimated to be Inf.
 }}
 
 
-\section{version 3.16.0}{\itemize{
+\section{version 3.16.0 (2013-04-04)}{\itemize{
 
 \item
 New section in User's Guide on time course experiments with many time points.
@@ -1992,7 +1992,7 @@ Bug fix to readTargets() to avoid warning message when targets$Label is used to 
 }}
 
 
-\section{version 3.14.0}{\itemize{
+\section{version 3.14.0 (2012-10-02)}{\itemize{
 
 \item
 limma license upgraded to GPL (>=2) instead of LGPL to match R itself.
@@ -2074,7 +2074,7 @@ Bug fix for roast() when the fitted model has only one coefficient.
 }}
 
 
-\section{version 3.12.0}{\itemize{
+\section{version 3.12.0 (2012-03-30)}{\itemize{
 
 \item
 read.maimages() with source="agilent" now reads median foreground
@@ -2140,7 +2140,7 @@ neqc(), nec() and normexp.fit.control() now give user-friendly error messages wh
 
 }}
 
-\section{version 3.10.0}{\itemize{
+\section{version 3.10.0 (2011-11-01)}{\itemize{
 
 \item
 New function voom() allows RNA-Seq experiments to be analysed using the standard limma pipeline.

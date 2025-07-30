@@ -1,4 +1,17 @@
-21 May 2025: limma 3.64.1
+30 Jul 2025: limma 3.64.3
+
+- Bug fix for topTable() when `confint=TRUE` and either `p.value` is
+  less than 1 or `lfc` is greater than zero.
+
+30 Jul 2025: limma 3.64.2
+
+- New argument `span` for fitFDistUnequalDF1(), squeezeVar() and eBayes().
+
+- Minor edits to poolVar() and update help page.
+
+- Complete remaining dates for release versions in NEWS.Rd.
+
+21 May 2025: limma 3.65.1
 
 - Revise help page for lmFit(), removing out-of-date mention of
   default correlation.

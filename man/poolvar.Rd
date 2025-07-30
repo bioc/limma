@@ -11,26 +11,28 @@ poolVar(var, df=n-1, multiplier=1/n, n)
 }
 
 \arguments{
-\item{var}{numeric vector of independent sample variances}
-\item{df}{numeric vector of degrees of freedom for the sample variances}
-\item{multiplier}{numeric vector giving multipliers for the sample variances}
-\item{n}{numeric vector of sample sizes}
+\item{var}{numeric vector of independent sample variances.}
+\item{df}{numeric vector of degrees of freedom for the sample variances.}
+\item{multiplier}{numeric vector of multipliers (weights) for the sample variances in the summation.}
+\item{n}{numeric vector of sample sizes.}
 }
 
 \details{
-The sample variances \code{var} are assumed to follow scaled chi-square distributions.
+The sample variances \code{var} are assumed to follow scaled chi-square distributions, with specified df but with unknown and generally different scale factors (i.e., the true sample variances).
 A scaled chi-square approximation is found for the distribution of \code{sum(multiplier * var)} by equating first and second moments.
-On output the sum to be approximated is equal to \code{multiplier * var} which follows approximately a scaled chisquare distribution on \code{df} degrees of freedom.
+On output the sum to be approximated is equal to \code{multiplier * var}, which follows approximately a scaled chisquare distribution on \code{df} degrees of freedom.
 The approximation was proposed by Satterthwaite (1946).
 
-If there are only two groups and the degrees of freedom are one less than the sample sizes then this gives the denominator of Welch's t-test for unequal variances.
+The df and multipliers are related to the sample sizes in a common use scenario, but the approximation works for any df and multipliers, which do not necessarily need to be related to sample sizes.
+
+If there are only two groups and the degrees of freedom are one less than the sample sizes then this approximation gives the denominator of Welch's t-test for unequal variances.
 }
 
 \value{
 A list with components
-\item{var}{effective pooled sample variance}
-\item{df}{effective pooled degrees of freedom}
-\item{multiplier}{pooled multiplier}
+\item{var}{effective pooled sample variance.}
+\item{df}{effective pooled degrees of freedom.}
+\item{multiplier}{pooled multiplier.}
 }
 
 \author{Gordon Smyth}
@@ -45,7 +47,8 @@ Satterthwaite, F. E. (1946). An approximate distribution of estimates of varianc
 Welch, B. L. (1947). The generalization of 'Student's' problem when several different population variances are involved.
 \emph{Biometrika} \bold{34}, 28-35.
 
-Welch, B. L. (1949). Further note on Mrs. Aspin's tables and on certain approximations to the tabled function. \emph{Biometrika} \bold{36}, 293-296.
+Welch, B. L. (1949). Further note on Mrs Aspin's tables and on certain approximations to the tabled function.
+\emph{Biometrika} \bold{36}, 293-296.
 }
 
 \examples{
