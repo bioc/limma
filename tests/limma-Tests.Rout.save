@@ -1,5 +1,5 @@
 
-R version 4.5.0 alpha (2025-03-18 r87998 ucrt)
+R version 4.5.0 (2025-04-11 ucrt) -- "How About a Twenty-Six"
 Copyright (C) 2025 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64
 
@@ -1215,7 +1215,7 @@ Gene95 -1.907074  1.26297763 -2.106861 0.0589594023 0.58959402 -4.4117140
 > design <- cbind(Int=1,x=c(0,0,1,1))
 > v <- voom(y,design)
 > names(v)
-[1] "E"       "weights" "design"  "targets"
+[1] "E"       "weights" "design"  "targets" "span"   
 > summary(v$E)
        V1              V2              V3              V4       
  Min.   :12.38   Min.   :12.32   Min.   :12.17   Min.   :12.08  
@@ -1226,12 +1226,12 @@ Gene95 -1.907074  1.26297763 -2.106861 0.0589594023 0.58959402 -4.4117140
  Max.   :14.01   Max.   :13.95   Max.   :14.03   Max.   :14.05  
 > summary(v$weights)
        V1               V2               V3               V4        
- Min.   : 7.729   Min.   : 7.729   Min.   : 7.729   Min.   : 7.729  
- 1st Qu.:13.859   1st Qu.:15.067   1st Qu.:14.254   1st Qu.:13.592  
- Median :15.913   Median :16.621   Median :16.081   Median :16.028  
- Mean   :16.773   Mean   :18.525   Mean   :18.472   Mean   :17.112  
- 3rd Qu.:18.214   3rd Qu.:20.002   3rd Qu.:18.475   3rd Qu.:18.398  
- Max.   :34.331   Max.   :34.331   Max.   :34.331   Max.   :34.331  
+ Min.   : 9.827   Min.   : 9.827   Min.   : 9.827   Min.   : 9.827  
+ 1st Qu.:15.095   1st Qu.:15.097   1st Qu.:15.124   1st Qu.:15.054  
+ Median :15.677   Median :16.185   Median :16.317   Median :15.777  
+ Mean   :15.935   Mean   :16.550   Mean   :16.569   Mean   :15.909  
+ 3rd Qu.:17.178   3rd Qu.:18.533   3rd Qu.:17.751   3rd Qu.:16.746  
+ Max.   :21.593   Max.   :21.593   Max.   :21.593   Max.   :21.593  
 > 
 > ### goana
 > 
@@ -1273,4 +1273,4 @@ GO:0009792 embryo development ending i...  BP  3  0    2 1.0000000 0.025788497
 > 
 > proc.time()
    user  system elapsed 
-   2.42    0.79    3.25 
+   2.43    0.67    3.37 

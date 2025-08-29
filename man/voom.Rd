@@ -9,7 +9,7 @@ The logCPM and associated precision weights are then ready for linear modeling.
 \usage{
 voom(counts, design = NULL, lib.size = NULL, normalize.method = "none",
      block = NULL, correlation = NULL, weights = NULL,
-     span = 0.5, adaptive.span = FALSE, plot = FALSE, save.plot = FALSE)
+     span = 0.5, adaptive.span = TRUE, plot = FALSE, save.plot = FALSE)
 }
 
 \arguments{

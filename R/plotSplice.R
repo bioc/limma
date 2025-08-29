@@ -1,8 +1,8 @@
-plotSplice <- function(fit, coef=ncol(fit), geneid=NULL, genecolname=NULL, rank=1L, FDR=0.05)
-#	Plot exons of chosen gene
+plotSplice <- function(fit, coef=ncol(fit), geneid=NULL, genecolname=NULL, rank=1L, FDR=0.05, xlab="Exon")
+#	Plot exons or isoforms of chosen gene
 #	fit is output from diffSplice
 #	Gordon Smyth, Yifang Hu and Yunshun Chen
-#	Created 3 Jan 2014.  Last modified 28 Sep 2017.
+#	Created 3 Jan 2014.  Last modified 29 Sep 2025.
 {
 	if(is.null(genecolname)) 
 		genecolname <- fit$genecolname
@@ -32,12 +32,14 @@ plotSplice <- function(fit, coef=ncol(fit), geneid=NULL, genecolname=NULL, rank=
 	strcol <- grepl("strand", colnames(fit$gene.genes), ignore.case=TRUE)
 	if(any(strcol)) geneid <- paste0(geneid, " (", as.character(fit$gene.genes[i, strcol])[1], ")")
 
+#	Make plot
+	ylab <- paste("logFC (this",tolower(xlab),"vs rest)")
 	if(is.null(exoncolname)) {
-		plot(fit$coefficients[j, coef], xlab="Exon", ylab="logFC (this exon vs rest)", main=geneid, type="b")
+		plot(fit$coefficients[j, coef], xlab=xlab, ylab=ylab, main=geneid, type="b")
 	} else {
 		exon.id <- fit$genes[j, exoncolname]
-		xlab <- paste("Exon", exoncolname, sep=" ")
-		plot(fit$coefficients[j, coef], xlab="", ylab="logFC (this exon vs rest)", main=geneid, type="b", xaxt="n")
+		xlab <- paste(xlab, exoncolname, sep=" ")
+		plot(fit$coefficients[j, coef], xlab="", ylab=ylab, main=geneid, type="b", xaxt="n")
 		axis(1, at=1:length(j), labels=exon.id, las=2, cex.axis=0.5)
 		mtext(xlab, side=1, padj=5.2)
 	}

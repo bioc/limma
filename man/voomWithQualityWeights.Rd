@@ -6,7 +6,7 @@ Combine voom observational-level precision weights with sample-specific quality 
 }
 \usage{
 voomWithQualityWeights(counts, design = NULL, lib.size = NULL, normalize.method = "none",
-             plot = FALSE, span = 0.5, adaptive.span = FALSE,
+             plot = FALSE, span = 0.5, adaptive.span = TRUE,
              var.design = NULL, var.group = NULL,
              method = "genebygene", maxiter = 50, tol = 1e-5, trace = FALSE,
              col = NULL, \dots)
@@ -38,7 +38,7 @@ voomWithQualityWeights(counts, design = NULL, lib.size = NULL, normalize.method 
   }
   \item{adaptive.span}{
     logical.
-    If \code{TRUE}, then an optimal value for \code{span} will be chosen depending on the number of genes.
+    If \code{TRUE}, then an optimal value for \code{span} will be chosen depending on the number of genes, and the value set by the \code{span} argument will be ignored.
   }
   \item{var.design}{
     design matrix for the variance model.

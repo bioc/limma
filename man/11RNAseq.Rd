@@ -14,7 +14,7 @@ This page gives an overview of LIMMA functions to analyze RNA-seq data.
 	Combines the functionality of \code{voom} and \code{arrayWeights}.}
 
 \item{ \code{\link{diffSplice}} }{
-	Test for differential exon usage between experimental conditions.}
+	Test for differential transcript or exon usage between experimental conditions.}
 
 \item{ \code{\link{topSplice}} }{
 	Show a data.frame of top results from \code{diffSplice}.}
