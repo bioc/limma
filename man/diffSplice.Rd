@@ -2,13 +2,14 @@
 \alias{diffSplice}
 \alias{diffSplice.MArrayLM}
 \title{Test for Differential Transcript Usage}
-\description{Given a linear model fit at the transcript (or exon) level, test for differences in transcript (or exon) usage between experimental conditions.}
+\description{Given a linear model fit at the transcript (or exon) level, test for differences in transcript (or exon) usage within genes between experimental conditions.
+More generally, test for differential usage within genes of any set of splice-events or isoform-identifying features.}
 \usage{
 \method{diffSplice}{MArrayLM}(fit, geneid, exonid = NULL,
      robust = FALSE, legacy = FALSE, verbose = TRUE, \dots)
 }
 \arguments{
-  \item{fit}{an \code{MArrayLM} fitted model object produced by \code{lmFit} or \code{contrasts.fit}. Rows should correspond to isoform events, either transcripts or exons and exon-exon junctions.}
+  \item{fit}{an \code{MArrayLM} fitted model object produced by \code{voomLmFit}, \code{lmFit} or \code{contrasts.fit}. Rows should correspond to transcripts, for a DTU analysis, or to exons and exon-exon junctions for a DEU analysis.}
   \item{geneid}{gene identifiers. Either a vector of length \code{nrow(fit)} or the name of the column of \code{fit$genes} containing the gene identifiers. Rows with the same ID are assumed to belong to the same gene.}
   \item{exonid}{exon identifiers. Either a vector of length \code{nrow(fit)} or the name of the column of \code{fit$genes} containing the exon identifiers.}
   \item{robust}{logical, should the estimation of the empirical Bayes prior parameters be robustified against outlier sample variances?}
@@ -32,7 +33,7 @@ Results are sorted by geneid and by exonid within gene.
 }
 
 \details{
-This function tests for differential usage of the row-wise isoforms for each gene and for each column of \code{fit}.
+This function tests for differential usage of the row-wise isoform features contained in \code{fit} for each gene and for each column of \code{fit}.
 The isoform features can be transcripts for a differential transcript usage (DTU) analysis, or can be a combination of exons and exon-exon junctions for a differential exon usage (DEU) analysis.
 
 Testing for differential transcript usage is equivalent to testing whether the log-fold-changes in the \code{fit} differ between transcripts for the same gene.
@@ -43,17 +44,20 @@ The other is a series of t-tests in which each transcript is compared to the wei
 The transcript-level t-tests are converted into genewise tests by adjusting the p-values for the same gene by Simes method.
 Alternatively, the transcript-level t-tests are also converted into genewise tests by adjusting the smallest p-value for each gene by Bonferroni's method.
 
-This function can be used on transcript level RNA-seq counts from Salmon, after using the edgeR functions catchSalmon() and voomLmFit().
-It can also be used on exon-level counts or on data from an exon microarray.
+This function can be used on transcript level RNA-seq counts from Salmon or kallisto, after using the edgeR functions catchSalmon() or catchKallisto() and voomLmFit(), as described by Baldoni et al (2025).
+It can also be used on equivalence-class counts from Salmon or kallisto, after pre-processing by voomLmFit(), as described by Cmero et al (2019).
+It can also be used on exon-level read counts or on data from an exon microarray.
 }
 
 \note{
-This function is not designed for situations with a very high level of multi-counting of RNA-seq reads than overlap two or more exons.
-It is not designed for use with "chopped" exons, where overlapping exons belonging to different transcripts of the same gene are chopped up into unique sub-exons, because very short exons lead to high levels of multi-counting.
+This function is not designed for situations with a very high level of multi-counting of RNA-seq reads that overlap two or more exons.
+In particular, it is not designed for use with "chopped" exons, where overlapping exons belonging to different transcripts of the same gene are chopped up into unique sub-exons, because artificial exons of this sort lead to high levels of multi-counting.
 }
 
 \seealso{
-\code{\link{topSplice}}, \code{\link{plotSplice}}
+\code{\link{topSplice}} and \code{\link{plotSplice}} are downstream functions that operate on the output from \code{diffSplice}.
+
+Also see \code{diffSplice.DGEGLM} in the edgeR package, which has comparable functionality but for edgeR fit objects.
 
 A summary of functions available in LIMMA for RNA-seq analysis is given in \link{11.RNAseq}.
 }
@@ -65,6 +69,11 @@ Baldoni PL, Chen L, Li M, Chen Y, Smyth GK (2025).
 Dividing out quantification uncertainty enables assessment of differential transcript usage with limma and edgeR.
 \emph{bioRxiv}
 \doi{10.1101/2025.04.07.647659}.
+
+Cmero M, Davidson NM, Oshlack A (2019).
+Using equivalence class counts for fast and accurate testing of differential transcript usage.
+\emph{F1000Research} 8, 265.
+\doi{10.12688/f1000research.18276.2}.
 }
 
 \examples{
