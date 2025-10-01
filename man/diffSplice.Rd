@@ -86,3 +86,5 @@ plotSplice(ex, xlab="Transcript")
 }
 
 \keyword{rna-seq}
+\concept{Differential transcript usage}
+\concept{Differential usage}

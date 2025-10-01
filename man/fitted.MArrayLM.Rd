@@ -10,13 +10,14 @@
   \item{\dots}{other arguments are not currently used.}
 }
 \description{
-  Obtains fitted values from a fitted microarray linear model object.
+  Obtain fitted values from a fitted linear model object.
 }
 \value{
   A numeric matrix of fitted values.
 }
 \seealso{
-  \code{\link{fitted}}
+  \code{\link{residuals.MArrayLM}}.
+  See also \code{\link{fitted}} in the stats package.
 }
 
 \author{Gordon Smyth}

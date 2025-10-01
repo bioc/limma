@@ -47,6 +47,8 @@ Objects are normally created by \code{\link{lmFit}}, and additional components a
 \code{MArrayLM} objects will return dimensions and hence functions such as \code{\link[limma:dim]{dim}}, \code{\link[base:nrow]{nrow}} and \code{\link[base:nrow]{ncol}} are defined. 
 \code{MArrayLM} objects inherit a \code{show} method from the virtual class \code{LargeDataObject}.
 
+\code{\link[limma:fitted.MArrayLM]{fitted}} will return a matrix of fitted values and \code{\link[limma:residuals.MArrayLM]{residuals}} will return a matrix of residuals.
+
 The functions \code{\link{eBayes}}, \code{\link{decideTests}} and \code{\link{classifyTestsF}} accept \code{MArrayLM} objects as arguments.
 }
 

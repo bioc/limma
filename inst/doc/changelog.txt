@@ -1,3 +1,8 @@
+01 Oct 2025: limma 3.65.5
+
+- Bug fix to contrastAsCoef() when the `contrast` matrix is not of
+  full column rank.
+
 29 Aug 2025: limma 3.65.4
 
 - The default for `adaptive.span` in voom() and
