@@ -3,6 +3,8 @@
 - Bug fix to contrastAsCoef() when the `contrast` matrix is not of
   full column rank.
 
+- Add "differential usage" concept tags to appropriate help pages.
+
 29 Aug 2025: limma 3.65.4
 
 - The default for `adaptive.span` in voom() and

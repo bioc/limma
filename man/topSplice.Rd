@@ -65,3 +65,4 @@ A summary of functions available in LIMMA for RNA-seq analysis is given in \link
 \examples{# See diffSplice}
 
 \keyword{rna-seq}
+\concept{differential usage}

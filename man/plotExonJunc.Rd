@@ -49,3 +49,4 @@ plotExonJunc(ex, geneid="Foxp1", genecolname="Symbol", annotation=annotation.ful
 
 \keyword{hplot}
 \keyword{rna-seq}
+\concept{differential usage}

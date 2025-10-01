@@ -46,3 +46,4 @@ plotExons(fit, geneid = "ps", genecolname = "Symbol", exoncolname = "Start")
 
 \keyword{hplot}
 \keyword{rna-seq}
+\concept{differential usage}
