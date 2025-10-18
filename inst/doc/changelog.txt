@@ -1,3 +1,14 @@
+18 Oct 2025: limma 3.65.6
+
+- makeContrasts() now uses the contrast names if `contrasts` is a
+  named vector.
+
+- Fix typo (pointed out by Marcel Schilling) in error message from
+  makeContrasts() when the variable names are not syntactically
+  valid.
+
+- Update NEWS.Rd ready for Bioconductor 3.22 release.
+
 01 Oct 2025: limma 3.65.5
 
 - Bug fix to contrastAsCoef() when the `contrast` matrix is not of

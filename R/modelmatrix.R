@@ -46,21 +46,21 @@ modelMatrix <- function(targets, parameters=NULL, ref=NULL, verbose=TRUE)
 makeContrasts <- function(..., contrasts=NULL, levels)
 #	Construct matrix of custom contrasts
 #	Gordon Smyth
-#	30 June 2003.  Last modified 2 April 2010.
+#	30 June 2003.  Last modified 18 April 2025.
 {
 	e <- substitute(list(...))
 	if(is.factor(levels)) levels <- levels(levels)
 	if(!is.character(levels)) levels <- colnames(levels)
-	if(levels[1]=="(Intercept)") {
+	if(levels[1] == "(Intercept)") {
 		levels[1] <- "Intercept"
-		warning("Renaming (Intercept) to Intercept")
+		message("Renaming (Intercept) to Intercept")
 	}
 	notvalid <- (levels != make.names(levels))
-	if(any(notvalid)) stop("The levels must by syntactically valid names in R, see help(make.names).  Non-valid names: ",paste(levels[notvalid],collapse=","))
+	if(any(notvalid)) stop("The levels must be syntactically valid names in R, see help(make.names).  Non-valid names: ",paste(levels[notvalid],collapse=","))
 	n <- length(levels)
-	if(n < 1) stop("No levels to construct contrasts from")
+	if(n < 1L) stop("No levels to construct contrasts from")
 	indicator <- function(i,n) {
-		out <- rep(0,n)
+		out <- rep_len(0,n)
 		out[i] <- 1
 		out
 	}
@@ -69,10 +69,19 @@ makeContrasts <- function(..., contrasts=NULL, levels)
 
 #	Contrasts given as character vector
 	if(!is.null(contrasts)) {
-		if(length(e)>1) stop("Can't specify both ... and contrasts")
+		if(length(e) > 1L) stop("Can't specify both ... and contrasts")
+		cn <- names(contrasts)
 		e <- as.character(contrasts)
 		ne <- length(e)
-		cm <- matrix(0,n,ne, dimnames=list(Levels=levels,Contrasts=e))
+		if(is.null(cn)) {
+			cn <- e
+		} else {
+			if(any(cn=="")) {
+				i <- which(cn=="")
+				cn[i] <- e[i]
+			}
+		}
+		cm <- matrix(0,n,ne, dimnames=list(Levels=levels,Contrasts=cn))
 		if(ne==0) return(cm)
 		for (j in 1:ne) {
 			ej <- parse(text=e[j])
@@ -83,16 +92,19 @@ makeContrasts <- function(..., contrasts=NULL, levels)
 
 #	Contrasts given as list of expressions
 	ne <- length(e)
-	enames <- names(e)[2:ne]
-	easchar <- as.character(e)[2:ne]
-	if(is.null(enames))
-		cn <- easchar
-	else
-		cn <- ifelse(enames=="",easchar,enames)
+	cn <- names(e)[2:ne]
+	if(is.null(cn)) {
+		cn <- as.character(e)[2:ne]
+	} else {
+		if(any(cn=="")) {
+			i <- which(cn=="")
+			cn[i] <- as.character(e)[i+1L]
+		}
+	}
 	cm <- matrix(0,n,ne-1, dimnames=list(Levels=levels,Contrasts=cn))
 	if(ne < 2) return(cm)
-	for (j in 1:(ne-1)) {
-		ej <- e[[j+1]]
+	for (j in 1:(ne-1L)) {
+		ej <- e[[j+1L]]
 		if(is.character(ej)) ej <- parse(text=ej)
 		ej <- eval(ej, envir=levelsenv)
 #		Character variable

@@ -3,6 +3,64 @@
 \encoding{UTF-8}
 
 
+\section{version 3.66.0 (2025-10-28)}{\itemize{
+
+  \item
+  New argument `span` for fitFDistUnequalDF1(), squeezeVar() and eBayes().
+
+  \item
+  The default for `adaptive.span` in voom() and
+  voomWithQualityWeights() is now `TRUE`. All the voom functions now
+  use chooseLowessSpan() by default to choose the `span`.
+
+  \item
+  New argument `xlab` for plotSplice() to allow labeling in terms of 
+  transcripts or other splicing events instead of exons.
+
+  \item
+  The help pages for diffSplice(), topSplice() and plotSplice() have
+  been updated to emphasize differential transcript usage instead of
+  differential exon usage or differential splicing.
+  "differential usage" concept tags have been added to the
+  appropriate help pages, creating an entry in the reference manual
+  index.
+
+  \item
+  makeContrasts() now uses the contrast names if `contrasts` is a
+  named vector.
+
+  \item
+  Fix typo in error message from makeContrasts() when the variable
+  names are not syntactically valid.
+
+  \item
+  Bug fix to contrastAsCoef() when the `contrast` matrix is not of
+  full column rank.
+
+  \item
+  The columns of the `covariates` matrix input to removeBatchEffect()
+  are now mean-corrected.
+
+  \item
+  removeBatchEffect() now gives a message if `design` is not
+  specified.
+
+  \item
+  Bug fix for topTable() when `confint=TRUE` and either `p.value` is
+  less than 1 or `lfc` is greater than zero.
+
+  \item
+  Revise help page for lmFit(), removing out-of-date mention of
+  default correlation.
+
+  \item
+  Minor edits to poolVar() and update of help page.
+
+  \item
+  Complete remaining dates for release versions in NEWS.Rd.
+}}
+
+
 \section{version 3.64.0 (2025-04-16)}{\itemize{
 
   \item

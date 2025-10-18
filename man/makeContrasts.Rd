@@ -35,10 +35,22 @@ An overview of linear model functions in limma is given by the help page \link{0
 \author{Gordon Smyth}
 
 \examples{
-makeContrasts(B-A,C-B,C-A,levels=c("A","B","C"))
-makeContrasts(contrasts="A-(B+C)/2",levels=c("A","B","C"))
-x <- c("B-A","C-B","C-A")
-makeContrasts(contrasts=x,levels=c("A","B","C"))
+# Specify contrasts as a list of expressions:
+makeContrasts(B-A, C-B, C-A, levels=c("A","B","C"))
+
+# Can be any numerical expression:
+makeContrasts(C-(A+B)/2, levels=c("A","B","C"))
+
+# Optionally include names for the contrasts:
+makeContrasts(BvsA=B-A, CvsB=C-B, CvsA=C-A, levels=c("A","B","C"))
+
+# Supply the contrasts as a character vector:
+x <- c("B-A", "C-B", "C-A")
+makeContrasts(contrasts=x, levels=c("A","B","C"))
+
+# Include names for the contrasts:
+x <- c(BvsA="B-A", CvsB="C-B", CvsA="C-A")
+makeContrasts(contrasts=x, levels=c("A","B","C"))
 }
 
 \keyword{regression}
