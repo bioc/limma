@@ -1,9 +1,9 @@
 ###  treat.R
 
-treat <- function(fit, fc=1.2, lfc=NULL, trend=FALSE, robust=FALSE, winsor.tail.p=c(0.05,0.1), legacy=NULL)
+treat <- function(fit, fc=1.2, lfc=NULL, trend=FALSE, robust=FALSE, winsor.tail.p=c(0.05,0.1), legacy=NULL, upshot=FALSE)
 #	Moderated t-statistics relative to a logFC threshold.
 #	Davis McCarthy, Gordon Smyth
-#	25 July 2008.  Last revised 2 Aug 2024.
+#	25 July 2008.  Last revised 21 Oct 2025.
 {
 #	Check fit
 	if(!is(fit,"MArrayLM")) stop("fit must be an MArrayLM object")
@@ -40,17 +40,32 @@ treat <- function(fit, fc=1.2, lfc=NULL, trend=FALSE, robust=FALSE, winsor.tail.
 	lfc <- abs(lfc)
 	acoef <- abs(coefficients)
 	se <- stdev.unscaled*sqrt(fit$s2.post)
-	tstat.right <- (acoef-lfc)/se
-	tstat.left <- (acoef+lfc)/se
+	fit$treat.lfc <- lfc
 	fit$t <- array(0,dim(coefficients),dimnames=dimnames(coefficients))
-	fit$p.value <- pt(tstat.right, df=df.total,lower.tail=FALSE) + pt(tstat.left,df=df.total,lower.tail=FALSE)
-	tstat.right <- pmax(tstat.right,0)
+	if(upshot && lfc > 0) {
+		gq <- gauss.quad.prob(16,dist="uniform",l=-lfc,u=lfc)
+		p <- fit$t
+		for (i in 9:16) {
+			lfci <- gq$nodes[i]
+			tstat.right <- (acoef-lfci)/se
+			tstat.left <- (acoef+lfci)/se
+			p <- p + gq$weights[i] * (pt(tstat.right, df=df.total,lower.tail=FALSE) + pt(tstat.left,df=df.total,lower.tail=FALSE))
+		}
+		fit$p.value <- 2*p
+		lfc <- lfc/2
+		tstat.right <- pmax((acoef-lfc)/se,0)
+		tstat.left <- (acoef+lfc)/se
+	} else {
+		tstat.right <- (acoef-lfc)/se
+		tstat.left <- (acoef+lfc)/se
+		fit$p.value <- pt(tstat.right, df=df.total,lower.tail=FALSE) + pt(tstat.left,df=df.total,lower.tail=FALSE)
+		tstat.right <- pmax(tstat.right,0)
+	}
 	if(anyNA(coefficients)) coefficients[is.na(coefficients)] <- 0
 	fc.up <- (coefficients > lfc)
 	fc.down <- (coefficients < -lfc)
 	fit$t[fc.up] <- tstat.right[fc.up]
 	fit$t[fc.down] <- -tstat.right[fc.down]
-	fit$treat.lfc <- lfc
 	fit
 }
 

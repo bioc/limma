@@ -6,6 +6,9 @@
 \section{version 3.66.0 (2025-10-28)}{\itemize{
 
   \item
+  New argument `upshot` for treat().
+
+  \item
   New argument `span` for fitFDistUnequalDF1(), squeezeVar() and eBayes().
 
   \item

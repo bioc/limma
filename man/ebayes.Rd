@@ -10,7 +10,7 @@ eBayes(fit, proportion = 0.01, stdev.coef.lim = c(0.1,4),
        trend = FALSE, span = NULL,
        robust = FALSE, winsor.tail.p = c(0.05,0.1), legacy = NULL)
 treat(fit, fc = 1.2, lfc = NULL, trend = FALSE,
-      robust = FALSE, winsor.tail.p = c(0.05,0.1), legacy = NULL)
+      robust = FALSE, winsor.tail.p = c(0.05,0.1), legacy = NULL, upshot = FALSE)
 }
 
 \arguments{
@@ -25,6 +25,7 @@ treat(fit, fc = 1.2, lfc = NULL, trend = FALSE,
   \item{legacy}{logical. If \code{FALSE} then the new hyperparameter estimation (introduced in limma 3.61.8) will be used, if \code{TRUE} the earlier hyperparameter estimation will be used. If \code{NULL}, then the new method will be used when the residual degrees of freedom are not all equal and the old method will be used otherwise. \code{legacy=FALSE} will also be assumed if \code{span} is not \code{NULL}.}
   \item{fc}{minimum fold-change below which changes are not considered scientifically meaningful.}
   \item{lfc}{minimum log2-fold-change below which changes not considered scientifically meaningful. Defaults to \code{log2(fc)}. If specified then takes precedence over \code{fc}.}
+  \item{upshot}{logical. If \code{TRUE}, then a more powerful test is conducted assuming that the true logFC are uniformly distributed over the null interval from \code{-lfc} to \code{lfc}. If \code{FALSE}, then the standard TREAT p-values are computed assuming the worst-case scenario of true logFC equal to \code{lfc}.}
 }
 
 \value{
@@ -111,6 +112,11 @@ In limma 3.61.8 (August 2024), the new function \code{\link{fitFDistUnequalDF1}}
 The new hyperparameter estimation will be used if \code{legacy=FALSE} and the original methods will be used if \code{legacy=TRUE}.
 If \code{legacy=NULL}, then the new method will be used if the residual degrees of freedom are unequal and the original methods otherwise.
 Unequal residual degrees of freedom arise in limma pipelines when the expression matrix includes missing values or from the quasi-likelihood pipeline in edgeR v4.
+
+If \code{upshot=FALSE}, then the original TREAT method is used, which computes p-values relative to the "worst case" scenario in which the true logFCs are on the boundary of the null hypothesis interval closest to the observed logFC.
+If \code{upshot=TRUE}, then a new more powerful UPSHOT approach suggested by Nikos Ignatiadis (University of Chicago) is used.
+The UPSHOT test assumes that the true logFC are uniformly distributed over the null interval from \code{-lfc} to \code{lfc}.
+The UPSHOT test gives correct error rate control over any unimodal distribution of true logFCs over the null interval.
 }
 
 \note{
@@ -133,11 +139,11 @@ Voom: precision weights unlock linear model analysis tools for RNA-seq read coun
 \doi{10.1186/gb-2014-15-2-r29}.
 See also the Preprint Version at \url{https://gksmyth.github.io/pubs/VoomPreprint.pdf} incorporating some notational corrections.
 
-Loennstedt I, and Speed TP (2002).
+Loennstedt I, Speed TP (2002).
 Replicated microarray data.
 \emph{Statistica Sinica} 12, 31-46.
 
-McCarthy D J, Smyth GK (2009).
+McCarthy DJ, Smyth GK (2009).
 Testing significance relative to a fold-change threshold is a TREAT.
 \emph{Bioinformatics} 25, 765-771.
 \doi{10.1093/bioinformatics/btp053}

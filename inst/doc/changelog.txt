@@ -1,3 +1,7 @@
+21 Oct 2025: limma 3.65.7
+
+- New argument `upshot` for treat().
+
 18 Oct 2025: limma 3.65.6
 
 - makeContrasts() now uses the contrast names if `contrasts` is a
