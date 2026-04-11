@@ -1,6 +1,6 @@
 
-R version 4.5.0 (2025-04-11 ucrt) -- "How About a Twenty-Six"
-Copyright (C) 2025 The R Foundation for Statistical Computing
+R version 4.6.0 alpha (2026-03-28 r89737 ucrt)
+Copyright (C) 2026 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -1247,30 +1247,30 @@ Gene95 -1.907074  1.26297763 -2.106861 0.0589594023 0.58959402 -4.4117140
 + "137682","137695","137735","1378","137814","137868","137872","137886","137902","137964")
 > go <- goana(fit,FDR=0.8,geneid=EB)
 > topGO(go,number=10,truncate.term=30)
-                                     Term Ont  N Up Down        P.Up      P.Down
-GO:0032502          developmental process  BP 26  5    7 0.785697935 0.002720775
-GO:0070062          extracellular exosome  CC  8  0    4 1.000000000 0.003047199
-GO:0065010 extracellular membrane-boun...  CC  8  0    4 1.000000000 0.003047199
-GO:0043230        extracellular organelle  CC  8  0    4 1.000000000 0.003047199
-GO:1903561          extracellular vesicle  CC  8  0    4 1.000000000 0.003047199
-GO:0006915              apoptotic process  BP  5  4    1 0.009503355 0.416247633
-GO:0008219                     cell death  BP  5  4    1 0.009503355 0.416247633
-GO:0012501          programmed cell death  BP  5  4    1 0.009503355 0.416247633
-GO:0042981 regulation of apoptotic pro...  BP  5  4    1 0.009503355 0.416247633
-GO:0043067 regulation of programmed ce...  BP  5  4    1 0.009503355 0.416247633
+                                     Term Ont N Up Down       P.Up      P.Down
+GO:0070062          extracellular exosome  CC 8  0    4 1.00000000 0.003047199
+GO:0065010 extracellular membrane-boun...  CC 8  0    4 1.00000000 0.003047199
+GO:0043230        extracellular organelle  CC 8  0    4 1.00000000 0.003047199
+GO:1903561          extracellular vesicle  CC 8  0    4 1.00000000 0.003047199
+GO:0048232         male gamete generation  BP 2  0    2 1.00000000 0.009090909
+GO:0007283                spermatogenesis  BP 2  0    2 1.00000000 0.009090909
+GO:0031252              cell leading edge  CC 3  3    0 0.01095238 1.000000000
+GO:0072359 circulatory system developm...  BP 3  0    2 1.00000000 0.025788497
+GO:0003006 developmental process invol...  BP 3  0    2 1.00000000 0.025788497
+GO:0007276              gamete generation  BP 3  0    2 1.00000000 0.025788497
 > topGO(go,number=10,truncate.term=30,sort="down")
-                                     Term Ont  N Up Down      P.Up      P.Down
-GO:0032502          developmental process  BP 26  5    7 0.7856979 0.002720775
-GO:0070062          extracellular exosome  CC  8  0    4 1.0000000 0.003047199
-GO:0065010 extracellular membrane-boun...  CC  8  0    4 1.0000000 0.003047199
-GO:0043230        extracellular organelle  CC  8  0    4 1.0000000 0.003047199
-GO:1903561          extracellular vesicle  CC  8  0    4 1.0000000 0.003047199
-GO:0016485             protein processing  BP  6  0    3 1.0000000 0.012551076
-GO:0043009 chordate embryonic developm...  BP  3  0    2 1.0000000 0.025788497
-GO:0072359 circulatory system developm...  BP  3  0    2 1.0000000 0.025788497
-GO:0009790             embryo development  BP  3  0    2 1.0000000 0.025788497
-GO:0009792 embryo development ending i...  BP  3  0    2 1.0000000 0.025788497
+                                     Term Ont N Up Down P.Up      P.Down
+GO:0070062          extracellular exosome  CC 8  0    4    1 0.003047199
+GO:0065010 extracellular membrane-boun...  CC 8  0    4    1 0.003047199
+GO:0043230        extracellular organelle  CC 8  0    4    1 0.003047199
+GO:1903561          extracellular vesicle  CC 8  0    4    1 0.003047199
+GO:0048232         male gamete generation  BP 2  0    2    1 0.009090909
+GO:0007283                spermatogenesis  BP 2  0    2    1 0.009090909
+GO:0072359 circulatory system developm...  BP 3  0    2    1 0.025788497
+GO:0003006 developmental process invol...  BP 3  0    2    1 0.025788497
+GO:0007276              gamete generation  BP 3  0    2    1 0.025788497
+GO:0007507              heart development  BP 3  0    2    1 0.025788497
 > 
 > proc.time()
    user  system elapsed 
-   2.43    0.67    3.37 
+   2.76    0.89    4.57 

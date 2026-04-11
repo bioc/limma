@@ -7,7 +7,8 @@ The logCPM and associated precision weights are then ready for linear modeling.
 }
 
 \usage{
-voom(counts, design = NULL, lib.size = NULL, normalize.method = "none",
+voom(counts, design = NULL,
+     lib.size = NULL, offset = NULL, offset.prior = NULL, normalize.method = "none",
      block = NULL, correlation = NULL, weights = NULL,
      span = 0.5, adaptive.span = TRUE, plot = FALSE, save.plot = FALSE)
 }
@@ -25,6 +26,13 @@ voom(counts, design = NULL, lib.size = NULL, normalize.method = "none",
     numeric vector containing the library sizes for each sample.
     Defaults to the columnwise count totals if \code{counts} is a matrix or
     to \code{normLibSizes(counts)} if \code{counts} is a \code{DGEList}.
+  }
+  \item{offset}{
+    alternative name for \code{offset.prior} for compatibility with older code.
+   }
+  \item{offset.prior}{
+    offset matrix of same dimensions as \code{counts} with row means equal to zero.
+    Used to modify the log effective library size for each individual count, in order to implement observation-wise normalization schemes.
   }
   \item{normalize.method}{
     the microarray-style normalization method to be applied to the logCPM values.

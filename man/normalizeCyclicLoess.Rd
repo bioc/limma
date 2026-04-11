@@ -5,7 +5,7 @@
 Normalize the columns of a matrix, cyclicly applying loess normalization to normalize each pair of columns to each other.
 }
 \usage{
-normalizeCyclicLoess(x, weights = NULL, span = 0.7, adaptive.span = FALSE,
+normalizeCyclicLoess(x, weights = NULL, span = 0.7, adaptive.span = TRUE,
                      iterations = 3, method = "fast")
 }
 \arguments{
@@ -40,7 +40,7 @@ the reference array being the average of all the arrays.
 This method is relatively fast because computational time is linear in the number of arrays, whereas \code{"pairs"} and \code{"affy"} are quadratic in the number of arrays.
 \code{"fast"} requires n lowess fits per iteration, where n is the number of arrays, whereas \code{"pairs"} and \code{"affy"} require n*(n-1)/2 lowess fits per iteration.
 
-If \code{adaptive.span} is \code{TRUE}, then \code{span} is set to \code{chooseLowessSpan(n=nrow(x), small.n=200, min.span=0.6)}.
+If \code{adaptive.span} is \code{TRUE}, then \code{span} is set to \code{chooseLowessSpan(nrow(x), small.n=50, min.span=0.3, power=1/3)}.
 }
 \value{
 A matrix of the same dimensions as \code{x} containing the normalized values.

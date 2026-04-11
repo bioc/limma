@@ -23,6 +23,7 @@ For more details see the \link[=limmaUsersGuide]{LIMMA User's Guide} which inclu
 \code{normalizeBetweenArrays} is the main normalization function for one-channel arrays,
 as well as an optional function for two-colour arrays.
 \code{normalizeBetweenArrays} uses utility functions \code{\link{normalizeMedianValues}}, \code{\link{normalizeMedianAbsValues}}, \code{\link{normalizeQuantiles}} and \code{\link{normalizeCyclicLoess}}, none of which need to be called directly by users.
+\code{normalizeCyclicLoess} calls \code{chooseLowessSpan} when \code{adaptive.span=TRUE}.
 
 \code{\link{neqc}} is a between array normalization function customized for Illumina BeadChips.
 
@@ -33,8 +34,9 @@ It performs variance stabilizing normalization, an algorithm which includes back
 }
 
 \author{Gordon Smyth}
+
 \references{
-Smyth, G. K., and Speed, T. P. (2003). Normalization of cDNA microarray data.
+Smyth GK, Speed TP (2003). Normalization of cDNA microarray data.
 \emph{Methods} 31, 265-273.
 \url{https://gksmyth.github.io/pubs/normalize.pdf}
 }

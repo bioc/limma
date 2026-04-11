@@ -3,6 +3,20 @@
 \encoding{UTF-8}
 
 
+\section{version 3.68.0 (2026-04-28)}{\itemize{
+
+  \item
+  New arguments `offset` and `offset.prior` for voom(). voom() now
+  supports offsets in DGEList objects.
+
+  \item
+  In normalizeCyclicLoess(), default for `adaptive.span` becomes `TRUE`,
+  and the `span` is chosen using the default settings of 
+  chooseLoessSpan().
+
+}}
+
+
 \section{version 3.66.0 (2025-10-28)}{\itemize{
 
   \item

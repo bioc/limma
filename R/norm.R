@@ -532,15 +532,15 @@ normalizeMedianValues <- function(x)
 	t(t(x)/cmed)
 }
 
-normalizeCyclicLoess <- function(x, weights = NULL, span=0.7, adaptive.span=FALSE, iterations = 3, method="fast")
+normalizeCyclicLoess <- function(x, weights = NULL, span=0.7, adaptive.span=TRUE, iterations = 3, method="fast")
 #	Cyclic loess normalization of columns of matrix
 #	incorporating probe weights.
-#	Yunshun (Andy) Chen and Gordon Smyth
-#	14 April 2010.  Last modified 14 June 2024.
+#	Yunshun Chen and Gordon Smyth
+#	14 April 2010.  Last modified 25 Feb 2026.
 {
 	x <- as.matrix(x)
 	method <- match.arg(method, c("fast","affy","pairs"))
-	if(adaptive.span) span <- chooseLowessSpan(nrow(x),small.n=200,min.span=0.6)
+	if(adaptive.span) span <- chooseLowessSpan(nrow(x), small.n=50, min.span=0.3, power=1/3)
 	n <- ncol(x)
 	if(method=="pairs") {
 		for (k in 1:iterations)
@@ -578,5 +578,3 @@ normalizeCyclicLoess <- function(x, weights = NULL, span=0.7, adaptive.span=FALS
 	}
 	x
 }
-
-

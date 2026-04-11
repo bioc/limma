@@ -1,12 +1,15 @@
 voom <- function(
-	counts, design=NULL, lib.size=NULL, normalize.method="none",
+	counts, design=NULL,
+	lib.size=NULL, offset=NULL, offset.prior=NULL,
+	normalize.method="none",
 	block=NULL, correlation=NULL, weights=NULL,
 	span=0.5, adaptive.span=TRUE, plot=FALSE, save.plot=FALSE
 )
 #	Linear modelling of count data with mean-variance modelling at the observation level.
 #	Creates an EList object for entry to lmFit() etc in the limma pipeline.
+#	Support for offset matrices added 11 Apr 2026.
 #	Gordon Smyth and Charity Law
-#	Created 22 June 2011.  Last modified 28 Aug 2025.
+#	Created 22 Jun 2011.  Last modified 11 Apr 2026.
 {
 	out <- list()
 
@@ -16,6 +19,8 @@ voom <- function(
 		out$targets <- counts$samples
 		if(is.null(design) && diff(range(as.numeric(counts$sample$group)))>0) design <- model.matrix(~group,data=counts$samples)
 		if(is.null(lib.size)) lib.size <- counts$samples$lib.size*counts$samples$norm.factors
+		if(is.null(offset)) offset <- counts[["offset"]]
+		if(is.null(offset.prior)) offset.prior <- counts[["offset.prior"]]
 		counts <- counts$counts
 	} else {
 		isExpressionSet <- suppressPackageStartupMessages(is(counts,"ExpressionSet"))
@@ -44,12 +49,26 @@ voom <- function(
 
 #	Check lib.size
 	if(is.null(lib.size)) lib.size <- colSums(counts)
+	lib.size.matrix <- matrix(lib.size,nrow(counts),ncol(counts),byrow=TRUE)
+	if(!is.null(offset)) {
+		if(is.null(offset.prior)) {
+			if(!identical(dim(counts),dim(offset))) stop("counts and offset must have equal dimensions.")
+			offset.prior <- offset - rowMeans(offset)
+		} else {
+			message("Ignoring offset in favor of offset.prior. Should not set both.")
+			offset <- NULL
+		}
+	}
+	if(!is.null(offset.prior)) {
+		if(!identical(dim(counts),dim(offset.prior))) stop("counts and offset.prior must have equal dimensions.")
+		lib.size.matrix <- exp(log(lib.size.matrix)+offset.prior)
+	}
 
 #	Choose span based on the number of genes
 	if(adaptive.span) span <- chooseLowessSpan(ngenes, small.n=50, min.span=0.3, power=1/3)
 
 #	Fit linear model to log2-counts-per-million
-	y <- t(log2(t(counts+0.5)/(lib.size+1)*1e6))
+	y <- log2((counts+0.5)/(lib.size.matrix+1)*1e6)
 	y <- normalizeBetweenArrays(y,method=normalize.method)
 	fit <- lmFit(y,design,block=block,correlation=correlation,weights=weights)
 	if(is.null(fit$Amean)) fit$Amean <- rowMeans(y,na.rm=TRUE)
@@ -67,6 +86,7 @@ voom <- function(
 			out$targets <- data.frame(lib.size=lib.size)
 		else
 			out$targets$lib.size <- lib.size
+		out$other$offset.prior <- offset.prior
 		return(new("EList",out))
 	}
 
@@ -103,7 +123,7 @@ voom <- function(
 		fitted.values <- fit$coefficients %*% t(fit$design)
 	}
 	fitted.cpm <- 2^fitted.values
-	fitted.count <- 1e-6 * t(t(fitted.cpm)*(lib.size+1))
+	fitted.count <- 1e-6 * fitted.cpm * (lib.size.matrix+1)
 	fitted.logcount <- log2(fitted.count)
 
 #	Apply trend to individual observations
@@ -123,7 +143,7 @@ voom <- function(
 		out$voom.xy <- list(x=sx,y=sy,xlab="log2( count size + 0.5 )",ylab="Sqrt( standard deviation )",pch=16,cex=0.25)
 		out$voom.line <- l
 	}
+	out$other$offset.prior <- offset.prior
 
 	new("EList",out)
 }
-

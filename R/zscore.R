@@ -50,7 +50,7 @@ zscoreT <- function(x, df, approx=FALSE, method="bailey")
 }
 
 .zscoreTQuantile <- function(x, df)
-#  Z-score equivalents of t distribution deviates using an approximatiuon from Wallace (1959).
+#  Z-score equivalents of t distribution deviates using an approximation from Wallace (1959).
 #  Wallace, D. L. (1959). Bounds on normal approximations to Student's and the chi-square distributions. The Annals of Mathematical Statistics, 30(4), 1121-1130.
 #  Gordon Smyth
 #  Created 21 July 2019 by modifying zscoreT code written 24 August 2003.
@@ -59,7 +59,7 @@ zscoreT <- function(x, df, approx=FALSE, method="bailey")
 }
 
 .zscoreTWallace <- function(x, df)
-#  Z-score equivalents of t distribution deviates using an approximatiuon from Wallace (1959).
+#  Z-score equivalents of t distribution deviates using an approximation from Wallace (1959).
 #  Wallace, D. L. (1959). Bounds on normal approximations to Student's and the chi-square distributions. The Annals of Mathematical Statistics, 30(4), 1121-1130.
 #  Gordon Smyth
 #  Created 16 July 2019.
@@ -68,7 +68,7 @@ zscoreT <- function(x, df, approx=FALSE, method="bailey")
 }
 
 .zscoreTBailey <- function(x, df)
-#  Z-score equivalents of t distribution deviates using an approximatiuon from Wallace (1959).
+#  Z-score equivalents of t distribution deviates using an approximation from Wallace (1959).
 #  Wallace, D. L. (1959). Bounds on normal approximations to Student's and the chi-square distributions. The Annals of Mathematical Statistics, 30(4), 1121-1130.
 #  Gordon Smyth
 #  Created 16 July 2019.

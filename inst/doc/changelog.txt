@@ -1,3 +1,15 @@
+11 Apr 2026: limma 3.67.1
+
+- New arguments `offset` and `offset.prior` for voom(). voom() now
+  supports offsets in DGEList objects.
+
+- In normalizeCyclicLoess(), default for `adaptive.span` becomes `TRUE`,
+  and the `span` is chosen using the default settings of 
+  chooseLoessSpan().
+
+30 Oct 2025: limma 3.67.0 (Bioconductor 3.23 Developmental Branch)
+30 Oct 2025: limma 3.66.0 (Bioconductor 3.22 Release Branch)
+
 21 Oct 2025: limma 3.65.7
 
 - New argument `upshot` for treat().
