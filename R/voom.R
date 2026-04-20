@@ -50,6 +50,8 @@ voom <- function(
 #	Check lib.size
 	if(is.null(lib.size)) lib.size <- colSums(counts)
 	lib.size.matrix <- matrix(lib.size,nrow(counts),ncol(counts),byrow=TRUE)
+
+#	Combine library sizes with offsets
 	if(!is.null(offset)) {
 		if(is.null(offset.prior)) {
 			if(!identical(dim(counts),dim(offset))) stop("counts and offset must have equal dimensions.")

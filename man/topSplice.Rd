@@ -5,7 +5,7 @@
 Top table of results from a \code{diffSplice} differential transcript usage analysis.
 }
 \usage{
-topSplice(fit, coef = ncol(fit), test = "F", number = 10, FDR=1, sort.by = "p")
+topSplice(fit, coef = ncol(fit), test = "F", number = 10, FDR=1, sort.by = "p", treat.lfc = 0)
 }
 \arguments{
   \item{fit}{\code{MArrayLM} fit object produced by \code{diffSplice}.}
@@ -21,6 +21,10 @@ topSplice(fit, coef = ncol(fit), test = "F", number = 10, FDR=1, sort.by = "p")
   \item{sort.by}{character string specifying which column to sort results by.
     Possible values for \code{"p"}, \code{"logFC"}, \code{"NExons"} or \code{"none"}.
     \code{"logFC"} is only available if \code{test="t"} and \code{"NExons"} is only available if \code{test="simes"} or \code{test="F"}.
+  }
+  \item{treat.lfc}{
+    a treat-style log2-fold-change threshold to apply to significant testing when \code{test="t"}.
+    The null hypothesis will be that the true log2-fold-change is no larger than this theshold.
   }
 }
 

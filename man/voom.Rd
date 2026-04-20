@@ -31,8 +31,9 @@ voom(counts, design = NULL,
     alternative name for \code{offset.prior} for compatibility with older code.
    }
   \item{offset.prior}{
-    offset matrix of same dimensions as \code{counts} with row means equal to zero.
-    Used to modify the log effective library size for each individual count, in order to implement observation-wise normalization schemes.
+    offset matrix of same dimensions as \code{counts} with row means equal to zero, containing observation-specific normalization factors for the library sizes on the log-scale.
+    Used to implement observation-specific normalization strategies based on effective transcript lengths or GC content.
+    This type of normalization is independent of library size normalization based on count distributions as done by \code{edgeR::normLibSizes()}.
   }
   \item{normalize.method}{
     the microarray-style normalization method to be applied to the logCPM values.
@@ -98,6 +99,9 @@ If \code{counts} is a \code{DGEList} object from the edgeR package, then voom wi
 In other words, the logCPM values are computed from the effective library sizes rather than the raw library sizes.
 If the \code{DGEList} object has been scale-normalized in edgeR, then it is usual to leave \code{normalize.method="none"} in voom, i.e., the logCPM values should not usually be re-normalized in the \code{voom} call.
 
+If the \code{DGEList} objects contains a prior offset matrix, then obervation-specific effective library sizes will be obtained by adding \code{offset.prior} to the log library sizes.
+If an ordinary edgeR-style offset matrix is supplied (\code{offset}), either as an argument or in the DGEList, then it will be row-mean corrected and treated as a prior offset matrix.
+
 The \code{voom} method is similar in purpose to the limma-trend method, which uses \code{\link{eBayes}} or \code{\link{treat}} with \code{trend=TRUE}.
 The voom method incorporates the mean-variance trend into the precision weights, whereas limma-trend incorporates the trend into the empirical Bayes moderation.
 The voom method takes into account the sequencing depths (library sizes) of the individual columns of \code{counts} and applies the mean-variance trend on an individual observation basis.
@@ -111,6 +115,8 @@ Note that \code{edgeR::voomLmFit} is a further-developed version \code{voom} wit
 }
 
 \note{
+We now recommend \code{edgeR::voomLmFit} instead of \code{voom} because it enhances \code{voom}'s capabilities and ease of use.
+
 \code{voom} is designed to accept counts.
 Usually these will be sequence read counts, but counts of species abundance or other biological quantities might also be appropriate.
 Estimated counts are also acceptable provided that the column sums are representative of the total library size (total number of reads) for that sample.
@@ -163,6 +169,8 @@ RNA-seq analysis is easy as 1-2-3 with limma, Glimma and edgeR.
 Either can be used as a replacement for \code{voom}.
 \code{voomWithQualityWeights} estimates samples weights.
 \code{voomLmFit} estimates both sample weights and intrablock correlation and also improves variance estimation for sparse data.
+
+We now recommend \code{edgeR::voomLmFit} as the primary interface as it supersedes both \code{voom} and \code{voomWithQualityWeights}.
 
 \code{\link{vooma}} is analogous to \code{voom} but for continuous log-expression data instead of RNA-seq counts.
 

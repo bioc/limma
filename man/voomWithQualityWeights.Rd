@@ -78,7 +78,7 @@ The method is described by Liu et al (2015).
 }
 
 \note{
-Users are now recommended to use \code{edgeR::voomLmFit}, which is a further developed version of \code{voomWithQualityWeights} with extra capabilities.
+Users are now recommended to use \code{edgeR::voomLmFit}, which is a further developed version of \code{voomWithQualityWeights} with extra capabilities and ease of use.
 \code{voomLmFit} estimates both sample weights and intrablock correlation and also improves variance estimation for sparse data.
 }
 
