@@ -10,6 +10,10 @@
   supports offsets in DGEList objects.
 
   \item
+  New argument `treat.lfc` for topSplice() to allow TREAT fold-change
+  thresholding with diffSplice() output.
+
+  \item
   In normalizeCyclicLoess(), default for `adaptive.span` becomes `TRUE`,
   and the `span` is chosen using the default settings of 
   chooseLoessSpan().

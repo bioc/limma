@@ -1,3 +1,12 @@
+22 Apr 2026: limma 3.67.3
+
+- Update NEWS.Rd ready for Bioc 3.23 release.
+
+20 Apr 2026: limma 3.67.2
+
+- New argument `treat.lfc` for topSplice() to allow TREAT fold-change
+  thresholding with diffSplice() output.
+
 11 Apr 2026: limma 3.67.1
 
 - New arguments `offset` and `offset.prior` for voom(). voom() now
