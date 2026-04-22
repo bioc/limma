@@ -1,3 +1,7 @@
+22 Apr 2026: limma 3.67.4
+
+- Remove topTableF(), which has been deprecated for many years.
+
 22 Apr 2026: limma 3.67.3
 
 - Update NEWS.Rd ready for Bioc 3.23 release.

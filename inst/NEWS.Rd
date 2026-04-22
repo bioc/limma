@@ -17,6 +17,10 @@
   In normalizeCyclicLoess(), default for `adaptive.span` becomes `TRUE`,
   and the `span` is chosen using the default settings of 
   chooseLoessSpan().
+  
+  \item
+  The function topTableF(), which has been deprecated for many years,
+  is now formally removed.
 
 }}
 

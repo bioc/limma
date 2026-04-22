@@ -1,6 +1,5 @@
 \name{topTable}
 \alias{topTable}
-\alias{topTableF}
 \alias{topTreat}
 \title{Table of Top Genes from Linear Model Fit}
 
@@ -12,9 +11,6 @@ Extract a table of the top-ranked genes from a linear model fit.
 topTable(fit, coef = NULL, number = 10, genelist = fit$genes,
          adjust.method = "BH", sort.by = "B", resort.by = NULL,
          p.value = 1, fc = NULL, lfc = NULL, confint = FALSE)
-topTableF(fit, number = 10, genelist = fit$genes,
-          adjust.method="BH", sort.by="F",
-          p.value = 1, fc = NULL, lfc = NULL)
 topTreat(fit, coef = 1, sort.by = "p", resort.by = NULL, \dots)
 }
 
@@ -31,7 +27,6 @@ topTreat(fit, coef = 1, sort.by = "p", resort.by = NULL, \dots)
     character string specifying which statistic to rank the genes by.
     Possible values for \code{topTable} are \code{"logFC"}, \code{"AveExpr"}, \code{"t"}, \code{"P"}, \code{"p"}, \code{"B"} or \code{"none"}.
     (Permitted synonyms are \code{"M"} for \code{"logFC"}, \code{"A"} or \code{"Amean"} for \code{"AveExpr"}, \code{"T"} for \code{"t"} and \code{"p"} for \code{"P"}.)
-    Possible values for \code{topTableF} are \code{"F"} or \code{"none"}.
     \code{topTreat} accepts the same values as \code{topTable} except for \code{"B"}.
   }
   \item{resort.by}{
@@ -44,7 +39,7 @@ topTreat(fit, coef = 1, sort.by = "p", resort.by = NULL, \dots)
   \item{lfc}{
     optional minimum log2-fold-change required, equal to \code{log2(fc)}.
     \code{fc} and \code{lfc} are alternative ways to specify a fold-change cutoff and, if both are specified, then \code{fc} take precedence.
-    If specified, then the results from \code{topTable}, \code{topTableF} or \code{topTreat} will include only genes with (at least one) absolute log-fold-change greater than \code{lfc}.
+    If specified, then the results from \code{topTable} or \code{topTreat} will include only genes with (at least one) absolute log-fold-change greater than \code{lfc}.
     This argument is not normally used with \code{topTreat}, which handles fold-change thresholds differently via the \code{treat} function.
   }
   \item{confint}{logical, should confidence 95\% intervals be output for \code{logFC}?  Alternatively, can be a numeric value between zero and one specifying the confidence level required.}
@@ -53,15 +48,15 @@ topTreat(fit, coef = 1, sort.by = "p", resort.by = NULL, \dots)
 \value{
   A dataframe with a row for the \code{number} top genes and the following columns:
   \item{genelist}{one or more columns of probe annotation, if genelist was included as input}
-  \item{logFC}{estimate of the log2-fold-change corresponding to the effect or contrast (for \code{topTableF} there may be several columns of log-fold-changes)}
+  \item{logFC}{estimate of the log2-fold-change corresponding to the effect or contrast. There may be several columns of log-fold-changes when multiple coefficients have been tested.}
   \item{CI.L}{left limit of confidence interval for \code{logFC} (if \code{confint=TRUE} or \code{confint} is numeric)}
   \item{CI.R}{right limit of confidence interval for \code{logFC} (if \code{confint=TRUE} or \code{confint} is numeric)}
   \item{AveExpr}{average log2-expression for the probe over all arrays and channels, same as \code{Amean} in the \code{MarrayLM} object}
-  \item{t}{moderated t-statistic (omitted for \code{topTableF})}
-  \item{F}{moderated F-statistic (omitted for \code{topTable} unless more than one coef is specified)}
+  \item{t}{moderated t-statistic (omitted when F-tests have been conducted).}
+  \item{F}{moderated F-statistic (omitted when only one coefficient or contrast has been tested).}
   \item{P.Value}{raw p-value}
   \item{adj.P.Value}{adjusted p-value or q-value}
-  \item{B}{log-odds that the gene is differentially expressed (omitted for \code{topTreat})}
+  \item{B}{log-odds that the gene is differentially expressed (omitted for \code{topTreat}).}
 
 If \code{fit} had unique rownames, then the row.names of the above data.frame are the same in sorted order.
 Otherwise, the row.names of the data.frame indicate the row number in \code{fit}.
@@ -103,9 +98,6 @@ Alternatively, by specifying \code{p.value} and \code{number=Inf}, all genes wit
 
 The arguments \code{fc} and \code{lfc} give the ability to filter genes by log-fold change, but see the Note below.
 This argument is not available for \code{topTreat} because \code{treat} already handles fold-change thresholding in a more sophisticated way.
-
-The function \code{topTableF} is scheduled for removal in a future version of limma.
-It is equivalent to \code{topTable} with \code{coef=NULL}.
 }
 
 \note{

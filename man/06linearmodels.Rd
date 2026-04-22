@@ -68,9 +68,9 @@ After the above steps the results may be displayed or further processed using:
 \item{ \code{\link{topTable}} }{
 	Presents a list of the genes most likely to be differentially expressed for a given contrast or set of contrasts.}
 
-\item{ \code{\link{topTableF}} }{
-	Presents a list of the genes most likely to be differentially expressed for a given set of contrasts.
-	Equivalent to \code{topTable} with \code{coef} set to all the coefficients, \code{coef=1:ncol(fit)}.
+\item{ \code{\link{topTreat}} }{
+	Presents a list of the genes most likely to be differentially expressed for one specified coefficient or contrast,
+	following \code{\link{treat}}.
 }
 
 \item{ \code{\link{volcanoplot}}}{
