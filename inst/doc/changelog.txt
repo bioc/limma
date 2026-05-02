@@ -1,3 +1,10 @@
+02 May 2026: limma 3.68.1
+
+- Restore topTableF() to avoid breaking packages a4Base, stageR, and
+  sva, although without a usage entry on the help page.
+
+29 Apr 2026: limma 3.68.0 (Bioconductor 3.23 Release Branch)
+
 22 Apr 2026: limma 3.67.4
 
 - Remove topTableF(), which has been deprecated for many years.

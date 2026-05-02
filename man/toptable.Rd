@@ -1,5 +1,6 @@
 \name{topTable}
 \alias{topTable}
+\alias{topTableF}
 \alias{topTreat}
 \title{Table of Top Genes from Linear Model Fit}
 
@@ -69,7 +70,7 @@ These functions summarize the linear model fit object produced by \code{lmFit}, 
 \code{topTreat} assumes that the fit has been processed by \code{\link{treat}}.
 
 If \code{coef} has a single value, then the moderated t-statistics and p-values for that coefficient or contrast are used.
-If \code{coef} takes two or more values, the moderated F-statistics for that set of coefficients or contrasts are used.
+If \code{coef} takes two or more values, then moderated F-statistics for that set of coefficients or contrasts are used.
 If \code{coef} is left \code{NULL}, then all the coefficients or contrasts in the fitted model are used, except that any coefficient named \code{(Intercept)} will be removed.
 
 The p-values for the coefficient/contrast of interest are adjusted for multiple testing by a call to \code{\link[stats]{p.adjust}}.
@@ -107,6 +108,9 @@ Users wanting to use fold change thresholding are usually recommended to use \co
 
 In general, the adjusted p-values returned by \code{adjust.method="BH"} remain valid as FDR bounds only when the genes remain sorted by p-value.
 Resorting the table by log-fold-change can increase the false discovery rate above the nominal level for genes at the top of resorted table.
+
+The older function \code{topTableF} is the same as \code{topTable} with \code{coef=NULL}.
+It has been formally deprecated since June 2020 and has been removed from limma in the Bioconductor 3.24 repository.
 }
 
 \seealso{
