@@ -65,6 +65,17 @@ topTable <- function(fit,coef=NULL,number=10,genelist=fit$genes,adjust.method="B
 		confint=confint)
 }
 
+topTableF <- function(fit,number=10,genelist=fit$genes,adjust.method="BH",sort.by="F",p.value=1,lfc=0)
+#	Summary table of top genes by F-statistic
+#	Gordon Smyth
+#	27 August 2006. Last modified 5 May 2026.
+{
+#	Deprecated message added 6 June 2020
+	message("####\n  topTableF is obsolete and will be removed in Bioconductor 3.24. Please use topTable instead.\n####")
+
+	.topTableF(fit=fit,number=number,genelist=genelist,adjust.method=adjust.method,sort.by=sort.by,p.value=p.value,lfc=lfc)
+}
+
 .topTableF <- function(fit,number=10,genelist=fit$genes,adjust.method="BH",sort.by="F",p.value=1,lfc=0)
 #	Summary table of top genes by F-statistic
 #	Gordon Smyth

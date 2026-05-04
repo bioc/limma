@@ -1,3 +1,8 @@
+05 May 2026: limma 3.68.2
+
+- The toptable.R file containing topTableF() was not committed
+  with limma 3.68.1. Now fixed.
+
 02 May 2026: limma 3.68.1
 
 - Restore topTableF() to avoid breaking packages a4Base, stageR, and
