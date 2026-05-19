@@ -97,14 +97,16 @@ For multiple testing functions which operate on linear model fits, see \link{08.
 \references{
 Phipson, B, Lee, S, Majewski, IJ, Alexander, WS, and Smyth, GK (2016).
 Robust hyperparameter estimation protects against hypervariable genes and improves power to detect differential expression.
-\emph{Annals of Applied Statistics} 10, 946-963.
-\url{http://projecteuclid.org/euclid.aoas/1469199900}
+\emph{Annals of Applied Statistics} 10(2), 946-963.
+\doi{10.1214/16-AOAS920}
 
 Smyth, G. K. (2004). Linear models and empirical Bayes methods for assessing differential expression in microarray experiments.
-\emph{Statistical Applications in Genetics and Molecular Biology}, \bold{3}, No. 1, Article 3.
-\url{https://gksmyth.github.io/pubs/ebayes.pdf}
+\emph{Statistical Applications in Genetics and Molecular Biology}, \bold{3}(1), Article 3.
+\doi{10.2202/1544-6115.1027}.
+See also the preprint version \url{https://gksmyth.github.io/pubs/ebayes.pdf} with corrections.
 
 Smyth, G. K., Michaud, J., and Scott, H. (2005). The use of within-array replicate spots for assessing differential expression in microarray experiments. \emph{Bioinformatics} 21(9), 2067-2075.
+\doi{10.1093/bioinformatics/bti270}
 }
 
 \seealso{

@@ -126,9 +126,8 @@ Ritchie, ME, Phipson, B, Wu, D, Hu, Y, Law, CW, Shi, W, and Smyth, GK (2015).
 limma powers differential expression analyses for RNA-sequencing and microarray studies.
 \emph{Nucleic Acids Research} 43, e47.
 \url{http://nar.oxfordjournals.org/content/43/7/e47}
-
-Web pages for the image analysis software packages mentioned here are listed at \url{http://www.statsci.org/micrarra/image.html}
 }
+
 \seealso{
 \code{read.maimages} uses \code{\link{read.columns}} for efficient reading of text files.
 As far as possible, it is has similar behavior to \code{\link[utils]{read.table}} in the base package.

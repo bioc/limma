@@ -69,9 +69,8 @@ A summary of functions available in LIMMA for RNA-seq analysis is given in \link
 \references{
 Baldoni PL, Chen L, Li M, Chen Y, Smyth GK (2025).
 Dividing out quantification uncertainty enables assessment of differential transcript usage with limma and edgeR.
-\emph{Nucleic Acids Research}.
-\emph{bioRxiv}
-\doi{10.1101/2025.04.07.647659}.
+\emph{Nucleic Acids Research} 53(22), gkaf1305.
+\doi{10.1093/nar/gkaf1305}
 
 Cmero M, Davidson NM, Oshlack A (2019).
 Using equivalence class counts for fast and accurate testing of differential transcript usage.

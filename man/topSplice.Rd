@@ -5,7 +5,8 @@
 Top table of results from a \code{diffSplice} differential transcript usage analysis.
 }
 \usage{
-topSplice(fit, coef = ncol(fit), test = "F", number = 10, FDR=1, sort.by = "p", treat.lfc = 0)
+topSplice(fit, coef = ncol(fit), test = "F", number = 10,
+          FDR = 1, sort.by = "p", treat.lfc = 0)
 }
 \arguments{
   \item{fit}{\code{MArrayLM} fit object produced by \code{diffSplice}.}
@@ -55,8 +56,8 @@ The F-tests are likely to be powerful than Simes when there multiple transcripts
 \references{
 Baldoni PL, Chen L, Li M, Chen Y, Smyth GK (2025).
 Dividing out quantification uncertainty enables assessment of differential transcript usage with limma and edgeR.
-\emph{bioRxiv}
-\doi{10.1101/2025.04.07.647659}.
+\emph{Nucleic Acids Research} 53(22), gkaf1305.
+\doi{10.1093/nar/gkaf1305}
 }
 
 \seealso{

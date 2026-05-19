@@ -137,7 +137,7 @@ Law CW, Chen Y, Shi W, Smyth GK (2014).
 Voom: precision weights unlock linear model analysis tools for RNA-seq read counts.
 \emph{Genome Biology} 15, R29.
 \doi{10.1186/gb-2014-15-2-r29}.
-See also the Preprint Version at \url{https://gksmyth.github.io/pubs/VoomPreprint.pdf} incorporating some notational corrections.
+See also the preprint version at \url{https://gksmyth.github.io/pubs/VoomPreprint.pdf} incorporating some notational corrections.
 
 Loennstedt I, Speed TP (2002).
 Replicated microarray data.
@@ -145,19 +145,19 @@ Replicated microarray data.
 
 McCarthy DJ, Smyth GK (2009).
 Testing significance relative to a fold-change threshold is a TREAT.
-\emph{Bioinformatics} 25, 765-771.
+\emph{Bioinformatics} 25(6), 765-771.
 \doi{10.1093/bioinformatics/btp053}
 
 Phipson B, Lee S, Majewski IJ, Alexander WS, Smyth GK (2016).
 Robust hyperparameter estimation protects against hypervariable genes and improves power to detect differential expression.
-\emph{Annals of Applied Statistics} 10, 946-963.
+\emph{Annals of Applied Statistics} 10(2), 946-963.
 \doi{10.1214/16-AOAS920}
 
 Smyth GK (2004).
 Linear models and empirical Bayes methods for assessing differential expression in microarray experiments.
-\emph{Statistical Applications in Genetics and Molecular Biology} Volume 3, Issue 1, Article 3.
+\emph{Statistical Applications in Genetics and Molecular Biology} 3(1), Article 3.
 \doi{10.2202/1544-6115.1027}.
-See also the Preprint Version
+See also the preprint version
 \url{https://gksmyth.github.io/pubs/ebayes.pdf}
 incorporating corrections to 30 June 2009.
 }

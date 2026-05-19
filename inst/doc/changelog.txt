@@ -1,3 +1,12 @@
+19 May 2026: limma 3.69.1
+
+- Fix filtering error in Agilent rat case study in User's Guide.
+- Update references in User's Guide and help pages.
+- Update URLs in help pages.
+
+29 Oct 2026: limma 3.69.0 (Bioconductor 3.24 Developmental Branch)
+29 Apr 2026: limma 3.68.0 (Bioconductor 3.23 Release Branch)
+
 22 Apr 2026: limma 3.67.4
 
 - Remove topTableF(), which has been deprecated for many years.
