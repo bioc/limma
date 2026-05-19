@@ -74,19 +74,19 @@ The \code{prob.outlier} value, which is the lower bound for \code{df2.shrunk}, m
 \references{
 Smyth GK (2004).
 Linear models and empirical Bayes methods for assessing differential expression in microarray experiments.
-\emph{Statistical Applications in Genetics and Molecular Biology} Volume 3, Issue 1, Article 3.
-\doi{10.2202/1544-6115.1027}
-\url{https://gksmyth.github.io/pubs/ebayes.pdf}
+\emph{Statistical Applications in Genetics and Molecular Biology} 3(1), Article 3.
+\doi{10.2202/1544-6115.1027}.
+See also the preprint version at \url{https://gksmyth.github.io/pubs/ebayes.pdf} with corrections.
 
 Phipson B, Lee S, Majewski IJ, Alexander WS, Smyth GK (2016).
 Robust hyperparameter estimation protects against hypervariable genes and improves power to detect differential expression.
-\emph{Annals of Applied Statistics} 10, 946-963.
+\emph{Annals of Applied Statistics} 10(2), 946-963.
 \doi{10.1214/16-AOAS920}
 
-Chen Y, Chen L, Lun ATL, Baldoni PL, Smyth GK (2024).
-edgeR 4.0: powerful differential analysis of sequencing data with expanded functionality and improved support for small counts and larger datasets.
-\emph{bioRxiv} 2024.01.21.576131.
-\doi{10.1101/2024.01.21.576131}
+Chen Y, Chen L, Lun ATL, Baldoni PL, Smyth GK (2025).
+edgeR v4: powerful differential analysis of sequencing data with expanded functionality and improved support for small counts and larger datasets.
+\emph{Nucleic Acids Research} 53(2), gkaf018.
+\doi{10.1093/nar/gkaf018}
 }
 
 \seealso{

@@ -38,23 +38,23 @@ Law CW, Chen Y, Shi W, Smyth GK (2014).
 Voom: precision weights unlock linear model analysis tools for RNA-seq read counts.
 \emph{Genome Biology} 15, R29.
 \doi{10.1186/gb-2014-15-2-r29}.
-See also the Preprint Version at \url{https://gksmyth.github.io/pubs/VoomPreprint.pdf} incorporating some notational corrections.
+See also the preprint version at \url{https://gksmyth.github.io/pubs/VoomPreprint.pdf} incorporating some notational corrections.
 
 Phipson B, Lee S, Majewski IJ, Alexander WS, and Smyth GK (2016).
 Robust hyperparameter estimation protects against hypervariable genes and improves power to detect differential expression.
-\emph{Annals of Applied Statistics} 10, 946-963.
+\emph{Annals of Applied Statistics} 10(2), 946-963.
 \doi{10.1214/16-AOAS920}
 
 Ritchie ME, Phipson B, Wu D, Hu Y, Law CW, Shi W, Smyth GK (2015).
 limma powers differential expression analyses for RNA-sequencing and microarray studies.
-\emph{Nucleic Acids Research} 43, e47.
+\emph{Nucleic Acids Research} 43(7), e47.
 \doi{10.1093/nar/gkv007}
 
 Smyth GK (2004).
 Linear models and empirical Bayes methods for assessing differential expression in microarray experiments.
-\emph{Statistical Applications in Genetics and Molecular Biology} Volume 3, Issue 1, Article 3.
+\emph{Statistical Applications in Genetics and Molecular Biology} 3(1), Article 3.
 \doi{10.2202/1544-6115.1027}.
-See also the Preprint Version
+See also the preprint version
 \url{https://gksmyth.github.io/pubs/ebayes.pdf}
 incorporating corrections to 30 June 2009.
 }

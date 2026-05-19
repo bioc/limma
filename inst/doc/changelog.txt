@@ -1,9 +1,10 @@
-05 May 2026: limma 3.68.2
+19 May 2026: limma 3.68.3
 
-- The toptable.R file containing topTableF() was not committed
-  with limma 3.68.1. Now fixed.
+- Fix filtering error in Agilent rat case study in User's Guide.
+- Update references in User's Guide and help pages.
+- Update URLs in help pages.
 
-02 May 2026: limma 3.68.1
+05 May 2026: limma 3.68.1 and 3.68.2
 
 - Restore topTableF() to avoid breaking packages a4Base, stageR, and
   sva, although without a usage entry on the help page.
