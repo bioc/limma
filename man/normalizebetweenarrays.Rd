@@ -1,5 +1,6 @@
 \name{normalizeBetweenArrays}
 \alias{normalizeBetweenArrays}
+\alias{normalizeBetweenSamples}
 \title{Normalize Between Arrays}
 
 \description{
@@ -8,11 +9,15 @@ Normalizes expression intensities so that the intensities or log-ratios have sim
 
 \usage{
 normalizeBetweenArrays(object, method=NULL, targets=NULL, cyclic.method="fast", \dots)
+normalizeBetweenSamples(object, method="quantile", cyclic.method="fast", \dots)
 }
 
 \arguments{
-  \item{object}{a numeric \code{matrix}, \code{\link[limma:EList]{EListRaw}}, \code{\link[limma:rglist]{RGList}} or \code{\link[limma:malist]{MAList}} object containing un-normalized expression data.
-  If a matrix, then it is assumed to contain log-transformed single-channel data.}
+  \item{object}{
+    For \code{normalizeBetweenArrays}, a numeric \code{matrix}, \code{\link[limma:EList]{EListRaw}}, \code{\link[limma:rglist]{RGList}} or \code{\link[limma:malist]{MAList}} object containing un-normalized expression data.
+    For \code{normalizeBetweenSamples}, a numeric \code{matrix} or \code{\link[limma:EList]{EList}} object containing log-transformed un-normalized expression data.
+    If a matrix, then it is assumed to contain log-transformed single-channel data.
+  }
   \item{method}{character string specifying the normalization method to be used.
   Choices for single-channel data are \code{"none"}, \code{"scale"}, \code{"quantile"} or \code{"cyclicloess"}.
   Choices for two-color data are those previously mentioned plus \code{"Aquantile"}, \code{"Gquantile"}, \code{"Rquantile"} or \code{"Tquantile"}.
@@ -58,12 +63,18 @@ In such a case the green channel represents the same target throughout, so it ma
 Both \code{Gquantile} and \code{Rquantile} normalization have the implicit effect of changing the red and green log-intensities by equal amounts.
 
 See the limma User's Guide for more examples of use of this function.
+
+\code{normalizeBetweenSamples} is designed for more general technologies, not necessary microarrays.
+Instead of transforming an \code{EListRaw} object to an \code{EList}, it directly accepts an \code{EList}.
 }
 
 \value{
 If \code{object} is a matrix then \code{normalizeBetweenArrays} produces a matrix of the same size.
 If \code{object} is an \code{EListRaw} object, then an \code{EList} object with expression values on the log2 scale is produced.
 For two-color data, \code{normalizeBetweenArrays} produces an \code{\link[limma:malist]{MAList}} object with M and A-values on the log2 scale.
+
+\code{normalizeBetweenSamples} returns a matrix or \code{EList}, depending the class of \code{object}.
+If an \code{EList}, then the \code{E} log-expression matrix is normalized.
 }
 
 \author{Gordon Smyth}
@@ -101,3 +112,4 @@ y <- normalizeBetweenArrays(x)
 }
 
 \keyword{normalization}
+\concept{normalization}

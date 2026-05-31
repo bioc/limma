@@ -1,6 +1,6 @@
 Package: limma
-Version: 3.69.1
-Date: 2026-05-19
+Version: 3.69.2
+Date: 2026-05-31
 Title: Linear Models for Microarray and Omics Data
 Description: Data analysis, linear models and differential expression for omics data.
 Authors@R: c(person(given = "Gordon",
@@ -73,7 +73,9 @@ Authors@R: c(person(given = "Gordon",
                     role = "ctb"),
              person(given = "Lizhong",
                     family = "Chen",
-                    role = "ctb"))
+                    role = "ctb",
+                    comment = c(ORCID = "0000-0002-8326-6781"))
+             )
 License: GPL (>=2)
 Depends: R (>= 3.6.0)
 Imports: grDevices, graphics, stats, utils, methods, statmod
