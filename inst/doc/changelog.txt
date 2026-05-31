@@ -1,3 +1,8 @@
+31 May 2026: limma 3.68.4
+
+- New function normalizeBetweenSamples(). Similar to
+  normalizeBetweenArrays() but works on ELists.
+
 19 May 2026: limma 3.68.3
 
 - Fix filtering error in Agilent rat case study in User's Guide.
@@ -7,7 +12,7 @@
 05 May 2026: limma 3.68.1 and 3.68.2
 
 - Restore topTableF() to avoid breaking packages a4Base, stageR, and
-  sva, although without a usage entry on the help page.
+  sva, although omitting the usage entry on the help page.
 
 29 Apr 2026: limma 3.68.0 (Bioconductor 3.23 Release Branch)
 
