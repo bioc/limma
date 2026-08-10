@@ -2,6 +2,11 @@
 
 - avearrays() methods for EList and MAList objects now sum the weights
   instead of averaging them. Other matrices are still averaged.
+- Use lengths() instead of lapply(,length) in strsplit2().
+- Clean up indentation and white space in background-normexp.R.
+- Minor improvements to the help pages for removeBatchEffect,
+  diffSplice, nec, backgroundCorrect, normexpfit, normexpfitdetectionp
+  and normexpfitcontrol.
 
 31 May 2026: limma 3.68.4
 
@@ -39,8 +44,8 @@
 - New arguments `offset` and `offset.prior` for voom(). voom() now
   supports offsets in DGEList objects.
 
-- In normalizeCyclicLoess(), default for `adaptive.span` becomes `TRUE`,
-  and the `span` is chosen using the default settings of 
+- In normalizeCyclicLoess(), default for `adaptive.span` becomes
+  `TRUE`, and the `span` is chosen using the default settings of 
   chooseLoessSpan().
 
 30 Oct 2025: limma 3.67.0 (Bioconductor 3.23 Developmental Branch)

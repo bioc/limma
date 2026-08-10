@@ -45,9 +45,9 @@ After normalization, the intensities are log2 transformed and the control probes
 }
 
 \references{
-Shi W, Oshlack A and Smyth GK (2010).
+Shi W, Oshlack A, Smyth GK (2010).
 Optimizing the noise versus bias trade-off for Illumina Whole Genome Expression BeadChips.
-\emph{Nucleic Acids Research} 38, e204.
+\emph{Nucleic Acids Research} 38(22), e204.
 \doi{10.1093/nar/gkq871}
 }
 

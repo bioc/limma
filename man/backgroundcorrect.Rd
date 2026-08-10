@@ -56,25 +56,29 @@ Calling \code{backgroundCorrect} before \code{normalizeWithinArrays} will over-r
 \value{
 A matrix, \code{EListRaw} or \code{RGList} object in which foreground intensities have been background corrected and any components containing background intensities have been removed.
 }
+
 \references{
-Edwards, D. E. (2003). Non-linear normalization and background correction in one-channel cDNA microarray studies
+Edwards DE (2003).
+Non-linear normalization and background correction in one-channel cDNA microarray studies
 \emph{Bioinformatics} 19, 825-833. 
 
-McGee, M., and Chen, Z. (2006).
+McGee M, Chen Z (2006).
 Parameter estimation for the exponential-normal convolution model for background correction of Affymetrix GeneChip data.
-\emph{Stat Appl Genet Mol Biol}, Volume 5, Article 24.
+\emph{Statistical Applications in Genetics and Molecular Biology} 5(1), Article 24.
 
-Ritchie, M. E., Silver, J., Oshlack, A., Silver, J., Holmes, M., Diyagama, D., Holloway, A., and Smyth, G. K. (2007).
+Ritchie ME, Silver J, Oshlack A, Silver J, Holmes M, Diyagama D, Holloway A, Smyth GK (2007).
 A comparison of background correction methods for two-colour microarrays.
 \emph{Bioinformatics} 23, 2700-2707.
-\url{http://bioinformatics.oxfordjournals.org/content/23/20/2700}
+\doi{10.1093/bioinformatics/btm412}
 
-Silver, J., Ritchie, M. E., and Smyth, G. K. (2009).
-Microarray background correction: maximum likelihood estimation for the normal-exponential convolution model.
+Silver JD, Ritchie ME, Smyth GK (2009).
+Microarray background correction: maximum likelihood estimation for the normal-exponential convolution.
 \emph{Biostatistics} 10, 352-363.
-\url{http://biostatistics.oxfordjournals.org/content/10/2/352}
+\doi{10.1093/biostatistics/kxn042}
 }
+
 \author{Gordon Smyth}
+
 \examples{
 RG <- new("RGList", list(R=c(1,2,3,4),G=c(1,2,3,4),Rb=c(2,2,2,2),Gb=c(2,2,2,2)))
 backgroundCorrect(RG)
