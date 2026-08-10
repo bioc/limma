@@ -20,11 +20,15 @@ Condense a microarray data object so that technical replicate arrays are replace
 \details{
 A new data object is computed in which technical replicate arrays are replaced by their (weighted) averages.
 
-For an \code{MAList} object, the components \code{M} and \code{A} are both averaged in this way, as are \code{weights} and any matrices found in \code{object$other}.
+For an \code{MAList} object, the components \code{M} and \code{A} are both averaged in this way, as are any matrices found in \code{object$other}.
 
 \code{EList} objects are similar, except that the \code{E} component is averaged instead of \code{M} and \code{A}.
 
-If \code{x} is of mode \code{"character"}, then the replicate values are assumed to be equal and the first is taken as the average.
+The weights matrix, if present, will be used to compute weighted averages of all the other matrices over replicate arrays.
+For both \code{MAList} and \code{EList} objects, the weights themselves are summed instead of averaged.
+
+The default method will work for character as well as numeric matrices.
+If \code{x} is of mode \code{"character"}, then the first column for each unique ID is taken as the average.
 }
 \value{
 A data object of the same class as \code{x} with a column for each unique value of \code{ID}.

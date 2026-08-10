@@ -1,3 +1,8 @@
+10 Aug 2026: limma 3.68.5
+
+- avearrays() methods for EList and MAList objects now sum the weights
+  instead of averaging them. Other matrices are still averaged.
+
 31 May 2026: limma 3.68.4
 
 - New function normalizeBetweenSamples(). Similar to
