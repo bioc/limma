@@ -46,7 +46,7 @@ The other is a series of t-tests in which each transcript is compared to the wei
 The feature-level t-tests are converted into genewise tests by adjusting the p-values for the same gene by Simes method.
 As an alternative, the feature-level t-tests are also converted into genewise tests by adjusting the smallest p-value for each gene by Bonferroni's method.
 
-This function can be used on transcript level RNA-seq counts from Salmon or kallisto, after pre-processing by the edgeR functions \code{catchSalmon()} (or \code{catchKallisto} or \code{catchRSEM}) and \code{voomLmFit()}, as described by Baldoni et al (2025).
+This function can be used on transcript level RNA-seq counts from RSEM, kallisto, or Salmon, after pre-processing by the edgeR functions \code{catchSalmon()} (or \code{catchKallisto} or \code{catchRSEM}) and \code{voomLmFit()}, as described by Baldoni et al (2025).
 It can also be used on equivalence-class counts from Salmon or kallisto, after pre-processing by voomLmFit(), as described by Cmero et al (2019).
 It can also be used on exon-level read counts or on data from an exon microarray.
 }

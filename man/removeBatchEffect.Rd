@@ -14,7 +14,7 @@ removeBatchEffect(x, batch = NULL, batch2 = NULL, covariates = NULL,
   \item{batch}{factor or vector indicating batches.}
   \item{batch2}{factor or vector indicating a second series of batches.}
   \item{covariates}{matrix or vector of numeric covariates to be adjusted for.}
-  \item{design}{design matrix relating to experimental conditions to be preserved, usually the design matrix with all experimental factors other than the batch effects. Ignored if \code{group} is not \code{NULL}. Defaults to an intercept column, implying that the experiment is one group.}
+  \item{design}{design matrix relating to experimental conditions to be preserved, usually the design matrix with all experimental factors and covariates other than the batch effects. Ignored if \code{group} is not \code{NULL}. Defaults to an intercept column, implying that the experiment is one group.}
   \item{group}{factor defining the experimental conditions to be preserved. An alternative way to specify the design matrix \code{design}.}
   \item{\dots}{other arguments are passed to \code{\link{lmFit}}.}
 }
@@ -26,6 +26,9 @@ This function is useful for removing unwanted batch effects, associated with hyb
 The design matrix or group factor is used to define comparisons between the samples, for example treatment effects, that should not be removed.
 The function fits a linear model to the data, including both batches and regular treatments, then removes the component due to the batch effects.
 
+There are no restrictions on the generality of the design matrix, which can contain any combination of factors or continuous covariates.
+It is usually the same design matrix that would be passed used for a differential expression analysis but with the unwanted batch factors removed.
+
 In most applications, only the first \code{batch} argument will be needed.
 This case covers the situation where the data has been collected in a series of separate batches.
 
@@ -36,6 +39,10 @@ If \code{batch2} is included, then the effects of \code{batch} and \code{batch2}
 The \code{covariates} argument allows correction for one or more continuous numeric effects, similar to the analysis of covariance method in statistics.
 If \code{covariates} contains more than one column, then the columns are assumed to have additive effects.
 Setting \code{covariates} to be a design matrix constructed from batch effects and technical effects allows very general batch effects to be accounted for.
+
+The \code{covariates} argument allows a completely general approach, which could proceeed as follows.
+If \code{design.full} is the full design matrix containing both predictors of interest and unwanted nuisance effects (batches or covariates), and \code{j} is a vector of column numbers selecting the predictors of interest, then one could set \code{design.interest <- design[,j]}, \code{design.nuisance <- design[,-j]} and \code{y <- removeBatchEffect(x, design=design.interest, covariates=design.nuisance)}.
+The intercept should be included with the predictors of interest, rather than as a nuisance column.
 
 The data object \code{x} can be of any class for which \code{lmFit} works.
 If \code{x} contains weights, then these will be used in estimating the batch effects.

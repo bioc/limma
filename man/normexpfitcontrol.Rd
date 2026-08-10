@@ -34,7 +34,10 @@ Column names are \code{mu}, \code{logsigma} and \code{logalpha}.
 }
 
 \references{
-Shi W, Oshlack A and Smyth GK (2010). Optimizing the noise versus bias trade-off for Illumina Whole Genome Expression BeadChips. Nucleic Acids Research, 38(22):e204. Epub 2010 Oct 6. PMID: 20929874 
+Shi W, Oshlack A, Smyth GK (2010).
+Optimizing the noise versus bias trade-off for Illumina Whole Genome Expression BeadChips.
+\emph{Nucleic Acids Research} 38(22), e204.
+\doi{10.1093/nar/gkq871}
 }
 
 \author{Wei Shi and Gordon Smyth}
