@@ -1,3 +1,8 @@
+10 Aug 2026: limma 3.69.4
+
+- avearrays() methods for EList and MAList objects now sum the weights
+  instead of averaging them. Other matrices are still averaged.
+
 10 Aug 2026: limma 3.69.3
 
 - Use lengths() instead of lapply(,length) in strsplit2().

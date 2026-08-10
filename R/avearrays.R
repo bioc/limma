@@ -34,7 +34,7 @@ avearrays.default <- function(x,ID=colnames(x),weights=NULL)
 avearrays.MAList <- function(x,ID=colnames(x),weights=x$weights)
 #	Average over technical replicate columns for MAList objects
 #	Gordon Smyth
-#	24 Sept 2010.  Last modified 24 Sep 2010.
+#	24 Sept 2010.  Last modified 10 Aug 2026.
 {
 	ID <- as.character(ID)
 	d <- duplicated(ID)
@@ -42,7 +42,7 @@ avearrays.MAList <- function(x,ID=colnames(x),weights=x$weights)
 	y <- x[,!d]
 	y$M <- avearrays(x$M,ID,weights=weights)
 	y$A <- avearrays(x$A,ID,weights=weights)
-	y$weights <- avearrays(x$weights,ID,weights=weights)
+	if(!is.null(weights)) y$weights <- t(rowsum(t(weights),ID,reorder=FALSE,na.rm=TRUE))
 	other <- names(x$other)
 	for (a in other) y$other[[a]] <- avearrays(x$other[[a]],ID=ID,weights=weights)
 	y
@@ -51,13 +51,13 @@ avearrays.MAList <- function(x,ID=colnames(x),weights=x$weights)
 avearrays.EList <- function(x,ID=colnames(x),weights=x$weights)
 #	Average over irregular replicate columns for EList objects
 #	Gordon Smyth
-#	24 Sept 2010.  Last modified 27 Oct 2010.
+#	24 Sept 2010.  Last modified 10 Aug 2026.
 {
 	d <- duplicated(ID)
 	if(!any(d)) return(x)
 	y <- x[,!d]
 	y$E <- avearrays(x$E,ID,weights=weights)
-	y$weights <- avearrays(x$weights,ID,weights=weights)
+	if(!is.null(weights)) y$weights <- t(rowsum(t(weights),ID,reorder=FALSE,na.rm=TRUE))
 	other <- names(x$other)
 	for (a in other) y$other[[a]] <- avearrays(x$other[[a]],ID=ID,weights=weights)
 	y
