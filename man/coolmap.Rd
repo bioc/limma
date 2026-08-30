@@ -15,7 +15,7 @@ coolmap(x, cluster.by="de pattern", col=NULL,
   \item{x}{any data object that can be coerced to a matrix of log-expression values, for example an \code{ExpressionSet} or \code{EList}. Rows represent genes and columns represent RNA samples.}
   \item{cluster.by}{choices are \code{"de pattern"} or \code{"expression level"}.
   In the former case, the intention is to cluster by relative changes in expression, so genes are clustered by Pearson correlation and log-expression values are mean-corrected by rows for the plot.
-  In the latter case, the intention is to cluster by absolute expression, so genes are clustered by Euclidean and log-expression values are not mean-corrected.}
+  In the latter case, the intention is to cluster by absolute expression, so genes are clustered by Euclidean distance and log-expression values are not mean-corrected.}
   \item{col}{character vector specifying the color panel.
   Can be either the name of the panel or a vector of R colors that can be passed directly to the \code{heatmap.2} function.
   Possible panel names are \code{"redblue"}, \code{"redgreen"}, \code{"yellowblue"} or \code{"whitered"}.

@@ -22,7 +22,7 @@ This means that it cannot be found using \code{vignette}, hence the need for thi
 If the operating system is other than Windows, then the PDF viewer used is that given by \code{Sys.getenv("R_PDFVIEWER")}.
 The PDF viewer can be changed using \code{Sys.putenv(R_PDFVIEWER=)}.
 
-This function is used by drop-down Vignettes menu when the Rgui interface for Windows is used.
+This function is used by the drop-down Vignettes menu when the Rgui interface for Windows is used.
 }
 
 \seealso{

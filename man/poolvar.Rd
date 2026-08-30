@@ -20,7 +20,7 @@ poolVar(var, df=n-1, multiplier=1/n, n)
 \details{
 The sample variances \code{var} are assumed to follow scaled chi-square distributions, with specified df but with unknown and generally different scale factors (i.e., the true sample variances).
 A scaled chi-square approximation is found for the distribution of \code{sum(multiplier * var)} by equating first and second moments.
-On output the sum to be approximated is equal to \code{multiplier * var}, which follows approximately a scaled chisquare distribution on \code{df} degrees of freedom.
+On output the sum to be approximated is equal to \code{multiplier * var}, which follows approximately a scaled chi-square distribution on \code{df} degrees of freedom.
 The approximation was proposed by Satterthwaite (1946).
 
 The df and multipliers are related to the sample sizes in a common use scenario, but the approximation works for any df and multipliers, which do not necessarily need to be related to sample sizes.
@@ -38,17 +38,17 @@ A list with components
 \author{Gordon Smyth}
 
 \references{
-Welch, B. L. (1938). The significance of the difference between two means when the population variances are unequal.
-\emph{Biometrika} \bold{29}, 350-362.
+Welch BL (1938). The significance of the difference between two means when the population variances are unequal.
+\emph{Biometrika} 29, 350-362.
 
-Satterthwaite, F. E. (1946). An approximate distribution of estimates of variance components.
-\emph{Biometrics Bulletin} \bold{2}, 110-114.
+Satterthwaite FE (1946). An approximate distribution of estimates of variance components.
+\emph{Biometrics Bulletin} 2, 110-114.
 
-Welch, B. L. (1947). The generalization of 'Student's' problem when several different population variances are involved.
-\emph{Biometrika} \bold{34}, 28-35.
+Welch BL (1947). The generalization of 'Student's' problem when several different population variances are involved.
+\emph{Biometrika} 34, 28-35.
 
-Welch, B. L. (1949). Further note on Mrs Aspin's tables and on certain approximations to the tabled function.
-\emph{Biometrika} \bold{36}, 293-296.
+Welch BL (1949). Further note on Mrs Aspin's tables and on certain approximations to the tabled function.
+\emph{Biometrika} 36, 293-296.
 }
 
 \examples{

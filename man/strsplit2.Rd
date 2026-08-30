@@ -17,8 +17,8 @@ strsplit2(x, split, \dots)
 
 \value{
 A list containing components
-\item{Name}{character vector of the same length as \code{x} contain first splits of each element}
-\item{Annotation}{character vector of the same length as \code{x} contain second splits of each element}
+\item{Name}{character vector of the same length as \code{x} containing first splits of each element}
+\item{Annotation}{character vector of the same length as \code{x} containing second splits of each element}
 }
 
 \details{
@@ -26,7 +26,7 @@ This function is the same as \code{\link[base]{strsplit}} except that the output
 The first column of the matrix contains the first component from each element of \code{x}, the second column contains the second components etc.
 The number of columns is equal to the maximum number of components for any element of \code{x}.
 
-The motivation for this function in the limma package is handle input columns which are composites of two or more annotation fields.
+The motivation for this function in the limma package is to handle input columns which are composites of two or more annotation fields.
 }
 
 \seealso{

@@ -6,7 +6,7 @@
 \title{Moment Estimation of Scaled F-Distribution}
 \description{
 Moment estimation of the parameters of a scaled F-distribution given one of the degrees of freedom.
-These functions are called internally by \code{eBayes} and \code{squeezeVar} and is not usually called directly by a user.
+These functions are called internally by \code{eBayes} and \code{squeezeVar} and are not usually called directly by a user.
 }
 \usage{
 fitFDist(x, df1, covariate = NULL)
@@ -81,12 +81,12 @@ See also the preprint version at \url{https://gksmyth.github.io/pubs/ebayes.pdf}
 Phipson B, Lee S, Majewski IJ, Alexander WS, Smyth GK (2016).
 Robust hyperparameter estimation protects against hypervariable genes and improves power to detect differential expression.
 \emph{Annals of Applied Statistics} 10(2), 946-963.
-\doi{10.1214/16-AOAS920}
+\doi{10.1214/16-AOAS920}.
 
 Chen Y, Chen L, Lun ATL, Baldoni PL, Smyth GK (2025).
 edgeR v4: powerful differential analysis of sequencing data with expanded functionality and improved support for small counts and larger datasets.
 \emph{Nucleic Acids Research} 53(2), gkaf018.
-\doi{10.1093/nar/gkaf018}
+\doi{10.1093/nar/gkaf018}.
 }
 
 \seealso{

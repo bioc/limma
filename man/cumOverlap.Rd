@@ -25,11 +25,11 @@ List containing the following components:
 }
 
 \details{
-The function compares the top \code{n} members of each list, for every possible \code{n}, and conducts an hypergeometric test for overlap.
+The function compares the top \code{n} members of each list, for every possible \code{n}, and conducts a hypergeometric test for overlap.
 The function returns the value of \code{n} giving the smallest p-value.
 
-The p-values are adjusted for multiple testing in a similar way to Bonferroni's method, but starting from the top of th e ranked list instead of from the smallest p-values.
-This approach is designed to be sensitive to contexts where the number of Ids involved in the significant overlap are a small proportion of the total.
+The p-values are adjusted for multiple testing in a similar way to Bonferroni's method, but starting from the top of the ranked list instead of from the smallest p-values.
+This approach is designed to be sensitive to contexts where the number of IDs involved in the significant overlap is a small proportion of the total.
 
 The vectors \code{ol1} and \code{ol2} do not need to be of the same length, but only values in common between the two vectors will be used in the calculation.
 
@@ -39,7 +39,7 @@ This method was described in Chapter 4 of Wu (2011).
 \author{Gordon Smyth and Di Wu}
 
 \references{
-Wu, D (2011).
+Wu D (2011).
 Finding hidden relationships between gene expression profiles with application to breast cancer biology.
 PhD thesis, University of Melbourne.
 \url{http://hdl.handle.net/11343/36278}

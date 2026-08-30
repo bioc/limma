@@ -38,7 +38,7 @@ topTreat(fit, coef = 1, sort.by = "p", resort.by = NULL, \dots)
   }
   \item{lfc}{
     optional minimum log2-fold-change required, equal to \code{log2(fc)}.
-    \code{fc} and \code{lfc} are alternative ways to specify a fold-change cutoff and, if both are specified, then \code{fc} take precedence.
+    \code{fc} and \code{lfc} are alternative ways to specify a fold-change cutoff and, if both are specified, then \code{fc} takes precedence.
     If specified, then the results from \code{topTable} or \code{topTreat} will include only genes with (at least one) absolute log-fold-change greater than \code{lfc}.
     This argument is not normally used with \code{topTreat}, which handles fold-change thresholds differently via the \code{treat} function.
   }
@@ -78,7 +78,7 @@ Note that the adjusted p-values from this method are bounds on the FDR rather th
 Because they relate to FDRs rather than rejection probabilities, they are sometimes called q-values.
 See \code{help("p.adjust")} for more information.
 
-Note, if there is no good evidence for differential expression in the experiment, that it is quite possible for all the adjusted p-values to be large, even for all of them to be equal to one.
+Note that, if there is no good evidence for differential expression in the experiment, it is quite possible for all the adjusted p-values to be large, even for all of them to be equal to one.
 It is quite possible for all the adjusted p-values to be equal to one if the smallest p-value is no smaller than \code{1/ngenes} where \code{ngenes} is the number of genes with non-missing p-values.
 
 The \code{sort.by} argument specifies the criterion used to select the top genes.
@@ -106,7 +106,7 @@ If the fold changes and p-values are not highly correlated, then the use of a fo
 Users wanting to use fold change thresholding are usually recommended to use \code{treat} and \code{topTreat} instead.
 
 In general, the adjusted p-values returned by \code{adjust.method="BH"} remain valid as FDR bounds only when the genes remain sorted by p-value.
-Resorting the table by log-fold-change can increase the false discovery rate above the nominal level for genes at the top of resorted table.
+Resorting the table by log-fold-change can increase the false discovery rate above the nominal level for genes at the top of the resorted table.
 }
 
 \seealso{

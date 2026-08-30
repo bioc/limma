@@ -23,7 +23,7 @@ Condense a microarray data object so that values for within-array replicate prob
 A new data object is computed in which each probe ID is represented by the average of its replicate spots or features.
 
 For an \code{MAList} object, the components \code{M} and \code{A} are both averaged in this way, as are \code{weights} and any matrices found in \code{object$other}.
-For an \code{MAList} object, \code{ID} defaults to \code{MA$genes$ID} is that exists, otherwise to \code{rownames(MA$M)}.
+For an \code{MAList} object, \code{ID} defaults to \code{MA$genes$ID} if that exists, otherwise to \code{rownames(MA$M)}.
 
 \code{EList} objects are similar, except that the \code{E} component is averaged instead of \code{M} and \code{A}.
 

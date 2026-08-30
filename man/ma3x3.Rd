@@ -3,7 +3,7 @@
 \alias{ma3x3.spottedarray}
 \title{Two dimensional Moving Averages with 3x3 Window}
 \description{
-Apply a specified function to each to each value of a matrix and its immediate neighbors.
+Apply a specified function to each value of a matrix and its immediate neighbors.
 }
 \usage{
 ma3x3.matrix(x,FUN=mean,na.rm=TRUE,\dots)
@@ -17,8 +17,8 @@ ma3x3.spottedarray(x,printer,FUN=mean,na.rm=TRUE,\dots)
   \item{printer}{list giving the printer layout, see \code{\link{PrintLayout-class}}}
 }
 \details{
-For \code{ma3x3.matrix}, \code{x} is an arbitrary function.
-for \code{ma3x3.spotted}, each column of \code{x} is assumed to contain the expression values of a spotted array in standard order.
+For \code{ma3x3.matrix}, \code{x} is a numeric matrix.
+For \code{ma3x3.spottedarray}, each column of \code{x} is assumed to contain the expression values of a spotted array in standard order.
 The printer layout information is used to re-arrange the values of each column as a spatial matrix before applying \code{ma3x3.matrix}.
 }
 \value{

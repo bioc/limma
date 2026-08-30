@@ -13,7 +13,7 @@ controlStatus(types, genes, spottypecol="SpotType", regexpcol, verbose=TRUE)
   \item{spottypecol}{integer or name specifying column of \code{types} containing spot type names.}
   \item{regexpcol}{vector of integers or column names specifying columns of types containing regular expressions.
   Defaults to any column names in common between \code{types} and \code{genes}.}
-  \item{verbose}{logical, if \code{TRUE} then progess on pattern matching is reported to the standard output channel.}
+  \item{verbose}{logical, if \code{TRUE} then progress on pattern matching is reported to the standard output channel.}
 }
 \details{
 This function constructs a vector of status codes by searching for patterns in the gene list.
@@ -25,7 +25,7 @@ Another column, the \code{spottypecol}, contains the names of the spot types.
 Any other columns are assumed to contain plotting parameters, such as colors or symbols, to be associated with the spot types.
 
 The patterns in the \code{regexpcol} columns are simplified regular expressions.
-For example, \code{AA*} means any string starting with \code{AA}, \code{*AA} means any code ending with \code{AA}, \code{AA} means exactly these two letters, \code{*AA*} means any string containing \code{AA}, \code{AA.} means \code{AA} followed by exactly one other character and \code{AA\.} means exactly \code{AA} followed by a period and no other characters.
+For example, \code{AA*} means any string starting with \code{AA}, \code{*AA} means any string ending with \code{AA}, \code{AA} means exactly these two letters, \code{*AA*} means any string containing \code{AA}, \code{AA.} means \code{AA} followed by exactly one other character and \code{AA\.} means exactly \code{AA} followed by a period and no other characters.
 Any other regular expressions are allowed but the codes \code{^} for beginning of string and \code{$} for end of string should not be included.
 
 Note that the patterns are matched sequentially from first to last, so more general patterns should be included first.

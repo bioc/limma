@@ -14,7 +14,7 @@ makeContrasts(\dots, contrasts=NULL, levels)
 }
 
 \value{
-Matrix which columns corresponding to contrasts.
+Matrix whose columns correspond to contrasts.
 }
 
 \details{

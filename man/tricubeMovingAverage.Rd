@@ -23,7 +23,7 @@ At the start and end of the vector, the series is considered to be extended by m
 In other words, the window width is reduced to \code{h+1} at the boundaries with asymmetric weights.
 
 The result of this function is similar to a least squares loess curve of degree zero, with a couple of differences.
-First, a continuity correction is applied when computing the distance to neighbouring points, so that exactly \code{w} points are included with positive weights in each average.
+First, a continuity correction is applied when computing the distance to neighboring points, so that exactly \code{w} points are included with positive weights in each average.
 Second, the span halves at the end points so that the smoother is more sensitive to trends at the ends.
 
 The \code{filter} function in the stats package is called to do the low-level calculations.

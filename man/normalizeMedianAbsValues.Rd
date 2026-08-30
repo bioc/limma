@@ -14,11 +14,11 @@ normalizeMedianAbsValues(x)
   \item{x}{numeric matrix}
 }
 \value{
-A numeric matrix of the same size as that input which has been scaled so that each column has the same median value (for \code{normalizeMedianValues}) or median-absolute value (for \code{normalizeMedianAbsValues}).
+A numeric matrix of the same size as that input which has been scaled so that each column has the same median value (for \code{normalizeMedianValues}) or median-absolute value (for \code{normalizeMedianAbsValues}).
 }
-\details{
+\details{
 If \code{x} is a matrix of log-ratios of expression (M-values) then \code{normalizeMedianAbsValues} is very similar to scaling to equalize the median absolute deviation (MAD) as in Yang et al (2001, 2002).
-Here the median-absolute value is used for preference to as to not re-center the M-values.
+Here the median-absolute value is used in preference so as not to re-center the M-values.
 
 \code{normalizeMedianAbsValues} is also used to scale the A-values when scale-normalization is applied to an \code{MAList} object.
 }

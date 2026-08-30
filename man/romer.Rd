@@ -21,7 +21,7 @@ Gene set enrichment analysis for linear models using rotation tests (ROtation te
   \item{correlation}{correlation between blocks.}
   \item{set.statistic}{statistic used to summarize the gene ranks for each set. Possible values are \code{"mean"}, \code{"floormean"} or \code{"mean50"}.}
   \item{nrot}{number of rotations used to estimate the p-values.}
-  \item{shrink.resid}{logical, should the residuals be shrunk to remove systematics effects before rotation.}
+  \item{shrink.resid}{logical, should the residuals be shrunk to remove systematic effects before rotation.}
   \item{\dots}{other arguments not currently used.}
 }
 \value{
@@ -40,22 +40,22 @@ Instead of permutation, it uses rotation, a parametric resampling method suitabl
 In the output, p-values are given for each set for three possible alternative hypotheses.
 The alternative "up" means the genes in the set tend to be up-regulated, with positive t-statistics.
 The alternative "down" means the genes in the set tend to be down-regulated, with negative t-statistics.
-The alternative "mixed" test whether the genes in the set tend to be differentially expressed, without regard for direction.
+The alternative "mixed" tests whether the genes in the set tend to be differentially expressed, without regard for direction.
 In this case, the test will be significant if the set contains mostly large test statistics, even if some are positive and some are negative.
-The first two alternatives are appropriate if you have a prior expection that all the genes in the set will react in the same direction.
+The first two alternatives are appropriate if you have a prior expectation that all the genes in the set will react in the same direction.
 The "mixed" alternative is appropriate if you know only that the genes are involved in the relevant pathways, without knowing the direction of effect for each gene.
 
 Note that \code{romer} estimates p-values by simulation, specifically by random rotations of the orthogonalized residuals (called effects in R).
 This means that the p-values will vary slightly from run to run.
 To get more precise p-values, increase the number of rotations \code{nrot}.
-By default, the orthogonalized residual corresponding to the contrast being tested is shrunk have the same expected squared size as a null residual.
+By default, the orthogonalized residual corresponding to the contrast being tested is shrunk to have the same expected squared size as a null residual.
 
 The argument \code{set.statistic} controls the way that t-statistics are summarized to form a summary test statistic for each set.
 In all cases, genes are ranked by moderated t-statistic.
 If \code{set.statistic="mean"}, the mean-rank of the genes in each set is the summary statistic.
 If \code{set.statistic="floormean"} then negative t-statistics are put to zero before ranking for the up test, and vice versa for the down test.
 This improves the power for detecting genes with a subset of responding genes.
-If \code{set.statistics="mean50"}, the mean of the top 50\% ranks in each set is the summary statistic.
+If \code{set.statistic="mean50"}, the mean of the top 50\% ranks in each set is the summary statistic.
 This statistic performs well in practice but is slightly slower to compute.
 See Wu et al (2010) for discussion of these set statistics.
 }
@@ -73,28 +73,28 @@ There is a topic page on \link{10.GeneSetTests}.
 
 
 \references{
-Langsrud, O (2005).
+Langsrud O (2005).
 Rotation tests.
 \emph{Statistics and Computing} 15, 53-60
 
-Majewski, IJ, Ritchie, ME, Phipson, B, Corbin, J, Pakusch, M, Ebert, A, Busslinger, M, Koseki, H, Hu, Y, Smyth, GK, Alexander, WS, Hilton, DJ, and Blewitt, ME (2010).
+Majewski IJ, Ritchie ME, Phipson B, Corbin J, Pakusch M, Ebert A, Busslinger M, Koseki H, Hu Y, Smyth GK, Alexander WS, Hilton DJ, Blewitt ME (2010).
 Opposing roles of polycomb repressive complexes in hematopoietic stem and progenitor cells.
 \emph{Blood} 116, 731-739.
-\doi{10.1182/blood-2009-12-260760}
+\doi{10.1182/blood-2009-12-260760}.
 
-Ritchie, ME, Phipson, B, Wu, D, Hu, Y, Law, CW, Shi, W, and Smyth, GK (2015).
+Ritchie ME, Phipson B, Wu D, Hu Y, Law CW, Shi W, Smyth GK (2015).
 limma powers differential expression analyses for RNA-sequencing and microarray studies.
 \emph{Nucleic Acids Research} 43, e47.
-\doi{10.1093/nar/gkv007}
+\doi{10.1093/nar/gkv007}.
 
-Subramanian, A, Tamayo, P, Mootha, VK, Mukherjee, S, Ebert, BL, Gillette, MA, Paulovich, A, Pomeroy, SL, Golub, TR, Lander, ES and Mesirov JP (2005).
+Subramanian A, Tamayo P, Mootha VK, Mukherjee S, Ebert BL, Gillette MA, Paulovich A, Pomeroy SL, Golub TR, Lander ES, Mesirov JP (2005).
 Gene set enrichment analysis: a knowledge-based approach for interpreting genome-wide expression profiles.
 \emph{PNAS} 102, 15545-15550
 
-Wu, D, Lim, E, Francois Vaillant, F, Asselin-Labat, M-L, Visvader, JE, and Smyth, GK (2010).
+Wu D, Lim E, Vaillant F, Asselin-Labat M-L, Visvader JE, Smyth GK (2010).
 ROAST: rotation gene set tests for complex microarray experiments.
 \emph{Bioinformatics} 26, 2176-2182.
-\doi{10.1093/bioinformatics/btq401}
+\doi{10.1093/bioinformatics/btq401}.
 }
 
 \examples{

@@ -22,7 +22,7 @@ This function assumes that this component is located within the \code{other} com
 The component name specified by \code{detection.p} should be exactly the same as the name of the detection p value component in \code{x}.
 If \code{detection.p} is a matrix, then this matrix will be used as the detection p value data used in this function.
 
-If \code{x} is an \code{matrix} object, then \code{detection.p} has to be a data matrix which includes detection p values.
+If \code{x} is a \code{matrix} object, then \code{detection.p} has to be a data matrix which includes detection p values.
 
 When \code{detection.p} is a \code{matrix}, it has to have the same dimension as that of \code{x}.
 
@@ -39,7 +39,7 @@ Column names are \code{mu}, \code{logsigma} and \code{logalpha}.
 Shi W, Oshlack A, Smyth GK (2010).
 Optimizing the noise versus bias trade-off for Illumina Whole Genome Expression BeadChips.
 \emph{Nucleic Acids Research} 38(22), e204.
-\doi{10.1093/nar/gkq871}
+\doi{10.1093/nar/gkq871}.
 }
 
 \author{Wei Shi and Gordon Smyth}
@@ -49,7 +49,7 @@ Optimizing the noise versus bias trade-off for Illumina Whole Genome Expression 
 
 \code{\link{normexp.fit.control}} estimates normexp parameters using control data outputted by BeadStudio.
 
-\code{\link{normexp.fit}} estimates normexp parameters using a saddle-point approximation or other mothods.
+\code{\link{normexp.fit}} estimates normexp parameters using a saddle-point approximation or other methods.
 
 An overview of background correction functions is given in \code{\link{04.Background}}.
 }

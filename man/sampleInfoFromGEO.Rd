@@ -35,7 +35,8 @@ An overview of LIMMA functions for reading data is given in \link{03.ReadingData
 \examples{
 # This example downloads a series matrix file of about 33MB
 \dontrun{
-url <- "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE40nnn/GSE40115/matrix/GSE40115-GPL15931_series_matrix.txt.gz"
+url <- paste0("https://ftp.ncbi.nlm.nih.gov/geo/series/GSE40nnn/",
+              "GSE40115/matrix/GSE40115-GPL15931_series_matrix.txt.gz")
 download.file(url, "GSE40115.txt.gz")
 a <- sampleInfoFromGEO("GSE40115.txt.gz")
 colnames(a$SampleInfo)

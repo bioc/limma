@@ -19,10 +19,10 @@ plotExons(fit, coef = ncol(fit), geneid = NULL, genecolname = "GeneID",
 }
 
 \details{
-Plots log2-fold-change by exon for the specified gene and highlight the differentially expressed exons.
-Show annotations such as GeneID, Symbol and Strand if available as title for the gene to plot.
+Plots log2-fold-change by exon for the specified gene and highlights the differentially expressed exons.
+Shows annotations such as GeneID, Symbol and Strand, if available, as the plot title.
 The significantly differentially expressed individual exons are highlighted as red dots for up-regulation and as blue dots for down-regulation.
-The size of the dots are weighted by its significance.
+The size of the dots is weighted by their significance.
 }
 
 \value{A plot is created on the current graphics device.}

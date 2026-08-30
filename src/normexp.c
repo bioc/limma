@@ -17,6 +17,19 @@ int *n;
 
 void ex(){}
 
+/*
+ * Inputs:
+ *   m: number of parameters supplied by nmmin, expected to be 3.
+ *   par: current (mu, log(sigma), log(alpha)) parameter vector.
+ *   ex: unused optimizer callback data.
+ * Outputs:
+ *   None.
+ * Returns:
+ *   Saddlepoint approximation to the normexp minus-twice log-likelihood.
+ * Notes:
+ *   Reads the global x and n set by fit_saddle_nelder_mead. Allocates temporary
+ *   theta/Newton work arrays and checks for user interrupts after convergence.
+ */
 double normexp_m2loglik_saddle(int m, double *par, void *ex){
 // normexp minus-twice log-likelihood
 // Function of mu, log(sigma) and log(alpha)
@@ -139,8 +152,21 @@ double normexp_m2loglik_saddle(int m, double *par, void *ex){
         k4 <- 6 * alpha^4/(1 - alpha * theta)^4
         logf <- logf + 1/8 * k4/k2^2 - 5/24 * k3^2/k2^3
     }
-*/
+	*/
 
+/*
+ * Inputs:
+ *   par: length-3 starting vector (mu, log(sigma), log(alpha)).
+ *   X: length-*N foreground intensities; N: number of observations.
+ * Outputs:
+ *   par: overwritten by Nelder-Mead parameter estimates.
+ *   fail, fncount and Fmin: nmmin convergence flag, function count and minimum.
+ * Returns:
+ *   Nothing; this is called through R's .C interface.
+ * Notes:
+ *   Sets global x and n for normexp_m2loglik_saddle, matching the historical
+ *   limma normexp saddlepoint optimizer implementation.
+ */
 void fit_saddle_nelder_mead(double *par, double *X, int *N, int *fail, int *fncount, double *Fmin){
 // Minimize normexp m2loglik by Nelder-Mead
 // as a function of mu, log(sigma) and log(alpha)
@@ -169,8 +195,19 @@ void fit_saddle_nelder_mead(double *par, double *X, int *N, int *fail, int *fnco
   par[1] = parsOut[1];
   par[2] = parsOut[2];
 
-}
+	}
 
+/*
+ * Inputs:
+ *   mu, s2, al: scalar normexp parameters (mean, variance, exponential mean).
+ *   n: number of observations; f: length-*n foreground intensities.
+ * Outputs:
+ *   m2LL receives minus twice the exact normexp log-likelihood.
+ * Returns:
+ *   Nothing; this is called through R's .C interface.
+ * Notes:
+ *   Parameters are on the original scale: sigma^2 is s2 and alpha is al.
+ */
 void normexp_m2loglik(double *mu, double *s2, double *al, int *n, double *f, double *m2LL){
 // normexp minus-twice log-likelihood
 // as a function of mu, sigma^2 and alpha
@@ -193,8 +230,21 @@ void normexp_m2loglik(double *mu, double *s2, double *al, int *n, double *f, dou
 
   *m2LL *= -2.0;
 
-}
+	}
 
+/*
+ * Inputs:
+ *   mu, s2, al: scalar normexp parameters on the original scale.
+ *   n: number of observations; f: length-*n foreground intensities.
+ * Outputs:
+ *   dm2LL: length-3 gradient of minus-twice log-likelihood with respect to
+ *   mu, log(sigma^2) and log(alpha).
+ * Returns:
+ *   Nothing; this is called through R's .C interface.
+ * Notes:
+ *   The raw derivatives are transformed to the log-scale parameters before
+ *   returning.
+ */
 void normexp_gm2loglik(double *mu, double *s2, double *al, int *n, double *f, double *dm2LL){
 // gradient of normexp m2loglik
 // with respect to mu, log(sigma^2) and log(alpha)
@@ -232,8 +282,21 @@ void normexp_gm2loglik(double *mu, double *s2, double *al, int *n, double *f, do
   dm2LL[1] *= *s2;
   dm2LL[2] *= *al;
 
-}
+	}
 
+/*
+ * Inputs:
+ *   mu, s2, al: scalar normexp parameters on the original scale.
+ *   n: number of observations; f: length-*n foreground intensities.
+ * Outputs:
+ *   d2m2LL: 3 x 3 Hessian in column-major order for parameters
+ *   mu, log(sigma^2) and log(alpha).
+ * Returns:
+ *   Nothing; this is called through R's .C interface.
+ * Notes:
+ *   The returned Hessian includes chain-rule terms for the log-scale variance
+ *   and alpha parameters.
+ */
 void normexp_hm2loglik(double *mu, double *s2, double *al, int *n, double *f, double *d2m2LL){
 // Hessian of normexp m2loglik
 // with respect to mu, log(sigma^2) and log(alpha)

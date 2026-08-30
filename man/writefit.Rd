@@ -36,8 +36,8 @@ This function writes a delimited text file containing for each gene (1) the aver
 
 The \code{results} argument is optional. If supplied, it should be the output from \code{decideTests} for the same fit object, which indicates whether each contrast for each gene is considered statistically significant or not (coded 1 or -1 for positive or negative significant differences and 0 for non-significant values).
 
-If \code{fit} contains row names and \code{row.names=TRUE}, then the row names will be the first column of the output file  with a blank column heading.
-This behaviour is analogous to that of \code{write.csv} or to \code{write.table} with \code{col.names=NA}.
+If \code{fit} contains row names and \code{row.names=TRUE}, then the row names will be the first column of the output file with a blank column heading.
+This behavior is analogous to that of \code{write.csv} or to \code{write.table} with \code{col.names=NA}.
 }
 
 \author{Gordon Smyth}

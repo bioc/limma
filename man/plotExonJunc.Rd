@@ -9,7 +9,7 @@ plotExonJunc(fit, coef=ncol(fit), geneid, genecolname=NULL, FDR=0.05, annotation
 }
 \arguments{
   \item{fit}{\code{MArrayLM} fit object produced by \code{diffSplice}. Must have the Entrez gene ids for all the exons and junctions stored in \code{fit$genes$GeneID}, length information for all the exons and junctions stored in \code{fit$genes$Length} and the strand information stored in \code{fit$genes$Strand}. To distinguish between exons and junctions, \code{fit$genes$Length} has to be set to 1 for all the junctions.}
-  \item{coef}{the coefficient (column) of fit for which differentially splicing is assessed.}
+  \item{coef}{the coefficient (column) of fit for which differential splicing is assessed.}
   \item{geneid}{character string, ID of the gene to plot.}
   \item{genecolname}{column name of \code{fit$genes} containing \code{geneid}.}
   \item{FDR}{numeric, highlight exons and junctions with false discovery rate less than this cutoff. Red indicates up-regulation whereas blue indicates down-regulation. The FDR of the individual exon/junction is calculated based on the exon-level t-statistics test for differences between each exon/junction and all other exons/junctions for the same gene.}

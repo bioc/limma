@@ -19,12 +19,12 @@ uniqueTargets(targets)
 }
 
 \details{
-This function computes a design matrix for input to \code{lmFit} when analysing two-color microarray experiments in terms of log-ratios.
+This function computes a design matrix for input to \code{lmFit} when analyzing two-color microarray experiments in terms of log-ratios.
 
 If the argument \code{ref} is used, then the experiment is treated as a one-way layout and the coefficients measure expression changes relative to the RNA source specified by \code{ref}.
 The RNA source \code{ref} is often a common reference which appears on every array or is a control sample to which all the others are compared.
 There is no restriction however.
-One can choose \code{ref} to be any of the RNA sources appearing the \code{Cy3} or \code{Cy5} columns of \code{targets}.
+One can choose \code{ref} to be any of the RNA sources appearing in the \code{Cy3} or \code{Cy5} columns of \code{targets}.
 
 If the \code{parameters} argument is set, then the columns of this matrix specify the comparisons between the RNA sources which are of interest.
 This matrix must be of size n by (n-1), where n is the number of unique RNA sources found in \code{Cy3} and \code{Cy5}, and must have row names which correspond to the RNA sources.

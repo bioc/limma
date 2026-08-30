@@ -2,7 +2,7 @@
 \alias{normalizeCyclicLoess}
 \title{Normalize Columns of a Matrix by Cyclic Loess}
 \description{
-Normalize the columns of a matrix, cyclicly applying loess normalization to normalize each pair of columns to each other.
+Normalize the columns of a matrix, cyclically applying loess normalization to normalize each pair of columns to each other.
 }
 \usage{
 normalizeCyclicLoess(x, weights = NULL, span = 0.7, adaptive.span = TRUE,
@@ -21,9 +21,9 @@ normalizeCyclicLoess(x, weights = NULL, span = 0.7, adaptive.span = TRUE,
 }
 \details{
 This function is intended to normalize single channel or A-value microarray intensities between arrays.
-Cyclic loess normalization is similar effect and intention to quantile normalization, but with some advantages, in particular the ability to incorporate probe weights.
+Cyclic loess normalization is similar in effect and intention to quantile normalization, but with some advantages, in particular the ability to incorporate probe weights.
 
-A number of variants of cylic loess have been suggested.
+A number of variants of cyclic loess have been suggested.
 \code{method="pairs"} implements the intuitive idea that each pair of arrays is subjected to loess normalization as for two-color arrays.
 This process is simply cycled through all possible pairs of arrays, then repeated for several \code{iterations}.
 This is the method described by Ballman et al (2004) as ordinary cyclic loess normalization.

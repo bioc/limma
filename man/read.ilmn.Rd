@@ -22,16 +22,16 @@ read.ilmn(files=NULL, ctrlfiles=NULL, path=NULL, ctrlpath=NULL, probeid="Probe",
   \item{\dots}{any other parameters are passed on to \code{\link{read.columns}}.}
   }
 \details{
-Illumina BeadStudio ouputs probe intensities (regular probe intensities) and control probe intensities to summary probe profile files (containing regular probes) and summary control probe profile files, respectively.
+Illumina BeadStudio outputs probe intensities (regular probe intensities) and control probe intensities to summary probe profile files (containing regular probes) and summary control probe profile files, respectively.
 If both \code{files} and \code{ctrlfiles} are not \code{NULL}, this function will combine the data read from the two file types and save them to an \code{\link{EListRaw-class}} object.
 If one of them is \code{NULL}, then only the required data are read in.
 
 Probe types are indicated in the \code{Status} column of \code{genes}, a component of the returned \code{\link{EListRaw-class}} object.
-There are totally seven types of control probes including \code{negative}, \code{biotin}, \code{labeling}, \code{cy3_hyb}, \code{housekeeping}, \code{high_stringency_hyb} or \code{low_stringency_hyb}.
+There are seven types of control probes in total, including \code{negative}, \code{biotin}, \code{labeling}, \code{cy3_hyb}, \code{housekeeping}, \code{high_stringency_hyb} and \code{low_stringency_hyb}.
 Regular probes have the probe type \code{regular}.
 The \code{Status} column will not be created if \code{ctrlfiles} is \code{NULL}.
 
-To read in columns other than \code{probeid}, \code{annotation} and \code{expr}, users needs to specify keywords in \code{other.columns}.
+To read in columns other than \code{probeid}, \code{annotation} and \code{expr}, users need to specify keywords in \code{other.columns}.
 One keyword corresponds to one type of columns.
 Examples of keywords are "Detection", "Avg_NBEADS", "BEAD_STDEV" etc.
 }

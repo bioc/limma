@@ -38,7 +38,7 @@ This package defines the following data classes.
 
 All these data classes obey many analogies with matrices.
 In the case of \code{RGList}, \code{MAList}, \code{EListRaw} and \code{EList}, rows correspond to spots or probes and columns to arrays.
-In the case of \code{MarrayLM}, rows correspond to unique probes and the columns to parameters or contrasts.
+In the case of \code{MArrayLM}, rows correspond to unique probes and the columns to parameters or contrasts.
 The functions \code{summary}, \code{dim}, \code{length}, \code{ncol}, \code{nrow}, \code{dimnames}, \code{rownames}, \code{colnames} have methods for these classes.
 Objects of any of these classes may be \link[limma:subsetting]{subsetted}.
 Multiple data objects may be \link[limma:cbind]{combined} by rows (to add extra probes) or by columns (to add extra arrays).
@@ -47,7 +47,7 @@ Furthermore all of these classes may be coerced to actually be of class \code{ma
 Fitted model objects of class \code{MArrayLM} can be coerced to class \code{data.frame} using \code{\link[limma:asdataframe]{as.data.frame}}.
 
 The first three classes belong to the virtual class \code{\link[limma:LargeDataObject]{LargeDataObject}}.
-A \code{show} method is defined for \code{LargeDataOject}s which uses the utility function \code{\link{printHead}}.
+A \code{show} method is defined for \code{LargeDataObject}s which uses the utility function \code{\link{printHead}}.
 }
 
 \author{Gordon Smyth}

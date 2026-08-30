@@ -10,7 +10,8 @@ experiment.
 \usage{
 arrayWeights(object, design = NULL, weights = NULL,
      var.design = NULL, var.group = NULL, prior.n = 10,
-     method = "auto", maxiter = 50, tol = 1e-5, trace = FALSE)
+     method = "auto", maxiter = 50L, tol = 1e-5, trace = FALSE,
+     nthreads = 1L)
 }
 
 \arguments{
@@ -20,7 +21,7 @@ arrayWeights(object, design = NULL, weights = NULL,
            corresponding to arrays and columns to coefficients to be
            estimated.  Defaults to the unit vector meaning that the
            arrays are treated as replicates.}
-  \item{weights}{numeric matrix containing prior weights for each expresson value.}
+  \item{weights}{numeric matrix containing prior weights for each expression value.}
   \item{var.design}{design matrix for the variance model. Defaults to the sample-specific model 
            whereby each sample has a distinct variance.}
   \item{var.group}{vector or factor indicating groups to have different array weights. This is another way to specify \code{var.design} for groupwise variance models.}
@@ -32,6 +33,7 @@ arrayWeights(object, design = NULL, weights = NULL,
   \item{trace}{logical. If \code{TRUE} then progress information is printed
           at each iteration of the \code{"reml"} algorithm or at every 1000th gene for the 
           \code{"genebygene"} algorithm.}
+  \item{nthreads}{positive integer giving the number of OpenMP threads used by the REML algorithm. Defaults to 1.}
 }
 
 \details{
@@ -45,7 +47,7 @@ each gene.
 The variance model is fitted to the squared residuals from the linear model fit and is updated either by full REML 
 scoring iterations (\code{method="reml"}) or using an efficient gene-by-gene update algorithm (\code{method="genebygene"}).
 The final estimates of these array variances are converted to weights.
-The gene-by-gene algorithm is described by Ritchie et al (2006) while the REML algorithm is an adaption of the algorithm of Smyth (2002).
+The gene-by-gene algorithm is described by Ritchie et al (2006) while the REML algorithm is an adaptation of the algorithm of Smyth (2002).
 
 For stability, the array weights are squeezed slightly towards equality.
 This is done by adding a prior likelihood corresponding to unit array weights equivalent to \code{prior.n} genes.
@@ -66,19 +68,19 @@ the slots or components in the data \code{object}.
  }
 
 \references{
-Liu, R., Holik, A. Z., Su, S., Jansz, N., Chen, K., Leong, H. S., Blewitt, M. E., Asselin-Labat, M.-L., Smyth, G. K., Ritchie, M. E. (2015).
+Liu R, Holik AZ, Su S, Jansz N, Chen K, Leong HS, Blewitt ME, Asselin-Labat ML, Smyth GK, Ritchie ME (2015).
 Why weight? Combining voom with estimates of sample quality improves power in RNA-seq analyses.
 \emph{Nucleic Acids Research} 43, e97.
-\doi{https://doi.org/10.1093/nar/gkv412}
+\doi{https://doi.org/10.1093/nar/gkv412}.
 
-Ritchie, M. E., Diyagama, D., Neilson, van Laar, R., J., Dobrovic, A., Holloway, A., and Smyth, G. K. (2006).
+Ritchie ME, Diyagama D, Neilson J, van Laar R, Dobrovic A, Holloway A, Smyth GK (2006).
 Empirical array quality weights in the analysis of microarray data.
-\emph{BMC Bioinformatics} \bold{7}, 261.
-\doi{10.1186/1471-2105-7-261}
+\emph{BMC Bioinformatics} 7, 261.
+\doi{10.1186/1471-2105-7-261}.
 
-Smyth, G. K. (2002).
+Smyth GK (2002).
 An efficient algorithm for REML in heteroscedastic regression.
-\emph{Journal of Computational and Graphical Statistics} \bold{11}, 836-847.
+\emph{Journal of Computational and Graphical Statistics} 11, 836-847.
 \url{https://gksmyth.github.io/pubs/remlalgo.pdf}
 }
 

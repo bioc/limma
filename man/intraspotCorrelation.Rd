@@ -23,14 +23,14 @@ intraspotCorrelation(object, design, trim=0.15)
 \details{
 This function estimates the correlation between two channels observed on each spot.
 The correlation is estimated by fitting a heteroscedastic regression model to the M and A-values of each gene.
-The function also returns a consensus correlation, which is a robust average of the individual correlations, which can be used as input for 
-functions \code{lmscFit}.
+The function also returns a consensus correlation, which is a robust average of the individual correlations, which can be used as input for
+the function \code{lmscFit}.
 
-The function may take long time to execute.
+The function may take a long time to execute.
 }
 
 \references{
-Smyth, G. K. (2005). Individual channel analysis of two-colour microarray data.
+Smyth GK (2005). Individual channel analysis of two-colour microarray data.
 \emph{Proceedings of the 55th Session of the International Statistics Institute}, 5-12 April 2005, Sydney, Australia, Paper 116.
 \url{https://gksmyth.github.io/pubs/ISI2005-116.pdf}
 }

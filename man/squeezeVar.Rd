@@ -29,14 +29,14 @@ The hyperparameters are estimated by fitting a scaled F-distribution to the samp
 The function returns the posterior variances and the estimated hyperparameters.
 
 Specifically, the sample variances \code{var} are assumed to follow scaled chi-squared distributions, conditional on the true variances,
-and an scaled inverse chi-squared prior is assumed for the true variances.
+and a scaled inverse chi-squared prior is assumed for the true variances.
 The scale and degrees of freedom of this prior distribution are estimated from the values of \code{var}.
 
 The effect of this function is to squeeze the variances towards a common value, or to a global trend if a \code{covariate} is provided.
 The squeezed variances have a smaller expected mean square error to the true variances than do the sample variances themselves.
 
-The amount of squeezing is controlled by the \code{prior.df}.
-Both the global trend and the prior df are estimated internally but fitting an F-distribution to the sample variances, using either \code{fitFDist()} or \code{fitFDistRobustly()} or \code{fitFDistUnequalDF1()}.
+The amount of squeezing is controlled by the \code{df.prior}.
+Both the global trend and the prior df are estimated internally by fitting an F-distribution to the sample variances, using either \code{fitFDist()} or \code{fitFDistRobustly()} or \code{fitFDistUnequalDF1()}.
 
 If \code{covariate} is non-null, then the scale parameter of the prior distribution is assumed to depend on the covariate.
 If the covariate is average log-expression, then the effect is an intensity-dependent trend similar to that in Sartor et al (2006).
@@ -63,10 +63,10 @@ A list with components
 \author{Gordon Smyth}
 
 \references{
-Phipson B, Lee S, Majewski IJ, Alexander WS, and Smyth GK (2016).
+Phipson B, Lee S, Majewski IJ, Alexander WS, Smyth GK (2016).
 Robust hyperparameter estimation protects against hypervariable genes and improves power to detect differential expression.
 \emph{Annals of Applied Statistics} 10, 946-963.
-\doi{10.1214/16-AOAS920}
+\doi{10.1214/16-AOAS920}.
 
 Sartor MA, Tomlinson CR, Wesselkamper SC, Sivaganesan S, Leikauf GD, Medvedovic M (2006).
 Intensity-based hierarchical Bayes method improves testing for differentially expressed genes in microarray experiments.
@@ -84,7 +84,7 @@ incorporating corrections to 30 June 2009.
 \seealso{
 This function is called by \code{\link{eBayes}}.
 
-This function calls \code{\link{fitFDist}}, \code{\link{fitFDistRobustly}} or \code{\link{fitFDistUnequalDF1}} .
+This function calls \code{\link{fitFDist}}, \code{\link{fitFDistRobustly}} or \code{\link{fitFDistUnequalDF1}}.
 
 An overview of linear model functions in limma is given by \link{06.LinearModels}.
 }

@@ -37,7 +37,7 @@ treat(fit, fc = 1.2, lfc = NULL, trend = FALSE,
   \item{df.prior}{degrees of freedom associated with \code{s2.prior}. A row-wise vector if \code{robust=TRUE}, otherwise a single value.}
   \item{df.total}{row-wise numeric vector giving the total degrees of freedom associated with the t-statistics for each gene. Equal to \code{df.prior+df.residual} or \code{sum(df.residual)}, whichever is smaller.}
   \item{s2.post}{row-wise numeric vector giving the posterior values for \code{sigma^2}.}
-  \item{var.prior}{column-wise numeric vector giving estimated prior values for the variance of the log2-fold-changes for differentially expressed gene for each constrast. Used for evaluating \code{lods}.}
+  \item{var.prior}{column-wise numeric vector giving estimated prior values for the variance of the log2-fold-changes for differentially expressed genes for each contrast. Used for evaluating \code{lods}.}
   \item{F}{row-wise numeric vector of moderated F-statistics for testing all contrasts defined by the columns of \code{fit} simultaneously equal to zero.}
   \item{F.p.value}{row-wise numeric vector giving p-values corresponding to \code{F}.}
 The matrices \code{t}, \code{p.value} and \code{lods} have the same dimensions as the input object \code{fit}, with rows corresponding to genes and columns to coefficients or contrasts.
@@ -47,22 +47,22 @@ If \code{s2.prior} or \code{df.prior} have length 1, then the same value applies
 
 \code{s2.prior}, \code{df.prior} and \code{var.prior} contain empirical Bayes hyperparameters used to obtain \code{df.total}, \code{s2.post} and \code{lods}.
 
-\code{treat} a produces an \code{MArrayLM} object similar to that from \code{eBayes} but without \code{lods}, \code{var.prior}, \code{F} or \code{F.p.value}.
+\code{treat} produces an \code{MArrayLM} object similar to that from \code{eBayes} but without \code{lods}, \code{var.prior}, \code{F} or \code{F.p.value}.
 }
 
 \details{
 These functions are used to rank genes in order of evidence for differential expression.
-They use an empirical Bayes method to squeeze the genewise-wise residual variances towards a common value (or towards a global trend) (Smyth, 2004; Phipson et al, 2016).
+They use an empirical Bayes method to squeeze the genewise residual variances towards a common value (or towards a global trend) (Smyth, 2004; Phipson et al, 2016).
 The degrees of freedom for the individual variances are increased to reflect the extra information gained from the empirical Bayes moderation, resulting in increased statistical power to detect differential expression.
 
-Theese functions accept as input an \code{MArrayLM} fitted model object \code{fit} produced by \code{lmFit}.
+These functions accept as input an \code{MArrayLM} fitted model object \code{fit} produced by \code{lmFit}.
 The columns of \code{fit} define a set of contrasts which are to be tested equal to zero.
 The fitted model object may have been processed by \code{contrasts.fit} before being passed to \code{eBayes} to convert the coefficients of the original design matrix into an arbitrary number of contrasts.
 
 The empirical Bayes moderated t-statistics test each individual contrast equal to zero.
 For each gene (row), the moderated F-statistic tests whether all the contrasts are zero.
 The F-statistic is an overall test computed from the set of t-statistics for that probe.
-This is exactly analogous the relationship between t-tests and F-statistics in conventional anova, except that the residual mean squares have been moderated between genes.
+This is exactly analogous to the relationship between t-tests and F-statistics in conventional anova, except that the residual mean squares have been moderated between genes.
 
 The estimates \code{s2.prior} and \code{df.prior} are computed by one of \code{fitFDist}, \code{fitFDistRobustly} or \code{fitFDistUnequalDF1} (depending on settings for \code{robust} and \code{legacy}).
 \code{s2.post} is the weighted average of \code{s2.prior} and \code{sigma^2} with weights proportional to \code{df.prior} and \code{df.residual} respectively.
@@ -70,7 +70,7 @@ The log-odds of differential expression \code{lods} was called the \emph{B-stati
 The F-statistics \code{F} are computed by \code{classifyTestsF} with \code{fstat.only=TRUE}.
 
 \code{eBayes} does not compute ordinary t-statistics because they always have worse performance than the moderated versions.
-The ordinary (unmoderated) t-statistics can, however, can be easily extracted from the linear model output for comparison purposes---see the example code below.
+The ordinary (unmoderated) t-statistics can, however, be easily extracted from the linear model output for comparison purposes---see the example code below.
 
 \code{treat} computes empirical Bayes moderated-t p-values relative to a minimum fold-change threshold.
 Instead of testing for genes that have true log-fold-changes different from zero, it tests whether the true log2-fold-change is greater than \code{lfc} in absolute value (McCarthy and Smyth, 2009).
@@ -84,8 +84,8 @@ Typical values for \code{fc} are \code{1.1}, \code{1.2} or \code{1.5}.
 The top genes chosen by \code{treat} can be examined using \code{\link{topTreat}}.
 
 The \code{treat} threshold can be specified either as a fold-change via \code{fc} or as a log2-fold-change via \code{lfc}, with \code{lfc = log2(fc)}.
-Note that the \code{treat} testing procedure is considerably more rigorous and conservative than simply applying same \code{fc} values as a fold-change cutoff to the list of differentially expressed genes.
-Indeed, the observed log2-fold-change needs to substantially larger than \code{lfc} for a gene to be called as statistically significant by \code{treat}.
+Note that the \code{treat} testing procedure is considerably more rigorous and conservative than simply applying the same \code{fc} values as a fold-change cutoff to the list of differentially expressed genes.
+Indeed, the observed log2-fold-change needs to be substantially larger than \code{lfc} for a gene to be called as statistically significant by \code{treat}.
 The threshold should be chosen as a small value below which results should be ignored rather than as a target fold-change.
 In practice, modest values for \code{fc} such as \code{1.1}, \code{1.2} or \code{1.5} are usually the most useful.
 Setting \code{fc=1.2} or \code{fc=1.5} will usually cause most differentially expressed genes to have estimated fold-changes of 2-fold or greater, depending on the sample size and precision of the experiment.
@@ -100,11 +100,11 @@ limma-trend is useful for processing expression values that show a mean-variance
 This is often useful for microarray data, and it can also be applied to RNA-seq counts that have been converted to log2-counts per million (logCPM) values (Law et al, 2014).
 When applied to RNA-seq logCPM values, limma-trend give similar results to the \code{\link{voom}} method.
 The voom method incorporates the mean-variance trend into the precision weights, whereas limma-trend incorporates the trend into the empirical Bayes moderation.
-limma-trend is somewhat simpler than \code{voom} because it assumes that the sequencing depths (library sizes) are not wildly different between the samples and it applies the mean-variance trend on a genewise basis instead to individual observations.
+limma-trend is somewhat simpler than \code{voom} because it assumes that the sequencing depths (library sizes) are not wildly different between the samples and it applies the mean-variance trend on a genewise basis rather than to individual observations.
 limma-trend is recommended for RNA-seq analysis when the library sizes are reasonably consistent (less than 3-fold difference from smallest to largest) because of its simplicity and speed.
 
 If \code{robust=TRUE} then the robust empirical Bayes procedure of Phipson et al (2016) is used.
-This is frequently useful to protect the empirical Bayes procedure against hyper-variable or hypo-variable genes, especially when analysing RNA-seq data.
+This is frequently useful to protect the empirical Bayes procedure against hyper-variable or hypo-variable genes, especially when analyzing RNA-seq data.
 See \code{\link{squeezeVar}} for more details.
 
 In limma 3.61.8 (August 2024), the new function \code{\link{fitFDistUnequalDF1}} was introduced to improve estimation of the hyperparameters \code{s2.prior} and \code{df.prior}, especially when not all genes have the same residual degrees of freedom.
@@ -146,12 +146,12 @@ Replicated microarray data.
 McCarthy DJ, Smyth GK (2009).
 Testing significance relative to a fold-change threshold is a TREAT.
 \emph{Bioinformatics} 25(6), 765-771.
-\doi{10.1093/bioinformatics/btp053}
+\doi{10.1093/bioinformatics/btp053}.
 
 Phipson B, Lee S, Majewski IJ, Alexander WS, Smyth GK (2016).
 Robust hyperparameter estimation protects against hypervariable genes and improves power to detect differential expression.
 \emph{Annals of Applied Statistics} 10(2), 946-963.
-\doi{10.1214/16-AOAS920}
+\doi{10.1214/16-AOAS920}.
 
 Smyth GK (2004).
 Linear models and empirical Bayes methods for assessing differential expression in microarray experiments.

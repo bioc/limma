@@ -15,7 +15,7 @@ Each set of \code{ndups} rows in \code{M} is strung out to a single row so that 
 }
 \details{
 This function is used on matrices corresponding to a series of microarray experiments.
-Rows corresponding to duplicate spots are re-arranged to that all values corresponding to a single gene are on the same row.
+Rows corresponding to duplicate spots are re-arranged so that all values corresponding to a single gene are on the same row.
 This facilitates fitting models or computing statistics for each gene.
 }
 \author{Gordon Smyth}

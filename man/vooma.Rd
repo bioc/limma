@@ -19,7 +19,7 @@ voomaByGroup(y, group, design = NULL, block = NULL, correlation,
 }
 
 \arguments{
-  \item{y}{a numeric \code{matrix}, \code{EList} object, or any object containing log-expression data that can be coerced to a matrix. Rows correpond to genes and columns to samples.}
+  \item{y}{a numeric \code{matrix}, \code{EList} object, or any object containing log-expression data that can be coerced to a matrix. Rows correspond to genes and columns to samples.}
   \item{design}{design matrix with rows corresponding to samples and columns to coefficients to be estimated.  Defaults to the unit vector meaning that samples are treated as replicates.}
   \item{block}{vector or factor specifying a blocking variable on the arrays. Has length equal to the number of arrays.}
   \item{correlation}{intra-block correlation}
@@ -30,7 +30,7 @@ voomaByGroup(y, group, design = NULL, block = NULL, correlation,
   }
   \item{span}{
     width of the smoothing window, as a proportion of the data set.
-    Defaults to a value that depends the number of genes (\code{nrow(y)}).
+    Defaults to a value that depends on the number of genes (\code{nrow(y)}).
     Equal to 1 if the number of genes is less than or equal to 50, then decreases slowly to 0.3 if the number of genes is very large.
   }
   \item{legacy.span}{logical. If \code{TRUE}, then the original default setting will be used for \code{span}, which is slightly smaller than the new default.}
@@ -48,12 +48,12 @@ voomaByGroup(y, group, design = NULL, block = NULL, correlation,
 }
 
 \details{
-\code{vooma} is an acronym for "mean-variance modelling at the observational level for arrays".
+\code{vooma} is an acronym for "mean-variance modeling at the observational level for arrays".
 It is analogous to \code{voom} but for continuous log-expression values rather than for sequencing counts.
 
 \code{vooma} estimates the mean-variance relationship in the data and uses it to compute appropriate precision weights for each observation.
 The mean-variance trend is estimated from gene-level data but is extrapolated back to individual observations to obtain a precision weight (inverse variance) for each observation.
-The weights can then used by other functions such as \code{lmFit} to adjust for heteroscedasticity.
+The weights can then be used by other functions such as \code{lmFit} to adjust for heteroscedasticity.
 
 If \code{span=NULL}, then an optimal span value is estimated depending on \code{nrow(y)}.
 The span is chosen by \code{chooseLowessSpan} with \code{n=nrow(y)}, \code{small.n=50}, \code{min.span=0.3} and \code{power=1.3}.
@@ -90,7 +90,7 @@ Law CW (2013).
 PhD Thesis. University of Melbourne, Australia.
 \url{http://hdl.handle.net/11343/38150}
 
-Ravindra KC, Vaidya VS, Wang Z, Federspiel JD, Virgen-Slane R, Everley RA, Grove JI, Stephens C, Ocana MF, Robles-Diaz M, Isabel Lucena M (2023).
+Ravindra KC, Vaidya VS, Wang Z, Federspiel JD, Virgen-Slane R, Everley RA, Grove JI, Stephens C, Ocana MF, Robles-Diaz M, Lucena MI (2023).
 Tandem mass tag-based quantitative proteomic profiling identifies candidate serum biomarkers of drug-induced liver injury in humans.
 \emph{Nature Communications} 14(1), 1215.
 }

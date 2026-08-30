@@ -10,7 +10,7 @@ targetsA2C(targets, channel.codes = c(1,2), channel.columns = list(Target=c("Cy3
            grep = FALSE)
 }
 \arguments{
-  \item{targets}{data.frame with one row per array giving information about target samples associated covariates.}
+  \item{targets}{data.frame with one row per array giving information about target samples and associated covariates.}
   \item{channel.codes}{numeric or character vector of length 2 giving codes for the channels}
   \item{channel.columns}{named list of character vectors of length 2.
   Each entry gives a pair of names of columns in \code{targets} which contain channel-specific information.
@@ -20,7 +20,7 @@ targetsA2C(targets, channel.codes = c(1,2), channel.columns = list(Target=c("Cy3
 \details{
 The \code{targets} dataframe holds information about the RNA samples used as targets in the microarray experiment.
 It is often read from a file using \code{\link{readTargets}}.
-This function is used to convert the dataframe from an array-orientated format with one row for each array and two columns for the two channels into a channel-orientated format with one row for each individual channel observations.
+This function is used to convert the dataframe from an array-oriented format with one row for each array and two columns for the two channels into a channel-oriented format with one row for each individual channel observation.
 In statistical terms, the first format treats the arrays as cases and treats the channels as repeated measurements.
 The second format treats the individual channel observations as cases.
 The second format may be more appropriate if the data is to be analyzed in terms of individual log-intensities.
@@ -30,10 +30,10 @@ data.frame with twice as many rows as \code{targets}.
 Any pair of columns named by \code{channel.columns} will now be one column.
 }
 \references{
-Smyth, GK, and Altman, NS (2013).
+Smyth GK, Altman NS (2013).
 Separate-channel analysis of two-channel microarrays: recovering inter-spot information.
 \emph{BMC Bioinformatics} 14, 165.
-\doi{10.1186/1471-2105-14-165}
+\doi{10.1186/1471-2105-14-165}.
 }
 \seealso{
 \code{targetsA2C} is used by the \code{coerce} method from \code{RGList} to \code{ExpressionSet} in the convert package.

@@ -23,7 +23,7 @@ heatdiagram(stat, coef, primary=1, names=NULL, treatments=colnames(stat),
   \item{critical.primary}{critical value above which the test statistics for the primary column are considered significant and included in the plot}
   \item{critical.other}{critical value above which the other test statistics are considered significant. Should usually be no larger than \code{critical.primary} although larger values are permitted.}
   \item{limit}{optional value for \code{coef} above which values will be plotted in extreme color. Defaults to \code{max(abs(coef))}.}
-  \item{orientation}{\code{"portrait"} for upright plot or \code{"landscape"} for plot orientated to be wider than high. \code{"portrait"} is likely to be appropriate for inclusion in printed document while \code{"landscape"} may be appropriate for a presentation on a computer screen.}
+  \item{orientation}{\code{"portrait"} for upright plot or \code{"landscape"} for plot oriented to be wider than high. \code{"portrait"} is likely to be appropriate for inclusion in a printed document while \code{"landscape"} may be appropriate for a presentation on a computer screen.}
   \item{low}{color associated with repressed gene regulation}
   \item{high}{color associated with induced gene regulation}
   \item{ncolors}{number of distinct colors used for each of up and down regulation}
@@ -33,7 +33,7 @@ heatdiagram(stat, coef, primary=1, names=NULL, treatments=colnames(stat),
   \item{\dots}{any other arguments will be passed to the \code{image} function}
 }
 \details{
-Users are encouraged to use \code{heatDiagram} rather than \code{heatdiagram} as the later function may be removed in future versions of limma.
+Users are encouraged to use \code{heatDiagram} rather than \code{heatdiagram} as the latter function may be removed in future versions of limma.
 
 This function plots an image of gene expression profiles in which rows (or columns for portrait orientation) correspond to treatment conditions and columns (or rows) correspond to genes.
 Only genes which are significantly differentially expressed in the primary condition are included.

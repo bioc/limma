@@ -10,7 +10,7 @@ readSpotTypes(file="SpotTypes.txt",path=NULL,sep="\t",check.names=FALSE,\dots)
 \arguments{
   \item{file}{character string giving the name of the file specifying the spot types.}
   \item{path}{character string giving the directory containing the file.
-       Can be omitted if the file is in the current working irectory.} 
+       Can be omitted if the file is in the current working directory.} 
   \item{sep}{the field separator character}
   \item{check.names}{logical, if \code{FALSE} column names will not be converted to valid variable names, for example spaces in column names will not be left as is}
   \item{\dots}{any other arguments are passed to \code{read.table}}

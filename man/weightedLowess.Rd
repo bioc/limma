@@ -71,12 +71,12 @@ The next anchor point is the smallest x-value not adjacent to any previous ancho
 The last anchor point is \code{max(x)}.
 
 For each anchor point, a weighted linear regression is performed for a window of neighboring points.
-The neighboring points consist of the smallest set of closest neighbors such as the sum of weights is greater than or equal to \code{span} times the total weight of all points.
+The neighboring points consist of the smallest set of closest neighbors such that the sum of weights is greater than or equal to \code{span} times the total weight of all points.
 Each local regression produces a fitted value for that anchor point.
 Fitted values for other x-values are then obtained by linear interpolation between anchor points.
 
 For the first iteration, the local linear regressions use weights equal to prior weights times the tri-cube distance weights.
-Subsequent iterations multiple these weights by robustifying weights.
+Subsequent iterations multiply these weights by robustifying weights.
 Points with residuals greater than 6 times the median absolute residual are assigned weights of zero and otherwise Tukey's biweight function is applied to the residuals to obtain the robust weights.
 More iterations produce greater robustness.
 
@@ -85,12 +85,12 @@ First, the prior weights are used during the span calculations such that the poi
 Second, the weights used for the local regressions are the product of the prior weights, tri-cube local weights and biweight robustifying weights.
 Hence a point with prior weight equal to an integer n has the same influence as n points with unit weight and the same x and y-values.
 
-See also \code{\link{loessFit}}, which is is essentially a wrapper function for \code{lowess} and \code{\link{weightedLowess}} with added error checking.
+See also \code{\link{loessFit}}, which is essentially a wrapper function for \code{lowess} and \code{\link{weightedLowess}} with added error checking.
 
 \strong{Relationship to lowess and loess}
 
 The stats package provides two functions \code{lowess} and \code{loess}.
-\code{lowess} implements the original LOWESS algorithm of Cleveland (1979, 1981) designed for scatterplot smoothing with  single x-variable while \code{loess} implements the more complex algorithm by Cleveland et al (1988, 1992) designed to fit multivariate surfaces.
+\code{lowess} implements the original LOWESS algorithm of Cleveland (1979, 1981) designed for scatterplot smoothing with a single x-variable while \code{loess} implements the more complex algorithm by Cleveland et al (1988, 1992) designed to fit multivariate surfaces.
 The \code{loess} algorithm is more general than \code{lowess} in a number of ways, notably because it allows prior weights and up to four numeric predictors.
 On the other hand, \code{loess} is necessarily slower and uses more memory than \code{lowess}.
 Furthermore, it has less accurate interpolation than \code{lowess} because it uses a cruder algorithm to choose the anchor points whereby anchor points are equi-spaced in terms of numbers of points rather than in terms of x-value spacing.
@@ -130,26 +130,31 @@ lines(l, col = "red")
 }
 
 \references{
-Cleveland, W.S. (1979).
+Cleveland WS (1979).
 Robust Locally Weighted Regression and Smoothing Scatterplots.
 \emph{Journal of the American Statistical Association} 74(368), 829-836.
 
-Cleveland, W.S. (1981).
+Cleveland WS (1981).
 LOWESS: A program for smoothing scatterplots by robust locally weighted regression.
 \emph{The American Statistician} 35(1), 54.
 
-Cleveland, W.S., and Devlin, S.J. (1988).
+Cleveland WS, Devlin SJ (1988).
 Locally-weighted regression: an approach to regression analysis by local fitting.
 \emph{Journal of the American Statistical Association} 83(403), 596-610.
 
-Cleveland, W.S., Grosse, E., and Shyu, W.M. (1992).
+Cleveland WS, Grosse E, Shyu WM (1992).
 Local regression models.
 Chapter 8 In:
 \emph{Statistical Models in S} edited by J.M. Chambers and T.J. Hastie, Chapman & Hall/CRC, Boca Raton.
 
-Smyth, G.K. 2003.
-\emph{lowess vs. loess}.
+Smyth GK (2003).
+lowess vs. loess.
 Answer on the Bioconductor Support forum \url{https://support.bioconductor.org/p/2323/}.
+
+Smyth GK (2020).
+Difference between LOESS and LOWESS.
+Answer on the Cross Validated Stack Exchange forum
+\url{https://stats.stackexchange.com/questions/161069/difference-between-loess-and-lowess}.
 }
 
 \concept{locally-weighted regression smoothing}

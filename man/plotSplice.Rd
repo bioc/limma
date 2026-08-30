@@ -10,7 +10,7 @@ plotSplice(fit, coef = ncol(fit), geneid = NULL, genecolname = NULL,
 }
 \arguments{
   \item{fit}{\code{MArrayLM} fit object produced by \code{diffSplice}.}
-  \item{coef}{the coefficient (column) of fit for which differentially splicing is assessed.}
+  \item{coef}{the coefficient (column) of fit for which differential splicing is assessed.}
   \item{geneid}{character string, ID of the gene to plot.}
   \item{genecolname}{column name of \code{fit$genes} containing gene IDs. Defaults to \code{fit$genecolname}.}
   \item{rank}{integer, if \code{geneid=NULL} then this ranked gene will be plotted.}
@@ -38,7 +38,7 @@ Dividing out quantification uncertainty enables assessment of differential trans
 Ritchie ME, Phipson B, Wu D, Hu Y, Law CW, Shi W, Smyth GK (2015).
 limma powers differential expression analyses for RNA-sequencing and microarray studies.
 \emph{Nucleic Acids Research} 43, e47.
-\doi{10.1093/nar/gkv007}
+\doi{10.1093/nar/gkv007}.
 }
 
 \seealso{

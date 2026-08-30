@@ -22,7 +22,7 @@ goanaTrend(index.de, covariate, n.prior = 10, plot = FALSE,
 
   \item{n.prior}{prior number of genes using for moderating the trend towards constancy, for stability when the number of DE genes is small.}
 
-  \item{plot}{if \code{TRUE}, plot the estimated tend.}
+  \item{plot}{if \code{TRUE}, plot the estimated trend.}
   \item{xlab}{label for x-axis of plot.}
   \item{ylab}{label for y-axis of plot.}
   \item{main}{main title for the plot.}

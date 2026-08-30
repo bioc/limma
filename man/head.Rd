@@ -27,7 +27,7 @@ Retrieve the first or last parts of an RGList, MAList, EListRaw, EList, MArrayLM
   \item{x}{an object of class \code{RGList}, \code{MAList}, \code{EListRaw}, \code{EList}, \code{MArrayLM} or \code{TestResults}.}
   \item{n}{
     a single integer.
-    If positive or zero, number rows of resulting object.
+    If positive or zero, number of rows of resulting object.
     If negative, all but the \code{n} last/first rows of \code{x}.
   }
   \item{\dots}{other arguments are not currently used.}

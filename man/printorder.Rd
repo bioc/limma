@@ -17,7 +17,7 @@ printorder(layout, ndups=1, spacing="columns", npins, start="topleft")
   Choices are \code{"topleft"} or \code{"topright"} and partial matches are accepted.}
 }
 \details{
-In most cases the printer-head contains the \code{layout$ngrid.r} times \code{layout$ngrid.c} pins or tips and the array is printed using \code{layout$nspot.r} times \code{layout$npot.c} dips of the head.
+In most cases the printer-head contains the \code{layout$ngrid.r} times \code{layout$ngrid.c} pins or tips and the array is printed using \code{layout$nspot.r} times \code{layout$nspot.c} dips of the head.
 The plate holding the DNA to be printed is assumed to have 384 wells in 16 rows and 24 columns.
 
 \code{ndups} indicates the number of spots printed from each well.
@@ -26,7 +26,7 @@ The replicate spots from multiple dips into the same wells are assumed to be sid
 In some cases a smaller number of physical pins is used and the total number of grids is built up by effectively printing two or more sub-arrays on the same slide.
 In this case the number of grids should be a multiple of the number of pins.
 
-Printing is assumed to proceed by rows within in each grid starting either from the top-left or the top-right.
+Printing is assumed to proceed by rows within each grid starting either from the top-left or the top-right.
 }
 \value{
 List with components

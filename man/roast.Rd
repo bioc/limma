@@ -49,7 +49,7 @@ Rotation gene set testing for linear models.
   \item{approx.zscore}{logical, if \code{TRUE} then a fast approximation is used to convert t-statistics into z-scores prior to computing set statistics. If \code{FALSE}, z-scores will be exact.}
   \item{legacy}{logical. See Note below for usage.}
   \item{adjust.method}{method used to adjust the p-values for multiple testing. See \code{\link{p.adjust}} for possible values.}
-  \item{midp}{logical, should mid-p-values be used in instead of ordinary p-values when adjusting for multiple testing?}
+  \item{midp}{logical, should mid-p-values be used instead of ordinary p-values when adjusting for multiple testing?}
   \item{sort}{character, whether to sort output table by directional p-value (\code{"directional"}), non-directional p-value (\code{"mixed"}), or not at all (\code{"none"}).}
   \item{standardize}{how to standardize for unequal probewise variances. Possibilities are \code{"residual.sd"}, \code{"posterior.sd"} or \code{"none"}.}
   \item{\dots}{any argument that would be suitable for \code{\link{lmFit}} or \code{\link{eBayes}} can be included.}
@@ -73,7 +73,7 @@ Rows correspond to the alternative hypotheses Down, Up, UpOrDown (two-sided) and
 	\item{PValue.Mixed}{non-directional p-value}
 	\item{FDR.Mixed}{non-directional false discovery rate}
 
-\code{fry} produces the same output format as \code{mroast} but without the columns \code{PropDown} and \code{ProbUp}.
+\code{fry} produces the same output format as \code{mroast} but without the columns \code{PropDown} and \code{PropUp}.
 }
 
 \details{
@@ -96,7 +96,7 @@ All three functions support directional contribution gene weights, which can be 
 Directional gene weights allow each gene to be flagged as to its direction and magnitude of change based on prior experimentation.
 A typical use is to make the \code{gene.weights} \code{1} or \code{-1} depending on whether the gene is up or down-regulated in the pathway under consideration.
 Probes with directional weights of opposite signs are expected to have expression changes in opposite directions.
-Gene with larger gene weights in absolute size will have more weight in the set statistic calculation.
+Genes with larger gene weights in absolute size will have more weight in the set statistic calculation.
 
 Gene weights can be either genome-wide or set-specific.
 Genome-wide weights can be entered via the \code{gene.weights} argument.
@@ -118,13 +118,13 @@ If these arguments are not supplied, then they are estimated exactly as is done 
 
 The gene set statistics \code{"mean"}, \code{"floormean"}, \code{"mean50"} and \code{msq} are defined by Wu et al (2010).
 The different gene set statistics have different sensitivities when only some of the genes in a set are differentially expressed.
-If \code{set.statistic="mean"} then the set will be statistically significantly only when the majority of the genes are differentially expressed.
+If \code{set.statistic="mean"} then the set will be statistically significant only when the majority of the genes are differentially expressed.
 \code{"floormean"} and \code{"mean50"} will detect as few as 25\% differentially expressed in a set.
 \code{"msq"} is sensitive to even smaller proportions of differentially expressed genes, if the effects are reasonably large.
 Overall, the \code{"msq"} statistic gives the best power for rejecting the null hypothesis of no differentially expressed genes, but the significance can be driven by a small number of genes.
-In many genomic applications it is appropriate to limit results to gene sets for which most of the genes response in a concordance direction, so the relatively conservative \code{"mean"} statistic is the default choice.
+In many genomic applications it is appropriate to limit results to gene sets for which most of the genes respond in a concordant direction, so the relatively conservative \code{"mean"} statistic is the default choice.
 
-The output gives p-values three possible alternative hypotheses, 
+The output gives p-values for three possible alternative hypotheses,
 \code{"Up"} to test whether the genes in the set tend to be up-regulated, with positive t-statistics,
 \code{"Down"} to test whether the genes in the set tend to be down-regulated, with negative t-statistics,
 and \code{"Mixed"} to test whether the genes in the set tend to be differentially expressed, without regard for direction.
@@ -134,7 +134,7 @@ The p-value is computed as \code{(b+1)/(nrot+1)} where \code{b} is the number of
 This means that the smallest possible mixed or two-sided p-values are \code{1/(nrot+1)}.
 The function uses a symmetry argument to double the effective number of rotations for the one-sided tests, so the smallest possible \code{"Up"} or \code{"Down"} p-value is \code{1/(2*nrot+1)}.
 
-The number of rotations \code{nrot} can (and should) be increased tTo get more precise p-values from \code{roast} or \code{mroast},
+The number of rotations \code{nrot} can (and should) be increased to get more precise p-values from \code{roast} or \code{mroast}.
 The default \code{nrot} is set fairly low to facilitate quick testing and experimentation but the smallest possible two-sided p-value is \code{1/(nrot+1)}.
 To get definitive p-values for publication, at least \code{nrot=9999} or higher is recommended.
 
@@ -158,7 +158,7 @@ The \code{fry} mixed p-values are computed by a different method and will not ne
 For Bioconductor 3.10, \code{roast} and \code{mroast} have been revised to use much less memory by conducting the rotations in chunks and to be about twice as fast by updating the normalizing transformation used when \code{approx.zscore=TRUE}.
 For a limited time, users wishing to reproduce Bioconductor 3.9 results exactly can set \code{legacy=TRUE} to turn these revisions off.
 
-\code{approx.score=TRUE} become the default in Bioconductor 3.0 (October 2014).
+\code{approx.zscore=TRUE} became the default in Bioconductor 3.0 (October 2014).
 
 The default set statistic was changed from \code{"msq"} to \code{"mean"} in Bioconductor 2.7 (October 2010).
 }
@@ -190,7 +190,7 @@ Practicing safe statistics with the mid-p.
 Wu D, Lim E, Vaillant F, Asselin-Labat M-L, Visvader JE, Smyth GK (2010).
 ROAST: rotation gene set tests for complex microarray experiments.
 \emph{Bioinformatics} 26, 2176-2182.
-\doi{10.1093/bioinformatics/btq401}
+\doi{10.1093/bioinformatics/btq401}.
 }
 
 \examples{

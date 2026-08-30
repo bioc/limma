@@ -33,14 +33,14 @@ plotPrintorder(object, layout, start="topleft", slide = 1, method = "loess",
 \details{
 Print-order is associated with the 384-well plates used in the printing of spotted microarrays.
 There may be variations in DNA concentration or quality between the different plates.
-The may be variations in ambient conditions during the time the array is printed.
+There may be variations in ambient conditions during the time the array is printed.
 
 This function is intended to pre-process the intensities before other normalization methods are applied to adjust for variations in DNA quality or concentration and other print-order effects.
 
 Printorder means the order in which spots are printed on a microarray.
 Spotted arrays are printed using a print head with an array of print-tips.
 Spots in the various tip-groups are printed in parallel.
-Printing is assumed to start in the top left hand corner of each tip-groups and to proceed right and down by rows, or else to start in the top right hand and to proceed left and down by rows.
+Printing is assumed to start in the top left hand corner of each tip-group and to proceed right and down by rows, or else to start in the top right hand corner and to proceed left and down by rows.
 See \code{\link{printorder}} for more details.
 (WARNING: this is not always the case.)
 This is true for microarrays printed at the Australian Genome Research Facility but might not be true for arrays from other sources.
@@ -56,12 +56,12 @@ The function \code{plotPrintorder} or \code{normalizeForPrintorder.rg} with \cod
 
 \code{normalizeForPrintorder.rg} with \code{plot=FALSE} returns a list with the following components: 
   \item{R}{numeric vector containing the normalized red channel intensities}
-  \item{G}{numeric vector containing the normalized red channel intensites}
+  \item{G}{numeric vector containing the normalized green channel intensities}
   \item{R.trend}{numeric vector containing the fitted printorder trend for the red channel}
-  \item{G.trend}{numeric vector containing the fitted printorder trend for the green channe}
+  \item{G.trend}{numeric vector containing the fitted printorder trend for the green channel}
 }
 \references{
-Smyth, G. K. Print-order normalization of cDNA microarrays. March 2002.  \url{https://gksmyth.github.io/pubs/porder/porder.html}
+Smyth GK. Print-order normalization of cDNA microarrays. March 2002.  \url{https://gksmyth.github.io/pubs/porder/porder.html}
 }
 \author{Gordon Smyth}
 \seealso{

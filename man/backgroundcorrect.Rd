@@ -24,7 +24,7 @@ backgroundCorrect.matrix(E, Eb=NULL, method="auto", offset=0, printer=NULL,
   \item{verbose}{logical. If \code{TRUE}, progress messages are sent to standard output}
 }
 \details{
-This function implements the background correction methods reviewed or developed in Ritchie et al (2007) and Silver at al (2009).
+This function implements the background correction methods reviewed or developed in Ritchie et al (2007) and Silver et al (2009).
 Ritchie et al (2007) recommend \code{method="normexp"} whenever \code{RG} contains local background estimates.
 Silver et al (2009) shows that either \code{normexp.method="mle"} or \code{normexp.method="saddle"} are excellent options for normexp.
 If \code{RG} contains morphological background estimates instead (available from SPOT or GenePix image analysis software), then \code{method="subtract"} performs well.
@@ -42,7 +42,7 @@ If \code{method="normexp"} a convolution of normal and exponential distributions
 This results in a smooth monotonic transformation of the background subtracted intensities such that all the corrected intensities are positive.
 
 The normexp method is available in a number of variants depending on how the model parameters are estimated, and these are selected by \code{normexp.method}.
-Here \code{"saddle"} gives the saddle-point approximation to maximum likelihood from Ritchie et al (2007) and improved by Silver et al (2009), \code{"mle"} gives exact maximum likelihood from Silver at al (2009), \code{"rma"} gives the background correction algorithm from the RMA-algorithm for Affymetrix microarray data as implemented in the affy package, and \code{"rma75"} gives the RMA-75 method from McGee and Chen (2006).
+Here \code{"saddle"} gives the saddle-point approximation to maximum likelihood from Ritchie et al (2007) and improved by Silver et al (2009), \code{"mle"} gives exact maximum likelihood from Silver et al (2009), \code{"rma"} gives the background correction algorithm from the RMA-algorithm for Affymetrix microarray data as implemented in the affy package, and \code{"rma75"} gives the RMA-75 method from McGee and Chen (2006).
 In practice \code{"mle"} performs well and is nearly as fast as \code{"saddle"}, but \code{"saddle"} is the default for backward compatibility.
 See \code{\link{normexp.fit}} for more details.
 
@@ -66,15 +66,15 @@ McGee M, Chen Z (2006).
 Parameter estimation for the exponential-normal convolution model for background correction of Affymetrix GeneChip data.
 \emph{Statistical Applications in Genetics and Molecular Biology} 5(1), Article 24.
 
-Ritchie ME, Silver J, Oshlack A, Silver J, Holmes M, Diyagama D, Holloway A, Smyth GK (2007).
+Ritchie ME, Silver J, Oshlack A, Holmes M, Diyagama D, Holloway A, Smyth GK (2007).
 A comparison of background correction methods for two-colour microarrays.
 \emph{Bioinformatics} 23, 2700-2707.
-\doi{10.1093/bioinformatics/btm412}
+\doi{10.1093/bioinformatics/btm412}.
 
 Silver JD, Ritchie ME, Smyth GK (2009).
 Microarray background correction: maximum likelihood estimation for the normal-exponential convolution.
 \emph{Biostatistics} 10, 352-363.
-\doi{10.1093/biostatistics/kxn042}
+\doi{10.1093/biostatistics/kxn042}.
 }
 
 \author{Gordon Smyth}

@@ -5,7 +5,7 @@
 \title{Expression List (EList) class}
 
 \description{
-A list-based S4 classes for storing expression values (E-values), for example for a set of one-channel microarrays or a set of RNA-seq samples.
+A list-based S4 class for storing expression values (E-values), for example for a set of one-channel microarrays or a set of RNA-seq samples.
 \code{EListRaw} holds expression values on the raw scale.
 \code{EList} holds expression values on the log scale, usually after background correction and normalization.
 
@@ -15,7 +15,7 @@ Alternatively, an \code{EList} object can be created directly by \code{new("ELis
 }
 
 \section{Required Components}{
-These classes contains no slots (other than \code{.Data}), but objects should contain a list component \code{E}:
+These classes contain no slots (other than \code{.Data}), but objects should contain a list component \code{E}:
 \describe{
   \item{\code{E}}{numeric matrix containing expression values.
   In an \code{EListRaw} object, the expression values are unlogged, while in an \code{EList} object, they are log2 values.
@@ -60,7 +60,7 @@ colnames(y) <- LETTERS[1:5]
 Genes <- data.frame(Chr=sample(1:21,10))
 row.names(Genes) <- row.names(y)
 
-# Create the object, than add components:
+# Create the object, then add components:
 E <- new("EList")
 E$E <- y
 E$genes <- Genes

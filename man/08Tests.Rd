@@ -12,18 +12,18 @@ See \link{06.LinearModels} or \link{07.SingleChannel} for details.
 The key function is \code{\link{decideTests}}.
 This function writes an object of class \code{\link[limma:TestResults]{TestResults}}, which is basically a matrix of \code{-1}, \code{0} or \code{1} elements, of the same dimension as \code{fit$coefficients}, indicating whether each coefficient is significantly different from zero.
 A number of different multiple testing strategies are provided.
-\code{decideTests} calls \code{\link{classifyTestsF}} to implement the nested F-test strategt. 
+\code{decideTests} calls \code{\link{classifyTestsF}} to implement the nested F-test strategy.
 
 \code{\link{selectModel}} chooses between linear models for each probe using AIC or BIC criteria.
 This is an alternative to hypothesis testing and can choose between non-nested models.
 
 A number of other functions are provided to display the results of \code{decideTests}.
-The functions \code{\link{heatDiagram}} (or the older version \code{\link{heatdiagram}} displays the results in a heat-map style display.
+The function \code{\link{heatDiagram}} (or the older version \code{\link{heatdiagram}}) displays the results in a heat-map style display.
 This allows visual comparison of the results across many different conditions in the linear model.
 
 The functions \code{\link{vennCounts}} and \code{\link{vennDiagram}} provide Venn diagram style summaries of the results.
 
-Summary and \code{show} method exists for objects of class \code{TestResults}.
+Summary and \code{show} methods exist for objects of class \code{TestResults}.
 
 The results from \code{decideTests} can also be included when the results of a linear model fit are written to a file using \code{\link{write.fit}}.
 }

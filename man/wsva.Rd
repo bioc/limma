@@ -10,7 +10,7 @@ wsva(y, design, n.sv = 1L, weight.by.sd = FALSE, plot = FALSE, ...)
 }
 
 \arguments{
-  \item{y}{numeric matrix giving log-expression or log-ratio values for a series of microarrays, or any object that can coerced to a matrix including \code{ExpressionSet}, \code{MAList}, \code{EList} or \code{PLMSet} objects.
+  \item{y}{numeric matrix giving log-expression or log-ratio values for a series of microarrays, or any object that can be coerced to a matrix including \code{ExpressionSet}, \code{MAList}, \code{EList} or \code{PLMSet} objects.
         Rows correspond to genes and columns to samples.}
   \item{design}{design matrix}
   \item{n.sv}{number of surrogate variables required.}
@@ -34,7 +34,7 @@ If \code{weight.by.sd=FALSE}, then the method is a simplification of the approac
 \author{Gordon Smyth and Yifang Hu}
 
 \references{
-Leek, JT, Storey, JD (2007).
+Leek JT, Storey JD (2007).
 Capturing heterogeneity in gene expression studies by surrogate variable analysis.
 \emph{PLoS Genetics} 3, 1724-1735.
 }

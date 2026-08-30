@@ -19,14 +19,14 @@ Merge two microarray data sets represented by RGLists in possibly irregular orde
 \code{RGList}, \code{MAList}, \code{EListRaw} and \code{EList} data objects are lists containing numeric matrices all of the same dimensions.
 The data objects are merged by merging each of the components by row names or, if there are no row names, by IDs in the \code{genes} component.
 Unlike when using \code{\link{cbind}}, row names are not required to be in the same order or to be unique.
-In the case of repeated row names, the order of the rows with repeated names in preserved.
+In the case of repeated row names, the order of the rows with repeated names is preserved.
 This means that the first occurrence of each name in \code{x} is matched with the first occurrence of the same name in \code{y}, the second with the second, and so on.
 The final vector of row names is the same as in \code{x}.
 
 Note: if the objects contain the same number of genes in the same order then the appropriate function to combine them is \code{\link[limma:cbind]{cbind}} rather than \code{merge}.
 }
 \value{
-An merged object of the same class as \code{x} and \code{y} with the same components as \code{x}.
+A merged object of the same class as \code{x} and \code{y} with the same components as \code{x}.
 Component matrices have the same rows names as in \code{x} but columns from \code{y} as well as from \code{x}.
 }
 \author{Gordon Smyth}

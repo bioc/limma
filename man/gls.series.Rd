@@ -6,7 +6,10 @@ Fit a linear model genewise to expression data from a series of microarrays.
 The fit is by generalized least squares allowing for correlation between duplicate spots or related arrays.
 This is a utility function for \code{lmFit}.
 }
-\usage{gls.series(M,design=NULL,ndups=2,spacing=1,block=NULL,correlation=NULL,weights=NULL,\dots)}
+\usage{
+gls.series(M, design = NULL, ndups = 2, spacing = 1, block = NULL,
+     correlation = NULL, weights = NULL, nthreads = 1L, contrasts = NULL, \dots)
+}
 \arguments{
   \item{M}{numeric matrix containing log-ratio or log-expression values for a series of microarrays, rows correspond to genes and columns to arrays.}
   \item{design}{numeric design matrix defining the linear model, with rows corresponding to arrays and columns to comparisons to be estimated. The number of rows must match the number of columns of \code{M}. Defaults to the unit vector meaning that the arrays are treated as replicates.} 
@@ -16,6 +19,8 @@ This is a utility function for \code{lmFit}.
   Same length as \code{ncol(M)}.}
   \item{correlation}{numeric value specifying the inter-duplicate or inter-block correlation.}
   \item{weights}{an optional numeric matrix of the same dimension as \code{M} containing weights for each spot. If it is of different dimension to \code{M}, it will be filled out to the same size.}
+  \item{nthreads}{positive integer giving the number of OpenMP threads used for genewise native-code fits. Defaults to 1.}
+  \item{contrasts}{optional numeric contrast matrix with rows corresponding to coefficients. If non-NULL, a contrast-space fit is returned. On the genewise (weighted or missing-value) path the contrasts are applied within each gene's fit, giving exact contrast \code{stdev.unscaled}; on the no-weights fast path the exact \code{\link{contrasts.fit}} is applied (all genes share the same unscaled covariance).}
   \item{\dots}{other optional arguments to be passed to \code{dupcor.series}.}
 }
 \value{
@@ -36,7 +41,8 @@ The correlated groups may arise from replicate spots on the same array (duplicat
 This function is normally called by \code{lmFit} and is not normally called directly by users.
 
 Note that the correlation is assumed to be constant across genes.
-If \code{correlation=NULL} then a call is made to \code{duplicateCorrelation} to estimated the correlation.
+If \code{correlation=NULL} then a call is made to \code{duplicateCorrelation} to estimate the correlation.
+Parallel threads are used only when genewise native-code fits are required. Complete-data fast paths are unchanged. Builds without OpenMP run serially.
 }
 \seealso{
 \code{\link{duplicateCorrelation}}.

@@ -44,7 +44,7 @@ Numeric value in the interval [0,1] representing the estimated proportion of tru
 }
 
 \references{
-Langaas, M, Ferkingstad, E, and Lindqvist, B (2005).
+Langaas M, Ferkingstad E, Lindqvist B (2005).
 Estimating the proportion of true null hypotheses, with application to DNA microarray data.
 \emph{Journal of the Royal Statistical Society Series} B 67, 555-572.
 
@@ -56,15 +56,15 @@ Nettleton D, Hwang JTG, Caldo RA, Wise RP (2006).
 Estimating the number of true null hypotheses from a histogram of p values.
 \emph{Journal of Agricultural, Biological, and Environmental Statistics} 11, 337-356.
 
-Phipson, B (2013).
+Phipson B (2013).
 Empirical Bayes Modelling of Expression Profiles and Their Associations.
 PhD Thesis, University of Melbourne, Australia.
 \url{http://hdl.handle.net/11343/38162}
 
-Ritchie, ME, Phipson, B, Wu, D, Hu, Y, Law, CW, Shi, W, and Smyth, GK (2015).
+Ritchie ME, Phipson B, Wu D, Hu Y, Law CW, Shi W, Smyth GK (2015).
 limma powers differential expression analyses for RNA-sequencing and microarray studies.
 \emph{Nucleic Acids Research} 43, e47.
-\doi{10.1093/nar/gkv007}
+\doi{10.1093/nar/gkv007}.
 }
 
 \author{Belinda Phipson and Gordon Smyth for \code{propTrueNull}. Egil Ferkingstad, Mette Langaas and Marcus Davy for \code{convest}.}
@@ -77,7 +77,7 @@ See \link{08.Tests} for other functions for producing or interpreting p-values.
 # Test statistics
 z <- rnorm(200)
 
-# First 40 are have non-zero means
+# First 40 have non-zero means
 z[1:40] <- z[1:40]+2
 
 # True pi0

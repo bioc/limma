@@ -1,4 +1,4 @@
-arrayWeights <- function(object, design=NULL, weights=NULL, var.design=NULL, var.group=NULL, prior.n=10, method="auto", maxiter=50L, tol=1e-5, trace=FALSE)
+arrayWeights <- function(object, design=NULL, weights=NULL, var.design=NULL, var.group=NULL, prior.n=10, method="auto", maxiter=50L, tol=1e-5, trace=FALSE, nthreads=1L)
 #	Estimate array quality weights.
 #
 #	Created by Matt Ritchie 7 Feb 2005.
@@ -104,7 +104,7 @@ arrayWeights <- function(object, design=NULL, weights=NULL, var.design=NULL, var
 		if(is.null(weights)) {
 			return(.arrayWeightsREML(E, design=design, var.design=Z2, prior.n=prior.n, maxiter=maxiter, tol=tol, trace=trace))
 		} else {
-			return(.arrayWeightsPrWtsREML(E, design=design, weights=weights, var.design=Z2, prior.n=prior.n, maxiter=maxiter, tol=tol, trace=trace))
+			return(.arrayWeightsPrWtsREML(E, design=design, weights=weights, var.design=Z2, prior.n=prior.n, maxiter=maxiter, tol=tol, trace=trace, nthreads=nthreads))
 		}
 	}
 

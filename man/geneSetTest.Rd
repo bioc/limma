@@ -17,8 +17,8 @@ wilcoxGST(index, statistics, \dots)
   \item{statistics}{vector, any genewise statistic by which genes can be ranked.}
   \item{alternative}{character string specifying the alternative hypothesis, must be one of \code{"mixed"}, \code{"either"}, \code{"up"} or \code{"down"}. \code{"two.sided"}, \code{"greater"} and \code{"less"} are also permitted as synonyms for \code{"either"}, \code{"up"} and \code{"down"} respectively.}
   \item{type}{character string specifying whether the statistics are signed (t-like, \code{"t"}) or unsigned (F-like, \code{"f"}) or whether the function should make an educated guess (\code{"auto"}).
-  If the statistic is unsigned, then it assume that larger statistics are more significant.}
-  \item{ranks.only}{logical, if \code{TRUE} only the ranks of the \code{statistics} are used.} 
+  If the statistic is unsigned, then it is assumed that larger statistics are more significant.}
+  \item{ranks.only}{logical, if \code{TRUE} only the ranks of the \code{statistics} are used.}
   \item{nsim}{number of random samples to take in computing the p-value.
   Not used if \code{ranks.only=TRUE}.}
   \item{\ldots}{other arguments are passed to \code{geneSetTest}.}
@@ -58,22 +58,22 @@ There are four possible alternatives to test for.
 \code{alternative=="up"} means the genes in the set tend to be up-regulated, with positive t-statistics.
 \code{alternative=="down"} means the genes in the set tend to be down-regulated, with negative t-statistics.
 \code{alternative=="either"} means the set is either up or down-regulated as a whole.
-\code{alternative=="mixed"} test whether the genes in the set tend to be differentially expressed, without regard for direction.
+\code{alternative=="mixed"} tests whether the genes in the set tend to be differentially expressed, without regard for direction.
 In this case, the test will be significant if the set contains mostly large test statistics, even if some are positive and some are negative.
 
-The latter three alternatives are appropriate when there is a prior expection that all the genes in the set will react in the same direction.
+The latter three alternatives are appropriate when there is a prior expectation that all the genes in the set will react in the same direction.
 The \code{"mixed"} alternative is appropriate if you know only that the genes are involved in the relevant pathways, possibly in different directions.
-The \code{"mixed"} is the only meaningful alternative with F-like statistics.
+The \code{"mixed"} alternative is the only meaningful alternative with F-like statistics.
 
 The test statistic used for the gene-set-test is the mean of the statistics in the set.
-If \code{ranks.only} is \code{TRUE} the only the ranks of the statistics are used.
+If \code{ranks.only} is \code{TRUE} then only the ranks of the statistics are used.
 In this case the p-value is obtained from a Wilcoxon test.
 If \code{ranks.only} is \code{FALSE}, then the p-value is obtained by simulation using \code{nsim} random sets of genes.
 }
 
 \note{
-Wu and Smyth (2012) show that \code{geneSetTest} does not does correct for inter-gene correlations and is more likely to assign small p-values to sets containing positive correlated genes.
-The function \code{\link{cameraPR}} is recommended as a alternative.
+Wu and Smyth (2012) show that \code{geneSetTest} does not correct for inter-gene correlations and is more likely to assign small p-values to sets containing positive correlated genes.
+The function \code{\link{cameraPR}} is recommended as an alternative.
 }
 
 \seealso{
@@ -85,18 +85,18 @@ There is a topic page on \link{10.GeneSetTests}.
 \author{Gordon Smyth and Di Wu}
 
 \references{
-Wu, D, and Smyth, GK (2012). Camera: a competitive gene set test accounting for inter-gene correlation.
+Wu D, Smyth GK (2012). Camera: a competitive gene set test accounting for inter-gene correlation.
 \emph{Nucleic Acids Research} 40(17), e133.
-\doi{10.1093/nar/gks461}
+\doi{10.1093/nar/gks461}.
 
-Goeman, JJ, and Buhlmann P (2007).
+Goeman JJ, Buhlmann P (2007).
 Analyzing gene expression data in terms of gene sets: methodological issues.
-\emph{Bioinformatics} 23, 980-987. 
+\emph{Bioinformatics} 23, 980-987.
 
-Michaud, J, Simpson, KM, Escher, R, Buchet-Poyau, K, Beissbarth, T, Carmichael, C, Ritchie, ME, Schutz, F, Cannon, P, Liu, M, Shen, X, Ito, Y, Raskind, WH, Horwitz, MS, Osato, M, Turner, DR, Speed, TP, Kavallaris, M, Smyth, GK, and Scott, HS (2008).
+Michaud J, Simpson KM, Escher R, Buchet-Poyau K, Beissbarth T, Carmichael C, Ritchie ME, Schutz F, Cannon P, Liu M, Shen X, Ito Y, Raskind WH, Horwitz MS, Osato M, Turner DR, Speed TP, Kavallaris M, Smyth GK, Scott HS (2008).
 Integrative analysis of RUNX1 downstream pathways and target genes.
 \emph{BMC Genomics} 9, 363.
-\doi{10.1186/1471-2164-9-363}
+\doi{10.1186/1471-2164-9-363}.
 }
 
 \examples{

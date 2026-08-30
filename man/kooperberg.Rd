@@ -11,7 +11,7 @@ kooperberg(RG, a = TRUE, layout = RG$printer, verbose = TRUE)
 }
 \arguments{
 \item{RG}{an RGList of GenePix data, read in using \code{read.maimages}, with \code{other.columns=c("F635 SD","B635 SD","F532 SD","B532 SD","B532 Mean","B635 Mean","F Pixels","B Pixels")}.}
-\item{a}{logical.  If \code{TRUE}, the 'a' parameters in the model (equation 3 and 4) are estimated for each slide.  If \code{FALSE} the 'a' parameters are set to unity.}
+\item{a}{logical.  If \code{TRUE}, the 'a' parameters in the model (equations 3 and 4) are estimated for each slide.  If \code{FALSE} the 'a' parameters are set to unity.}
 \item{layout}{list containing print layout with components \code{ngrid.r}, \code{ngrid.c}, \code{nspot.r} and \code{nspot.c}.  Defaults to \code{RG$printer}.}
 \item{verbose}{logical.  If \code{TRUE}, progress is reported to standard output.}
 }
@@ -37,14 +37,14 @@ the red channel for each spot for each array}
 \author{Matthew Ritchie}
 
 \references{
-Kooperberg, C., Fazzio, T. G., Delrow, J. J., and Tsukiyama, T. (2002)
+Kooperberg C, Fazzio TG, Delrow JJ, Tsukiyama T (2002)
 Improved background correction for spotted DNA microarrays.
-\emph{Journal of Computational Biology} \bold{9}, 55-66.
+\emph{Journal of Computational Biology} 9, 55-66.
 
-Ritchie, M. E., Silver, J., Oshlack, A., Silver, J., Holmes, M., Diyagama, D., Holloway, A., and Smyth, G. K. (2007).
+Ritchie ME, Silver J, Oshlack A, Holmes M, Diyagama D, Holloway A, Smyth GK (2007).
 A comparison of background correction methods for two-colour microarrays.
 \emph{Bioinformatics} 23, 2700-2707.
-\doi{10.1093/bioinformatics/btm412}
+\doi{10.1093/bioinformatics/btm412}.
 }
 	
 \seealso{

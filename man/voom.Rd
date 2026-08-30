@@ -1,6 +1,6 @@
 \name{voom}
 \alias{voom}
-\title{Transform RNA-Seq Counts for Linear Modeling With Precision Weights}
+\title{Transform RNA-Seq Counts for Linear Modeling With Precision Weights (Deprecated)}
 \description{
 Transform count data to log2 counts-per-million (logCPM), estimate the mean-variance relationship and use it to compute observation-level precision weights.
 The logCPM and associated precision weights are then ready for linear modeling.
@@ -70,9 +70,12 @@ voom(counts, design = NULL,
 }
 
 \details{
-This function processes sequence count data from technologies such as RNA-seq or ChIP-seq to make it ready for linear modeling in limma.
+This was the original function implementing the "voom" method, although we now recommend \code{\link{voomLmFit}} instead.
+\code{\link{voomLmFit}} is a further developed version of \code{voom} with extra capabilities and ease of use.
+\code{voomLmFit} automates the computation of sample weights, intrablock correlation and contrasts, and also improves variance estimation for sparse data.
 
 \code{voom} is an acronym for "mean-variance modeling at the observational level".
+The \code{voom} function processes sequence count data from technologies such as RNA-seq or ChIP-seq to make it ready for linear modeling in limma.
 The idea is to estimate the mean-variance relationship in the data, then use this to compute an appropriate precision weight for each observation.
 Count data always show marked mean-variance relationships.
 Raw counts show increasing variance with increasing count size, while log-counts typically show a decreasing mean-variance trend.
@@ -99,7 +102,7 @@ If \code{counts} is a \code{DGEList} object from the edgeR package, then voom wi
 In other words, the logCPM values are computed from the effective library sizes rather than the raw library sizes.
 If the \code{DGEList} object has been scale-normalized in edgeR, then it is usual to leave \code{normalize.method="none"} in voom, i.e., the logCPM values should not usually be re-normalized in the \code{voom} call.
 
-If the \code{DGEList} objects contains a prior offset matrix, then obervation-specific effective library sizes will be obtained by adding \code{offset.prior} to the log library sizes.
+If the \code{DGEList} object contains a prior offset matrix, then observation-specific effective library sizes will be obtained by adding \code{offset.prior} to the log library sizes.
 If an ordinary edgeR-style offset matrix is supplied (\code{offset}), either as an argument or in the DGEList, then it will be row-mean corrected and treated as a prior offset matrix.
 
 The \code{voom} method is similar in purpose to the limma-trend method, which uses \code{\link{eBayes}} or \code{\link{treat}} with \code{trend=TRUE}.
@@ -109,14 +112,10 @@ limma-trend, on the other hand, assumes that the library sizes are not wildly di
 As noted by Law et al (2014), voom should be more powerful than limma-trend if the library sizes are very different but, otherwise, the two methods should give similar results.
 
 If \code{adaptive.span} is \code{TRUE}, then \code{span} is set to \code{chooseLowessSpan(nrow(counts), small.n=50, min.span=0.3, power=1/3)}.
-
-Note that \code{edgeR::voomLmFit} is a further-developed version \code{voom} with more functionality and convenience.
-\code{voomLmFit} is now recommended over \code{voom}, particularly if an intrablock correlation needs to be estimated or if the counts are sparse with a high proportion of zeros.
 }
 
 \note{
-We now recommend \code{edgeR::voomLmFit} instead of \code{voom} because it enhances \code{voom}'s capabilities and ease of use.
-
+\strong{What sort of counts can voom accept?}
 \code{voom} is designed to accept counts.
 Usually these will be sequence read counts, but counts of species abundance or other biological quantities might also be appropriate.
 Estimated counts are also acceptable provided that the column sums are representative of the total library size (total number of reads) for that sample.
@@ -143,7 +142,7 @@ An \code{\link[limma:EList]{EList}} object with the following components:
 Law CW (2013).
 \emph{Precision weights for gene expression analysis}.
 PhD Thesis. University of Melbourne, Australia.
-\url{http://hdl.handle.net/11343/38150}
+\url{http://hdl.handle.net/11343/38150}.
 
 Law CW, Chen Y, Shi W, Smyth GK (2014).
 Voom: precision weights unlock linear model analysis tools for RNA-seq read counts.
@@ -151,26 +150,25 @@ Voom: precision weights unlock linear model analysis tools for RNA-seq read coun
 \doi{10.1186/gb-2014-15-2-r29}.
 See also the Preprint Version at \url{https://gksmyth.github.io/pubs/VoomPreprint.pdf} incorporating some notational corrections.
 
-Law CW, Alhamdoosh M, Su S, Smyth GK, Ritchie ME (2016).
+Law CW, Alhamdoosh M, Su S, Smyth GK, Ritchie ME (2018).
 RNA-seq analysis is easy as 1-2-3 with limma, Glimma and edgeR.
 \emph{F1000Research} 5, 1408.
-\url{https://f1000research.com/articles/5-1408}
+\doi{10.12688/f1000research.9005.3}.
 
 Law CW, Alhamdoosh M, Su S, Dong X, Tian L, Smyth GK, Ritchie ME (2018).
 RNA-seq analysis is easy as 1-2-3 with limma, Glimma and edgeR.
-\emph{Bioconductor Workflow Package}.
-\url{https://www.bioconductor.org/packages/RNAseq123/}
+\emph{Bioconductor Workflow Package}
+\url{https://www.bioconductor.org/packages/RNAseq123/}.
 }
 
+
 \seealso{
-\code{\link{lmFit}} and \code{\link{eBayes}} are downstream of \code{voom}.
+\code{\link{lmFit}}, \code{\link{contrasts.fit}} and \code{\link{eBayes}} are downstream of \code{voom}.
 
-\code{\link{voomWithQualityWeights}} and \code{edgeR::voomLmFit} are further developed versions of \code{voom} with extra capabilities.
-Either can be used as a replacement for \code{voom}.
-\code{voomWithQualityWeights} estimates samples weights.
+\code{\link{voomWithQualityWeights}} and \code{\link{voomLmFit}} are further developed versions of \code{voom} with extra capabilities.
+Either can be used as a replacement for \code{voom} although \code{voomLmFit} is now recommended.
+\code{voomWithQualityWeights} estimates sample weights.
 \code{voomLmFit} estimates both sample weights and intrablock correlation and also improves variance estimation for sparse data.
-
-We now recommend \code{edgeR::voomLmFit} as the primary interface as it supersedes both \code{voom} and \code{voomWithQualityWeights}.
 
 \code{\link{vooma}} is analogous to \code{voom} but for continuous log-expression data instead of RNA-seq counts.
 

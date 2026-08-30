@@ -14,7 +14,7 @@ asMatrixWeights(weights, dim)
 }
 
 \details{
-This function converts a vector or probe-weights or a vector of array-weights to a matrix of the correct size.
+This function converts a vector of probe-weights or a vector of array-weights to a matrix of the correct size.
 Probe-weights are repeated across rows while array-weights are repeated down the columns.
 If \code{weights} has length equal to the number of probes, it is assumed to contain probe-weights.
 If it has length equal to the number of arrays, it is assumed to contain array-weights.

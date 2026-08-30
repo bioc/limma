@@ -3,8 +3,8 @@
 \title{Topic: Normalization of Microarray Data}
 
 \description{
-This page gives an overview of the LIMMA functions available to normalize data from single-channel or two-colour microarrays.
-Smyth and Speed (2003) give an overview of the normalization techniques implemented in the functions for two-colour arrays.
+This page gives an overview of the LIMMA functions available to normalize data from single-channel or two-color microarrays.
+Smyth and Speed (2003) give an overview of the normalization techniques implemented in the functions for two-color arrays.
 
 Usually data from spotted microarrays will be normalized using \code{\link{normalizeWithinArrays}}.
 A minority of data will also be normalized using \code{\link{normalizeBetweenArrays}} if diagnostic plots suggest a difference in scale between the arrays.
@@ -21,13 +21,13 @@ For more details see the \link[=limmaUsersGuide]{LIMMA User's Guide} which inclu
 \code{normalizeWithinArrays} uses utility functions \code{\link{MA.RG}}, \code{\link{loessFit}} and \code{\link{normalizeRobustSpline}}.
 
 \code{normalizeBetweenArrays} is the main normalization function for one-channel arrays,
-as well as an optional function for two-colour arrays.
+as well as an optional function for two-color arrays.
 \code{normalizeBetweenArrays} uses utility functions \code{\link{normalizeMedianValues}}, \code{\link{normalizeMedianAbsValues}}, \code{\link{normalizeQuantiles}} and \code{\link{normalizeCyclicLoess}}, none of which need to be called directly by users.
 \code{normalizeCyclicLoess} calls \code{chooseLowessSpan} when \code{adaptive.span=TRUE}.
 
 \code{\link{neqc}} is a between array normalization function customized for Illumina BeadChips.
 
-The function \code{\link{normalizeVSN}} is also provided as a interface to the vsn package.
+The function \code{\link{normalizeVSN}} is also provided as an interface to the vsn package.
 It performs variance stabilizing normalization, an algorithm which includes background correction, within and between normalization together, and therefore doesn't fit into the paradigm of the other methods.
 
 \code{\link{removeBatchEffect}} can be used to remove a batch effect, associated with hybridization time or some other technical variable, prior to unsupervised analysis.
@@ -38,7 +38,8 @@ It performs variance stabilizing normalization, an algorithm which includes back
 \references{
 Smyth GK, Speed TP (2003). Normalization of cDNA microarray data.
 \emph{Methods} 31, 265-273.
-\url{https://gksmyth.github.io/pubs/normalize.pdf}
+\doi{10.1016/S1046-2023(03)00155-5}.
+See also the preprint at \url{https://gksmyth.github.io/pubs/normalize.pdf}.
 }
 
 \seealso{

@@ -1,15 +1,17 @@
 \name{lm.series}
 \alias{lm.series}
-\title{Fit Linear Model to Microrray Data by Ordinary Least Squares}
+\title{Fit Linear Model to Microarray Data by Ordinary Least Squares}
 \description{Fit a linear model genewise to expression data from a series of arrays.
 This function uses ordinary least squares and is a utility function for \code{lmFit}.}
-\usage{lm.series(M,design=NULL,ndups=1,spacing=1,weights=NULL)}
+\usage{lm.series(M,design=NULL,ndups=1,spacing=1,weights=NULL,nthreads=1L,contrasts=NULL)}
 \arguments{
   \item{M}{numeric matrix containing log-ratio or log-expression values for a series of microarrays, rows correspond to genes and columns to arrays}
   \item{design}{numeric design matrix defining the linear model. The number of rows should agree with the number of columns of M. The number of columns will determine the number of coefficients estimated for each gene.}
   \item{ndups}{number of duplicate spots. Each gene is printed ndups times in adjacent spots on each array.}
   \item{spacing}{the spacing between the rows of \code{M} corresponding to duplicate spots, \code{spacing=1} for consecutive spots}
   \item{weights}{an optional numeric matrix of the same dimension as \code{M} containing weights for each spot. If it is of different dimension to \code{M}, it will be filled out to the same size.}
+  \item{nthreads}{positive integer giving the number of OpenMP threads used for genewise native-code fits. Defaults to 1.}
+  \item{contrasts}{optional numeric contrast matrix with rows corresponding to coefficients. If non-NULL, a contrast-space fit is returned. On the genewise (weighted or missing-value) path the contrasts are applied within each gene's fit, giving exact contrast \code{stdev.unscaled}; on the no-weights fast path the exact \code{\link{contrasts.fit}} is applied (all genes share the same unscaled covariance).}
 }
 \value{
   A list with components
@@ -24,6 +26,7 @@ This is a utility function used by the higher level function \code{\link{lmFit}}
 Most users should not use this function directly but should use \code{\link{lmFit}} instead.
 
 The linear model is fit for each gene by calling the function \code{lm.fit} or \code{lm.wfit} from the base library.
+Parallel threads are used only when genewise native-code fits are required. Complete-data fast paths are unchanged. Builds without OpenMP run serially.
 }
 \author{Gordon Smyth}
 \examples{

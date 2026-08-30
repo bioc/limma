@@ -24,7 +24,7 @@ This function extracts that information and locates the line where the intensity
 \code{readGenericHeader} finds the line in the file on which the data begins by searching for specified column headings. 
 }
 \value{
-A list with components corresponds to lines of header information.
+A list with components corresponding to lines of header information.
 A key component is \code{NHeaderRecords} which gives the number of lines in the file before the intensity data begins.
 All other components are character vectors.
 }

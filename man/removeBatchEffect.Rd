@@ -27,7 +27,7 @@ The design matrix or group factor is used to define comparisons between the samp
 The function fits a linear model to the data, including both batches and regular treatments, then removes the component due to the batch effects.
 
 There are no restrictions on the generality of the design matrix, which can contain any combination of factors or continuous covariates.
-It is usually the same design matrix that would be passed used for a differential expression analysis but with the unwanted batch factors removed.
+It is usually the same design matrix that would be used for a differential expression analysis but with the unwanted batch factors removed.
 
 In most applications, only the first \code{batch} argument will be needed.
 This case covers the situation where the data has been collected in a series of separate batches.
@@ -40,7 +40,7 @@ The \code{covariates} argument allows correction for one or more continuous nume
 If \code{covariates} contains more than one column, then the columns are assumed to have additive effects.
 Setting \code{covariates} to be a design matrix constructed from batch effects and technical effects allows very general batch effects to be accounted for.
 
-The \code{covariates} argument allows a completely general approach, which could proceeed as follows.
+The \code{covariates} argument allows a completely general approach, which could proceed as follows.
 If \code{design.full} is the full design matrix containing both predictors of interest and unwanted nuisance effects (batches or covariates), and \code{j} is a vector of column numbers selecting the predictors of interest, then one could set \code{design.interest <- design[,j]}, \code{design.nuisance <- design[,-j]} and \code{y <- removeBatchEffect(x, design=design.interest, covariates=design.nuisance)}.
 The intercept should be included with the predictors of interest, rather than as a nuisance column.
 

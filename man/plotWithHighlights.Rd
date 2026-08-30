@@ -28,7 +28,7 @@ plotWithHighlights(x, y, status = NULL, values = NULL,
   Ignored if there is no \code{status} vector.}
 
   \item{hl.pch}{vector of plotting characters for highlighted points, either of unit length or of same length as \code{values}.
-  Ignored is there is no \code{status} vector.}
+  Ignored if there is no \code{status} vector.}
 
   \item{hl.col}{vector of colors for highlighted points, either of unit length or of same length as \code{values}.
   Set automatically if \code{status} contains \code{TestResults}.
@@ -79,10 +79,10 @@ See \code{\link[graphics]{points}} for possible values for the graphics paramete
 \value{A plot is created on the current graphics device.}
 
 \references{
-Ritchie, ME, Phipson, B, Wu, D, Hu, Y, Law, CW, Shi, W, and Smyth, GK (2015).
+Ritchie ME, Phipson B, Wu D, Hu Y, Law CW, Shi W, Smyth GK (2015).
 limma powers differential expression analyses for RNA-sequencing and microarray studies.
 \emph{Nucleic Acids Research} 43, e47.
-\url{http://nar.oxfordjournals.org/content/43/7/e47}
+\doi{10.1093/nar/gkv007}.
 }
 
 \author{Gordon Smyth}

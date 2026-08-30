@@ -30,7 +30,7 @@ Modern commercial two colour arrays do not usually have print tips, so in effect
 Robustspline normalization can still be used for data from these arrays, in which case a single normalization curve is estimated.
 In this situation, the method is closely analogous to global loess, with a regression spline replacing the loess curve and with robust
 regression replacing the loess robustifying weights.
-Robust spline normalization with \code{method="MM"} has potential advantages over global loess normalization when there a lot of differential expression or the differential expression is assymetric, because of the increased level of robustness.
+Robust spline normalization with \code{method="MM"} has potential advantages over global loess normalization when there is a lot of differential expression or the differential expression is asymmetric, because of the increased level of robustness.
 The potential advantages of this approach have not been fully explored in a refereed publication however.
 }
 
@@ -41,10 +41,10 @@ Numeric vector containing normalized M-values.
 \author{Gordon Smyth}
 
 \references{
-Ritchie, ME, Phipson, B, Wu, D, Hu, Y, Law, CW, Shi, W, and Smyth, GK (2015).
+Ritchie ME, Phipson B, Wu D, Hu Y, Law CW, Shi W, Smyth GK (2015).
 limma powers differential expression analyses for RNA-sequencing and microarray studies.
 \emph{Nucleic Acids Research} 43, e47.
-\url{http://nar.oxfordjournals.org/content/43/7/e47}
+\doi{10.1093/nar/gkv007}.
 }
 
 \seealso{

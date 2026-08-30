@@ -30,10 +30,11 @@ uniquegenelist <- function(genelist,ndups=2,spacing=1) {
 		return(genelist[i,,drop=FALSE])
 }
 
-duplicateCorrelation <- function(object,design=NULL,ndups=2L,spacing=1L,block=NULL,trim=0.15,weights=NULL)
+duplicateCorrelation <- function(object,design=NULL,ndups=2L,spacing=1L,block=NULL,trim=0.15,weights=NULL,nthreads=1L)
 #	Estimate the correlation between duplicates given a series of arrays
 #	Gordon Smyth
-#	25 Apr 2002. Last revised 16 Feb 2021.
+#	C implement and parallel support by Lizhong Chen
+#	25 Apr 2002. Last revised 18 June 2026.
 {
 #	Extract components from y
 	y <- getEAWP(object)
@@ -108,26 +109,9 @@ duplicateCorrelation <- function(object,design=NULL,ndups=2L,spacing=1L,block=NU
 	}
 
 #	Compute genewise correlations
-	rho <- rep_len(NA_real_,ngenes)
-	nafun <- function(e) NA
-	for (i in 1:ngenes) {
-		y <- drop(M[i,])
-		o <- is.finite(y)
-		A <- factor(Array[o])
-		nobs <- sum(o)
-		nblocks <- length(levels(A))
-		if(nobs>(nbeta+2L) && nblocks>1L && nblocks<(nobs-1L)) {
-			y <- y[o]
-			X <- design[o,,drop=FALSE]
-			Z <- model.matrix(~0+A)
-			if(!is.null(weights)) {
-				w <- drop(weights[i,])[o]
-				s <- tryCatch(suppressWarnings(mixedModel2Fit(y,X,Z,w,only.varcomp=TRUE,maxit=20)$varcomp),error=nafun)
-			} else
-				s <- tryCatch(suppressWarnings(mixedModel2Fit(y,X,Z,only.varcomp=TRUE,maxit=20)$varcomp),error=nafun)
-			if(!is.na(s[1])) rho[i] <- s[2]/sum(s)
-		}
-	}
+	Array <- as.integer(factor(Array))
+	nblocks <- max(Array)
+	rho <- .Call("dupcorfit",M,design,Array,nblocks,weights,nthreads,PACKAGE="limma")
 
 #	Keep correlations away from limits to ensure correlation matrix is positive-definite
 	rhomax <- 0.99

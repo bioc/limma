@@ -19,7 +19,7 @@ chooseLowessSpan(n=1000, small.n=50, min.span=0.3, power=1/3)
 
 \details{
 The span is the proportion of points used for each of the local regressions.
-When there a few points, a large span should be used to ensure a smooth curve.
+When there are a few points, a large span should be used to ensure a smooth curve.
 When there are a large number of points, smaller spans can be used because each span window still contains good coverage.
 By default, the chosen span decreases as the cube-root of the number of points, a rule that is motivated by analogous rules to choose the number of bins for a histogram (Scott, 1979; Freedman & Diaconis, 1981; Hyndman, 1995).
 
@@ -29,7 +29,7 @@ except that the span is set to 1 for any \code{n} less than \code{small.n}.
 Note that the fitted lowess curve will still estimate a trend (i.e., will not be constant) even if \code{span=1}.
 
 The function is tuned for smoothing of mean-variance trends, for which the trend is usually monotonic, so preference is given to moderately large spans.
-Even for the very large datasets, the span is always greater than \code{min.span}.
+Even for very large datasets, the span is always greater than \code{min.span}.
 
 This function is used to create adaptive spans for \code{voom}, \code{vooma} and \code{voomaLmFit} where \code{n} is the number of genes in the analysis.
 }
@@ -41,13 +41,13 @@ A numeric vector of length 1 containing the span value.
 \author{Gordon Smyth}
 
 \references{
-Freedman, D. and Diaconis, P. (1981). On the histogram as a density estimator: L_2 theory.
+Freedman D, Diaconis P (1981). On the histogram as a density estimator: L_2 theory.
 \emph{Zeitschrift fur Wahrscheinlichkeitstheorie und verwandte Gebiete} 57, 453-476.
 
-Hyndman, R. J. (1995). The problem with Sturges' rule for constructing histograms.
+Hyndman RJ (1995). The problem with Sturges' rule for constructing histograms.
 \url{https://robjhyndman.com/papers/sturges.pdf}.
 
-Scott, D. W. (1979). On optimal and data-based histograms.
+Scott DW (1979). On optimal and data-based histograms.
 \emph{Biometrika} 66, 605-610.
 }
 

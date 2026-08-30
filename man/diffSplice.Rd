@@ -43,7 +43,7 @@ Two different tests are provided.
 The first is a F-test for differences between the log-fold-changes for each gene.
 This is equivalent to testing for interaction between the features for that gene and the coefficient of the linear model.
 The other is a series of t-tests in which each transcript is compared to the weighted average of all other features for the same gene.
-The feature-level t-tests are converted into genewise tests by adjusting the p-values for the same gene by Simes method.
+The feature-level t-tests are converted into genewise tests by adjusting the p-values for the same gene by Simes' method.
 As an alternative, the feature-level t-tests are also converted into genewise tests by adjusting the smallest p-value for each gene by Bonferroni's method.
 
 This function can be used on transcript level RNA-seq counts from RSEM, kallisto, or Salmon, after pre-processing by the edgeR functions \code{catchSalmon()} (or \code{catchKallisto} or \code{catchRSEM}) and \code{voomLmFit()}, as described by Baldoni et al (2025).
@@ -70,7 +70,7 @@ A summary of functions available in LIMMA for RNA-seq analysis is given in \link
 Baldoni PL, Chen L, Li M, Chen Y, Smyth GK (2025).
 Dividing out quantification uncertainty enables assessment of differential transcript usage with limma and edgeR.
 \emph{Nucleic Acids Research} 53(22), gkaf1305.
-\doi{10.1093/nar/gkaf1305}
+\doi{10.1093/nar/gkaf1305}.
 
 Cmero M, Davidson NM, Oshlack A (2019).
 Using equivalence class counts for fast and accurate testing of differential transcript usage.

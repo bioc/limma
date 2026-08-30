@@ -37,7 +37,7 @@ Plot samples on a two-dimensional scatterplot so that distances on the plot appr
 This function uses multidimensional scaling (MDS) to produce a principal coordinate (PCoA) or principal component (PCA) plot showing the relationships between the expression profiles represented by the columns of \code{x}.
 If \code{gene.selection = "common"}, or if the \code{top} is equal to or greater than the number of rows of \code{x}, then a PCA plot is constructed from the \code{top} genes with largest standard deviations across the samples.
 
-If \code{gene.section = "pairwise"} and \code{top} is less than \code{nrow(x)} then a PCoA plot is produced and distances on the plot represent the \emph{leading log2-fold-changes}.
+If \code{gene.selection = "pairwise"} and \code{top} is less than \code{nrow(x)} then a PCoA plot is produced and distances on the plot represent the \emph{leading log2-fold-changes}.
 The leading log-fold-change between a pair of samples is defined as the root-mean-square average of the \code{top} largest log2-fold-changes between those two samples.
 The PCA and PCoA plots produced by \code{gene.selection="common"} and \code{gene.selection="pairwise"}, respectively, use similar distance measures but the PCA plot uses the same genes throughout whereas the PCoA plot potentially selects different genes to distinguish each pair of samples.
 The pairwise choice is the default.
@@ -59,18 +59,18 @@ This is a list containing the following components:
 \item{var.explained}{proportion of variance explained by each dimension}
 \item{distance.matrix.squared}{numeric matrix of squared pairwise distances between columns of \code{x}}
 \item{dim.plot}{dimensions plotted}
-\item{x}{x-xordinates of plotted points}
-\item{y}{y-cordinates of plotted points}
+\item{x}{x-coordinates of plotted points}
+\item{y}{y-coordinates of plotted points}
 \item{gene.selection}{gene selection method}
 }
 
 \author{Di Wu and Gordon Smyth}
 
 \references{
-Ritchie ME, Phipson B, Wu D, Hu Y, Law CW, Shi W, and Smyth GK (2015).
+Ritchie ME, Phipson B, Wu D, Hu Y, Law CW, Shi W, Smyth GK (2015).
 limma powers differential expression analyses for RNA-sequencing and microarray studies.
 \emph{Nucleic Acids Research} 43, e47.
-\url{http://nar.oxfordjournals.org/content/43/7/e47}
+\doi{10.1093/nar/gkv007}.
 }
 
 \seealso{

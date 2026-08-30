@@ -21,10 +21,12 @@ qqf(y, df1, df2, ylim=range(y), main= "F Distribution Q-Q Plot",
 \item{\dots}{other arguments to be passed to \code{plot}}
 }
 \value{A list is invisibly returned containing the values plotted in the QQ-plot:
-\item{x}{theoretical quantiles of the t-distribution or F-distribution}
+
+\item{x}{theoretical quantiles of the t-distribution or F-distribution}
 \item{y}{the data sample, same as input \code{y}}
 }
-\details{
+
+\details{
 This function is analogous to \code{qqnorm} for normal probability plots.
 In fact \code{qqt(y,df=Inf)} is identical to \code{qqnorm(y)} in all respects except the default title on the plot.
 }

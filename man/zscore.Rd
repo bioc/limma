@@ -17,7 +17,7 @@ zscoreHyper(q, m, n, k)
 
 \arguments{
   \item{q}{numeric vector or matrix giving deviates of a random variable}
-  \item{distribution}{character name of probabability distribution for which a cumulative distribution function exists}
+  \item{distribution}{character name of a probability distribution for which a cumulative distribution function exists}
   \item{\ldots}{other arguments specify distributional parameters and are passed to the cumulative distribution function}
   \item{shape}{gamma shape parameter (>0)}
   \item{rate}{gamma rate parameter (>0)}

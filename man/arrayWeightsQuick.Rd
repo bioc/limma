@@ -21,15 +21,15 @@ This is a quick and dirty version of \code{\link{arrayWeights}}.
 Numeric vector of weights of length \code{ncol(fit)}.
 }
 \references{
-Ritchie, M. E., Diyagama, D., Neilson, van Laar, R., J., Dobrovic, A., Holloway, A., and Smyth, G. K. (2006).
+Ritchie ME, Diyagama D, Neilson J, van Laar R, Dobrovic A, Holloway A, Smyth GK (2006).
 Empirical array quality weights in the analysis of microarray data.
 BMC Bioinformatics 7, 261.
-\doi{10.1186/1471-2105-7-261}
+\doi{10.1186/1471-2105-7-261}.
 }
 \author{Gordon Smyth}
 \seealso{
 See \link{arrayWeights}.
-An overview of LIMMA functions for reading data is given in \link{03.ReadingData}.
+An overview of linear model functions in limma is given by \link{06.LinearModels}.
 }
 \examples{
 \dontrun{

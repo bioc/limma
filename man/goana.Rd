@@ -37,7 +37,7 @@ getKEGGPathwayNames(species.KEGG = NULL, remove.qualifier = FALSE)
   \item{species}{character string specifying the species.
   Possible values include \code{"Hs"} (human), \code{"Mm"} (mouse), \code{"Rn"} (rat), \code{"Dm"} (fly) or \code{"Pt"} (chimpanzee), but other values are possible if the corresponding organism package is available.
   See \code{\link{alias2Symbol}} for other possible values.
-  Ignored if \code{species.KEGG} or is not \code{NULL} or if \code{gene.pathway} and \code{pathway.names} are not \code{NULL}.}
+  Ignored if \code{species.KEGG} is not \code{NULL} or if \code{gene.pathway} and \code{pathway.names} are not \code{NULL}.}
 
   \item{species.KEGG}{three-letter KEGG species identifier. See \url{https://www.kegg.jp/kegg/catalog/org_list.html} or \url{https://rest.kegg.jp/list/organism} for possible values.
   Alternatively, if \code{de} contains KEGG ortholog Ids (\code{"k00001"} etc) instead of gene Ids, then set \code{species.KEGG="ko"}.
@@ -89,7 +89,7 @@ See \code{\link{alias2Symbol}} for other possible values for \code{species}.
 
 \code{kegga} reads KEGG pathway annotation from the KEGG website.
 For \code{kegga}, the species name can be provided in either Bioconductor or KEGG format.
-Examples of KEGG format are \code{"hsa"} for human, \code{"mmu"} for mouse of \code{"dme"} for fly.
+Examples of KEGG format are \code{"hsa"} for human, \code{"mmu"} for mouse or \code{"dme"} for fly.
 \code{kegga} can be used for any species supported by KEGG, of which there are more than 14,000 possibilities.
 By default, \code{kegga} obtains the KEGG annotation for the specified species from the \url{https://rest.kegg.jp} website using \code{getGeneKEGGLinks} and \code{getKEGGPathwayNames}.
 Alternatively one can supply the required pathway annotation to \code{kegga} in the form of two data.frames.
@@ -132,7 +132,7 @@ The trend is estimated by the \code{\link{goanaTrend}} function.
 \code{kegga} requires an internet connection unless \code{gene.pathway} and \code{pathway.names} are both supplied.
 
 The default for \code{kegga} with \code{species="Dm"} changed from \code{convert=TRUE} to \code{convert=FALSE} in limma 3.27.8.
-Users wanting to use Entrez Gene IDs for Drosophila should set \code{convert=TRUE}, otherwise fly-base CG annotation symbol IDs are assumed (for example "Dme1_CG4637").
+Users wanting to use Entrez Gene IDs for Drosophila should set \code{convert=TRUE}, otherwise FlyBase CG annotation symbol IDs are assumed (for example "Dme1_CG4637").
 
 The default for \code{restrict.universe=TRUE} in \code{kegga} changed from \code{TRUE} to \code{FALSE} in limma 3.33.4.
 
@@ -172,7 +172,7 @@ The output from \code{kegga} is the same except that row names become KEGG pathw
 }
 
 \seealso{
-\code{\link{topGO}}, \code{\link{topKEGG}}, \code{\link{goana}}
+\code{\link{topGO}}, \code{\link{topKEGG}}, \code{\link{goanaTrend}}
 
 The goseq package provides an alternative implementation of methods from Young et al (2010).
 Unlike the limma functions documented here, goseq will work with a variety of gene identifiers and includes a database of gene length information for various species.

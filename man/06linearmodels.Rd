@@ -15,7 +15,7 @@ See the LIMMA User's Guide for several case studies.
 \section{Fitting Models}{
 
 The main function for model fitting is \code{\link{lmFit}}.
-This is recommended interface for most users.
+This is the recommended interface for most users.
 \code{lmFit} produces a fitted model object of class \code{\link[limma:marraylm]{MArrayLM}} containing coefficients, standard errors and residual standard errors for each gene.
 \code{lmFit} calls one of the following three functions to do the actual computations:
 
@@ -31,7 +31,7 @@ This is recommended interface for most users.
 	The function \code{\link{duplicateCorrelation}} is used to estimate the inter-duplicate or inter-block correlation before using \code{gls.series}.}
 }
 
-All the functions which fit linear models use \code{link{getEAW}} to extract data from microarray data objects, and \code{\link{unwrapdups}} which provides an unified method for handling duplicate spots.
+All the functions which fit linear models use \code{\link{getEAWP}} to extract data from microarray data objects, and \code{\link{unwrapdups}} which provides a unified method for handling duplicate spots.
 }
 
 \section{Forming the Design Matrix}{
@@ -49,7 +49,7 @@ For direct two-color designs, without a common reference, the design matrix ofte
 
 Once a linear model has been fit using an appropriate design matrix, the command \code{\link{makeContrasts}} may be used to form a contrast matrix to make comparisons of interest.
 The fit and the contrast matrix are used by \code{\link{contrasts.fit}} to compute fold changes and t-statistics for the contrasts of interest.
-This is a way to compute all possible pairwise comparisons between treatments for example in an experiment which compares many treatments to a common reference.
+This is a way to compute all possible pairwise comparisons between treatments, for example, in an experiment which compares many treatments to a common reference.
 }
 
 \section{Assessing Differential Expression}{
@@ -83,7 +83,7 @@ After the above steps the results may be displayed or further processed using:
 	Estimates and plots biological correlation between two coefficients.}
 
 \item{ \code{\link{write.fit}} }{
-	Writes an \code{MarrayLM} object to a file.
+	Writes an \code{MArrayLM} object to a file.
 	Note that if \code{fit} is an \code{MArrayLM} object, either \code{write.fit} or \code{write.table} can be used to write the results to a delimited text file.}
 }
 For multiple testing functions which operate on linear model fits, see \link{08.Tests}.
@@ -95,18 +95,18 @@ For multiple testing functions which operate on linear model fits, see \link{08.
 
 \author{Gordon Smyth}
 \references{
-Phipson, B, Lee, S, Majewski, IJ, Alexander, WS, and Smyth, GK (2016).
+Phipson B, Lee S, Majewski IJ, Alexander WS, Smyth GK (2016).
 Robust hyperparameter estimation protects against hypervariable genes and improves power to detect differential expression.
 \emph{Annals of Applied Statistics} 10(2), 946-963.
-\doi{10.1214/16-AOAS920}
+\doi{10.1214/16-AOAS920}.
 
-Smyth, G. K. (2004). Linear models and empirical Bayes methods for assessing differential expression in microarray experiments.
-\emph{Statistical Applications in Genetics and Molecular Biology}, \bold{3}(1), Article 3.
+Smyth GK (2004). Linear models and empirical Bayes methods for assessing differential expression in microarray experiments.
+\emph{Statistical Applications in Genetics and Molecular Biology}, 3(1), Article 3.
 \doi{10.2202/1544-6115.1027}.
 See also the preprint version \url{https://gksmyth.github.io/pubs/ebayes.pdf} with corrections.
 
-Smyth, G. K., Michaud, J., and Scott, H. (2005). The use of within-array replicate spots for assessing differential expression in microarray experiments. \emph{Bioinformatics} 21(9), 2067-2075.
-\doi{10.1093/bioinformatics/bti270}
+Smyth GK, Michaud J, Scott H (2005). The use of within-array replicate spots for assessing differential expression in microarray experiments. \emph{Bioinformatics} 21(9), 2067-2075.
+\doi{10.1093/bioinformatics/bti270}.
 }
 
 \seealso{

@@ -21,7 +21,7 @@ plotRLDF(y, design = NULL, z = NULL, nprobes = 100, plot = TRUE,
  \item{labels.y}{character vector of sample names or labels in \code{y}. Defaults to \code{colnames(y)} or failing that to \code{1:n}.}
  \item{labels.z}{character vector of sample names or labels in \code{z}. Defaults to \code{colnames(z)} or failing that to \code{letters[1:n]}.}
  \item{pch.y}{plotting symbol or symbols for \code{y}. See \code{\link{points}} for possible values. Takes precedence over \code{labels.y} if both are specified.}
- \item{pch.z}{plotting symbol or symbols for \code{y}. See \code{\link{points}} for possible values. Takes precedence over \code{labels.z} if both are specified.}
+ \item{pch.z}{plotting symbol or symbols for \code{z}. See \code{\link{points}} for possible values. Takes precedence over \code{labels.z} if both are specified.}
  \item{col.y}{colors for the plotting \code{labels.y}.}
  \item{col.z}{colors for the plotting \code{labels.z}.}
  \item{show.dimensions}{integer vector of length two indicating which two discriminant functions to plot. Functions are in decreasing order of discriminatory power.}
@@ -35,7 +35,7 @@ plotRLDF(y, design = NULL, z = NULL, nprobes = 100, plot = TRUE,
 
 \details{
 The function builds discriminant functions from the training data (\code{y}) and applies them to the test data (\code{z}).
-The method is a variation on classifical linear discriminant functions (LDFs), in that the within-group covariance matrix is regularized to ensure that it is invertible, with eigenvalues bounded away from zero.
+The method is a variation on classical linear discriminant functions (LDFs), in that the within-group covariance matrix is regularized to ensure that it is invertible, with eigenvalues bounded away from zero.
 The within-group covariance matrix is squeezed towards a diagonal matrix with empirical Bayes posterior variances as diagonal elements.
 
 The calculations are based on a filtered list of probes.
@@ -54,10 +54,10 @@ Now the default is to estimate them using \code{squeezeVar}.
 If \code{plot=TRUE} a plot is created on the current graphics device.
 A list containing the following components is (invisibly) returned:
   \item{training}{numeric matrix with \code{ncol(y)} rows and \code{ndim} columns containing discriminant functions evaluated for the training data.}
-  \item{predicting}{numeric matrix with \code{ncol(z)} rows and \code{ndim} columns containing discriminant functions evalulated on the classification data.}
+  \item{predicting}{numeric matrix with \code{ncol(z)} rows and \code{ndim} columns containing discriminant functions evaluated on the classification data.}
   \item{top}{integer vector of length \code{nprobes} giving indices of probes used.}
   \item{metagenes}{numeric matrix with \code{nprobes} rows and \code{ndim} columns containing probe weights defining each discriminant function.}
-  \item{singular.values}{singular.values showing the predictive power of each discriminant function.}
+  \item{singular.values}{numeric vector of singular values showing the predictive power of each discriminant function.}
   \item{rank}{maximum number of discriminant functions with singular.values greater than zero.}
   \item{var.prior}{numeric vector of prior variances.}
   \item{df.prior}{numeric vector of prior degrees of freedom.}

@@ -14,7 +14,7 @@ designI2A(design)
 }
 
 \details{
-If \code{design} is a model matrix suitable for modelling individual log-intensities for two color microarray data, then \code{designI2M} computes the corresponding model matrix for modelling M-values (log-ratios) and \code{designI2A} computes the model matrix for modelling A-values (average log-intensities).
+If \code{design} is a model matrix suitable for modeling individual log-intensities for two color microarray data, then \code{designI2M} computes the corresponding model matrix for modeling M-values (log-ratios) and \code{designI2A} computes the model matrix for modeling A-values (average log-intensities).
 
 Note that the matrices \code{designI2M(design)} or \code{designI2A(design)} may be singular if not all of the coefficients are estimable from the M or A-values.
 In that case there will be columns containing entirely zeros.

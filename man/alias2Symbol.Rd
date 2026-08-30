@@ -24,12 +24,12 @@ alias2SymbolUsingNCBI(alias, gene.info.file,
   \item{required.columns}{character vector of columns from the gene information file that are required in the output.}
 }
 \details{
-Aliases are mapped via NCBI Entrez Gene identity numbers using Bioconductor organism packages.
+Aliases are mapped via NCBI Entrez Gene ID numbers using Bioconductor organism packages.
 
 \code{alias2Symbol} maps a set of aliases to a set of symbols, without necessarily preserving order.
 The output vector may be longer or shorter than the original vector, because some aliases might not be found and some aliases may map to more than one symbol.
 
-\code{alias2SymbolTable} returns of vector of the same length as the vector of aliases.
+\code{alias2SymbolTable} returns a vector of the same length as the vector of aliases.
 If an alias maps to more than one symbol, then the one with the lowest Entrez ID number is returned.
 If an alias can't be mapped, then \code{NA} is returned.
 

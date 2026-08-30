@@ -16,8 +16,8 @@ ids2indices(gene.sets, identifiers, remove.empty=TRUE)
 list of integer vectors, each vector containing the indices of a gene set in the vector \code{identifiers}.
 }
 \details{
-This function used to create input for \code{romer}, \code{mroast} and \code{camera} function.
-Typically, \code{identifiers} is the vector of Entrez Gene IDs, and \code{gene.sets} is obtained constructed from a database of gene sets, 
+This function is used to create input for the \code{romer}, \code{mroast} and \code{camera} functions.
+Typically, \code{identifiers} is the vector of Entrez Gene IDs, and \code{gene.sets} is obtained from a database of gene sets,
 for example a representation of the Molecular Signatures Database (MSigDB) downloaded from \url{https://bioinf.wehi.edu.au/software/MSigDB/}.
 }
 

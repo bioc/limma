@@ -11,7 +11,7 @@ The \code{printer} component of an \code{RGList} or \code{MAList} object is of t
 }
 
 \section{Slots/List Components}{
-Objects of this class contains no slots but should contain the following list components:
+Objects of this class contain no slots but should contain the following list components:
 \tabular{ll}{
   \code{ngrid.r}:\tab number of grid rows on the arrays\cr
   \code{ngrid.c}:\tab number of grid columns on the arrays\cr

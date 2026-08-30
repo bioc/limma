@@ -13,8 +13,8 @@ predFCm(fit, coef=2, var.indep.of.fc=TRUE, all.de=TRUE, prop.true.null.method="l
  \item{fit}{an \code{MArrayLM} fitted model object produced by \code{lmFit} and \code{eBayes}}
  \item{coef}{integer vector indicating which columns in the fit object are to be shrunk}
  \item{var.indep.of.fc}{assume the genewise variances are independent of genewise fold changes?}
- \item{all.de}{assume all genes are have a non-zero true fold change (\code{TRUE})?
- If \code{FALSE}, then the proportion of truly non-differentially (non-DE) genes expressed will be estimated.}
+ \item{all.de}{assume all genes have a non-zero true fold change (\code{TRUE})?
+ If \code{FALSE}, then the proportion of truly non-differentially expressed (non-DE) genes will be estimated.}
  \item{prop.true.null.method}{method used to estimate proportion of truly non-DE genes. See \code{\link{propTrueNull}} for possible values.}
 }
 
@@ -39,7 +39,7 @@ The proportion of non-DE genes is estimated and taken into account in the calcul
 \author{Belinda Phipson and Gordon Smyth}
 
 \references{
-Phipson, B. (2013).
+Phipson B (2013).
 \emph{Empirical Bayes modelling of expression profiles and their associations}.
 PhD Thesis. University of Melbourne, Australia.
 \url{http://hdl.handle.net/11343/38162}

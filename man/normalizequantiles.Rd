@@ -10,7 +10,7 @@ normalizeQuantiles(A, ties=TRUE)
 }
 \arguments{
   \item{A}{numeric matrix. Missing values are allowed.}
-  \item{ties}{logical. If \code{TRUE}, ties in each column of \code{A} are treated in careful way. tied values will be normalized to the mean of the corresponding pooled quantiles.}
+  \item{ties}{logical. If \code{TRUE}, ties in each column of \code{A} are treated in a careful way. Tied values will be normalized to the mean of the corresponding pooled quantiles.}
 }
 \details{
 This function is intended to normalize single channel or A-value microarray intensities between arrays.
@@ -25,7 +25,7 @@ If \code{ties=TRUE}, all the tied values for that array will be normalized to th
 A matrix of the same dimensions as \code{A} containing the normalized values.
 }
 \references{
-Bolstad, B. M., Irizarry R. A., Astrand, M., and Speed, T. P. (2003), A comparison of normalization methods for high density oligonucleotide array data based on bias and variance. \emph{Bioinformatics} \bold{19}, 185-193.
+Bolstad BM, Irizarry RA, Astrand M, Speed TP (2003), A comparison of normalization methods for high density oligonucleotide array data based on bias and variance. \emph{Bioinformatics} 19, 185-193.
 }
 \author{Gordon Smyth}
 \seealso{

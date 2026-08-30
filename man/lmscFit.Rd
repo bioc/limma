@@ -32,15 +32,15 @@ An overview of methods for single channel analysis in limma is given by \link{07
 }
 
 \references{
-Smyth, GK (2005). Individual channel analysis of two-colour microarray data.
+Smyth GK (2005). Individual channel analysis of two-colour microarray data.
 \emph{Proceedings of the 55th Session of the International Statistics Institute}, 5-12 April 2005, Sydney, Australia;
-Internatational Statistics Institute; Paper 116.
+International Statistics Institute; Paper 116.
 \url{https://gksmyth.github.io/pubs/ISI2005-116.pdf}
 
-Smyth, GK, and Altman, NS (2013).
+Smyth GK, Altman NS (2013).
 Separate-channel analysis of two-channel microarrays: recovering inter-spot information.
 \emph{BMC Bioinformatics} 14, 165.
-\doi{10.1186/1471-2105-14-165}
+\doi{10.1186/1471-2105-14-165}.
 }
 
 \examples{

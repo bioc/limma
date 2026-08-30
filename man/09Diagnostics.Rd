@@ -20,7 +20,7 @@ Produces a spatial picture of any spot-specific measure from an array image. If 
 \code{\link{imageplot3by2}} will write imageplots to files, six plots to a page.}
 
 \item{ \code{\link{plotFB}} }{
-Plots foreground versus background log-intensies.}
+Plots foreground versus background log-intensities.}
 
 \item{ \code{\link{plotMD}} }{
 Mean-difference plots.

@@ -17,7 +17,7 @@ getSpacing(spacing, layout)
 \code{"rows"} means that duplicate spots are printed side-by-side by rows.
 These will be recorded in consecutive rows in the data object.
 
-\code{"columns"} means that duplicate spots are printed side-by-sidy by columns.
+\code{"columns"} means that duplicate spots are printed side-by-side by columns.
 These will be separated in the data object by \code{layout$nspot.r} rows.
 
 \code{"subarrays"} means that a number of sub-arrays, with identical probes in the same arrangement, are printed on each array.

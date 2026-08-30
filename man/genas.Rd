@@ -16,7 +16,7 @@ genas(fit, coef=c(1,2), subset="all", plot=FALSE, alpha=0.4)
        Choices are \code{"all"}, \code{"Fpval"}, \code{"p.union"}, \code{"p.int"}, \code{"logFC"} or \code{"predFC"}.}
  \item{plot}{logical, should a scatterplot be produced summarizing the correlation analysis?}
  \item{alpha}{numeric value between 0 and 1 determining the transparency of the technical and biological ellipses if a plot is produced.
- \code{alpha=0} indicates fully transparent and \code{alpha=1} indicates fully opague.}
+ \code{alpha=0} indicates fully transparent and \code{alpha=1} indicates fully opaque.}
 }
 
 \details{
@@ -28,14 +28,14 @@ This function aims to separate the biological from the technical components of t
 The method is explained briefly in Majewski et al (2010) and in full detail in Phipson (2013).
 
 The \code{subset} argument specifies whether and how the fit object should be subsetted.
-Ideally, only genes that are truly differentially expressed for one or both of the contrasts should be used estimate the biological correlation.
+Ideally, only genes that are truly differentially expressed for one or both of the contrasts should be used to estimate the biological correlation.
 The default is \code{"all"}, which uses all genes in the fit object to estimate the biological correlation.
 The option \code{"Fpval"} chooses genes based on how many F-test p-values are estimated to be truly significant using the function \code{propTrueNull}.
 This should capture genes that display any evidence of differential expression in either of the two contrasts.
 The options \code{"p.union"} and \code{"p.int"} are based on the moderated t p-values from both contrasts.
 From the \code{propTrueNull} function an estimate of the number of p-values truly significant in either of the two contrasts can be obtained.
 "p.union" takes the union of these genes and \code{"p.int"} takes the intersection of these genes.
-The other options, \code{"logFC"} and \code{"predFC"} subsets on genes that attain a logFC or predFC at least as large as the 90th percentile of the log fold changes or predictive log fold changes on the absolute scale. 
+The other options, \code{"logFC"} and \code{"predFC"}, subset on genes that attain a logFC or predFC at least as large as the 90th percentile of the log fold changes or predictive log fold changes on the absolute scale.
 
 The \code{plot} option is a logical argument that specifies whether or not to plot a scatter plot of log-fold-changes for the two contrasts.
 The biological and technical correlations are overlaid on the scatterplot using semi-transparent ellipses.
@@ -43,7 +43,7 @@ The biological and technical correlations are overlaid on the scatterplot using 
 }
 
 \note{
-As present, \code{genas} assumes that technical correlations between coefficients are the same for all genes, and hence it only works with fit objects that were created without observation weights or missing values.
+At present, \code{genas} assumes that technical correlations between coefficients are the same for all genes, and hence it only works with fit objects that were created without observation weights or missing values.
 It does not work with \code{voom} pipelines, because these involve observation weights.
 }
 
@@ -63,20 +63,20 @@ It does not work with \code{voom} pipelines, because these involve observation w
 \author{Belinda Phipson and Gordon Smyth}
 
 \references{
-Majewski, IJ, Ritchie, ME, Phipson, B, Corbin, J, Pakusch, M, Ebert, A, Busslinger, M, Koseki, H, Hu, Y, Smyth, GK, Alexander, WS, Hilton, DJ, and Blewitt, ME (2010).
+Majewski IJ, Ritchie ME, Phipson B, Corbin J, Pakusch M, Ebert A, Busslinger M, Koseki H, Hu Y, Smyth GK, Alexander WS, Hilton DJ, Blewitt ME (2010).
 Opposing roles of polycomb repressive complexes in hematopoietic stem and progenitor cells.
 \emph{Blood} 116, 731-739.
-\url{http://www.bloodjournal.org/content/116/5/731}
+\doi{10.1182/blood-2009-12-260760}.
 
-Phipson, B. (2013).
+Phipson B (2013).
 \emph{Empirical Bayes modelling of expression profiles and their associations}.
 PhD Thesis. University of Melbourne, Australia.
 \url{http://hdl.handle.net/11343/38162}
 
-Ritchie, ME, Phipson, B, Wu, D, Hu, Y, Law, CW, Shi, W, and Smyth, GK (2015).
+Ritchie ME, Phipson B, Wu D, Hu Y, Law CW, Shi W, Smyth GK (2015).
 limma powers differential expression analyses for RNA-sequencing and microarray studies.
 \emph{Nucleic Acids Research} 43, e47.
-\url{http://nar.oxfordjournals.org/content/43/7/e47}
+\doi{10.1093/nar/gkv007}.
 }
 
 \examples{

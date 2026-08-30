@@ -5,8 +5,8 @@
 Estimate the intra-block correlation given a block structure for the arrays or samples.
 }
 \usage{
-duplicateCorrelation(object, design=NULL, ndups=2, spacing=1, block=NULL,
-                     trim=0.15, weights=NULL)
+duplicateCorrelation(object, design=NULL, ndups=2L, spacing=1L, block=NULL,
+                     trim=0.15, weights=NULL, nthreads=1L)
 }
 \arguments{
   \item{object}{A matrix-like data object containing log-ratios or log-expression values for a series of samples, with rows corresponding to genes and columns to samples.
@@ -18,6 +18,7 @@ duplicateCorrelation(object, design=NULL, ndups=2, spacing=1, block=NULL,
   \item{block}{vector or factor specifying a blocking variable}
   \item{trim}{the fraction of observations to be trimmed from each end of \code{tanh(all.correlations)} when computing the trimmed mean.}
   \item{weights}{an optional numeric matrix of the same dimension as \code{object} containing weights for each spot. If smaller than \code{object} then it will be filled out to the same size.}
+  \item{nthreads}{positive integer giving the number of OpenMP threads used for genewise correlation estimation. Defaults to 1. Builds without OpenMP run serially.}
 }
 \value{
   A list with components
@@ -37,20 +38,20 @@ If \code{block} is not null, then the function will set \code{ndups=1}, which is
 
 For this function to return statistically useful results, there must be at least two more arrays than the number of coefficients to be estimated, i.e., two more than the column rank of \code{design}.
 
-The function may take long time to execute as it fits a mixed linear model for each gene using an iterative algorithm.
+The function may take a long time to execute as it fits a mixed linear model for each gene using an iterative algorithm.
 
 If present, \code{ndups} and \code{spacing} will be extracted from \code{object$printer$ndups} and \code{object$printer$spacing}.
 }
 \seealso{
-These functions use \code{\link[statmod:mixedmodel]{mixedModel2Fit}} from the statmod package.
+The two-component mixed linear models are fitted by native C code.
 
 An overview of linear model functions in limma is given by \link{06.LinearModels}.
 }
 \author{Gordon Smyth}
 \references{
-Smyth, G. K., Michaud, J., and Scott, H. (2005). The use of within-array replicate spots for assessing differential expression in microarray experiments. \emph{Bioinformatics} 21(9), 2067-2075.
-[\url{http://bioinformatics.oxfordjournals.org/content/21/9/2067}]
-[Preprint with corrections: \url{https://gksmyth.github.io/pubs/dupcor.pdf}]
+Smyth GK, Michaud J, Scott H (2005). The use of within-array replicate spots for assessing differential expression in microarray experiments. \emph{Bioinformatics} 21(9), 2067-2075.
+\doi{10.1093/bioinformatics/bti270}.
+See also the preprint with corrections: \url{https://gksmyth.github.io/pubs/dupcor.pdf}.
 }
 
 \examples{

@@ -3,8 +3,96 @@
 \encoding{UTF-8}
 
 
-\section{version 3.68.0 (2026-04-28)}{\itemize{
+\section{version 4.0.0 (2026-10-30)}{\itemize{
+  \item
+  voomLmFit() transferred to limma from the edgeR package.
+  Previously, voomLmFit() needed to call edgeR::glmFit() in order to
+  identify exact zero fitted values, but voomLmFit() now calls a
+  new limma C routine `poisfit` for the same purpose, removing the
+  dependence on edgeR.
 
+  \item
+  For the purpose of estimating sample weights, voomLmFit() calls
+  arrayWeights() with `method="reml"` if there is no loss of df due to
+  exact zero fitted values and `method="genebygene"` otherwise.
+
+  \item
+  The voomLmFit help page has been expanded, while the voom and
+  voomWithQualityWeights help pages now have preambles that point
+  users to voomLmFit.
+
+  \item
+  voomLmFit() now gives priority to `offset` over `offset.prior` or
+  `lib.size` and no longer forces the rows of `offset.prior` to add
+  to zero.
+
+  \item
+  New argument `contrasts` for voomLmFit(), lmFit(), lm.series() and
+  gls.series(), which converts coefficient estimates and standard
+  deviations into contrast estimates and standard deviations. This
+  argument provides the  same functionality as calling `contrasts.fit`
+  on the output object, but with exact rather than approximate
+  standard deviations.
+
+  \item
+  New argument `nthreads` for voomLmFit(), lmFit(), lm.series(),
+  gls.series(), duplicateCorrelation(), and
+  arrayWeights() to enable OpenMP parallelization of genewise fits.
+
+  \item
+  C code backends for lm.series() and gls.series().
+
+  \item
+  C code backend for duplicateCorrelation(). duplicateCorrelation()
+  previously called statmod::mixedModel2() to estimate genewise
+  correlations, but this functionality is now absorbed into the C
+  code. The new code is able to evaluate the genewise SVDs needed by
+  mixedModel2() more efficiently than was possible for the univariate
+  R function, resulting in substantial speed and memory improvements.
+
+  \item
+  C code backend for .arrayWeightsPrWtsREML(), which is called by
+  arrayWeights() when `method="reml"` and prior weights
+  are set.
+
+  \item
+  Minor changes to weightedLowess() C code
+  to fit in with the new C code elsewhere.
+
+  \item
+  New function normalizeBetweenSamples(). Similar to
+  normalizeBetweenArrays() but works on ELists.
+
+  \item
+  avearrays() methods for EList and MAList objects now sum the weights
+  instead of averaging them. Other matrices are still averaged.
+
+  \item
+  Fix filtering error in Agilent rat case study in User's Guide.
+
+  \item
+  All the Rd pages have been checked for typos and inconsistent
+  formating, especially regarding the reference lists. Reference URLs
+  converted to DOIs where possible and some new DOIs added.
+  Old statsci.org/smyth/pubs preprint URLs updated to 
+  gksmyth.github.io/pubs URLs.
+  Author lists converted to compact PubMed style without unnecessary
+  punctuation. A few instances of British spellings converted to
+  American spellings.
+
+  \item
+  Expand changelog.txt entries for limma 1.0 and earlier.
+
+  \item
+  Minor code update to strsplit2().
+
+  \item
+  Add test files dupcor.R, gls-series-c.R, lmfit-contrasts.R,
+  lm-series-c.R, and voomlmfit-contrasts.R.
+}}
+
+
+\section{version 3.68.0 (2026-04-28)}{\itemize{
   \item
   New arguments `offset` and `offset.prior` for voom(). voom() now
   supports offsets in DGEList objects.
@@ -21,12 +109,10 @@
   \item
   The function topTableF(), which has been deprecated for many years,
   is now formally removed.
-
 }}
 
 
 \section{version 3.66.0 (2025-10-28)}{\itemize{
-
   \item
   New argument `upshot` for treat().
 
@@ -87,7 +173,6 @@
 
 
 \section{version 3.64.0 (2025-04-16)}{\itemize{
-
   \item
   In topSplice(), the default for `test` is now "F" instead of
   "simes".
@@ -149,12 +234,10 @@
   \item
   Edit voomaLmFit() help page. Add Li (2024) PhD Thesis as
   reference.
-
 }}
 
 
 \section{version 3.62.0 (2024-10-30)}{\itemize{
-
   \item
   New function fitFDistUnequalDF1() for improved empirical Bayes
   hyperparameter estimation. The new function is an alternative to
@@ -227,7 +310,6 @@
 
 
 \section{version 3.60.0 (2024-05-01)}{\itemize{
-
   \item
   The default settings for the `small.n` and `min.span` arguments of
   chooseLowessSpan() have been increased, increasing the chosen span
@@ -279,12 +361,10 @@
   \item
   Add Charity Law, Goknur Giner and Mengbo Li to author list in
   package description.
-
 }}
 
 
 \section{version 3.58.0 (2023-10-2That's correct 5)}{\itemize{
-
   \item
   New argument `covariate` for vooma() that allows the variance
   trend to depend on an extra covariate in addition to average
@@ -319,12 +399,10 @@
   Non-user-visible changes:
   limma now imports statmod rather than suggesting it.
   BiocStyle has been added to the Suggests field of DESCRIPTION.
-
 }}
 
 
 \section{version 3.56.0 (2023-04-25)}{\itemize{
-
   \item
   Rename readSampleInfoFromGEO() to sampleInfoFromGEO().
 
@@ -352,12 +430,10 @@
 
   \item
   Convert CITATION to use the newer bibentry() instead of citEntry().
-
 }}
 
 
 \section{version 3.54.0 (2022-11-02)}{\itemize{
-
   \item
   New function goanaTrend() to estimate a covariate-dependent trend in
   the probability of differential expression for use in goana() and
@@ -393,12 +469,10 @@
 
   \item
   Update references listed on help pages to use DOIs instead of URLs.
-
 }}
 
 
 \section{version 3.52.0 (2022-04-27)}{\itemize{
-
   \item
   New function readSampleInfoFromGEO().
 
@@ -414,12 +488,10 @@
   \item
   Improve checking for incorrectly specified `contrasts` argument in
   contrasts.fit().
-
 }}
 
 
 \section{version 3.50.0 (2021-04-27)}{\itemize{
-
   \item
   Improve help pages for fry() and barcodeplot().
 
@@ -433,7 +505,6 @@
 
   \item
   Fix bug in read.idat() when `annotation` contains NA values.
-
 }}
 
 

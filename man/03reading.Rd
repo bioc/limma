@@ -17,13 +17,13 @@ This is done using the function \code{\link{read.maimages}}.
 \code{\link{read.maimages}} optionally constructs quality weights for each spot using quality functions listed in \link{QualityWeights}.
 
 If the data is two-color, then \code{read.maimages} produces an \code{RGList} object.
-If the data is one-color (single channel) then an \code{EListRaw} object is produced.
+If the data is one-color (single channel), then an \code{EListRaw} object is produced.
 In either case, \code{read.maimages} stores only the information required from each image analysis output file.
 \code{\link{read.maimages}} uses utility functions \code{\link{removeExt}}, \code{\link{read.imagene}} and \code{\link{read.columns}}.
 There are also a series of utility functions which read the header information from image output files including \code{\link{readGPRHeader}}, \code{\link{readImaGeneHeader}} and \code{\link{readGenericHeader}}.
 
 \code{\link{read.ilmn}} reads probe or gene summary profile files from Illumina BeadChips,
-and produces an \code{ElistRaw} object.
+and produces an \code{EListRaw} object.
 
 \code{\link{read.idat}} reads Illumina files in IDAT format, and produces an \code{EListRaw} object.
 \code{\link{detectionPValues}} can be used to add detection p-values.
@@ -43,10 +43,10 @@ The functions \code{\link{gridr}}, \code{\link{gridc}}, \code{\link{spotr}} and 
 The function \code{\link{printorder}} calculates the printorder, plate number and plate row and column position for each spot given information about the printing process.
 The utility function \code{\link{getSpacing}} converts character strings specifying spacings of duplicate spots to numeric values.
 
-The Australian Genome Research Facility in Australia often produces GAL files with composite probe IDs or names consisting of multiple strings separated by a delimiter.
+The Australian Genome Research Facility often produces GAL files with composite probe IDs or names consisting of multiple strings separated by a delimiter.
 These can be separated into name and annotation information using \code{\link{strsplit2}}.
 
-If each probe is printed more than once of the arrays in a regular pattern, then \code{\link{uniquegenelist}} will remove duplicate names from the gal-file or gene list.
+If each probe is printed more than once on the arrays in a regular pattern, then \code{\link{uniquegenelist}} will remove duplicate names from the gal-file or gene list.
 }
 
 \section{Identifying Control Spots}{

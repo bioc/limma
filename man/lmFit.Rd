@@ -4,7 +4,7 @@
 \description{Fit linear model for each gene given a series of arrays}
 \usage{
 lmFit(object, design = NULL, ndups = NULL, spacing = NULL, block = NULL, correlation,
-      weights = NULL, method = "ls", \dots)
+      weights = NULL, method = "ls", nthreads = 1L, contrasts = NULL, \dots)
 }
 \arguments{
   \item{object}{A matrix-like data object containing log-ratios or log-expression values for a series of arrays, with rows corresponding to genes and columns to samples.
@@ -17,6 +17,8 @@ lmFit(object, design = NULL, ndups = NULL, spacing = NULL, block = NULL, correla
   \item{correlation}{the inter-duplicate or inter-technical replicate correlation}
   \item{weights}{non-negative precision weights.  Can be a numeric matrix of individual weights of same size as the object expression matrix, or a numeric vector of array weights with length equal to \code{ncol} of the expression matrix, or a numeric vector of gene weights with length equal to \code{nrow} of the expression matrix.}
   \item{method}{fitting method; \code{"ls"} for least squares or \code{"robust"} for robust regression. Note that the \code{block} and \code{correlation} arguments will be ignored if \code{method="robust"}.}
+  \item{nthreads}{positive integer giving the number of OpenMP threads used for genewise least-squares fits. Defaults to 1.}
+  \item{contrasts}{optional numeric matrix with rows corresponding to coefficients (columns of \code{design}) and columns corresponding to contrasts. If non-NULL, the returned fit is in contrast space, equivalent to running \code{\link{contrasts.fit}} on the coefficient fit. When probe-wise \code{weights} or missing values are present, the contrast \code{stdev.unscaled} is computed exactly for each gene from its own weighted model, rather than the shared approximation used by \code{contrasts.fit}. Not supported when \code{method="robust"}.}
   \item{\dots}{other optional arguments to be passed to \code{lm.series}, \code{gls.series} or \code{mrlm}}
 }
 
@@ -29,7 +31,7 @@ The column names of \code{design} are preserved as column names and can be retri
 
 \details{
 This function fits multiple linear models by weighted or generalized least squares.
-It accepts data from a experiment involving a series of microarrays with the same set of probes.
+It accepts data from an experiment involving a series of microarrays with the same set of probes.
 A linear model is fitted to the expression data for each probe.
 The expression data should be log-ratios for two-color array platforms or log-expression values for one-channel platforms.
 (To fit linear models to the individual channels of two-color array data, see \code{\link{lmscFit}}.)
@@ -59,15 +61,19 @@ On the other hand, if any of these are set to a non-NULL value in the function c
 If \code{object} is an \code{PLMset}, then weights are computed as \code{1/pmax(object@se.chip.coefs, 1e-05)^2}.
 If \code{object} is an \code{ExpressionSet} object, then weights are not computed.
 
-The actual linear model computations are done by passing the data to one the lower-level functions \code{lm.series}, \code{gls.series} or \code{mrlm}.
+The actual linear model computations are done by passing the data to one of the lower-level functions \code{lm.series}, \code{gls.series} or \code{mrlm}.
 The function \code{mrlm} is used if \code{method="robust"}.
-If \code{method="ls"}, then \code{gls.series} is used if a correlation structure has been specified, i.e., if \code{ndups>1} or \code{block} is non-null and \code{correlation} is different from zero.
+If \code{method="ls"}, then \code{gls.series} is used if a correlation structure has been specified, i.e., if \code{ndups>1} or \code{block} is non-NULL and \code{correlation} is different from zero.
 If \code{method="ls"} and there is no correlation structure, \code{lm.series} is used.
 If \code{method="robust"} then any correlation structure will be ignored.
+
+If \code{contrasts} is non-NULL, the fit is returned in contrast space, so that \code{lmFit(y, design, contrasts=C)} is a one-step equivalent of \code{contrasts.fit(lmFit(y, design), C)}.
+The returned object has the same format in both cases.
+The only difference arises when probe-wise weights or missing values are present: \code{lmFit} then refits each gene's weighted model and so reports the exact contrast standard deviations \code{stdev.unscaled}, whereas \code{contrasts.fit} applied afterwards uses a shared-correlation approximation.
 }
 
 \seealso{
-\code{lmFit} uses \code{\link{getEAWP}} to extract expression values, gene annotation and so from the data \code{object}.
+\code{lmFit} uses \code{\link{getEAWP}} to extract expression values, gene annotation and so on from the data \code{object}.
 
 An overview of linear model functions in limma is given by \link{06.LinearModels}.
 }
@@ -97,6 +103,12 @@ names(fit)
 # Fold-change thresholding
 fit2 <- treat(fit,lfc=0.1)
 topTreat(fit2,coef=2)
+
+# Fit a contrast directly (equivalent to contrasts.fit)
+contrast.matrix <- makeContrasts(Grp2vs1, levels=design)
+fitc <- lmFit(y,design,contrasts=contrast.matrix)
+fitc <- eBayes(fitc)
+topTable(fitc)
 
 # Volcano plot
 volcanoplot(fit,coef=2,highlight=2)

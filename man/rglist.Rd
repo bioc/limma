@@ -11,7 +11,7 @@ A list-based S4 class for storing red and green channel foreground and backgroun
 
 \section{Slots/List Components}{
 \code{RGList} objects can be created by \code{new("RGList",RG)} where \code{RG} is a list.
-Objects of this class contains no slots (other than \code{.Data}), but objects should contain the following list components:
+Objects of this class contain no slots (other than \code{.Data}), but objects should contain the following list components:
 \tabular{ll}{
   \code{R}\tab numeric matrix containing the red (cy5) foreground intensities.  Rows correspond to spots and columns to arrays.\cr
   \code{G}\tab numeric matrix containing the green (cy3) foreground intensities. Rows correspond to spots and columns to arrays.

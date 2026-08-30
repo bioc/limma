@@ -34,7 +34,7 @@ When used on Illumina BeadChip data, this function produces essentially the same
 Shi W, de Graaf C, Kinkel S, Achtman A, Baldwin T, Schofield L, Scott H, Hilton D, Smyth GK (2010).
 Estimating the proportion of microarray probes expressed in an RNA sample.
 \emph{Nucleic Acids Research} 38(7), 2168-2176.
-\doi{10.1093/nar/gkp1204}
+\doi{10.1093/nar/gkp1204}.
 }
 
 \author{Gordon Smyth}

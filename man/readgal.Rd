@@ -22,7 +22,7 @@ A GAL file is a list of genes IDs and associated information produced by an Axon
 Apart from header information, the file must contain data columns labeled \code{Block}, \code{Column}, \code{Row} and \code{ID}.
 A \code{Name} column is usually included as well.
 Other columns are optional.
-See the Axon URL below for a detaile description of the GAL file format.
+See the Axon URL below for a detailed description of the GAL file format.
 
 This function reads in the data columns with a minimum of user information.
 In most cases the function can be used without specifying any of the arguments.
@@ -32,8 +32,8 @@ A data frame with columns
   \item{Block}{numeric vector containing the print tip indices}
   \item{Column}{numeric vector containing the spot columns}
   \item{Row}{numeric vector containing the spot rows}
-  \item{ID}{character vector, for factor if \code{as.is=FALSE}, containing gene library identifiers}
-  \item{Name}{character vector, for factor if \code{as.is=FALSE}, containing gene names}
+  \item{ID}{character vector, as factor if \code{as.is=FALSE}, containing gene library identifiers}
+  \item{Name}{character vector, as factor if \code{as.is=FALSE}, containing gene names}
 The data frame will be sorted so that \code{Column} is the fastest moving index, then \code{Row}, then \code{Block}.
 }
 \author{Gordon Smyth}

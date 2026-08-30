@@ -77,8 +77,8 @@ SMD data should consist of raw data files from the database, in tab-delimited te
 There are two possible sets of column names depending on whether the data was entered into the database before or after September 2003.
 \code{source="smd.old"} indicates that column headings in use prior to September 2003 should be used.
 
-Intensity data from ImaGene versions 1 to 8 (\code{source="imagene"}) is different from other image analysis programs in that the read and green channels were written to separate files.
-\code{read.maimages} handles the special behaviour of the early ImaGene versions by requiring that the argument \code{files} should be a matrix with two columns instead of a vector.
+Intensity data from ImaGene versions 1 to 8 (\code{source="imagene"}) is different from other image analysis programs in that the red and green channels were written to separate files.
+\code{read.maimages} handles the special behavior of the early ImaGene versions by requiring that the argument \code{files} should be a matrix with two columns instead of a vector.
 The first column should contain the names of the files containing green channel (cy3) data and the second column should contain names of files containing red channel (cy5) data.
 Alternately, \code{files} can be entered as a vector of even length instead of a matrix.
 In that case, each consecutive pair of file names is assumed to contain the green (cy3) and red (cy5) intensities respectively from the same array.
@@ -90,7 +90,7 @@ For ImaGene~9, \code{files} is a vector of length equal to the number of microar
 Spot quality weights may be extracted from the image analysis files using a weight function wt.fun.
 \code{wt.fun} may be any user-supplied function which accepts a data.frame argument and returns a vector of non-negative weights.
 The columns of the data.frame are as in the image analysis output files.
-There is one restriction, which is that the column names should be refered to in full form in the weight function, i.e., do not rely on name expansion for partial matches when refering to the names of the columns.
+There is one restriction, which is that the column names should be referred to in full form in the weight function, i.e., do not rely on name expansion for partial matches when referring to the names of the columns.
 See \code{\link{QualityWeights}} for suggested weight functions.
 
 The argument \code{other.columns} allows arbitrary columns of the image analysis output files to be preserved in the data object.
@@ -122,15 +122,15 @@ For two-color data, an \code{\link[limma:rglist]{RGList}} object containing the 
 \author{Gordon Smyth, with speed improvements suggested by Marcus Davy}
 
 \references{
-Ritchie, ME, Phipson, B, Wu, D, Hu, Y, Law, CW, Shi, W, and Smyth, GK (2015).
+Ritchie ME, Phipson B, Wu D, Hu Y, Law CW, Shi W, Smyth GK (2015).
 limma powers differential expression analyses for RNA-sequencing and microarray studies.
 \emph{Nucleic Acids Research} 43, e47.
-\url{http://nar.oxfordjournals.org/content/43/7/e47}
+\doi{10.1093/nar/gkv007}.
 }
 
 \seealso{
 \code{read.maimages} uses \code{\link{read.columns}} for efficient reading of text files.
-As far as possible, it is has similar behavior to \code{\link[utils]{read.table}} in the base package.
+As far as possible, it has similar behavior to \code{\link[utils]{read.table}} in the base package.
 
 \code{\link{read.ilmn}} reads probe or gene summary profile files from Illumina BeadChips.
 

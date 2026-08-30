@@ -39,12 +39,12 @@ It is fully vectorized so that the estimation is done for all genes simultaneous
 \author{Gordon K Smyth}
 
 \references{
-Holloway, A. J., Oshlack, A., Diyagama, D. S., Bowtell, D. D. L., and Smyth, G. K. (2006).
+Holloway AJ, Oshlack A, Diyagama DS, Bowtell DDL, Smyth GK (2006).
 Statistical analysis of an RNA titration series evaluates microarray precision and sensitivity on a whole-array basis.
 \emph{BMC Bioinformatics} 7, Article 511.
-\doi{10.1186/1471-2105-7-511}
+\doi{10.1186/1471-2105-7-511}.
 
-Smyth, G. K. (1996).
+Smyth GK (1996).
 Partitioned algorithms for maximum likelihood and other nonlinear estimation.
 \emph{Statistics and Computing}, 6, 201-216. 
 \url{https://gksmyth.github.io/pubs/partitio.pdf}

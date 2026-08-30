@@ -59,7 +59,7 @@ The \code{"nestedF"} method was proposed by Michaud et al (2008) and achieves be
 It provides formal error rate control at the gene level but not for individual contrasts.
 See the \code{\link{classifyTestsF}} help page for more detail about the \code{"nestedF"} method.
 
-If \code{object} is a MArrayLM linear model fit, then the \code{"hierarchical"} method conducts row-wise F-tests and then proceeds to t-tests for those rows with significant F-tests.
+If \code{object} is an MArrayLM linear model fit, then the \code{"hierarchical"} method conducts row-wise F-tests and then proceeds to t-tests for those rows with significant F-tests.
 The multiple testing adjustment is applied initially to the F-tests and then, with an adjusted level, to the t-tests for each significant row.
 
 Also see the limma User's Guide for a discussion of the statistical properties of the various adjustment methods.
@@ -76,7 +76,7 @@ Users wanting to use fold change thresholding are recommended to use \code{treat
 Michaud J, Simpson KM, Escher R, Buchet-Poyau K, Beissbarth T, Carmichael C, Ritchie ME, Schutz F, Cannon P, Liu M, Shen X, Ito Y, Raskind WH, Horwitz MS, Osato M, Turner DR, Speed TP, Kavallaris M, Smyth GK, Scott HS (2008).
 Integrative analysis of RUNX1 downstream pathways and target genes.
 \emph{BMC Genomics} 9, 363. 
-\doi{10.1186/1471-2164-9-363}
+\doi{10.1186/1471-2164-9-363}.
 }
 
 \seealso{

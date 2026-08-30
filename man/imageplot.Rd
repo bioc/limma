@@ -43,10 +43,10 @@ When this function is used to plot the red/green log-ratios, it is intended to b
 
 This function is related to the earlier \code{plot.spatial} function in the \code{sma} package and to the later \code{maImage} function in the \code{marray} package.
 It differs from \code{plot.spatial} most noticeably in that all the spots are plotted and the image is plotted from bottom left rather than from top left.
-It is intended to display spatial patterns and artefacts rather than to highlight only the extreme values as does \code{plot.spatial}.
+It is intended to display spatial patterns and artifacts rather than to highlight only the extreme values as does \code{plot.spatial}.
 It differs from \code{maImage} in that any statistic may be plotted and in its use of a red-yellow-green color scheme for log-ratios, similar to the classic false-colored jpeg image, rather than the red-black-green color scheme associated with heat maps.
 }
-\value{An plot is created on the current graphics device.}
+\value{A plot is created on the current graphics device.}
 \author{Gordon Smyth}
 \seealso{
 \code{maImage} in the marray package, \code{\link{image}} in the graphics package.

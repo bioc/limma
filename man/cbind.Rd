@@ -27,7 +27,7 @@ Combine a set of \code{RGList}, \code{MAList}, \code{EList} or \code{EListRaw} o
 For \code{cbind}, the matrices of expression data from the individual objects are cbinded.
 The data.frames of target information, if they exist, are rbinded.
 The combined data object will preserve any additional components or attributes found in the first object to be combined.
-For \code{rbind}, the matrices of expression data are rbinded while the target information, in any, is unchanged.
+For \code{rbind}, the matrices of expression data are rbinded while the target information, if any, is unchanged.
 }
 \value{
 An \code{\link[limma:rglist]{RGList}}, \code{\link[limma:malist]{MAList}}, \code{\link[limma:EList]{EList}} or \code{\link[limma:EList]{EListRaw}} object holding data from all the arrays and all genes from the individual objects.

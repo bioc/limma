@@ -57,17 +57,17 @@ This usually works best with a small value, say \code{inter.gene.cor=0.01}.
 
 If \code{inter.gene.cor=NA}, then \code{camera} will estimate the inter-gene correlation for each set.
 In this mode, \code{camera} gives rigorous error rate control for all sample sizes and all gene sets.
-However, in this mode, highly co-regulated gene sets that are biological interpretable may not always be ranked at the top of the list.
+However, in this mode, highly co-regulated gene sets that are biologically interpretable may not always be ranked at the top of the list.
 
 With the default value \code{inter.gene.cor=0.01}, \code{camera} will rank biologically interpretable sets more highly.
 This gives a useful compromise between strict error rate control and interpretable gene set rankings.
 
 \code{cameraPR} is a "pre-ranked" version of \code{camera} where the genes are pre-ranked according to a pre-computed statistic.
 
-If \code{direction=TRUE}, then the gene sets are assumed to contain genes changing in the same direction and the functions will do two-sided directional tests for each gene set.
-If \code{direction=FALSE}, then the gene sets are assumed to be non-directional, so that significant genes in each set could be changing in different directions.
+If \code{directional=TRUE}, then the gene sets are assumed to contain genes changing in the same direction and the functions will do two-sided directional tests for each gene set.
+If \code{directional=FALSE}, then the gene sets are assumed to be non-directional, so that significant genes in each set could be changing in different directions.
 In this case, the functions will test for large changes in each set without regard to direction of change.
-If \code{direction=FALSE}, then \code{use.ranks} should be \code{TRUE} and \code{statistic} should be non-negative.
+If \code{directional=FALSE}, then \code{use.ranks} should be \code{TRUE} and \code{statistic} should be non-negative.
 }
 
 \note{The default settings for \code{inter.gene.cor} and \code{allow.neg.cor} were changed to the current values in limma 3.29.6.
@@ -92,7 +92,7 @@ To reproduce the earlier default, use \code{allow.neg.cor=TRUE} and \code{inter.
 \references{
 Wu D, Smyth GK (2012). Camera: a competitive gene set test accounting for inter-gene correlation.
 \emph{Nucleic Acids Research} 40, e133.
-\doi{10.1093/nar/gks461}
+\doi{10.1093/nar/gks461}.
 
 Goeman JJ, Buhlmann P (2007).
 Analyzing gene expression data in terms of gene sets: methodological issues.

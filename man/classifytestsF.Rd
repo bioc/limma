@@ -28,8 +28,8 @@ Users should generally use \code{decideTests} rather than calling \code{classify
 Instead it simply tests across contrasts for each gene individually.
 
 \code{classifyTestsF} uses a nested F-test approach giving particular attention to correctly classifying genes that have two or more significant t-statistics, i.e., which are differentially expressed in two or more conditions.
-For each row of \code{tstat}, the overall F-statistics is constructed from the t-statistics as for \code{FStat}.
-At least one constrast will be classified as significant if and only if the overall F-statistic is significant.
+For each row of \code{tstat}, the overall F-statistic is constructed from the t-statistics as for \code{FStat}.
+At least one contrast will be classified as significant if and only if the overall F-statistic is significant.
 If the overall F-statistic is significant, then the function makes a best choice as to which t-statistics contributed to this result.
 The methodology is based on the principle that any t-statistic should be called significant if the F-test is still significant for that row when all the larger t-statistics are set to the same absolute size as the t-statistic in question.
 
@@ -45,10 +45,10 @@ If \code{object} is a matrix, then it may be necessary to supply values for \cod
 The \code{cor.matrix} is the same as the correlation matrix of the coefficients from which the t-statistics were calculated and \code{df} is the degrees of freedom of the t-statistics.
 All statistics for the same gene must have the same degrees of freedom.
 
-If \code{fstat.only=TRUE}, the \code{classifyTestsF} just returns the vector of overall F-statistics for each gene.
+If \code{fstat.only=TRUE}, then \code{classifyTestsF} just returns the vector of overall F-statistics for each gene.
 }
 \references{
-Michaud, J, Simpson, KM, Escher, R, Buchet-Poyau, K, Beissbarth, T, Carmichael, C, Ritchie, ME, Schutz, F, Cannon, P, Liu, M, Shen, X, Ito, Y, Raskind, WH, Horwitz, MS, Osato, M, Turner, DR, Speed, TP, Kavallaris, M, Smyth, GK, and Scott, HS (2008).
+Michaud J, Simpson KM, Escher R, Buchet-Poyau K, Beissbarth T, Carmichael C, Ritchie ME, Schutz F, Cannon P, Liu M, Shen X, Ito Y, Raskind WH, Horwitz MS, Osato M, Turner DR, Speed TP, Kavallaris M, Smyth GK, Scott HS (2008).
 Integrative analysis of RUNX1 downstream pathways and target genes.
 \emph{BMC Genomics} 9, 363. 
 }

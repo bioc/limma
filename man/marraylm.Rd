@@ -38,7 +38,7 @@ Objects are normally created by \code{\link{lmFit}}, and additional components a
     {\code{s2.post}} \tab {numeric vector giving posterior residual variances}\cr
     {\code{var.prior}} \tab {numeric vector giving empirical Bayes estimated prior variance for each true coefficient}\cr
     {\code{F}} \tab {numeric vector giving moderated F-statistics for testing all contrasts equal to zero}\cr
-    {\code{F.p.value}} \tab {numeric vector giving p-value corresponding to \code{F.stat}}\cr
+    {\code{F.p.value}} \tab {numeric vector giving p-value corresponding to \code{F}}\cr
     {\code{t}} \tab {numeric matrix containing empirical Bayes t-statistics}\cr
   }
 }

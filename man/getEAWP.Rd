@@ -2,8 +2,8 @@
 \alias{getEAWP}
 \title{Extract Basic Data from Expression Data Objects}
 \description{
-Given an expression data object of any known class, get the expression values, weights, probe annotation and A-values that are needed for linear modelling.
-This function is called by the linear modelling functions in LIMMA.
+Given an expression data object of any known class, get the expression values, weights, probe annotation and A-values that are needed for linear modeling.
+This function is called by the linear modeling functions in LIMMA.
 }
 \usage{
 getEAWP(object)

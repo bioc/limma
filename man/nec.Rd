@@ -17,7 +17,7 @@ neqc(x, status=NULL, negctrl="negative", regular="regular", offset=16,
   \item{regular}{character string identifier for regular probes, i.e., all probes other than control probes.}
   \item{offset}{numeric value added to the intensities after background correction.}
   \item{robust}{logical. Should robust estimators be used for the background mean and standard deviation?}
-  \item{detection.p}{dection p-values.  Only used when no negative control probes can be found in the data.  Can be a numeric matrix or a character string giving the name of the component of \code{x$other} containing the matrix.}
+  \item{detection.p}{detection p-values.  Only used when no negative control probes can be found in the data.  Can be a numeric matrix or a character string giving the name of the component of \code{x$other} containing the matrix.}
   \item{\dots}{any other arguments are passed to \code{normalizeBetweenArrays.}}
   }
 \details{
@@ -25,11 +25,11 @@ neqc(x, status=NULL, negctrl="negative", regular="regular", offset=16,
 \code{nec} is similar but performs background correction only.
 These methods are particularly designed for Illumina BeadChip microarrays, but could be useful for other platforms for which good quality negative control probes or detection p-values are available.
 
-When control data are available, these function call \code{\link{normexp.fit.control}} to estimate the parameters required by normal+exponential(normexp) convolution model with the help of negative control probes, followed by \code{\link{normexp.signal}} to perform the background correction.
+When control data are available, these functions call \code{\link{normexp.fit.control}} to estimate the parameters required by normal+exponential(normexp) convolution model with the help of negative control probes, followed by \code{\link{normexp.signal}} to perform the background correction.
 If \code{x} contains background intensities \code{x$Eb}, then these are first subtracted from the foreground intensities, prior to normexp background correction.
 After background correction, an \code{offset} is added to the data.
 
-When expression values for negative controls are not available, the \code{detection.p} argument is used instead,
+When expression values for negative controls are not available, the \code{detection.p} argument is used instead.
 In that case, these functions call \code{\link{normexp.fit.detection.p}}, which infers the negative control probe intensities from the detection p-values associated with the regular probes.
 The function outputs a message if this is done.
 
@@ -48,7 +48,7 @@ After normalization, the intensities are log2 transformed and the control probes
 Shi W, Oshlack A, Smyth GK (2010).
 Optimizing the noise versus bias trade-off for Illumina Whole Genome Expression BeadChips.
 \emph{Nucleic Acids Research} 38(22), e204.
-\doi{10.1093/nar/gkq871}
+\doi{10.1093/nar/gkq871}.
 }
 
 \author{Wei Shi and Gordon Smyth}
@@ -60,8 +60,8 @@ Optimizing the noise versus bias trade-off for Illumina Whole Genome Expression 
 
   \code{\link{normexp.fit.control}} estimates the parameters in the normal+exponential convolution model using the negative control probes.
 
-  \code{\link{normexp.fit.detection.p}} estimates the parameters in the normal+exponential convolution model using negative control probe intensities inferred from regular probes by using their detection p values information.
-
+  \code{\link{normexp.fit.detection.p}} estimates the parameters in the normal+exponential convolution model using negative control probe intensities inferred from regular probes by using their detection p-value information.
+
   \code{\link{normexp.fit}} estimates parameters in the normal+exponential convolution model using a saddle-point approximation or other methods.
 
   \code{\link{neqc}} performs normexp background correction and quantile normalization aided by control probes.  

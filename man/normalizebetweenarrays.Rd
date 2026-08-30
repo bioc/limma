@@ -64,7 +64,7 @@ Both \code{Gquantile} and \code{Rquantile} normalization have the implicit effec
 
 See the limma User's Guide for more examples of use of this function.
 
-\code{normalizeBetweenSamples} is designed for more general technologies, not necessary microarrays.
+\code{normalizeBetweenSamples} is designed for more general technologies, not necessarily microarrays.
 Instead of transforming an \code{EListRaw} object to an \code{EList}, it directly accepts an \code{EList}.
 }
 
@@ -73,22 +73,22 @@ If \code{object} is a matrix then \code{normalizeBetweenArrays} produces a matri
 If \code{object} is an \code{EListRaw} object, then an \code{EList} object with expression values on the log2 scale is produced.
 For two-color data, \code{normalizeBetweenArrays} produces an \code{\link[limma:malist]{MAList}} object with M and A-values on the log2 scale.
 
-\code{normalizeBetweenSamples} returns a matrix or \code{EList}, depending the class of \code{object}.
+\code{normalizeBetweenSamples} returns a matrix or \code{EList}, depending on the class of \code{object}.
 If an \code{EList}, then the \code{E} log-expression matrix is normalized.
 }
 
 \author{Gordon Smyth}
 
 \references{
-Bolstad, B. M., Irizarry R. A., Astrand, M., and Speed, T. P. (2003), A comparison of normalization methods for high density oligonucleotide array data based on bias and variance. \emph{Bioinformatics} \bold{19}, 185-193.
+Bolstad BM, Irizarry RA, Astrand M, Speed TP (2003), A comparison of normalization methods for high density oligonucleotide array data based on bias and variance. \emph{Bioinformatics} 19, 185-193.
 
-Smyth, G. K., and Speed, T. P. (2003). Normalization of cDNA microarray data. \emph{Methods} \bold{31}, 265-273. 
+Smyth GK, Speed TP (2003). Normalization of cDNA microarray data. \emph{Methods} 31, 265-273.
 
-Yang, Y. H., Dudoit, S., Luu, P., and Speed, T. P. (2001). Normalization for cDNA microarray data. In \emph{Microarrays: Optical Technologies and Informatics}, M. L. Bittner, Y. Chen, A. N. Dorsel, and E. R. Dougherty (eds), Proceedings of SPIE, Volume 4266, pp. 141-152. 
+Yang YH, Dudoit S, Luu P, Speed TP (2001). Normalization for cDNA microarray data. In \emph{Microarrays: Optical Technologies and Informatics}, M. L. Bittner, Y. Chen, A. N. Dorsel, and E. R. Dougherty (eds), Proceedings of SPIE, Volume 4266, pp. 141-152.
 
-Yang, Y. H., Dudoit, S., Luu, P., Lin, D. M., Peng, V., Ngai, J., and Speed, T. P. (2002). Normalization for cDNA microarray data: a robust composite method addressing single and multiple slide systematic variation. \emph{Nucleic Acids Research} \bold{30}(4):e15.
+Yang YH, Dudoit S, Luu P, Lin DM, Peng V, Ngai J, Speed TP (2002). Normalization for cDNA microarray data: a robust composite method addressing single and multiple slide systematic variation. \emph{Nucleic Acids Research} 30(4):e15.
 
-Yang, Y. H., and Thorne, N. P. (2003). Normalization for two-color cDNA microarray data.
+Yang YH, Thorne NP (2003). Normalization for two-color cDNA microarray data.
 In: D. R. Goldstein (ed.), \emph{Science and Statistics: A Festschrift for Terry Speed}, IMS Lecture Notes - Monograph Series, Volume 40, pp. 403-418.
 }
 

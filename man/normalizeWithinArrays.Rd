@@ -59,29 +59,41 @@ If \code{weights} is instead a vector or a matrix with only one column, then the
 }
 \value{
 An object of class \code{\link[limma:malist]{MAList}}.
-Any components found in \code{object} will preserved except for \code{R}, \code{G}, \code{Rb}, \code{Gb} and \code{other}.
+Any components found in \code{object} will be preserved except for \code{R}, \code{G}, \code{Rb}, \code{Gb} and \code{other}.
 }
 
 \author{Gordon Smyth}
 
 \references{
-Oshlack, A., Emslie, D., Corcoran, L., and Smyth, G. K. (2007). Normalization of boutique two-color microarrays with a high proportion of differentially expressed probes. \emph{Genome Biology} \bold{8}, R2. 
+Oshlack A, Emslie D, Corcoran L, Smyth GK (2007).
+Normalization of boutique two-color microarrays with a high proportion of differentially expressed probes.
+\emph{Genome Biology} 8, R2.
+\doi{10.1186/gb-2007-8-1-r2}.
 
-Smyth, G. K., and Speed, T. P. (2003). Normalization of cDNA microarray data. \emph{Methods} \bold{31}, 265-273.
+Smyth GK, Speed TP (2003). Normalization of cDNA microarray data.
+\emph{Methods} 31, 265-273.
+\doi{10.1016/S1046-2023(03)00155-5}.
+See also the preprint at \url{https://gksmyth.github.io/pubs/normalize.pdf}.
 
-Yang, Y. H., Dudoit, S., Luu, P., and Speed, T. P. (2001). Normalization for cDNA microarray data. In \emph{Microarrays: Optical Technologies and Informatics}, M. L. Bittner, Y. Chen, A. N. Dorsel, and E. R. Dougherty (eds), Proceedings of SPIE, Vol. 4266, pp. 141-152. 
+Yang YH, Dudoit S, Luu P, Speed TP (2001).
+Normalization for cDNA microarray data.
+In \emph{Microarrays: Optical Technologies and Informatics},
+M. L. Bittner, Y. Chen, A. N. Dorsel, and E. R. Dougherty (eds),
+Proceedings of SPIE, Vol. 4266, pp. 141-152.
 
-Yang, Y. H., Dudoit, S., Luu, P., Lin, D. M., Peng, V., Ngai, J., and Speed, T. P. (2002). Normalization for cDNA microarray data: a robust composite method addressing single and multiple slide systematic variation. \emph{Nucleic Acids Research} \bold{30}(4):e15.
+Yang YH, Dudoit S, Luu P, Lin DM, Peng V, Ngai J, Speed TP (2002).
+Normalization for cDNA microarray data: a robust composite method addressing single and multiple slide systematic variation.
+\emph{Nucleic Acids Research} 30(4), e15.
 }
 
 \seealso{
 An overview of limma functions for normalization is given in \link{05.Normalization}.
 In particular, see \code{\link{normalizeBetweenArrays}} for between-array normalization.
 
-The original loess normalization function was the \code{statma} funtion in the sma package.
+The original loess normalization function was the \code{statma} function in the sma package.
 \code{normalizeWithinArrays} is a direct generalization of that function, with more options and with support for quantitative spot quality weights.
 
-A different implementation of loess normalization methods, with potentially different behavior, is provided by the \code{maNorm} in the marray package.
+A different implementation of loess normalization methods, with potentially different behavior, is provided by the \code{maNorm} function in the marray package.
 }
 
 \keyword{normalization}

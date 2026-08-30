@@ -1,6 +1,6 @@
 \name{contrastAsCoef}
 \alias{contrastAsCoef}
-\title{Reform a Design Matrix to that Contrasts Become Coefficients}
+\title{Reform a Design Matrix so that Contrasts Become Coefficients}
 \description{
 Reform a design matrix so that one or more coefficients from the new matrix correspond to specified contrasts of coefficients from the old matrix.
 }

@@ -4,7 +4,7 @@
 \title{Apply vooma-lmFit Pipeline With Automatic Estimation of Sample Weights and Block Correlation}
 
 \description{
-Estimate the variance trend, use it to compute observational weights and use the weights to a fit a linear model.
+Estimate the variance trend, use it to compute observational weights and use the weights to fit a linear model.
 Includes automatic estimation of sample weights and block correlation.
 Equivalent to calling vooma(), arrayWeights(), duplicateCorrelation() and lmFit() iteratively.
 }
@@ -27,9 +27,9 @@ voomaLmFit(y, design = NULL, prior.weights = NULL, block = NULL,
   }
   \item{prior.weights}{
     prior weights.
-    Can be a numeric matrix of individual weights of same dimensions as the \code{counts},
-    or a numeric vector of sample weights with length equal to \code{ncol(counts)},
-    or a numeric vector of gene weights with length equal to \code{nrow(counts)}.
+    Can be a numeric matrix of individual weights of same dimensions as \code{y},
+    or a numeric vector of sample weights with length equal to \code{ncol(y)},
+    or a numeric vector of gene weights with length equal to \code{nrow(y)}.
   }
   \item{block}{
     vector or factor specifying a blocking variable on the arrays.
@@ -57,7 +57,7 @@ voomaLmFit(y, design = NULL, prior.weights = NULL, block = NULL,
   }
   \item{span}{
     width of the smoothing window, as a proportion of the data set.
-    Defaults to a value between 0.3 and 1 that depends the number of genes (\code{nrow(y)}).
+    Defaults to a value between 0.3 and 1 that depends on the number of genes (\code{nrow(y)}).
     Equal to 1 if the number of genes is less than or equal to 50, then decreases slowly to 0.3 if the number of genes is very large.
   }
   \item{legacy.span}{

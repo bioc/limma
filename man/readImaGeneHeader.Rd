@@ -19,7 +19,7 @@ This function extracts that information and locates the line where the intensity
 A list containing information read from the header of the ImaGene file.
 Each Begin-End environment found in the file header will become a recursive list in the output object, with components corresponding to fields in the file.
 See the ImaGene documentation for further information.
-The output object will also contain a component \code{NHeaderRecords}giving the number of lines in the file before the intensity data begins.
+The output object will also contain a component \code{NHeaderRecords} giving the number of lines in the file before the intensity data begins.
 }
 \author{Gordon Smyth}
 \seealso{\code{\link{read.imagene}}

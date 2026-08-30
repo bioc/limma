@@ -2,15 +2,14 @@
 #include <Rinternals.h>
 #include <stdlib.h> // for NULL
 #include <R_ext/Rdynload.h>
+#include "limma.h"
+#include "R_exports.h"
 
 /* .C calls */
 extern void fit_saddle_nelder_mead(void *, void *, void *, void *, void *, void *);
 extern void normexp_gm2loglik(void *, void *, void *, void *, void *, void *);
 extern void normexp_hm2loglik(void *, void *, void *, void *, void *, void *);
 extern void normexp_m2loglik(void *, void *, void *, void *, void *, void *);
-
-/* .Call calls */
-extern SEXP weighted_lowess(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 
 static const R_CMethodDef CEntries[] = {
     {"fit_saddle_nelder_mead", (DL_FUNC) &fit_saddle_nelder_mead, 6},
@@ -20,7 +19,13 @@ static const R_CMethodDef CEntries[] = {
     {NULL, NULL, 0}
 };
 
+/* .Call calls */
 static const R_CallMethodDef CallEntries[] = {
+    {"awremlfit", (DL_FUNC) &awremlfit, 9},
+    {"dupcorfit", (DL_FUNC) &dupcorfit, 6},
+    {"glsfit", (DL_FUNC) &glsfit, 6},
+    {"lmfit",  (DL_FUNC) &lmfit,  5},
+    {"poisfit", (DL_FUNC) &poisfit, 5},
     {"weighted_lowess", (DL_FUNC) &weighted_lowess, 6},
     {NULL, NULL, 0}
 };

@@ -11,7 +11,7 @@ makeUnique(x)
   \item{x}{object to be coerced to a character vector}
 }
 \details{
-Repeat values of \code{x} are labelled with suffixes "1", "2" etc.
+Repeated values of \code{x} are labeled with suffixes "1", "2" etc.
 }
 \value{
 A character vector of the same length as \code{x}

@@ -1,7 +1,7 @@
 \name{normexp.fit.control}
 \alias{normexp.fit.control}
 \title{Normexp Model Parameter Estimation Aided by Negative Controls}
-\description{The mean and log-standard-deviation of the background-normal part of the normexp+exponential convolution model is estimated as the mean and log-standard deviation of intensities from negative control probes. The log-mean of the signal-exponential part is estimated as the log of the difference between signal mean and background mean.}
+\description{The mean and log-standard-deviation of the background-normal part of the normal+exponential convolution model are estimated as the mean and log-standard deviation of intensities from negative control probes. The log-mean of the signal-exponential part is estimated as the log of the difference between signal mean and background mean.}
 \usage{
 normexp.fit.control(x, status=NULL, negctrl="negative", regular="regular", robust=FALSE)
 }
@@ -22,7 +22,7 @@ Regular probes have the status \code{regular}.
 Negative control probes have the status indicated by \code{negctrl}, which is \code{negative} by default.
 
 This function estimates parameters of the normal+exponential convolution model with the help of negative control probes.
-The mean and log-standard-deviation of the background-normal part of the normexp+exponential(normexp) convolution model are estimated as the mean and log-standard deviation of intensities from negative control probes respectively.
+The mean and log-standard-deviation of the background-normal part of the normal+exponential(normexp) convolution model are estimated as the mean and log-standard deviation of intensities from negative control probes respectively.
 The log-mean of the signal-exponential part is estimated as the log of the difference between signal mean and background mean.
 The signal mean is simply the mean of intensities from regular probes.
 
@@ -37,7 +37,7 @@ Column names are \code{mu}, \code{logsigma} and \code{logalpha}.
 Shi W, Oshlack A, Smyth GK (2010).
 Optimizing the noise versus bias trade-off for Illumina Whole Genome Expression BeadChips.
 \emph{Nucleic Acids Research} 38(22), e204.
-\doi{10.1093/nar/gkq871}
+\doi{10.1093/nar/gkq871}.
 }
 
 \author{Wei Shi and Gordon Smyth}
@@ -45,9 +45,9 @@ Optimizing the noise versus bias trade-off for Illumina Whole Genome Expression 
 \seealso{
 \code{\link{nec}} calls this function to get the parameters of the normal+exponential convolution model and then calls \code{\link{normexp.signal}} to perform the background correction.
 
-\code{\link{normexp.fit.detection.p}} estimates the parameters in the normal+exponential convolution model using negative control probe intensities inferred from regular probes by using their detection p values information.
+\code{\link{normexp.fit.detection.p}} estimates the parameters in the normal+exponential convolution model using negative control probe intensities inferred from regular probes by using their detection p-value information.
 
-\code{\link{normexp.fit}} estimates normexp parameters using a saddle-point approximation or other mothods.
+\code{\link{normexp.fit}} estimates normexp parameters using a saddle-point approximation or other methods.
 
 An overview of background correction functions is given in \code{\link{04.Background}}.
 }

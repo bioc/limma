@@ -21,7 +21,7 @@ Numeric value giving intercept.
 \author{Gordon Smyth and Belinda Phipson}
 
 \references{
-Phipson, B. (2013).
+Phipson B (2013).
 \emph{Empirical Bayes modelling of expression profiles and their associations}.
 PhD Thesis. University of Melbourne, Australia.
 }

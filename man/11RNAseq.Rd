@@ -28,22 +28,22 @@ This page gives an overview of LIMMA functions to analyze RNA-seq data.
 }
 
 \references{
-Law, CW, Chen, Y, Shi, W, Smyth, GK (2014).
+Law CW, Chen Y, Shi W, Smyth GK (2014).
 Voom: precision weights unlock linear model analysis tools for RNA-seq read counts.
 \emph{Genome Biology} 15, R29.
-\doi{10.1186/gb-2014-15-2-r29}
+\doi{10.1186/gb-2014-15-2-r29}.
 
-Ritchie, ME, Phipson, B, Wu, D, Hu, Y, Law, CW, Shi, W, and Smyth, GK (2015).
+Ritchie ME, Phipson B, Wu D, Hu Y, Law CW, Shi W, Smyth GK (2015).
 limma powers differential expression analyses for RNA-sequencing and microarray studies.
 \emph{Nucleic Acids Research} 43, e47.
-\doi{10.1093/nar/gkv007}
+\doi{10.1093/nar/gkv007}.
 }
 
 \seealso{
 See also the edgeR package for normalization and data summaries of RNA-seq data, as well as for alternative differential expression methods based on the negative binomial distribution.
 \code{voom} accepts DGEList objects and normalization factors from edgeR.
 
-The edgeR function \code{voomLmFit} is a drop-in replacement for either \code{voom} or \code{voomWithQualityWeights}.
+The limma function \code{voomLmFit} is a drop-in replacement for either \code{voom} or \code{voomWithQualityWeights}.
 
 \link{01.Introduction},
 \link{02.Classes},

@@ -24,7 +24,7 @@ It applies only to replicated two-color experiments in which all the arrays are 
 The function has not been heavily used and is somewhat experimental.
 }
 \section{Value}{
-  An object of class \code{anova} containing rows for between genes, between arrays, gene x array interaction, and between duplicate with array sums of squares.
+  An object of class \code{anova} containing rows for between genes, between arrays, gene x array interaction, and between duplicates within arrays sums of squares.
   Variance components are estimated for each source of variation.
 }
 \note{

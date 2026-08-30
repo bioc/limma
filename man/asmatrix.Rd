@@ -21,7 +21,7 @@ Turn a microarray data object into a numeric matrix by extracting the expression
   \item{\dots}{additional arguments, not used for these methods.}
 }
 \details{
-These methods extract the matrix of log-ratios, for \code{MAList} or \code{marrayNorm} objects, or the matrix of expression values for other expression objects such as \code{EList} or \code{ExressionSet}.
+These methods extract the matrix of log-ratios, for \code{MAList} or \code{marrayNorm} objects, or the matrix of expression values for other expression objects such as \code{EList} or \code{ExpressionSet}.
 For \code{MArrayLM} objects, the matrix of fitted coefficients is extracted.
 
 These methods involve loss of information, so the original data object is not recoverable.

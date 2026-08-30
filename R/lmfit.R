@@ -1,9 +1,10 @@
 #  LINEAR MODELS
 
-lmFit <- function(object,design=NULL,ndups=NULL,spacing=NULL,block=NULL,correlation,weights=NULL,method="ls",...)
+lmFit <- function(object,design=NULL,ndups=NULL,spacing=NULL,block=NULL,correlation,weights=NULL,method="ls",nthreads=1L,contrasts=NULL,...)
 #	Fit genewise linear models
 #	Gordon Smyth
-#	30 June 2003.  Last modified 24 October 2023.
+#	Contrast and parallel support by Lizhong Chen
+#	30 June 2003.  Last modified 18 June 2026.
 {
 #	Extract components from object
 	if(inherits(object,"data.frame")) {
@@ -43,6 +44,15 @@ lmFit <- function(object,design=NULL,ndups=NULL,spacing=NULL,block=NULL,correlat
 	ne <- nonEstimable(design)
 	if(!is.null(ne)) cat("Coefficients not estimable:",paste(ne,collapse=" "),"\n")
 
+#	Check contrasts. If given, the returned fit is in contrast space, equivalent
+#	to contrasts.fit() but with exact per-gene stdev.unscaled on the weighted path.
+	if(!is.null(contrasts)) {
+		contrasts <- as.matrix(contrasts)
+		if(!is.numeric(contrasts)) stop("contrasts must be a numeric matrix")
+		if(anyNA(contrasts)) stop("NAs not allowed in contrasts")
+		if(nrow(contrasts) != ncol(design)) stop("Number of rows of contrasts must match number of columns of design")
+	}
+
 #	Check ndups and spacing. Default to 1.
 	if(is.null(ndups)) ndups <- y$printer$ndups
 	if(is.null(ndups)) ndups <- 1
@@ -54,6 +64,7 @@ lmFit <- function(object,design=NULL,ndups=NULL,spacing=NULL,block=NULL,correlat
 
 #	Check method
 	method <- match.arg(method,c("ls","robust"))
+	if(!is.null(contrasts) && method=="robust") stop("the contrasts argument is not supported for robust regression.")
 
 #	If duplicates are present, reduce probe-annotation and Amean to correct length
 	if(ndups>1) {
@@ -67,10 +78,10 @@ lmFit <- function(object,design=NULL,ndups=NULL,spacing=NULL,block=NULL,correlat
 		fit <- mrlm(y$exprs,design=design,ndups=ndups,spacing=spacing,weights=weights,...)
 	} else
 		if(ndups < 2 && is.null(block))
-			fit <- lm.series(y$exprs,design=design,ndups=ndups,spacing=spacing,weights=weights)
+			fit <- lm.series(y$exprs,design=design,ndups=ndups,spacing=spacing,weights=weights,nthreads=nthreads,contrasts=contrasts)
 		else {
 			if(missing(correlation)) stop("the correlation must be set, see duplicateCorrelation")
-			fit <- gls.series(y$exprs,design=design,ndups=ndups,spacing=spacing,block=block,correlation=correlation,weights=weights,...)
+			fit <- gls.series(y$exprs,design=design,ndups=ndups,spacing=spacing,block=block,correlation=correlation,weights=weights,nthreads=nthreads,contrasts=contrasts,...)
 		}
 
 #	Possible warning on missing coefs
@@ -85,13 +96,15 @@ lmFit <- function(object,design=NULL,ndups=NULL,spacing=NULL,block=NULL,correlat
 	fit$Amean <- y$Amean
 	fit$method <- method
 	fit$design <- design
+
 	new("MArrayLM",fit)
 }
 
-lm.series <- function(M,design=NULL,ndups=1,spacing=1,weights=NULL)
+lm.series <- function(M,design=NULL,ndups=1,spacing=1,weights=NULL,nthreads=1L,contrasts=NULL)
 #	Fit linear model for each gene to a series of arrays
 #	Gordon Smyth
-#	18 Apr 2002. Revised 9 June 2020.
+#	Contrast and parallel support by Lizhong Chen
+#	18 Apr 2002. Revised 18 June 2026.
 {
 #	Check expression matrix
 	M <- as.matrix(M)
@@ -151,32 +164,17 @@ lm.series <- function(M,design=NULL,ndups=1,spacing=1,weights=NULL)
 		fit$df.residual <- rep_len(fit$df.residual,length.out=ngenes)
 		dimnames(fit$stdev.unscaled) <- dimnames(fit$stdev.unscaled) <- dimnames(fit$coefficients)
 		fit$pivot <- fit$qr$pivot
+#		All genes share the same unscaled covariance, so contrasts.fit() is exact here
+		if(!is.null(contrasts)) fit <- contrasts.fit(fit,contrasts)
 		return(fit)
 	}
 
 #	Genewise QR-decompositions are required, so iterate through genes
-	beta <- stdev.unscaled
-	sigma <- rep_len(NA_real_,ngenes)
-	df.residual <- rep_len(0,ngenes)
-	for (i in 1:ngenes) {
-		y <- as.vector(M[i,])
-		obs <- is.finite(y)
-		if(sum(obs) > 0) {
-			X <- design[obs,,drop=FALSE]
-			y <- y[obs]
-			if(is.null(weights))
-				out <- lm.fit(X,y)
-			else {
-				w <- as.vector(weights[i,obs])
-				out <- lm.wfit(X,y,w)
-			}
-			est <- !is.na(out$coefficients)
-			beta[i,] <- out$coefficients
-			stdev.unscaled[i,est] <- sqrt(diag(chol2inv(out$qr$qr,size=out$rank)))
-			df.residual[i] <- out$df.residual
-			if(df.residual[i] > 0) sigma[i] <- sqrt(mean(out$effects[-(1:out$rank)]^2))
-		}
-	}
+	fit <- .Call("lmfit",M,design,weights,contrasts,nthreads,PACKAGE="limma")
+	beta <- fit$coefficients
+	stdev.unscaled <- fit$stdev.unscaled
+	sigma <- fit$sigma
+	df.residual <- fit$df.residual
 
 #	Correlation matrix of coefficients
 	QR <- qr(design)
@@ -184,7 +182,20 @@ lm.series <- function(M,design=NULL,ndups=1,spacing=1,weights=NULL)
 	est <- QR$pivot[1:QR$rank]
 	dimnames(cov.coef) <- list(coef.names[est],coef.names[est])
 
-	list(coefficients=beta,stdev.unscaled=stdev.unscaled,sigma=sigma,df.residual=df.residual,cov.coefficients=cov.coef,pivot=QR$pivot,rank=QR$rank)
+	if(is.null(contrasts)) {
+		dimnames(beta) <- dimnames(stdev.unscaled) <- list(rownames(M),coef.names)
+		return(list(coefficients=beta,stdev.unscaled=stdev.unscaled,sigma=sigma,df.residual=df.residual,cov.coefficients=cov.coef,pivot=QR$pivot,rank=QR$rank))
+	}
+
+#	Contrasts were applied per gene in the C kernel (exact stdev.unscaled).
+#	Build the contrast-space fit, matching contrasts.fit() for the shared parts.
+	cn <- colnames(contrasts)
+	if(is.null(cn)) cn <- paste0("C",1:ncol(contrasts))
+	dimnames(beta) <- dimnames(stdev.unscaled) <- list(rownames(M),cn)
+	if(QR$rank < nbeta && any(contrasts[-est,,drop=FALSE]!=0)) stop("trying to take contrast of non-estimable coefficient")
+	cov.coef <- crossprod(chol(cov.coef) %*% contrasts[est,,drop=FALSE])
+	dimnames(cov.coef) <- list(cn,cn)
+	list(coefficients=beta,stdev.unscaled=stdev.unscaled,sigma=sigma,df.residual=df.residual,cov.coefficients=cov.coef,pivot=QR$pivot,rank=QR$rank,contrasts=contrasts)
 }
 
 mrlm <- function(M,design=NULL,ndups=1,spacing=1,weights=NULL,...)
@@ -237,11 +248,12 @@ mrlm <- function(M,design=NULL,ndups=1,spacing=1,weights=NULL,...)
 	list(coefficients=beta,stdev.unscaled=stdev.unscaled,sigma=sigma,df.residual=df.residual,cov.coefficients=cov.coef,pivot=QR$pivot,rank=QR$rank)
 }
 
-gls.series <- function(M,design=NULL,ndups=2,spacing=1,block=NULL,correlation=NULL,weights=NULL,...)
+gls.series <- function(M,design=NULL,ndups=2,spacing=1,block=NULL,correlation=NULL,weights=NULL,nthreads=1L,contrasts=NULL,...)
 #	Fit linear model for each gene to a series of microarrays.
 #	Fit is by generalized least squares allowing for correlation between duplicate spots.
 #	Gordon Smyth
-#	11 May 2002.  Last revised 9 June 2020.
+#	Contrast and parallel support by Lizhong Chen
+#	11 May 2002.  Last revised 18 June 2026.
 {
 #	Check M
 	M <- as.matrix(M)
@@ -256,7 +268,7 @@ gls.series <- function(M,design=NULL,ndups=2,spacing=1,block=NULL,correlation=NU
 	coef.names <- colnames(design)
 
 #	Check correlation
-	if(is.null(correlation)) correlation <- duplicateCorrelation(M,design=design,ndups=ndups,spacing=spacing,block=block,weights=weights,...)$consensus.correlation
+	if(is.null(correlation)) correlation <- duplicateCorrelation(M,design=design,ndups=ndups,spacing=spacing,block=block,weights=weights,nthreads=nthreads,...)$consensus.correlation
 	if(abs(correlation) >= 1) stop("correlation is 1 or -1, so the model is degenerate")
 
 #	Check weights
@@ -332,48 +344,36 @@ gls.series <- function(M,design=NULL,ndups=2,spacing=1,block=NULL,correlation=NU
 		fit$spacing <- spacing
 		fit$block <- block
 		fit$correlation <- correlation
+#		All genes share the same unscaled covariance, so contrasts.fit() is exact here
+		if(!is.null(contrasts)) fit <- contrasts.fit(fit,contrasts)
 		return(fit)
 	}
 
 #	Weights or missing values are present, to have to iterate over probes
-	beta <- stdev.unscaled
-	sigma <- rep_len(NA_real_,ngenes)
-	df.residual <- rep_len(0,ngenes)
-	for (i in 1:ngenes) {
-		y <- drop(M[i,])
-		o <- is.finite(y)
-		y <- y[o]
-		n <- length(y)
-		if(n > 0) {
-			X <- design[o,,drop=FALSE]
-			V <- cormatrix[o,o]
-			if(!is.null(weights)) {
-				wrs <- 1/sqrt(drop(weights[i,o]))
-				V <- wrs * t(wrs * t(V))
-			}
-			cholV <- chol(V)
-			y <- backsolve(cholV,y,transpose=TRUE)
-			if(all(X==0)) {
-				df.residual[i] <- n
-				sigma[i] <- sqrt( array(1/n,c(1,n)) %*% y^2 )
-			} else {
-				X <- backsolve(cholV,X,transpose=TRUE)
-				out <- lm.fit(X,y)
-				est <- !is.na(out$coefficients)
-				beta[i,] <- out$coefficients
-				stdev.unscaled[i,est] <- sqrt(diag(chol2inv(out$qr$qr,size=out$rank)))
-				df.residual[i] <- out$df.residual
-				if(df.residual[i] > 0)
-					sigma[i] <- sqrt( array(1/out$df.residual,c(1,n)) %*% out$residuals^2 )
-			}
-		}
-	}
+	fit <- .Call("glsfit",M,design,cormatrix,weights,contrasts,nthreads,PACKAGE="limma")
+	beta <- fit$coefficients
+	stdev.unscaled <- fit$stdev.unscaled
+	sigma <- fit$sigma
+	df.residual <- fit$df.residual
 	cholV <- chol(cormatrix)
 	QR <- qr(backsolve(cholV,design,transpose=TRUE))
 	cov.coef <- chol2inv(QR$qr,size=QR$rank)
 	est <- QR$pivot[1:QR$rank]
 	dimnames(cov.coef) <- list(coef.names[est],coef.names[est])
-	list(coefficients=beta,stdev.unscaled=stdev.unscaled,sigma=sigma,df.residual=df.residual,ndups=ndups,spacing=spacing,block=block,correlation=correlation,cov.coefficients=cov.coef,pivot=QR$pivot,rank=QR$rank)
+
+	if(is.null(contrasts)) {
+		dimnames(beta) <- dimnames(stdev.unscaled) <- list(rownames(M),coef.names)
+		return(list(coefficients=beta,stdev.unscaled=stdev.unscaled,sigma=sigma,df.residual=df.residual,ndups=ndups,spacing=spacing,block=block,correlation=correlation,cov.coefficients=cov.coef,pivot=QR$pivot,rank=QR$rank))
+	}
+
+#	Contrasts were applied per gene in the C kernel (exact stdev.unscaled).
+	cn <- colnames(contrasts)
+	if(is.null(cn)) cn <- paste0("C",1:ncol(contrasts))
+	dimnames(beta) <- dimnames(stdev.unscaled) <- list(rownames(M),cn)
+	if(QR$rank < nbeta && any(contrasts[-est,,drop=FALSE]!=0)) stop("trying to take contrast of non-estimable coefficient")
+	cov.coef <- crossprod(chol(cov.coef) %*% contrasts[est,,drop=FALSE])
+	dimnames(cov.coef) <- list(cn,cn)
+	list(coefficients=beta,stdev.unscaled=stdev.unscaled,sigma=sigma,df.residual=df.residual,ndups=ndups,spacing=spacing,block=block,correlation=correlation,cov.coefficients=cov.coef,pivot=QR$pivot,rank=QR$rank,contrasts=contrasts)
 }
 
 is.fullrank <- function(x)

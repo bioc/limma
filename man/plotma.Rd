@@ -54,13 +54,13 @@ This is the same as a mean-difference plot (\code{\link{mdplot}}) with the red a
 
 For single channel data objects, a between-array MA-plot is produced.
 An artificial array is produced by averaging all the arrays other than the array specified.
-A mean-difference plot is then producing from the specified array and the artificial array.
+A mean-difference plot is then produced from the specified array and the artificial array.
 Note that this procedure reduces to an ordinary mean-difference plot when there are just two arrays total.
 
-If \code{object} is an \code{MArrayLM} object, then the plot is an fitted model MA-plot in which the estimated coefficient is on the y-axis and the average A-value is on the x-axis.
+If \code{object} is an \code{MArrayLM} object, then the plot is a fitted model MA-plot in which the estimated coefficient is on the y-axis and the average A-value is on the x-axis.
 
 The \code{status} vector can correspond to any grouping of the probes that is of interest.
-If \code{object} is a fitted model object, then \code{status} vector is often used to indicate statistically significance, so that differentially expressed points are highlighted.
+If \code{object} is a fitted model object, then the \code{status} vector is often used to indicate statistical significance, so that differentially expressed points are highlighted.
 If \code{object} is a microarray data object, then \code{status} might distinguish control probes from regular probes so that different types of controls are highlighted.
 
 The \code{status} can be included as the component \code{object$genes$Status} instead of being passed as an argument to \code{plotMA}.
@@ -75,10 +75,10 @@ The \code{\link{plotMD}} function provides the same functionality as \code{plotM
 \value{A plot is created on the current graphics device.}
 
 \references{
-Ritchie, ME, Phipson, B, Wu, D, Hu, Y, Law, CW, Shi, W, and Smyth, GK (2015).
+Ritchie ME, Phipson B, Wu D, Hu Y, Law CW, Shi W, Smyth GK (2015).
 limma powers differential expression analyses for RNA-sequencing and microarray studies.
 \emph{Nucleic Acids Research} Volume 43, e47.
-\url{http://nar.oxfordjournals.org/content/43/7/e47}
+\doi{10.1093/nar/gkv007}.
 }
 
 \author{Gordon Smyth}

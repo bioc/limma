@@ -8,7 +8,7 @@ Compute a weighted median of a numeric vector.
 weighted.median(x, w, na.rm = FALSE)
 }
 \arguments{
-\item{x}{a numeric vector containing the values whose mean is to be computed.}
+\item{x}{a numeric vector containing the values whose median is to be computed.}
 \item{w}{a vector of weights the same length as \code{x} giving
 the weights to use for each element of \code{x}.}
 \item{na.rm}{a logical value indicating whether \code{NA}

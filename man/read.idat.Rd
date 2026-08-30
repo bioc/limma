@@ -20,7 +20,7 @@ read.idat(idatfiles, bgxfile, path = NULL, bgxpath = path,
   \item{dateinfo}{logical. Should date and software version information be read in?}
   \item{annotation}{character vector of annotation columns to be read from the manifest file.}
   \item{tolerance}{integer. The number of probe ID discrepancies allowed between the manifest and any of the IDAT files.} 
-  \item{verbose}{logical. Should progress messages are sent to standard output?}
+  \item{verbose}{logical. Should progress messages be sent to standard output?}
 }
 
 \details{
@@ -35,7 +35,7 @@ read.idat(idatfiles, bgxfile, path = NULL, bgxpath = path,
      which reads text files exported by Illumina's GenomeStudio software,
      but it reads the IDAT files directly without any need to convert them first to text.
  
-     The function reads information on control probes as well for regular probes.
+     The function reads information on control probes as well as for regular probes.
      Probe types are indicated in the \code{Status} column of the \code{genes} 
      component of the \code{EListRaw} object.
 
@@ -51,7 +51,7 @@ read.idat(idatfiles, bgxfile, path = NULL, bgxpath = path,
  \code{Definition}, \code{Ontology_Component}, \code{Ontology_Process},
  \code{Ontology_Function}, \code{Synonyms}, \code{Obsolete_Probe_Id}.
      Note that the \code{Probe_Id} and \code{Array_Address_Id} columns are always read and
-     do not need to included in the \code{annotation} argument.
+     do not need to be included in the \code{annotation} argument.
 
      If more than \code{tolerance} probes in the manifest cannot be found in an IDAT file then the function will return an error.
 }
@@ -72,7 +72,7 @@ read.idat(idatfiles, bgxfile, path = NULL, bgxpath = path,
 \references{
 Smith ML, Baggerly KA, Bengtsson H, Ritchie ME, Hansen KD (2013). 
 illuminaio: An open source IDAT parsing tool. \emph{F1000 Research} 2, 264.
-\doi{10.12688/f1000research.2-264.v1}
+\doi{10.12688/f1000research.2-264.v1}.
 }
 
 \author{Matt Ritchie and Gordon Smyth}

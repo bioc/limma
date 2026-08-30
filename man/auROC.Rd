@@ -15,7 +15,7 @@ auROC(truth, stat=NULL)
 \details{
 A receiver operating curve (ROC) is a plot of sensitivity (true positive rate) versus 1-specificity (false positive rate) for a statistical test or binary classifier.
 The area under the ROC is a well accepted measure of test performance.
-It is equivalent to the probability that a randomly chosen pair of cases is corrected ranked.
+It is equivalent to the probability that a randomly chosen pair of cases is correctly ranked.
 
 Here we consider a test statistic \code{stat}, with larger values being more significant, and a vector \code{truth} indicating whether the alternative hypothesis is in fact true.
 \code{truth==TRUE} or \code{truth==1} indicates a true discovery and \code{truth=FALSE} or \code{truth=0} indicates a false discovery.

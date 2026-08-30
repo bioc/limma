@@ -19,15 +19,15 @@ mergeScansRG(RGlow, RGhigh, AboveNoiseLowG=NULL, AboveNoiseLowR=NULL, outlierp=0
 
 \details{
 This function merges two separate scans of each fluorescent label on a two-color array scanned at two different scanner settings by using a nonlinear regression model consisting of two linear regression lines and a quadratic function connecting the two, which looks like a hockey stick.
-The changing point, i.e. the saturation point, in high scan is also estimated as part of model.
+The changing point, i.e. the saturation point, in the high scan is also estimated as part of the model.
 Signals produced for certain spots can sometimes be very low (below noise) or too high (saturated) to be accurately read by the scanner.
 The proportions of spots that are below noise or above saturation are affected by the settings of the laser scanner used to read the arrays, with low scans minimizing saturation effects and high scans maximizing signal-to-noise ratios. Saturated spots can cause bias in intensity ratios that cannot be corrected for using conventional normalization methods.
 
 Each fluorescent label on a two-color array can be scanned twice: for example, a high scan targeted at reaching saturation level for the brightest 1 percent of the spots on the array, and a low scan targeted at the lowest level of intensity which still allowed accurate grid placement on the arrays.
-By merging data from two separate laser scans of each fluorescent label on an array, we can avoid the potential bias in signal intensities due to below noise or above saturation and, thus provide better estimates of true differential expression as well as increase usable spots.
+By merging data from two separate laser scans of each fluorescent label on an array, we can avoid the potential bias in signal intensities due to below noise or above saturation and thus provide better estimates of true differential expression as well as increase usable spots.
 
 The merging process is designed to retain signal intensities from the high scan except when scanner saturation causes the high scan signal to be under-measured. The saturated spots are predicted from the corresponding low scans by the fitted regression model.
-It also checks any inconsistency between low and high scans.
+It also checks for any inconsistency between low and high scans.
 }
 
 \value{
@@ -41,15 +41,15 @@ An object of class \code{\link{RGList-class}} with the following components:
 
 \item{Rb}{numeric matrix containing the red (cy5) background intensities from high scan.}
 
-\item{other}{list numeric matrices \code{Gsaturated}, \code{Rsatured}, \code{Goutlier} and \code{Routlier}.
-The first two contain saturation flags (1=saturated, 0=otherwise) for the green (cy3) and red (Cy5) channels of the high scan.
+\item{other}{list of numeric matrices \code{Gsaturated}, \code{Rsaturated}, \code{Goutlier} and \code{Routlier}.
+The first two contain saturation flags (1=saturated, 0=otherwise) for the green (cy3) and red (cy5) channels of the high scan.
 The second two contain outlier flags (1=outlier, 0=otherwise) for the green (cy3) and red (Cy5) channels.}
 }
 
 \author{Dongseok Choi \email{choid@ohsu.edu}.}
 
 \references{
-Choi D, O'Malley JP, Lasarev MR, Lapidus J, Lu X, Pattee P,  Nagalla SR (2006). Extending the Dynamic Range of Signal Intensities in DNA Microarrays. \emph{Online Journal of Bioinformatics}, \bold{7}, 46-56.
+Choi D, O'Malley JP, Lasarev MR, Lapidus J, Lu X, Pattee P, Nagalla SR (2006). Extending the Dynamic Range of Signal Intensities in DNA Microarrays. \emph{Online Journal of Bioinformatics} 7, 46-56.
 }
 
 \examples{

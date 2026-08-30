@@ -9,7 +9,7 @@
 \title{Matrix of Test Results - class}
 
 \description{
-A matrix-based class for storing the results of simultanous tests.
+A matrix-based class for storing the results of simultaneous tests.
 \code{TestResults} objects are usually created by \code{\link{decideTests}}.
 }
 

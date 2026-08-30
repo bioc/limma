@@ -18,11 +18,11 @@ normexp.fit(x, method="saddle", n.pts=NULL, trace=FALSE)
 \details{
 The Normal+Exp (normexp) convolution model is a mathematical model representing microarray intensity data for the purposes of background correction.
 It was proposed originally as part of the RMA algorithm for Affymetrix microarray data.
-For two-color microarry data, the normexp background correction method was introduced and compared with other methods by Ritchie et al (2007).
+For two-color microarray data, the normexp background correction method was introduced and compared with other methods by Ritchie et al (2007).
 
 This function uses maximum likelihood estimation to fit the normexp model to background-corrected intensities.
 The model assumes that the observed intensities are the sum of background and signal components,
-the background being normal and the signal being exponential distributed.
+the background being normal and the signal being exponentially distributed.
 
 The likelihood may be computed exactly (\code{method="mle"}) or approximated using a saddle-point approximation (\code{method="saddle"}).
 The saddle-point approximation was proposed by Ritchie et al (2007).
@@ -51,15 +51,15 @@ McGee M, Chen Z (2006).
 Parameter estimation for the exponential-normal convolution model for background correction of Affymetrix GeneChip data.
 \emph{Statistical Applications in Genetics and Molecular Biology} 5(1), Article 24.
 
-Ritchie ME, Silver J, Oshlack A, Silver J, Holmes M, Diyagama D, Holloway A, Smyth GK (2007).
+Ritchie ME, Silver J, Oshlack A, Holmes M, Diyagama D, Holloway A, Smyth GK (2007).
 A comparison of background correction methods for two-colour microarrays.
 \emph{Bioinformatics} 23, 2700-2707.
-\doi{10.1093/bioinformatics/btm412}
+\doi{10.1093/bioinformatics/btm412}.
 
 Silver JD, Ritchie ME, Smyth GK (2009).
 Microarray background correction: maximum likelihood estimation for the normal-exponential convolution.
 \emph{Biostatistics} 10, 352-363.
-\doi{10.1093/biostatistics/kxn042}
+\doi{10.1093/biostatistics/kxn042}.
 }
 
 \seealso{

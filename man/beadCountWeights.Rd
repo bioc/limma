@@ -32,7 +32,7 @@ It can be used with any Illumina expression BeadChip, but is most likely to be u
 
 Arguments \code{x} and \code{y} are both required.
 \code{x} contains the raw expression values and \code{y} contains the corresponding log2 values for the same probes and the same arrays after background correction and normalization.
-\code{x} and \code{y} be any type of object that can be coerced to a matrix, with rows corresponding to probes and columns to arrays.
+\code{x} and \code{y} can be any type of object that can be coerced to a matrix, with rows corresponding to probes and columns to arrays.
 \code{x} and \code{y} must contain the same rows and columns in the same order.
 
 The reliability of the normalized expression value for each probe on each array is measured by estimating its technical and biological variability.
@@ -42,12 +42,12 @@ The technical variance for each probe on each array is inversely proportional to
 
 Coefficients of variation are calculated using raw expression values. 
 
-The biological variance for each probe across the arrays are estimated using a Newton iteration, with the assumption that the total residual deviance for each probe from \code{lmFit} is inversely proportional to the sum of the technical variance and biological variance. 
+The biological variance for each probe across the arrays is estimated using a Newton iteration, with the assumption that the total residual deviance for each probe from \code{lmFit} is inversely proportional to the sum of the technical variance and biological variance.
 
 Only one of \code{bead.stdev} or \code{bead.stderr} needs to be set.
 If \code{bead.stdev} is not provided, then it will be computed as \code{bead.stderr * sqrt(nbeads)}.
 
-If arguments \code{bead.stdev} and \code{nbeads} are not set explicitly in the call, then they will be extracted from\code{y$other$BEAD_STDEV} and \code{y$other$Avg_NBEADS}.
+If arguments \code{bead.stdev} and \code{nbeads} are not set explicitly in the call, then they will be extracted from \code{y$other$BEAD_STDEV} and \code{y$other$Avg_NBEADS}.
 An \code{EList} object containing these components can be created by \code{read.idat} or \code{read.ilmn}, see the example code below.
 }
 
@@ -56,7 +56,7 @@ A list object with the following components:
 
 \item{weights}{numeric matrix of bead number weights}
 \item{cv.constant}{numeric value of constant bead-level coefficient of variation}
-\item{cv.array}{numeric vector of array-specific bead-level coefficient of variation}
+\item{cv.array}{numeric vector of array-specific bead-level coefficients of variation}
 \item{var.technical}{numeric matrix of technical variances}
 \item{var.biological}{numeric vector of biological variances}
 }

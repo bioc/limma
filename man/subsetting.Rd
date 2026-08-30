@@ -40,7 +40,7 @@ Values must be supplied for all arguments other than \code{i} and \code{j}.
 \value{
 An object the same as \code{object} but containing data from the specified subset of rows and columns only.
 
-Note the output object is of the same class as \code{object} will have two dimensions attached even if \code{i} or \code{j} select a single row or column, i.e., subsetting for these objects does not drop dimensions.
+Note the output object is of the same class as \code{object} and will have two dimensions attached even if \code{i} or \code{j} select a single row or column, i.e., subsetting for these objects does not drop dimensions.
 Subsetting is exactly analogous to subsetting of matrices in R with \code{drop=FALSE}.
 }
 \author{Gordon Smyth}

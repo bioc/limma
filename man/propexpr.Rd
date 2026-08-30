@@ -13,14 +13,14 @@ propexpr(x, neg.x=NULL, status=x$genes$Status, labels=c("negative","regular"))
   }
 
 \details{
-This function estimates the overall proportion of probes on each microarray that are correspond to expressed genes using the method of Shi et al (2010).
+This function estimates the overall proportion of probes on each microarray that correspond to expressed genes using the method of Shi et al (2010).
 The function is especially useful for Illumina BeadChips arrays, although it can in principle be applied to any platform with good quality negative controls.
 
 The negative controls can be supplied either as rows of \code{x} or as a separate matrix.
 If supplied as rows of \code{x}, then the negative controls are identified by the \code{status} vector.
 \code{x} might also include other types of control probes, but these will be ignored in the calculation.
 
-Illumina BeadChip arrays contain 750~1600 negative control probes.
+Illumina BeadChip arrays contain 750-1600 negative control probes.
 If \code{read.idat} is used to read Illumina expression IDAT files, then the control probes will be populated as rows of the output \code{EListRaw} object, and the vector \code{x$genes$Status} will be set to identify control probes.
 
 Alternatively, expression values can be exported from Illumina's GenomeStudio software as tab-delimited text files.
@@ -35,13 +35,13 @@ Numeric vector giving the proportions of expressed probes in each array.
 Shi W, de Graaf C, Kinkel S, Achtman A, Baldwin T, Schofield L, Scott H, Hilton D, Smyth GK (2010).
 Estimating the proportion of microarray probes expressed in an RNA sample.
 \emph{Nucleic Acids Research} 38(7), 2168-2176.
-\doi{10.1093/nar/gkp1204}
+\doi{10.1093/nar/gkp1204}.
 }
 
 \author{Wei Shi and Gordon Smyth}
 
-\seealso{ 
-Description to the control probes in Illumina BeadChips can be found in \code{\link{read.ilmn}}.
+\seealso{
+Description of the control probes in Illumina BeadChips can be found in \code{\link{read.ilmn}}.
 }
 
 \examples{

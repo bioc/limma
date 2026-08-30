@@ -13,7 +13,7 @@ protectMetachar(x)
 }
 
 \details{
-This function is used to protect strings containing metacharacters so that the metacharacters can be treated as ordinary characters in string matching functions operations.
+This function is used to protect strings containing metacharacters so that the metacharacters can be treated as ordinary characters in string matching operations.
 }
 
 \value{

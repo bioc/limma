@@ -42,7 +42,7 @@ If \code{approx=TRUE}, then an approximate closed-form transformation is used to
 The \code{method} argument provides a choice of three transformations.
 \code{method="bailey"} is equation (5) of Bailey (1980) or equation (7) of Brophy (1987).
 \code{method="hill"} is from Hill (1970) as given by equation (5) of Brophy (1987).
-\code{method="wallace"} is from Wallace (1959) as given by equation equation (2) of Brophy (1987).
+\code{method="wallace"} is from Wallace (1959) as given by equation (2) of Brophy (1987).
 Bailey's transformation is a modification of Wallace's approximation.
 The Hill approximation is generally the most accurate for df > 2 but is poor for df < 1.
 Bailey's approximation is faster than Hill's and gives acceptable two-figure accuracy throughout.
@@ -56,18 +56,18 @@ The default approximation used when \code{approx=TRUE} was changed from Hill to 
 \author{Gordon Smyth}
 
 \references{
-Bailey, B. J. R. (1980).
+Bailey BJR (1980).
 Accurate normalizing transformations of a Student's t variate.
 \emph{Journal of the Royal Statistical Society: Series C (Applied Statistics)} 29(3), 304--306.
 
-Hill, GW (1970). Algorithm 395: Student's t-distribution.
+Hill GW (1970). Algorithm 395: Student's t-distribution.
 \emph{Communications of the ACM} 13, 617--620.
 
-Brophy, AL (1987).
+Brophy AL (1987).
 Efficient estimation of probabilities in the t distribution.
 \emph{Behavior Research Methods} 19, 462--466.
 
-Wallace, D. L. (1959).
+Wallace DL (1959).
 Bounds on normal approximations to Student's and the chi-square distributions.
 \emph{The Annals of Mathematical Statistics}, 30(4), 1121--1130.
 }
