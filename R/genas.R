@@ -3,7 +3,7 @@
 genas <- function(fit,coef=c(1,2),subset="all",plot=FALSE,alpha=0.4)
 #	Genuine association of gene expression profiles
 #	Belinda Phipson and Gordon Smyth
-#	21 September 2009. Last modified 11 April 2015.
+#	21 Sep 2009. Last modified 11 Apr 2015.
 {
 	if(is.null(fit$cov.coefficients))
 		if(is.null(fit$qr)) {
@@ -108,7 +108,7 @@ genas <- function(fit,coef=c(1,2),subset="all",plot=FALSE,alpha=0.4)
 .multTLogLikNull <- function(x,fit,m) 
 #	Calculate the log-likelihood under the null hypothesis of no biological correlation
 #	Belinda Phipson and Gordon Smyth
-#	21 September 2009. Last modified 2 December 2013.
+#	21 Sep 2009. Last modified 2 Dec 2013.
 {
 	df.total <- fit$df.total
 	s <- fit$s2.post
@@ -134,7 +134,7 @@ genas <- function(fit,coef=c(1,2),subset="all",plot=FALSE,alpha=0.4)
 .multTLogLik <- function(x,fit,m) 
 #	Calculate the log-likelihood with biological correlation
 #	Belinda Phipson and Gordon Smyth
-#	21 September 2009. Last modified 2 December 2013.
+#	21 Sep 2009. Last modified 2 Dec 2013.
 {	
 	df.total <- fit$df.total
 	s <- fit$s2.post

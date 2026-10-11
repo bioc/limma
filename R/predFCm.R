@@ -1,7 +1,7 @@
 predFCm <- function(fit,coef=2, var.indep.of.fc=TRUE, all.de=TRUE, prop.true.null.method="lfdr")
 #	Predictive (empirical Bayes shrunk) fold changes
 #	Belinda Phipson and Gordon Smyth
-#	Created 29 May 2012. Last modified 1 December 2014.
+#	Created 29 May 2012. Last modified 1 Dec 2014.
 {
 #	Check fit
 	if(!is(fit,"MArrayLM")) stop("fit must be a MArrayLM fit object")

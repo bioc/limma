@@ -1,8 +1,11 @@
 voomWithQualityWeights <- function(counts, design=NULL, lib.size=NULL, normalize.method="none", plot=FALSE, span=0.5, adaptive.span=TRUE, var.design=NULL, var.group=NULL, method="genebygene", maxiter=50, tol=1e-5, trace=FALSE, col=NULL, ...)
 #	Combine voom weights with sample-specific weights estimated by arrayWeights() function for RNA-seq data
 #	Matt Ritchie, Cynthia Liu, Gordon Smyth
-#	Created 22 Sept 2014. Last modified 29 Aug 2025.
+#	Created 22 Sep 2014. Last modified 29 Aug 2025. Deprecation message added 8 Oct 2026.
 {
+#	Function is deprecated in favor of voomLmFit()
+	message("voomLmFit is now recommended over voomWithQualityWeights")
+
 #	Setup side-by-side plots showing (1) the voom trend and (2) the array weights
 	if(plot) {
 		oldpar <- par(mfrow=c(1,2))

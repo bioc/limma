@@ -77,7 +77,7 @@ voomaLmFit(y, design = NULL, prior.weights = NULL, block = NULL,
 }
 
 \details{
-This function is analogous to \code{voomLmFit} in the edgeR package but for microarray-like data with continuous log-expression values.
+This function is analogous to \code{voomLmFit} but for microarray-like data with continuous log-expression values.
 The function is equivalent to calling \code{vooma()} followed by \code{lmFit()}, optionally with \code{arrayWeights()} and \code{duplicateCorrelation()} as well to estimate sample weights and block correlation.
 The function finishes with \code{lmFit()} and returns a fitted model object.
 
@@ -120,7 +120,7 @@ http://hdl.handle.net/11343/351600
 }
 
 \seealso{
-\code{\link{vooma}}, \code{\link{lmFit}}, \code{voomLmFit} (in the edgeR package).
+\code{\link{vooma}}, \code{\link{lmFit}}, \code{\link{voomLmFit}}.
 }
 
 \examples{

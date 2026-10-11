@@ -3,7 +3,7 @@
 MA.RG <- function(object, bc.method="subtract", offset=0) {
 #	Convert RGList to MAList
 #	Gordon Smyth
-#	2 March 2003.  Last revised 9 Dec 2004.
+#	2 Mar 2003.  Last revised 9 Dec 2004.
 
 	if(is.null(object$R) || is.null(object$G)) stop("Object doesn't contain R and G components")
 	object <- backgroundCorrect(object, method=bc.method, offset=offset)
@@ -26,7 +26,7 @@ MA.RG <- function(object, bc.method="subtract", offset=0) {
 RG.MA <- function(object) {
 #	Convert MAList to RGList
 #	Gordon Smyth
-#	5 September 2003.  Last modified 9 Dec 2004.
+#	5 Sep 2003.  Last modified 9 Dec 2004.
 
 	object$R <- 2^( object$A+object$M/2 )
 	object$G <- 2^( object$A-object$M/2 )
@@ -38,7 +38,7 @@ RG.MA <- function(object) {
 normalizeWithinArrays <- function(object,layout=object$printer,method="printtiploess",weights=object$weights,span=0.3,iterations=4,controlspots=NULL,df=5,robust="M",bc.method="subtract",offset=0)
 #	Within array normalization
 #	Gordon Smyth
-#	2 March 2003.  Last revised 16 March 2013.
+#	2 Mar 2003.  Last revised 16 Mar 2013.
 {
 #	Check input arguments
 #	and get non-intensity dependent methods out of the way
@@ -146,7 +146,7 @@ normalizeWithinArrays <- function(object,layout=object$printer,method="printtipl
 normalizeRobustSpline <- function(M,A,layout=NULL,df=5,method="M") {
 #	Robust spline normalization
 #	Gordon Smyth
-#	27 April 2003.  Last revised 14 January 2015.
+#	27 Apr 2003.  Last revised 14 Jan 2015.
 
 	if(!requireNamespace("MASS",quietly=TRUE)) stop("MASS package required but is not installed (or can't be loaded)")
 	if(!requireNamespace("splines",quietly=TRUE)) stop("splines package required but is not installed (or can't be loaded)")
@@ -227,7 +227,7 @@ normalizeRobustSpline <- function(M,A,layout=NULL,df=5,method="M") {
 normalizeForPrintorder <- function(object,layout,start="topleft",method="loess",separate.channels=FALSE,span=0.1,plate.size=32) {
 #	Pre-normalize the foreground intensities for print order
 #	Gordon Smyth
-#	11 Mar 2002.  Last revised 18 June 2003.
+#	11 Mar 2002.  Last revised 18 Jun 2003.
 
 	if(is.null(object$R) || is.null(object$G)) stop("List must contain components R and G")
 	start <- match.arg(start,c("topleft","topright"))
@@ -245,7 +245,7 @@ normalizeForPrintorder <- function(object,layout,start="topleft",method="loess",
 normalizeForPrintorder.rg <- function(R,G,printorder,method="loess",separate.channels=FALSE,span=0.1,plate.size=32,plot=FALSE) {
 #	Pre-normalize the foreground intensities for print order, given R and G for a single array.
 #	Gordon Smyth
-#	8 Mar 2002.  Last revised 3 January 2007.
+#	8 Mar 2002.  Last revised 3 Jan 2007.
 
 	if(plot) ord <- order(printorder)
 	Rf <- log(R,2)
@@ -317,7 +317,7 @@ normalizeForPrintorder.rg <- function(R,G,printorder,method="loess",separate.cha
 plotPrintorder <- function(object,layout,start="topleft",slide=1,method="loess",separate.channels=FALSE,span=0.1,plate.size=32) {
 #	Pre-normalize the foreground intensities for print order.
 #	Gordon Smyth
-#	9 Apr 2002.  Last revised 18 June 2003.
+#	9 Apr 2002.  Last revised 18 Jun 2003.
 
 	if(is.null(object$R) || is.null(object$G)) stop("List must contain components R and G")
 	G <- object$G[,slide]
@@ -333,7 +333,7 @@ plotPrintorder <- function(object,layout,start="topleft",slide=1,method="loess",
 normalizeBetweenArrays <- function(object, method=NULL, targets=NULL, cyclic.method="fast", ...) {
 #	Normalize between arrays
 #	Gordon Smyth
-#	12 Apri 2003.  Last revised 13 June 2016.
+#	12 Apr 2003.  Last revised 13 Jun 2016.
 
 	if(is.data.frame(object)) {
 		object <- as.matrix(object)
@@ -468,7 +468,7 @@ normalizeVSN.default <- function(x,...)
 normalizeQuantiles <- function(A, ties=TRUE) {
 #	Normalize columns of a matrix to have the same quantiles, allowing for missing values.
 #	Gordon Smyth
-#	25 June 2002.  Last revised 16 May 2019.
+#	25 Jun 2002.  Last revised 16 May 2019.
 
 	n <- dim(A)
 	if(is.null(n)) return(A)
@@ -511,7 +511,7 @@ normalizeQuantiles <- function(A, ties=TRUE) {
 normalizeMedianAbsValues <- function(x) 
 #	Normalize columns of a matrix to have the same median absolute value
 #	Gordon Smyth
-#	12 April 2003.  Last modified 19 Oct 2005.
+#	12 Apr 2003.  Last modified 19 Oct 2005.
 {
 	narrays <- NCOL(x)
 	if(narrays==1) return(x)
@@ -536,7 +536,7 @@ normalizeCyclicLoess <- function(x, weights = NULL, span=0.7, adaptive.span=TRUE
 #	Cyclic loess normalization of columns of matrix
 #	incorporating probe weights.
 #	Yunshun Chen and Gordon Smyth
-#	14 April 2010.  Last modified 25 Feb 2026.
+#	14 Apr 2010.  Last modified 25 Feb 2026.
 {
 	x <- as.matrix(x)
 	method <- match.arg(method, c("fast","affy","pairs"))

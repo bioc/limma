@@ -3,7 +3,7 @@
 geneSetTest <- function(index,statistics,alternative="mixed",type="auto",ranks.only=TRUE,nsim=9999)
 #	Competitive gene set test using either rank sum test or simulation.
 #	Gordon Smyth
-#	3 September 2004. Last modified 11 Feb 2012.
+#	3 Sep 2004. Last modified 11 Feb 2012.
 {
 	alternative <- match.arg(alternative,c("mixed","either","down","up","less","greater","two.sided"))
 	if(alternative=="two.sided") alternative <- "either"
@@ -56,6 +56,6 @@ geneSetTest <- function(index,statistics,alternative="mixed",type="auto",ranks.o
 wilcoxGST <- function(index,statistics,...)
 #	Mean-rank gene set test using Wilcox test.
 #	Gordon Smyth
-#	27 July 2009.  Last modified 3 Sep 2011.
+#	27 Jul 2009.  Last modified 3 Sep 2011.
 geneSetTest(index=index,statistics=statistics,...,ranks.only=TRUE)
 

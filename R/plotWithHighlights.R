@@ -2,10 +2,10 @@ plotWithHighlights <- function(x, y, status=NULL, values=NULL, hl.pch=16, hl.col
 #	Scatterplot with color and size highlighting for special groups of points.
 
 #	Replaces the earlier function .plotMAxy, which in turn was based on the original plotMA
-#	that was created by Gordon Smyth 7 April 2003 and modified by James Wettenhall 27 June 2003.
+#	that was created by Gordon Smyth 7 Apr 2003 and modified by James Wettenhall 27 Jun 2003.
 
 #	Gordon Smyth
-#	Created 18 Sep 2014. Last modified 12 June 2020.
+#	Created 18 Sep 2014. Last modified 12 Jun 2020.
 {
 #	If no status information, just plot all points normally
 	if(is.null(status) || all(is.na(status))) {

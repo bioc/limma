@@ -3,7 +3,7 @@
 read.ilmn <- function(files=NULL, ctrlfiles=NULL, path=NULL, ctrlpath=NULL, probeid="Probe", annotation=c("TargetID", "SYMBOL"), expr="AVG_Signal", other.columns="Detection",sep="\t", quote="\"", verbose=TRUE, ...)
 #	Read one or more files of Illumina BeadStudio output
 #	Wei Shi and Gordon Smyth.
-#	Created 15 July 2009. Last modified 21 July 2014.
+#	Created 15 Jul 2009. Last modified 21 Jul 2014.
 {
 	if(!is.null(files)){
 		f <- unique(files)
@@ -62,7 +62,7 @@ read.ilmn <- function(files=NULL, ctrlfiles=NULL, path=NULL, ctrlpath=NULL, prob
 read.ilmn.targets <- function(targets, ...)
 #  Read Illumina BeadStudio output using targets frame
 #  Wei Shi
-#  15 July 2009
+#  15 Jul 2009
 {
 	if(is.null(targets$files) && is.null(targets$ctrlfiles))
 		stop("Can not find column \"files\" or \"ctrlfiles\" in targets\n") 
@@ -74,7 +74,7 @@ read.ilmn.targets <- function(targets, ...)
 .read.oneilmnfile <- function(fname, probeid, annotation, expr, other.columns, sep, quote, verbose, ...)
 #	Read a single file of Illumina BeadStudio output
 #	Wei Shi and Gordon Smyth
-#	Created 15 July 2009. Last modified 21 July 2014.
+#	Created 15 Jul 2009. Last modified 21 Jul 2014.
 {
 	h <- readGenericHeader(fname,columns=expr,sep=sep)
 	skip <- h$NHeaderRecords

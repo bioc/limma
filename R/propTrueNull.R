@@ -16,7 +16,7 @@ propTrueNull <- function(p, method="lfdr", nbins=20, ...)
 #	Estimate proportion of null p-values
 #	by average local FDR
 #	Belinda Phipson and Gordon Smyth
-#	23 May 2012. Last revised 30 July 2012.
+#	23 May 2012. Last revised 30 Jul 2012.
 {
 	n <- length(p)
 	i <- n:1L
@@ -45,7 +45,7 @@ propTrueNull <- function(p, method="lfdr", nbins=20, ...)
 
 #	Adapted by Gordon Smyth from the function estimate.m0 from
 #	http://www.public.iastate.edu/~dnett/microarray/multtest.txt
-#	Accessed March 2012
+#	Accessed Mar 2012
 
 #	Created 2 Dec 2012. Last revised 9 May 2016.
 {

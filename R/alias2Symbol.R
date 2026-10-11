@@ -4,7 +4,7 @@ alias2Symbol <- function(alias,species="Hs",expand.symbols=FALSE)
 #  Convert a set of alias names to official gene symbols
 #  via Entrez Gene identifiers
 #  Di Wu, Gordon Smyth and Yifang Hu
-#  4 Sep 2008. Last revised 23 June 2016.
+#  4 Sep 2008. Last revised 23 Jun 2016.
 {
 	alias <- as.character(alias)
 
@@ -43,7 +43,7 @@ alias2SymbolTable <- function(alias,species="Hs")
 #  Convert a vector of alias names to the vector of corresponding official gene symbols
 #  via Entrez Gene identifiers
 #  Di Wu, Gordon Smyth and Yifang Hu
-#  Created 3 Sep 2009.  Last modified 23 April 2016.
+#  Created 3 Sep 2009.  Last modified 23 Apr 2016.
 {
 	alias <- as.character(alias)
 
@@ -92,7 +92,7 @@ alias2SymbolTable <- function(alias,species="Hs")
 alias2SymbolUsingNCBI <- function(alias,gene.info.file,required.columns=c("GeneID","Symbol","description"))
 #	Convert gene aliases to current symbols etc using a gene_info file downloaded from the NCBI
 #	Gordon Smyth
-#	Created 2 March 2017. Last modified 9 June 2020.
+#	Created 2 Mar 2017. Last modified 9 Jun 2020.
 {
 #	Check input. If necessary, read the gene info file.
 	alias <- as.character(alias)

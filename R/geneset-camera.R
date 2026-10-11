@@ -3,7 +3,7 @@
 interGeneCorrelation <- function(y, design)
 #	Estimate variance-inflation factor for means of correlated genes
 #	Gordon Smyth and Di Wu
-#	Created 2007.  Last modified 11 Feb 2012
+#	Created 2007. Last modified 11 Feb 2012
 {
 	m <- nrow(y)
 	qrdesign <- qr(design)
@@ -24,7 +24,7 @@ camera <- function(y,...) UseMethod("camera")
 camera.default <- function(y,index,design=NULL,contrast=ncol(design),weights=NULL,use.ranks=FALSE,allow.neg.cor=FALSE,inter.gene.cor=0.01,trend.var=FALSE,sort=TRUE,directional=TRUE,...)
 #	Competitive gene set test allowing for correlation between genes
 #	Gordon Smyth and Di Wu
-#	Created 2007.  Last modified 4 Mar 2025.
+#	Created 2007. Last modified 5 Oct 2026.
 {
 #	Issue warning if extra arguments found
 	dots <- names(list(...))
@@ -38,7 +38,7 @@ camera.default <- function(y,index,design=NULL,contrast=ncol(design),weights=NUL
 	if(G<3) stop("Too few genes in dataset: need at least 3")
 
 #	Check index
-	if(!is.list(index)) index <- list(set1=index)
+	if(!is.list(index) || is.data.frame(index)) index <- list(set1=index)
 	nsets <- length(index)
 	if(nsets==0L) stop("index is empty")
 
@@ -165,39 +165,88 @@ camera.default <- function(y,index,design=NULL,contrast=ncol(design),weights=NUL
 	colnames(tab) <- c("NGenes","Correlation","Down","Up","TwoSided")
 	for (i in 1:nsets) {
 		iset <- index[[i]]
-		if(is.character(iset)) iset <- which(ID %in% iset)
-		StatInSet <- Stat[iset]
-		m <- length(StatInSet)
-		m2 <- G-m
-		if(fixed.cor) {
-			correlation <- inter.gene.cor
-			vif <- 1+(m-1)*correlation
-		} else {
-			if(m>1) {
-				Uset <- U[iset,,drop=FALSE]
-				vif <- m * mean(colMeans(Uset)^2)
-				correlation <- (vif-1)/(m-1)
+		if(is.data.frame(iset)) {
+			if(ncol(iset) < 2) stop("index ",i," is a data.frame but doesn't contain gene weights")
+			if(!is.numeric(iset[,2])) stop("index ",i," is a data.frame but second column isn't numeric")
+			iw <- iset[,2]
+			iset <- iset[,1]
+			if(is.factor(iset)) iset <- as.character(iset)
+			if(is.character(iset)) {
+				if(anyDuplicated(iset)) stop("Duplicate gene ids in set ",i)
+				iset <- match(iset,ID)
+				if(anyNA(iset)) {
+					o <- which(!is.na(iset))
+					iset <- iset[o]
+					iw <- iw[o]
+					warning("index ",i," contains gene IDs not in dataset")
+				}
+			}
+			if(max(iset) > G) stop("set ",i," contains indices too large")
+			if(min(iset) < 1) stop("set ",i," contains negative indices")
+			m <- length(iset)
+			if(fixed.cor) {
+				correlation <- inter.gene.cor
 			} else {
-				vif <- 1
-				correlation <- NA
+				if(m>1L) {
+					Uset <- sign(iw)*U[iset,,drop=FALSE]
+					vif <- m * mean(colMeans(Uset)^2)
+					correlation <- (vif-1)/(m-1)
+				} else {
+					vif <- 1
+					correlation <- NA
+				}
+			}
+			tab[i,1] <- m
+			tab[i,2] <- correlation
+			if(m) {
+				x <- rep_len(0,G)
+				x[iset] <- iw
+				Z <- .invSqrtCorTimes(cbind(1,x,Stat),sign(x),correlation)
+				fit <- lm.fit(Z[,1:2],Z[,3])
+				s2 <- mean(fit$effects[3:G]^2)
+				t.stat <- sign(fit$qr$qr[2,2])*fit$effects[2]/sqrt(s2)
+				tab[i,3] <- pt(t.stat,df=G-2L)
+				tab[i,4] <- pt(t.stat,df=G-2L,lower.tail=FALSE)
+			} else {
+				tab[i,3] <- 1
+				tab[i,4] <- 1
+			}
+		} else {
+			if(is.character(iset)) iset <- which(ID %in% iset)
+			StatInSet <- Stat[iset]
+			m <- length(StatInSet)
+			m2 <- G-m
+			if(fixed.cor) {
+				correlation <- inter.gene.cor
+				vif <- 1+(m-1)*correlation
+			} else {
+				if(m>1) {
+					Uset <- U[iset,,drop=FALSE]
+					vif <- m * mean(colMeans(Uset)^2)
+					correlation <- (vif-1)/(m-1)
+				} else {
+					vif <- 1
+					correlation <- NA
+				}
+			}
+			tab[i,1] <- m
+			tab[i,2] <- correlation
+			if(use.ranks) {
+				if(!allow.neg.cor) correlation <- max(0,correlation)
+				tab[i,3:4] <- rankSumTestWithCorrelation(iset,statistics=Stat,correlation=correlation,df=df.camera)
+			} else {	
+				if(!allow.neg.cor) vif <- max(1,vif)
+				meanStatInSet <- mean(StatInSet)
+				delta <- G/m2*(meanStatInSet-meanStat)
+				varStatPooled <- ( (G-1)*varStat - delta^2*m*m2/G ) / (G-2)
+				two.sample.t <- delta / sqrt( varStatPooled * (vif/m + 1/m2) )
+				tab[i,3] <- pt(two.sample.t,df=df.camera)
+				tab[i,4] <- pt(two.sample.t,df=df.camera,lower.tail=FALSE)
 			}
 		}
-
-		tab[i,1] <- m
-		tab[i,2] <- correlation
-		if(use.ranks) {
-			if(!allow.neg.cor) correlation <- max(0,correlation)
-			tab[i,3:4] <- rankSumTestWithCorrelation(iset,statistics=Stat,correlation=correlation,df=df.camera)
-		} else {	
-			if(!allow.neg.cor) vif <- max(1,vif)
-			meanStatInSet <- mean(StatInSet)
-			delta <- G/m2*(meanStatInSet-meanStat)
-			varStatPooled <- ( (G-1)*varStat - delta^2*m*m2/G ) / (G-2)
-			two.sample.t <- delta / sqrt( varStatPooled * (vif/m + 1/m2) )
-			tab[i,3] <- pt(two.sample.t,df=df.camera)
-			tab[i,4] <- pt(two.sample.t,df=df.camera,lower.tail=FALSE)
-		}
 	}
+
+#	Two-sided p-value
 	tab[,5] <- 2*pmin(tab[,3],tab[,4])
 
 #	Asemble into data.frame

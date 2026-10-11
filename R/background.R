@@ -6,7 +6,7 @@ backgroundCorrect <- function(RG, method="auto", offset=0, printer=RG$printer, n
 {
 #	Apply background correction to microarray data
 #	Gordon Smyth
-#	12 April 2003.  Last modified 1 August 2024.
+#	12 Apr 2003.  Last modified 1 Aug 2024.
 
 	if(is.null(method)) method <- "auto"
 
@@ -42,7 +42,7 @@ backgroundCorrect.matrix <- function(E, Eb=NULL, method="auto", offset=0, printe
 #	Apply background correction to microarray data
 #	in the form of foreground and background matrices
 #	Gordon Smyth
-#	30 August 2010.  Last modified 30 August 2010.
+#	30 Aug 2010.  Last modified 30 Aug 2010.
 
 	E <- as.matrix(E)
 	if(method=="auto") method <- ifelse(is.null(Eb),"normexp","subtract")
@@ -110,7 +110,7 @@ backgroundCorrect.matrix <- function(E, Eb=NULL, method="auto", offset=0, printe
 ma3x3.matrix <- function(x,FUN=mean,na.rm=TRUE,...)
 #	2-dimensional moving average for 3x3 blocks
 #	Gordon Smyth
-#	11 April 2004
+#	11 Apr 2004
 {
 #	Pad out x with NA so that original values have 8 neighbors
 	d1 <- nrow(x)
@@ -143,7 +143,7 @@ ma3x3.matrix <- function(x,FUN=mean,na.rm=TRUE,...)
 
 ma3x3.spottedarray <- function(x,printer,FUN=mean,na.rm=TRUE,...)
 #	Gordon Smyth
-#	11 April 2004
+#	11 Apr 2004
 {
 	x <- as.matrix(x)
 	narrays <- ncol(x)

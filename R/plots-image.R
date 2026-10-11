@@ -58,8 +58,8 @@ imageplot <- function(z, layout, low=NULL, high=NULL, ncolors=123, zerocenter=NU
 
 imageplot3by2 <- function(RG, z="Gb", prefix=paste("image",z,sep="-"), path=NULL, zlim=NULL, common.lim=TRUE, ...)
 #	Make files of image plots, six to a page
-#	Gordon Smyth  10 June 2004.
-#	Suggestions of Marcus Davy implemented 30 September 2005.
+#	Gordon Smyth  10 Jun 2004.
+#	Suggestions of Marcus Davy implemented 30 Sep 2005.
 {
 	if(is.null(path)) path="."
 	narrays <- ncol(RG)

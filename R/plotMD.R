@@ -4,8 +4,8 @@ plotMD <- function(object,...) UseMethod("plotMD")
 
 plotMD.RGList <- function(object, column=1, array=NULL, xlab="A", ylab="M", main=colnames(object)[column], status=object$genes$Status, zero.weights=FALSE, ...)
 #	Mean-difference plot with color coding for controls
-#	Created by Gordon Smyth 7 April 2003 and James Wettenhall 27 June 2003.
-#	Last modified 7 June 2015.
+#	Created by Gordon Smyth 7 Apr 2003 and James Wettenhall 27 Jun 2003.
+#	Last modified 7 Jun 2015.
 {
 	if(!is.null(array)) column <- array
 	object <- MA.RG(object[,column])
@@ -14,8 +14,8 @@ plotMD.RGList <- function(object, column=1, array=NULL, xlab="A", ylab="M", main
 
 plotMD.MAList <- function(object, column=1, array=NULL, xlab="A", ylab="M", main=colnames(object)[column], status=object$genes$Status, zero.weights=FALSE, ...)
 #	Mean-difference plot with color coding for controls
-#	Gordon Smyth 7 April 2003, James Wettenhall 27 June 2003.
-#	Last modified 7 June 2015.
+#	Gordon Smyth 7 Apr 2003, James Wettenhall 27 Jun 2003.
+#	Last modified 7 Jun 2015.
 {
 	if(!is.null(array)) column <- array
 	A <- as.matrix(object$A)[,column]
@@ -29,8 +29,8 @@ plotMD.MAList <- function(object, column=1, array=NULL, xlab="A", ylab="M", main
 
 plotMD.MArrayLM <- function(object, column=ncol(object), coef=NULL, xlab="Average log-expression", ylab="log-fold-change", main=colnames(object)[column], status=object$genes$Status, ...)
 #	Mean-difference plot with color coding for controls
-#	Gordon Smyth 7 April 2003, James Wettenhall 27 June 2003.
-#	Last modified 15 July 2024.
+#	Gordon Smyth 7 Apr 2003, James Wettenhall 27 Jun 2003.
+#	Last modified 15 Jul 2024.
 {
 	if(!is.null(coef)) column <- coef
 	if(is.null(object$Amean)) stop("Amean component is absent.")
@@ -51,7 +51,7 @@ plotMD.MArrayLM <- function(object, column=ncol(object), coef=NULL, xlab="Averag
 plotMD.EListRaw <- function(object, column=1, array=NULL, xlab="Average log-expression", ylab="Expression log-ratio (this sample vs others)", main=colnames(object)[column], status=object$genes$Status, zero.weights=FALSE, ...)
 #	Mean-difference plot with color coding for controls
 #	Gordon Smyth
-#	Created 22 Oct 2014. Last modified 7 June 2015.
+#	Created 22 Oct 2014. Last modified 7 Jun 2015.
 {
 	if(!is.null(array)) column <- array
 	if(!is.null(object$Eb)) object$E <- object$E-object$Eb
@@ -62,8 +62,8 @@ plotMD.EListRaw <- function(object, column=1, array=NULL, xlab="Average log-expr
 
 plotMD.EList <- function(object, column=1, array=NULL, xlab="Average log-expression", ylab="Expression log-ratio (this sample vs others)", main=colnames(object)[column], status=object$genes$Status, zero.weights=FALSE, ...)
 #	Mean-difference plot with color coding for controls
-#	Gordon Smyth 7 April 2003, James Wettenhall 27 June 2003.
-#	Last modified 14 April 2015.
+#	Gordon Smyth 7 Apr 2003, James Wettenhall 27 Jun 2003.
+#	Last modified 14 Apr 2015.
 {
 	if(!is.null(array)) column <- array
 	E <- as.matrix(object$E)
@@ -88,8 +88,8 @@ plotMD.EList <- function(object, column=1, array=NULL, xlab="Average log-express
 
 plotMD.default <- function(object, column=1, xlab="Average log-expression", ylab="Expression log-ratio (this sample vs others)", main=colnames(object)[column], status=NULL, ...)
 #	Mean-difference plot with color coding for controls
-#	Gordon Smyth 7 April 2003, James Wettenhall 27 June 2003.
-#	Last modified 14 April 2015.
+#	Gordon Smyth 7 Apr 2003, James Wettenhall 27 Jun 2003.
+#	Last modified 14 Apr 2015.
 {
 #	Data is assumed to be single-channel
 	object <- as.matrix(object)
@@ -107,7 +107,7 @@ plotMD.default <- function(object, column=1, xlab="Average log-expression", ylab
 mdplot <- function(x,columns=c(1,2),xlab="Mean",ylab="Difference",main=NULL,...)
 #	Mean-difference plot of two columns of a matrix
 #	Gordon Smyth
-#	16 March 2005. Last modified 13 April 2015.
+#	16 Mar 2005. Last modified 13 Apr 2015.
 {
 	x <- as.matrix(x)
 	columns <- as.integer(columns)[1:2]

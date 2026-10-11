@@ -3,7 +3,7 @@
 barcodeplot <- function (statistics, index = NULL, index2 = NULL, gene.weights = NULL, weights.label = "Weight", labels = c("Down", "Up"), quantiles = c(-1,1)*sqrt(2), col.bars = NULL, alpha = 0.4, worm = TRUE, span.worm = 0.45, xlab = "Statistic", ...)
 #	Barcode plot of one or two gene sets.
 #	Gordon Smyth, Di Wu and Yifang Hu
-#	20 October 2008.  Last revised 25 Oct 2019.
+#	20 Oct 2008.  Last revised 25 Oct 2019.
 {
 #	Check statistics
 	if(!is.vector(statistics, mode = "numeric")) stop("statistics should be a numeric vector")

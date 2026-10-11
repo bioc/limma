@@ -4,7 +4,7 @@ lmFit <- function(object,design=NULL,ndups=NULL,spacing=NULL,block=NULL,correlat
 #	Fit genewise linear models
 #	Gordon Smyth
 #	Contrast and parallel support by Lizhong Chen
-#	30 June 2003.  Last modified 18 June 2026.
+#	30 Jun 2003.  Last modified 18 Jun 2026.
 {
 #	Extract components from object
 	if(inherits(object,"data.frame")) {
@@ -104,7 +104,7 @@ lm.series <- function(M,design=NULL,ndups=1,spacing=1,weights=NULL,nthreads=1L,c
 #	Fit linear model for each gene to a series of arrays
 #	Gordon Smyth
 #	Contrast and parallel support by Lizhong Chen
-#	18 Apr 2002. Revised 18 June 2026.
+#	18 Apr 2002. Revised 18 Jun 2026.
 {
 #	Check expression matrix
 	M <- as.matrix(M)
@@ -201,7 +201,7 @@ lm.series <- function(M,design=NULL,ndups=1,spacing=1,weights=NULL,nthreads=1L,c
 mrlm <- function(M,design=NULL,ndups=1,spacing=1,weights=NULL,...)
 #	Robustly fit linear model for each gene to a series of arrays
 #	Gordon Smyth
-#	20 Mar 2002.  Last revised 9 June 2020.
+#	20 Mar 2002.  Last revised 9 Jun 2020.
 {
 	if(!requireNamespace("MASS",quietly=TRUE)) stop("MASS package required but is not installed (or can't be loaded)")
 	M <- as.matrix(M)
@@ -253,7 +253,7 @@ gls.series <- function(M,design=NULL,ndups=2,spacing=1,block=NULL,correlation=NU
 #	Fit is by generalized least squares allowing for correlation between duplicate spots.
 #	Gordon Smyth
 #	Contrast and parallel support by Lizhong Chen
-#	11 May 2002.  Last revised 18 June 2026.
+#	11 May 2002.  Last revised 18 Jun 2026.
 {
 #	Check M
 	M <- as.matrix(M)
@@ -379,7 +379,7 @@ gls.series <- function(M,design=NULL,ndups=2,spacing=1,block=NULL,correlation=NU
 is.fullrank <- function(x)
 #	Check whether a numeric matrix has full column rank
 #	Gordon Smyth
-#	18 August 2003.  Last modified 9 March 2004.
+#	18 Aug 2003.  Last modified 9 Mar 2004.
 {
 	x <- as.matrix(x)
 	e <- eigen(crossprod(x),symmetric=TRUE,only.values=TRUE)$values
@@ -390,7 +390,7 @@ nonEstimable <- function(x)
 #	Check whether a numeric matrix has full column rank
 #	If not, return names of redundant columns
 #	Gordon Smyth
-#	10 August 2004
+#	10 Aug 2004
 {
 	x <- as.matrix(x)
 	p <- ncol(x)
@@ -410,7 +410,7 @@ nonEstimable <- function(x)
 fitted.MArrayLM <- function(object,...)
 #	Fitted values from MArray linear model fit
 #	Gordon Smyth
-#	29 November 2005.  Last modified 12 Feb 2019.
+#	29 Nov 2005.  Last modified 12 Feb 2019.
 {
 	if(!is.null(object$contrasts)) stop("Object contains contrasts rather than coefficients, so fitted values cannot be computed.")
 	object$coefficients %*% t(object$design)
@@ -419,7 +419,7 @@ fitted.MArrayLM <- function(object,...)
 residuals.MArrayLM <- function(object,y,...)
 #	Residuals from MArray linear model fit
 #	Gordon Smyth
-#	29 November 2005
+#	29 Nov 2005
 {
 	as.matrix(y) - fitted(object)
 }
@@ -427,7 +427,7 @@ residuals.MArrayLM <- function(object,y,...)
 getEAWP <- function(object)
 #	Given any data object, extract information needed for linear modelling.
 #	Gordon Smyth
-#	Created 9 March 2008. Last modified 6 Jan 2022.
+#	Created 9 Mar 2008. Last modified 6 Jan 2022.
 {
 	if(missing(object)) stop("no data object specified", call. = FALSE)
 	if(is.null(object)) stop("data object is NULL", call. = FALSE)

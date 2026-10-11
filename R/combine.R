@@ -3,7 +3,7 @@
 cbind.RGList <- function(..., deparse.level=1)
 #  Combine RGList objects assuming same genelists
 #  Gordon Smyth
-#  27 June 2003. Last modified 6 Nov 2005.
+#  27 Jun 2003. Last modified 6 Nov 2005.
 {
 	objects <- list(...)
 	nobjects <- length(objects)
@@ -25,7 +25,7 @@ cbind.RGList <- function(..., deparse.level=1)
 cbind.MAList <- function(..., deparse.level=1)
 #  Combine MAList objects assuming same genelists
 #  Gordon Smyth
-#  27 June 2003. Last modified 6 Nov 2005.
+#  27 Jun 2003. Last modified 6 Nov 2005.
 {
 	objects <- list(...)
 	nobjects <- length(objects)
@@ -45,7 +45,7 @@ cbind.MAList <- function(..., deparse.level=1)
 cbind.EListRaw <- cbind.EList <- function(..., deparse.level=1)
 #  Combine EList objects assuming same genelists
 #  Gordon Smyth
-#  23 March 2009.  Last modified 5 June 2013.
+#  23 Mar 2009.  Last modified 5 Jun 2013.
 {
 	objects <- list(...)
 	nobjects <- length(objects)
@@ -108,7 +108,7 @@ rbind.MAList <- function(..., deparse.level=1)
 rbind.EListRaw <- rbind.EList <- function(..., deparse.level=1)
 #  Combine EList objects assuming same array lists
 #  Gordon Smyth
-#  23 March 2009.  Last modified 26 October 2010.
+#  23 Mar 2009.  Last modified 26 Oct 2010.
 {
 	objects <- list(...)
 	nobjects <- length(objects)
@@ -129,7 +129,7 @@ rbind.EListRaw <- rbind.EList <- function(..., deparse.level=1)
 makeUnique <- function(x)
 #  Add characters to the elements of a character vector to make all values unique
 #  Gordon Smyth
-#  10 April 2003.  Last modified 28 June 2016.
+#  10 Apr 2003.  Last modified 28 Jun 2016.
 {
 	x <- as.character(x)
 	tab <- table(x)
@@ -148,7 +148,7 @@ makeUnique <- function(x)
 merge.RGList <- function(x,y,...)
 #  Merge RGList y into x aligning by row names
 #  Gordon Smyth
-#  11 April 2003.  Last modified 28 Oct 2005.
+#  11 Apr 2003.  Last modified 28 Oct 2005.
 {
 	if(!is(y,"RGList")) stop("both x and y must be RGList objects")
 	genes1 <- rownames(x$R)

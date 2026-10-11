@@ -3,7 +3,7 @@
 wtarea <- function(ideal=c(160,170))
 #	Quality weight function based on spot area from SPOT output
 #	Gordon Smyth
-#	9 March 2003.  Last revised 17 May 2019.
+#	9 Mar 2003.  Last revised 17 May 2019.
 
 function(spot) {
 	e <- range(ideal)
@@ -19,7 +19,7 @@ function(spot) {
 wtflags <- function(weight=0,cutoff=0)
 #	Quality weight function based on Flags from GenePix output
 #	Gordon Smyth
-#	9 March 2003.  Last revised 29 July 2006.
+#	9 Mar 2003.  Last revised 29 Jul 2006.
 
 function(gpr) {
 	flagged <- (gpr[,"Flags"] < cutoff)
@@ -37,7 +37,7 @@ wtIgnore.Filter <- function(qta)
 modifyWeights <- function(weights=rep(1,length(status)), status, values, multipliers)
 #	Modify weights for given status values
 #	Gordon Smyth
-#	29 Dec 2003. Last modified 9 June 2020.
+#	29 Dec 2003. Last modified 9 Jun 2020.
 {
 	status <- as.character(status)
 	weights <- as.matrix(weights)
@@ -57,7 +57,7 @@ modifyWeights <- function(weights=rep(1,length(status)), status, values, multipl
 asMatrixWeights <- function(weights,dim=NULL)
 #	Convert probe-weights or array-weights to weight matrix
 #	Gordon Smyth
-#	22 Jan 2006.  Last modified 10 July 2008.
+#	22 Jan 2006.  Last modified 10 Jul 2008.
 {
 	weights <- as.matrix(weights)
 	if(is.null(dim)) return(weights)

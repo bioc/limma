@@ -4,7 +4,7 @@ lmscFit <- function(object,design,correlation)
 #	Fit single channel linear model for each gene to a series of microarrays
 #	allowing for known correlation between the channels on each spot.
 #	Gordon Smyth
-#	14 March 2004.  Last modified 9 June 2020.
+#	14 Mar 2004.  Last modified 9 Jun 2020.
 {
 #	Check object (assumed to a MAList)
 	if(!is.list(object)) stop("object should be an MAList")
@@ -64,7 +64,7 @@ lmscFit <- function(object,design,correlation)
 intraspotCorrelation <- function(object,design,trim=0.15)
 #	Estimate intra-spot correlation between channels for two channel data
 #	Gordon Smyth
-#	19 April 2004.  Last modified 22 July 2024.
+#	19 Apr 2004.  Last modified 22 Jul 2024.
 {
 #	Check input
 	M <- as.matrix(object$M)
@@ -108,7 +108,7 @@ targetsA2C <- function(targets,channel.codes=c(1,2),channel.columns=list(Target=
 #	Convert data.frame with one row for each two-color array
 #	into data.frame with one row for each channel
 #	Gordon Smyth
-#	16 March 2004.  Last modified 8 Feb 2008.
+#	16 Mar 2004.  Last modified 8 Feb 2008.
 {
 	targets <- as.data.frame(targets)
 	narrays <- nrow(targets)
@@ -149,7 +149,7 @@ targetsA2C <- function(targets,channel.codes=c(1,2),channel.columns=list(Target=
 designI2M <- function(design)
 #  Convert individual channel design matrix to design matrix for log-ratios
 #  Gordon Smyth
-#  22 June 2004
+#  22 Jun 2004
 {
 	design <- as.matrix(design)
 	narrays <- nrow(design)/2
@@ -159,7 +159,7 @@ designI2M <- function(design)
 designI2A <- function(design)
 #  Convert individual channel design matrix to design matrix for A-values
 #  Gordon Smyth
-#  22 June 2004
+#  22 Jun 2004
 {
 	design <- as.matrix(design)
 	narrays <- nrow(design)/2
@@ -168,7 +168,7 @@ designI2A <- function(design)
 
 exprs.MA <- function(MA)
 #	Extract matrix of log-expression data from MAList object
-#	Gordon Smyth, 29 August 2006
+#	Gordon Smyth, 29 Aug 2006
 {
 	y <- rbind(as.matrix(MA$A-MA$M/2),as.matrix(MA$A+MA$M/2))
 	dim(y) <- c(nrow(y)/2,ncol(y)*2)

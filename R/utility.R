@@ -4,7 +4,7 @@
 #	Multiply the columns of matrix by the elements of a vector,
 #	i.e., compute M %*% diag(v)
 #	Gordon Smyth
-#	5 July 1999
+#	5 Jul 1999
 #
 	v <- as.vector(v)
 	M <- as.matrix(M)
@@ -16,7 +16,7 @@
 #	Multiply the rows of matrix by the elements of a vector,
 #	i.e., compute diag(v) %*% M
 #	Gordon Smyth
-#	5 July 1999
+#	5 Jul 1999
 #
 	v <- as.vector(v)
 	M <- as.matrix(M)
@@ -27,7 +27,7 @@
 isNumeric <- function(x) {
 #	Test for numeric argument or data.frame with numeric columns
 #	Gordon Smyth
-#	12 April 2003
+#	12 Apr 2003
 
 	is.numeric(x) || (is.data.frame(x) && length(x)>0 && all(unlist(lapply(x,is.numeric))))
 }
@@ -58,7 +58,7 @@ blockDiag <- function(...)
 helpMethods <- function(genericFunction) {
 #	Prompt user for help topics on methods for generic function
 #	Gordon Smyth
-#	21 April 2003.  Last revised 24 June 2014.
+#	21 Apr 2003.  Last revised 24 Jun 2014.
 
 	objectclass <- class(genericFunction)
  	if(objectclass != "standardGeneric") {

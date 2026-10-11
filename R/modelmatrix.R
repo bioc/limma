@@ -10,7 +10,7 @@ modelMatrix <- function(targets, parameters=NULL, ref=NULL, verbose=TRUE)
 #	'parameters' specifies desired coefficients corresponding to columns of design matrix
 #	'ref' is common reference if such exists
 #	Gordon Smyth
-#	25 June 2003. Last modified 1 Aug 2005.
+#	25 Jun 2003. Last modified 1 Aug 2005.
 {
 	if(missing(targets)) stop("targets is required argument")
 	targets <- as.matrix(targets)
@@ -46,7 +46,7 @@ modelMatrix <- function(targets, parameters=NULL, ref=NULL, verbose=TRUE)
 makeContrasts <- function(..., contrasts=NULL, levels)
 #	Construct matrix of custom contrasts
 #	Gordon Smyth
-#	30 June 2003.  Last modified 18 April 2025.
+#	30 Jun 2003.  Last modified 18 Apr 2025.
 {
 	e <- substitute(list(...))
 	if(is.factor(levels)) levels <- levels(levels)

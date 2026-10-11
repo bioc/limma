@@ -1,6 +1,6 @@
 logcosh <- function(x)
 #	Compute log(cosh(x)) without floating over or underflow
-#	Gordon Smyth  8 April 2007
+#	Gordon Smyth  8 Apr 2007
 {
 	y <- abs(x)-log(2)
 	i <- abs(x) < 1e-4

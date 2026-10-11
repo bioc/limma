@@ -8,13 +8,13 @@
   voomLmFit() transferred to limma from the edgeR package.
   Previously, voomLmFit() needed to call edgeR::glmFit() in order to
   identify exact zero fitted values, but voomLmFit() now calls a
-  new limma C routine `poisfit` for the same purpose, removing the
+  new limma C routine 'poisfit' for the same purpose, removing the
   dependence on edgeR.
 
   \item
   For the purpose of estimating sample weights, voomLmFit() calls
-  arrayWeights() with `method="reml"` if there is no loss of df due to
-  exact zero fitted values and `method="genebygene"` otherwise.
+  arrayWeights() with 'method="reml"' if there is no loss of df due to
+  exact zero fitted values and 'method="genebygene"' otherwise.
 
   \item
   The voomLmFit help page has been expanded, while the voom and
@@ -22,20 +22,20 @@
   users to voomLmFit.
 
   \item
-  voomLmFit() now gives priority to `offset` over `offset.prior` or
-  `lib.size` and no longer forces the rows of `offset.prior` to add
+  voomLmFit() now gives priority to 'offset' over 'offset.prior' or
+  'lib.size' and no longer forces the rows of 'offset.prior' to add
   to zero.
 
   \item
-  New argument `contrasts` for voomLmFit(), lmFit(), lm.series() and
+  New argument 'contrasts' for voomLmFit(), lmFit(), lm.series() and
   gls.series(), which converts coefficient estimates and standard
   deviations into contrast estimates and standard deviations. This
-  argument provides the  same functionality as calling `contrasts.fit`
+  argument provides the  same functionality as calling 'contrasts.fit'
   on the output object, but with exact rather than approximate
   standard deviations.
 
   \item
-  New argument `nthreads` for voomLmFit(), lmFit(), lm.series(),
+  New argument 'nthreads' for voomLmFit(), lmFit(), lm.series(),
   gls.series(), duplicateCorrelation(), and
   arrayWeights() to enable OpenMP parallelization of genewise fits.
 
@@ -52,7 +52,7 @@
 
   \item
   C code backend for .arrayWeightsPrWtsREML(), which is called by
-  arrayWeights() when `method="reml"` and prior weights
+  arrayWeights() when 'method="reml"' and prior weights
   are set.
 
   \item
@@ -62,6 +62,11 @@
   \item
   New function normalizeBetweenSamples(). Similar to
   normalizeBetweenArrays() but works on ELists.
+
+  \item
+  camera() and cameraPR() now support gene sets as expression
+  signatures, whereby a logFC or similar expected directional change
+  is provided for each gene in the gene set.
 
   \item
   avearrays() methods for EList and MAList objects now sum the weights
@@ -94,16 +99,16 @@
 
 \section{version 3.68.0 (2026-04-28)}{\itemize{
   \item
-  New arguments `offset` and `offset.prior` for voom(). voom() now
+  New arguments 'offset' and 'offset.prior' for voom(). voom() now
   supports offsets in DGEList objects.
 
   \item
-  New argument `treat.lfc` for topSplice() to allow TREAT fold-change
+  New argument 'treat.lfc' for topSplice() to allow TREAT fold-change
   thresholding with diffSplice() output.
 
   \item
-  In normalizeCyclicLoess(), default for `adaptive.span` becomes `TRUE`,
-  and the `span` is chosen using the default settings of 
+  In normalizeCyclicLoess(), default for 'adaptive.span' becomes 'TRUE',
+  and the 'span' is chosen using the default settings of 
   chooseLoessSpan().
   
   \item
@@ -114,18 +119,18 @@
 
 \section{version 3.66.0 (2025-10-28)}{\itemize{
   \item
-  New argument `upshot` for treat().
+  New argument 'upshot' for treat().
 
   \item
-  New argument `span` for fitFDistUnequalDF1(), squeezeVar() and eBayes().
+  New argument 'span' for fitFDistUnequalDF1(), squeezeVar() and eBayes().
 
   \item
-  The default for `adaptive.span` in voom() and
-  voomWithQualityWeights() is now `TRUE`. All the voom functions now
-  use chooseLowessSpan() by default to choose the `span`.
+  The default for 'adaptive.span' in voom() and
+  voomWithQualityWeights() is now 'TRUE'. All the voom functions now
+  use chooseLowessSpan() by default to choose the 'span'.
 
   \item
-  New argument `xlab` for plotSplice() to allow labeling in terms of 
+  New argument 'xlab' for plotSplice() to allow labeling in terms of 
   transcripts or other splicing events instead of exons.
 
   \item
@@ -137,7 +142,7 @@
   index.
 
   \item
-  makeContrasts() now uses the contrast names if `contrasts` is a
+  makeContrasts() now uses the contrast names if 'contrasts' is a
   named vector.
 
   \item
@@ -145,20 +150,20 @@
   names are not syntactically valid.
 
   \item
-  Bug fix to contrastAsCoef() when the `contrast` matrix is not of
+  Bug fix to contrastAsCoef() when the 'contrast' matrix is not of
   full column rank.
 
   \item
-  The columns of the `covariates` matrix input to removeBatchEffect()
+  The columns of the 'covariates' matrix input to removeBatchEffect()
   are now mean-corrected.
 
   \item
-  removeBatchEffect() now gives a message if `design` is not
+  removeBatchEffect() now gives a message if 'design' is not
   specified.
 
   \item
-  Bug fix for topTable() when `confint=TRUE` and either `p.value` is
-  less than 1 or `lfc` is greater than zero.
+  Bug fix for topTable() when 'confint=TRUE' and either 'p.value' is
+  less than 1 or 'lfc' is greater than zero.
 
   \item
   Revise help page for lmFit(), removing out-of-date mention of
@@ -174,7 +179,7 @@
 
 \section{version 3.64.0 (2025-04-16)}{\itemize{
   \item
-  In topSplice(), the default for `test` is now "F" instead of
+  In topSplice(), the default for 'test' is now "F" instead of
   "simes".
 
   \item
@@ -182,7 +187,7 @@
   for MArrayLM objects.
 
   \item
-  New argument `legacy` for diffSplice().
+  New argument 'legacy' for diffSplice().
 
   \item
   diffSplice() now adjusts transcript-level p-values using the full
@@ -196,7 +201,7 @@
   alternative to Simes method.
 
   \item
-  The `gene.genes` data.frame returned by diffSplice() now has row
+  The 'gene.genes' data.frame returned by diffSplice() now has row
   names set to the gene IDs. Previously the last exon ID for each gene
   was used.
 
@@ -206,7 +211,7 @@
 
   \item
   Bug fix to diffSplice() when fitFDistUnequalDF1() was
-  called with `robust=TRUE`, i.e., whenever `robust=TRUE` and the
+  called with 'robust=TRUE', i.e., whenever 'robust=TRUE' and the
   number of transcripts differs between genes.
 
   \item
@@ -215,20 +220,20 @@
   not weighted by df when pooling.
 
   \item
-  New argument `directional` for camera() and cameraPR().
+  New argument 'directional' for camera() and cameraPR().
 
   \item
-  vooma() now allows missing values in both `y` and
-  `predictor`, provided there are no entirely missing rows and
+  vooma() now allows missing values in both 'y' and
+  'predictor', provided there are no entirely missing rows and
   provided all non-NA y values have a non-NA predictor.
 
   \item
-  voomaLmFit() now allows missing values in `y` and
-  `predictor`, provided there are no entirely missing rows and
+  voomaLmFit() now allows missing values in 'y' and
+  'predictor', provided there are no entirely missing rows and
   provided all non-NA y values have a non-NA predictor.
 
   \item
-  voomaLmFit() now allows `predictor` to be either a matrix or a
+  voomaLmFit() now allows 'predictor' to be either a matrix or a
   column vector with genewise values.
 
   \item
@@ -252,14 +257,14 @@
   even when the df1 values are all equal. The new hyperpameter estimation
   will be used by default by eBayes(), treat() and squeezeVar() whenever
   the residual degrees of freedom are unequal, but users can request
-  legacy behavior for those functions by setting `legacy=TRUE`.
+  legacy behavior for those functions by setting 'legacy=TRUE'.
 
   \item
-  New argument `adaptive.span` for voomWithQualityWeights() and
-  normalizeCyclicLoess(), with the same purpose as the same argument for voom(). If `TRUE` then
+  New argument 'adaptive.span' for voomWithQualityWeights() and
+  normalizeCyclicLoess(), with the same purpose as the same argument for voom(). If 'TRUE' then
   an optimal value for the span is chosen based on the number of genes
-  in the dataset. voom() and voomWithQualityWeights() now return the chosen `span` as part of the
-  output object if `adaptive.span=TRUE`.
+  in the dataset. voom() and voomWithQualityWeights() now return the chosen 'span' as part of the
+  output object if 'adaptive.span=TRUE'.
 
   \item
   contrasts.fit() now converts the coefficient name "(Intercept)"
@@ -269,9 +274,9 @@
   by makeContrasts().
 
   \item
-  New argument `keep.EList` for voomaLmFit(), similar to the same
+  New argument 'keep.EList' for voomaLmFit(), similar to the same
   argument for edgeR::voomLmFit(). The observation weights
-  generated by voomaLmFit() are now stored only if `keep.EList=TRUE`.
+  generated by voomaLmFit() are now stored only if 'keep.EList=TRUE'.
 
   \item
   voomaByGroup() now uses the overall mean-variance trend for groups
@@ -284,22 +289,22 @@
   design matrices are supported by this function.
 
   \item
-  Revise the eBayes/treat help page to further clarify the `legacy`
-  and `fc` arguments.
+  Revise the eBayes/treat help page to further clarify the 'legacy'
+  and 'fc' arguments.
 
   \item
   Bug fix to voomaByGroup() to save variance plot parameters
-  correctly when `save.plot=TRUE`.
+  correctly when 'save.plot=TRUE'.
 
   \item
-  Remove argument `zero.weights` from the MArrayLM method for
+  Remove argument 'zero.weights' from the MArrayLM method for
   plotMD() and plotMA().
 
   \item
   Fix bug in the MArrayLM methods for plotMD() and plotMA(), which
-  were attempting to access a `weights` component of the fitted model
+  were attempting to access a 'weights' component of the fitted model
   object, analogously to what plotMD() does with the EList or MAList
-  objects, even though MArrayLM objects do not contain a `weights` component.
+  objects, even though MArrayLM objects do not contain a 'weights' component.
 
   \item
   Use of the stats package digamma() function 
@@ -311,37 +316,37 @@
 
 \section{version 3.60.0 (2024-05-01)}{\itemize{
   \item
-  The default settings for the `small.n` and `min.span` arguments of
+  The default settings for the 'small.n' and 'min.span' arguments of
   chooseLowessSpan() have been increased, increasing the chosen span
   value.
 
   \item
-  New argument `adaptive.span` for voom(). If `TRUE`, then
-  chooseLowessSpan() is used to select an optimal `span` value
+  New argument 'adaptive.span' for voom(). If 'TRUE', then
+  chooseLowessSpan() is used to select an optimal 'span' value
   depending on the number of genes, same as is done for vooma(),
   voomaByGroup() and voomaLmFit().
 
   \item
-  The plot information saved by voom() when `save.plot=TRUE` now
-  includes `pch` and `cex` plotting character settings.
+  The plot information saved by voom() when 'save.plot=TRUE' now
+  includes 'pch' and 'cex' plotting character settings.
 
   \item
-  The default `span` set by vooma() is increased slightly to the value given by
-  `chooseLowessSpan(ngenes, small.n=50, min.span=0.3, power=1/3)`. A new
-  argument `legacy.span` had been added to optionally restore the old
-  default settings for `span` for users who want backward
+  The default 'span' set by vooma() is increased slightly to the value given by
+  'chooseLowessSpan(ngenes, small.n=50, min.span=0.3, power=1/3)'. A new
+  argument 'legacy.span' had been added to optionally restore the old
+  default settings for 'span' for users who want backward
   compatibility.
 
   \item
-  vooma() argument `covariate` renamed to `predictor`.
+  vooma() argument 'covariate' renamed to 'predictor'.
 
   \item
   vooma() has been revised in several other ways to match the
   behavior of voom() more closely. The order of arguments has been
-  adjusted to match voom() and lmFit(). A new argument `save.plot`
+  adjusted to match voom() and lmFit(). A new argument 'save.plot'
   has been added similar to the same argument for voom(). Changes to
   have also been made to the title and xlab for the variance trend
-  plot when `predictor` is non-NULL.
+  plot when 'predictor' is non-NULL.
 
   \item
   New function voomaLmFit() with the same functionality as vooma() but
@@ -364,9 +369,9 @@
 }}
 
 
-\section{version 3.58.0 (2023-10-2That's correct 5)}{\itemize{
+\section{version 3.58.0 (2023-10-25)}{\itemize{
   \item
-  New argument `covariate` for vooma() that allows the variance
+  New argument 'covariate' for vooma() that allows the variance
   trend to depend on an extra covariate in addition to average
   log-expression. This allows vooma() to take account of any
   predictor that is correlated with the precision of each expression
@@ -374,14 +379,14 @@
 
   \item
   New argument 'group' to simplify the typical calling sequence for removeBatchEffect().
-  The `group` argument provides an alternative and possibly simpler way to specify the experimental conditions to be preserved.
+  The 'group' argument provides an alternative and possibly simpler way to specify the experimental conditions to be preserved.
 
   \item
   treat() now works when there are NA coefficients. Previously it gave
   an error if any estimated coefficient was NA.
 
   \item
-  Fix behaviour of topTable() with `adjust.method=NULL` so that it
+  Fix behaviour of topTable() with 'adjust.method=NULL' so that it
   gives "BH" adjustment as documented. Previously the argument was
   passed to p.adjust(), which gave "holm" adjustment.
 
@@ -390,7 +395,7 @@
   The Introduction vignette is also somewhat expanded.
 
   \item
-  cameraPR() has been addeed to the `10GeneSetTests.Rd` help topic.
+  cameraPR() has been addeed to the '10GeneSetTests.Rd' help topic.
 
   \item
   The pdf limma User's Guide is now formally listed as a vignette.
@@ -407,7 +412,7 @@
   Rename readSampleInfoFromGEO() to sampleInfoFromGEO().
 
   \item
-  Add new argument `p.value` for topGO() and topKEGG().
+  Add new argument 'p.value' for topGO() and topKEGG().
 
   \item
   Fix a problem with inconsistent pathway names from KEGG. Due to a
@@ -417,7 +422,7 @@
   removes the "path:" prefix.
 
   \item
-  eBayes() now checks whether `fit` is a list object before
+  eBayes() now checks whether 'fit' is a list object before
   undertaking other tests.
 
   \item
@@ -437,17 +442,17 @@
   \item
   New function goanaTrend() to estimate a covariate-dependent trend in
   the probability of differential expression for use in goana() and
-  kegga() with `trend=TRUE`. The trend estimated by goanaTrend() is
+  kegga() with 'trend=TRUE'. The trend estimated by goanaTrend() is
   squeezed slightly towards constancy to provide stability when the
   number of DE genes is small. The amount of squeezing decreases with
   the number of DE genes.
 
-  goana() and kegga() now call goanaTrend() when the `trend` argument
-  is used. When `plot=TRUE` the plot is now created by goanaTrend()
+  goana() and kegga() now call goanaTrend() when the 'trend' argument
+  is used. When 'plot=TRUE' the plot is now created by goanaTrend()
   instead of by barcodeplot().
 
   \item
-  Rename argument `prior.prob` to `null.prob` in goana() and kegga().
+  Rename argument 'prior.prob' to 'null.prob' in goana() and kegga().
 
   \item
   Update goana() and kegga() code to catch NA gene IDs or covariate
@@ -461,8 +466,8 @@
   kegga() now uses https instead of http links when reading from rest.kegg.jp.
 
   \item
-  Add new argument `fc` to topTable() and topTableF().
-  Change default for `lfc` to NULL instead of 0.
+  Add new argument 'fc' to topTable() and topTableF().
+  Change default for 'lfc' to NULL instead of 0.
 
   \item
   lmFit() now checks explicitly for NAs in the design matrix.
@@ -477,16 +482,16 @@
   New function readSampleInfoFromGEO().
 
   \item
-  Allow the `trend` argument of eBayes() to specify a general variance
+  Allow the 'trend' argument of eBayes() to specify a general variance
   covariate.
 
   \item
 
-  More detailed checking and error messages when the `object` input to
+  More detailed checking and error messages when the 'object' input to
   lmFit() is a data.frame.
 
   \item
-  Improve checking for incorrectly specified `contrasts` argument in
+  Improve checking for incorrectly specified 'contrasts' argument in
   contrasts.fit().
 }}
 
@@ -500,11 +505,11 @@
   X and Y genes is consistent between plots.
 
   \item
-  Fix bug in the MDS class method of plotMDS() (introduced in the previous release) when new `dim.plot`
+  Fix bug in the MDS class method of plotMDS() (introduced in the previous release) when new 'dim.plot'
   values are set.
 
   \item
-  Fix bug in read.idat() when `annotation` contains NA values.
+  Fix bug in read.idat() when 'annotation' contains NA values.
 }}
 
 
@@ -513,18 +518,18 @@
   \subsection{New functionality}{\itemize{
 
     \item
-    Explicitly setting `weights=NULL` in a call to lmFit() no longer
-    over-rides the `weights` value found in `object`.
-    Default settings in lmFit() changed from `ndups=` and `spacing=1`
-    to `ndups=NULL` and `spacing=NULL`, although this doesn't change function behavior
+    Explicitly setting 'weights=NULL' in a call to lmFit() no longer
+    over-rides the 'weights' value found in 'object'.
+    Default settings in lmFit() changed from 'ndups=' and 'spacing=1'
+    to 'ndups=NULL' and 'spacing=NULL', although this doesn't change function behavior
     from a user point of view.
 
     \item
     A number of improvements to duplicateCorrelation() to make the results more robust
     and to make the interface consistent with lmFit().
-    duplicateCorrelation() sets `weights` same as lmFit(). Setting
-    `weights=NULL` in the function call no longer overwrites weights
-    found in `object`.
+    duplicateCorrelation() sets 'weights' same as lmFit(). Setting
+    'weights=NULL' in the function call no longer overwrites weights
+    found in 'object'.
     duplicateCorrelation() now checks whether the block factor is
     spanned by the design matrix. If so, it returns intrablock
     correlations of zero with a warning. Previously this usage error
@@ -539,7 +544,7 @@
     duplicates are present.
 
     \item
-    New argument `fc` for treat() so that the fold-change threshold can
+    New argument 'fc' for treat() so that the fold-change threshold can
 	optionally be specified on the fold-change scale rather than as a
 	log2-fold-change.
 
@@ -547,12 +552,12 @@
     plotMDS() no longer calls cmdscale() but instead performs the necessary
     eigenvector computations directly. Proportion of variance explained
     by each dimension is now computed and is optionally added to the dimension labels.
-    The `ndim` argument is now
+    The 'ndim' argument is now
     removed. All eigenvectors are now stored so that plotMDS.MDS does
     not need to recompute them when different dimensions are plotted.
 
     \item
-    New arguments `path` and `bgxpath` for read.idat().
+    New arguments 'path' and 'bgxpath' for read.idat().
     read.idat() now checks for gzipped IDAT files and, if detected,
     gives an informative error message.
     read.idat() now checks for existence of input files before calling
@@ -572,9 +577,9 @@
   \subsection{Documentation}{\itemize{
 
     \item
-    Additional documentation for the `design` argument of `lmFit`
+    Additional documentation for the 'design' argument of 'lmFit'
     using the term "samples" instead of "arrays" and mentioning that
-    the design matrix defaults to `object$design` when that component
+    the design matrix defaults to 'object$design' when that component
     is not NULL.
  
     \item
@@ -582,7 +587,7 @@
  
     \item
     Help page for voom() now explains that the design matrix will be
-    set from the `group` factor of the DGEList object if available.
+    set from the 'group' factor of the DGEList object if available.
  
     \item
     coolmap() help page now clarifies which heatmap.2() arguments are
@@ -607,13 +612,13 @@
     New function chooseLowessSpan().
 
     \item
-    fitFDist() with a non-NULL `covariate` now fits a smoother trend
+    fitFDist() with a non-NULL 'covariate' now fits a smoother trend
     (with fewer spline knots) than before unless there are at least
     30 observations. This also affects squeezeVar() and eBayes() with
-    `trend=TRUE`.
+    'trend=TRUE'.
 
     \item
-    New argument `output.style` to weightedLowess().
+    New argument 'output.style' to weightedLowess().
 
     \item
     write.fit() now outputs a blank column heading for the row names
@@ -639,9 +644,9 @@
 
     \item
     Subsetting for RGList, MAList, EListRaw, EList, MArrayLM or
-    TestResults objects now accepts arguments other than `i` or `j`
+    TestResults objects now accepts arguments other than 'i' or 'j'
     but ignores them without an error. This is relevant if a user
-    adds a `drop` argument by analogy with matrix subsetting. Previously
+    adds a 'drop' argument by analogy with matrix subsetting. Previously
     that produced an error.
 
     \item
@@ -702,13 +707,13 @@
 
     \item
     Revise write.fit() so that column names of the output file are
-    correct when `digits=NULL` and the `fit` object contains only one
+    correct when 'digits=NULL' and the 'fit' object contains only one
     coefficient column. Previously the same contrast name was repeated
     as the column name for the coefficients, t-statistics and p.values,
     making them hard to distinguish.
  
     \item
-    Bug fix to arrayWeights() when `y` contains NAs, the design matrix
+    Bug fix to arrayWeights() when 'y' contains NAs, the design matrix
     has several columns and some but not all genes have no residual df.
 
   }}
@@ -720,7 +725,7 @@
   \subsection{New functionality}{\itemize{
 
     \item
-    Add new argument `package` to changeLog(). changeLog() now works
+    Add new argument 'package' to changeLog(). changeLog() now works
     for any package rather than only for limma.
 
   }}
@@ -742,7 +747,7 @@
     not involved (have zero multipliers) in any of the contrasts.
 
     \item
-    contrasts.fit() now preserves the `pivot` component of the fit
+    contrasts.fit() now preserves the 'pivot' component of the fit
     object instead of removing it.
 
     \item
@@ -766,7 +771,7 @@
   \subsection{Documentation}{\itemize{
 
     \item
-    More explanation of `covariates` argument to removeBatchEffects().
+    More explanation of 'covariates' argument to removeBatchEffects().
 
   }}
 
@@ -816,30 +821,30 @@
     also allowed but produces a numeric vector.
 
     \item
-    New argument `gene.weights` for fry() so as to match the arguments
+    New argument 'gene.weights' for fry() so as to match the arguments
     and behavior of mroast(). Previously gene weights could be input to
-    fry() only through the `index` argument.
+    fry() only through the 'index' argument.
     fry's mixed p-values now take account of gene weights.
     Previously gene weights were not used in fry's mixed
     p-value calculation.
 
     \item
-    Add arguments `block`, `correlation` and `weights` to voom() and
-    remove the `...` argument.
+    Add arguments 'block', 'correlation' and 'weights' to voom() and
+    remove the '...' argument.
 
     \item
     Update the arguments of voomWithQualityWeights() to match the
     revisions to arrayWeights() in limma 3.40.0.
-    Add new argument `var.group`.
+    Add new argument 'var.group'.
 
     \item
-    New arguments `xlab`, `ylab` and `main` for plotFB(). The default
+    New arguments 'xlab', 'ylab' and 'main' for plotFB(). The default
     plot title now includes the column name from the data object.
-    Default for `pch` increased to 0.3.
+    Default for 'pch' increased to 0.3.
 
     \item
     plotWithHighlights and plotMD.MArrayLM now gives special treatment
-    to the case that `status` is a TestResults object.
+    to the case that 'status' is a TestResults object.
 
   }}
 
@@ -849,25 +854,25 @@
     roast() and mroast() now use less memory. Memory usage now
     remains bounded regardless of the number of rotations used.
     Both functions are faster than before when \code{approx.zscore=TRUE}.
-    A new argument `legacy` is added to allow users to turn these improvements
+    A new argument 'legacy' is added to allow users to turn these improvements
     off if they wish to reproduce numerical results from limma 3.40.0 exactly.
-    The default number of rotations `nrot` is increased  
+    The default number of rotations 'nrot' is increased  
     from 999 to 1999.
-    A bug has been fixed for roast() and mroast() when `index` is a character vector of geneids or
+    A bug has been fixed for roast() and mroast() when 'index' is a character vector of geneids or
     rownames. Previously this usage failed.
 
     \item
     Complete rewrite of zscoreT(), which is now somewhat faster and
     offer two new options for the normalizing transformation. The new
-    argument `method` indicates which transformation is used when
-    `approx=TRUE`. The default approximation method is changed from
+    argument 'method' indicates which transformation is used when
+    'approx=TRUE'. The default approximation method is changed from
     "hill" to "bailey".
-    zscoreT() now allows NA values when `approx=TRUE` and works
-    correctly for all valid df values.  Previously `approx=TRUE`
-    returned NA results for `df` infinite or <= 0.05. A simple robust
+    zscoreT() now allows NA values when 'approx=TRUE' and works
+    correctly for all valid df values. Previously 'approx=TRUE'
+    returned NA results for 'df' infinite or <= 0.05. A simple robust
     approximation from Wallace (1959) has been introduced to handle
-    very large or very small `df` values. Previously `approx=FALSE`
-    treated any `df` greater than 10000 as infinite; this threshold is
+    very large or very small 'df' values. Previously 'approx=FALSE'
+    treated any 'df' greater than 10000 as infinite; this threshold is
     now raised to 1e300.
 
     \item
@@ -875,11 +880,11 @@
 
     \item
     All uses of the approx() function now set
-    `ties=list("ordered",mean)`, except for fitFDistRobustly()
-    which uses `ties=mean`.
+    'ties=list("ordered",mean)', except for fitFDistRobustly()
+    which uses 'ties=mean'.
     The change was prompted by a change in
-    R 3.6.0 whereby using the default for `ties` generates a warning
-    message whenever ties are present in `x`. The new code gives the
+    R 3.6.0 whereby using the default for 'ties' generates a warning
+    message whenever ties are present in 'x'. The new code gives the
     same results but is very slightly faster and avoids the warning
     message.
     limma now depends on R >= 3.6.0 because of this change.
@@ -906,7 +911,7 @@
  \subsection{Bug fixes}{\itemize{
 
    \item
-   Fix bug in barcodeplot() when `index` or `index2` are character
+   Fix bug in barcodeplot() when 'index' or 'index2' are character
    vectors.
 
   }}
@@ -1081,7 +1086,7 @@ This allows the functions to accept precision weights, or gene weights, or sampl
 }}
 
 
-\section{version 3.34.0}{\itemize{
+\section{version 3.34.0 (2017-10-31)}{\itemize{
 
 \item 
 read.idat() can now handle idat files in SNP format.
@@ -1165,7 +1170,7 @@ New function coolmap(). This is essentially a wrapper for the
 
 \item
 decideTests() is now an S3 generic function with a default method
-  and a method for MArrayLM objects.  decideTests() now selects all
+  and a method for MArrayLM objects. decideTests() now selects all
   null hypotheses as rejected if p.value=1.
 
 \item
@@ -1182,7 +1187,7 @@ New argument 'style' for volcanoplot(). The default is now to use
 New argument 'xlab' for barcodeplot().
 
 \item
-New argument 'col' for plotSA().  plotSA() now longer plots a
+New argument 'col' for plotSA(). plotSA() now longer plots a
   lowess curve trend, but if appropriate both high and low outlier
   variances are highlighted in a different color.
 
@@ -1206,7 +1211,7 @@ Default for 'legend' argument of plotWithHighlights() changed from
 
 \item
 fitFDist() now estimates the scale by mean(x) when df2 is estimated
-  to be Inf.  This will make the results from eBayes() less
+  to be Inf. This will make the results from eBayes() less
   conservative than before when df.prior=Inf.
 
 \item
@@ -1253,7 +1258,7 @@ Bug fix to printHead() for arrays with 1 column.
 
 \item
   New function fitmixture() to estimate genewise fold changes and
-  expression values from mixture experiments.  Previously this
+  expression values from mixture experiments. Previously this
   funtion was only available as part of the illumina package available
   from http://bioinf.wehi.edu.au/illumina
 
@@ -1263,19 +1268,19 @@ Bug fix to printHead() for arrays with 1 column.
 
 \item
   The default settings for the 'inter.gene.cor' and 'use.neg.cor'
-  arguments of camera() have been changed.  camera() now uses by
+  arguments of camera() have been changed. camera() now uses by
   default a preset value for the inter-gene correlation. This has the
   effect that it tends to rank highly co-regulated,
   biologically-interpretable more highly than before.
 
 \item
   New flexibility for the roast() and mroast() functions, similar to
-  that previously implemented for fry().  The index vector for each
+  that previously implemented for fry(). The index vector for each
   gene set can now be a data.frame, allowing each gene set to have
-  its own set of gene weights.  The indices can now optionally be a
-  vector of gene names instead of a vector of indices.  roast() and
+  its own set of gene weights. The indices can now optionally be a
+  vector of gene names instead of a vector of indices. roast() and
   mroast() now support the robust empirical Bayes option of
-  squeezeVar().  roast() and mroast() can now accept, via '...', any
+  squeezeVar(). roast() and mroast() can now accept, via '...', any
   argument that would be normally passed to lmFit() or eBayes().
 
 \item
@@ -1353,28 +1358,28 @@ Bug fix to printHead() for arrays with 1 column.
 \section{version 3.28.0 (2016-05-04)}{\itemize{
 
 \item
-  Improved capabilities and performance for fry().  fry() has two
-  new arguments, 'geneid' and 'standardize'.  The index argument of
+  Improved capabilities and performance for fry(). fry() has two
+  new arguments, 'geneid' and 'standardize'. The index argument of
   fry() can now be a list of data.frames containing identifiers and
-  weights for each set.  The options introduced by the standardize
+  weights for each set. The options introduced by the standardize
   argument allows fry() to be more statistically powerful when genes have unequal
-  variances.  fry() now accepts any arguments that would be suitable
+  variances. fry() now accepts any arguments that would be suitable
   for lmFit() or eBayes().
   The 'sort' argument of fry() is now the same as for mroast().
 
 \item
   roast(), mroast(), fry() and camera() now require the 'design'
-  matrix to be set.  Previously the design matrix defaulted to a
+  matrix to be set. Previously the design matrix defaulted to a
   single intercept column.
 
 \item
-  Two changes to barcodeplot():  new argument 'alpha' to set
+  Two changes to barcodeplot(): new argument 'alpha' to set
   semitransparency of positional bars in some circumstances;
   the default value for 'quantiles' is increased slightly.
 
 \item
   kegga() has several new arguments and now supports any species
-  supported by KEGG.  kegga() can now accept annotation as a
+  supported by KEGG. kegga() can now accept annotation as a
   data.frame, meaning that it can work from user-supplied annotation.
 
 \item
@@ -1390,20 +1395,20 @@ Bug fix to printHead() for arrays with 1 column.
 
 \item
   plotRLDF() now produces more complete output and the output is
-  more completely documented.  It can now be used as a complete LDF
-  analysis for classification based on training data.  The argument
+  more completely documented. It can now be used as a complete LDF
+  analysis for classification based on training data. The argument
   'main' has been removed as an explicit argument because it and
   other plotting arguments are better passed using the ... facility.
-  New arguments 'ndim' and 'plot' have been added.  The first allows
+  New arguments 'ndim' and 'plot' have been added. The first allows
   all possible discriminant functions to be completed even if only
-  two are plotted.  The second allows dicriminant functions to be
+  two are plotted. The second allows dicriminant functions to be
   computed without a plot.
   
   plotRLDF() also now uses squeezeVar() to estimate how by how much the
-  within-group covariance matrix is moderated.  It has new arguments
+  within-group covariance matrix is moderated. It has new arguments
   'trend' and 'robust' as options to the empirical Bayes estimation
-  step.  It also has new argument 'var.prior' to allow the prior
-  variances to be optionally supplied.  Argument 'df.prior' can now be
+  step. It also has new argument 'var.prior' to allow the prior
+  variances to be optionally supplied. Argument 'df.prior' can now be
   a vector of genewise values.
 
 \item
@@ -1417,13 +1422,13 @@ Bug fix to printHead() for arrays with 1 column.
 
 \item
   Slightly improved algorithm for producing the df2.shrunk values
-  returned by fitFDistRobustly().  fitFDistRobustly() now returns
+  returned by fitFDistRobustly(). fitFDistRobustly() now returns
   tail.p.value, prob.outlier and df2.outlier as well as previously
-  returned values.  The minimum df.prior value returned by
+  returned values. The minimum df.prior value returned by
   eBayes(fit, robust=TRUE) may be slightly smaller than previously.
 
 \item
-  tmixture.vector() now handles unequal df in a better way.  This
+  tmixture.vector() now handles unequal df in a better way. This
   will be seen in slightly changed B-statistics from topTable when
   the residual or prior df are not all equal.
 
@@ -1456,9 +1461,9 @@ Bug fix to printHead() for arrays with 1 column.
 
 \item
   goana() with trend now chooses the span of the tricube smoother
-  based on the number of differentially expressed genes.  Larger
+  based on the number of differentially expressed genes. Larger
   spans give smoother trends and are used for smaller numbers of
-  genes.  Arguments 'species' and 'plot' are no longer part of
+  genes. Arguments 'species' and 'plot' are no longer part of
   goana.MArrayLM() and are instead passed if present in a call to goana.default().
 
 \item
@@ -1466,13 +1471,13 @@ Bug fix to printHead() for arrays with 1 column.
   characters appearing in a column of the output data.frame.
 
 \item
-  Improved power for the romer() function.  The empirical Bayes
+  Improved power for the romer() function. The empirical Bayes
   shrinkage of the residuals, removed on 4 April, has been
-  re-instated in a corrected form.  It can optionally be turned off
+  re-instated in a corrected form. It can optionally be turned off
   using the 'shrink.resid' argument.
 
 \item
-  camera() has a new argument inter.gene.cor.  This allows a preset
+  camera() has a new argument inter.gene.cor. This allows a preset
   inter gene correlation to be set for each test test, resulting in
   potentially less conservative tests.
   camera() no longer gives NA results when a gene has a residual
@@ -1480,7 +1485,7 @@ Bug fix to printHead() for arrays with 1 column.
 
 \item
   mroast() now sorts significant gene sets by proportion of genes
-  changing as well as by p-value and set size.  When p-values are 
+  changing as well as by p-value and set size. When p-values are 
   equal, sets with a higher proportion of changing genes will now
   rank higher in ordered results.
   The contrast argument of roast() can now optionally be a character
@@ -1502,12 +1507,12 @@ Bug fix to printHead() for arrays with 1 column.
   tricubeMovingAverage() has new argument 'power' and old argument
   'full.length' is removed.
   tricubeMovingAverage() now checks whether span is correctly
-  specified.  It now gives identical results for any span>=1 or any
+  specified. It now gives identical results for any span>=1 or any
   span<=0.
 
 \item
   lmFit() and friends now always produce an output component 'rank'
-  that returns the column rank of the design matrix.  Previously it
+  that returns the column rank of the design matrix. Previously it
   depended on the options used whether this component was given.
 
 \item
@@ -1515,7 +1520,7 @@ Bug fix to printHead() for arrays with 1 column.
   a single gene rather than a single sample.
 
 \item
-  lmFit() now always treats infinite expression values as NA.  In the past,
+  lmFit() now always treats infinite expression values as NA. In the past,
   this was done somewhat inconsistently.
 
 \item
@@ -1533,12 +1538,12 @@ Bug fix to printHead() for arrays with 1 column.
 
 \item
   plotMD() can now accept arguments 'array' or 'coef' as appropriate
-  as synonyms for 'column'.  This may help users transitioning from
+  as synonyms for 'column'. This may help users transitioning from
   plotMA ot plotMD.
 
 \item
   Arguments hi.pch, hi.col and hi.cex of plotWithHighlights() renamed
-  to hl.pch, hl.col and hl.cex.  ('hl' is short for 'highlight'.)
+  to hl.pch, hl.col and hl.cex. ('hl' is short for 'highlight'.)
 
 \item
   New 'tolerance' argument for read.idat() to allow manifest and idat
@@ -1550,8 +1555,8 @@ Bug fix to printHead() for arrays with 1 column.
 
 \item
   All data classes (EListRaw, EList, RGList, MAList, MArrayLM) now 
-  require two arguments for subsetting.  This restores the behavior
-  in limma version 3.19.10 and earlier.  In limma 3.19.11 through
+  require two arguments for subsetting. This restores the behavior
+  in limma version 3.19.10 and earlier. In limma 3.19.11 through
   3.25.13, subsetting by one argument y[i] was equivalent to y[i,].
   This will now give an error message.
 
@@ -1578,7 +1583,7 @@ Limma review article (Ritchie et al, Nucleic Acids Research, 2015) is now publis
 References in User's Guide, help files and CITATION have been updated to refer to this article.
 
 \item
-New function plotMD() for mean-difference plots.  This will take
+New function plotMD() for mean-difference plots. This will take
   over the functionality of the plotMA() function.
 
 \item
@@ -1586,11 +1591,11 @@ mdplot() has new arguments 'columns' and 'main'.
 
 \item
 Arguments 'pch', 'cex' and 'col' of plotWithHighlights() renamed to
-  'hi.pch', 'hi.cex' and 'hi.col'.  Improved help page for
+  'hi.pch', 'hi.cex' and 'hi.col'. Improved help page for
   plotWithHighlights().
 
 \item
-plot() methods removed for EList, MAList and MArrayLM objects.  Use plotMD() instead.
+plot() methods removed for EList, MAList and MArrayLM objects. Use plotMD() instead.
 
 \item
 New function fry() provides a fast version of mroast()
@@ -1613,7 +1618,7 @@ this means that romer() results will revert to being somewhat more conservative.
 
 \item
 topGO() can now sort gene ontology results by several p-value
-  columns at once, using the minimum of the columns.  The default is
+  columns at once, using the minimum of the columns. The default is
   now to sort results using all the p-value columns found in the
   results instead of just by the first column.
 
@@ -1639,9 +1644,9 @@ plotMDS now traps problems when the distances are all zero or if
 Also, a bug when gene.selection="common" and top=nrow(x) has been fixed.
 
 \item
-The arguments for predFCm() have been renamed.  Old argument
-  'VarRel' replaced by logical argument 'var.indep.of.fc'.  Old
-  argument 'prop' replaced by 'all.de'.  New argument
+The arguments for predFCm() have been renamed. Old argument
+  'VarRel' replaced by logical argument 'var.indep.of.fc'. Old
+  argument 'prop' replaced by 'all.de'. New argument
   'prop.true.null.method' passes through method to propTrueNull().
 
 \item
@@ -1671,7 +1676,7 @@ Improvements to lowess C code.
 \item
 When loading suggested packages within function calls, usages of
   require() have been converted to requireNamespace() wherever
-  possible.  Functions from suggested packages are called using `::'.
+  possible. Functions from suggested packages are called using '::'.
 
 \item
 topTable() now gives an information error message if eBayes() or
@@ -1741,12 +1746,12 @@ New function plotWithHighlights(), which is now used as the low-level function f
 
 \item
 The definition of the M and A axes for an MA-plot of single channel
-  data is changed slightly.  Previously the A-axis was the average of
+  data is changed slightly. Previously the A-axis was the average of
   all arrays in the dataset -- this has been definition since MA-plots
-  were introduced for single channel data in April 2003.  Now an
+  were introduced for single channel data in April 2003. Now an
   artificial array is formed by averaging all arrays other than the
-  one to be plotted.  Then a mean-difference plot is formed from the
-  specified array and the artificial array.  This change ensures the 
+  one to be plotted. Then a mean-difference plot is formed from the
+  specified array and the artificial array. This change ensures the 
   specified and artificial arrays are computed from independent data,
   and ensures the MA-plot will reduce to a correct mean-difference
   plot when there are just two arrays in the dataset.
@@ -1758,8 +1763,8 @@ It no longer has a 'col' argument, which instead is handled by ....
 
 \item
 vennDiagram() now supports circles of different colors for any
-  number of circles.  Previously this was supported only up to three
-  sets.  
+  number of circles. Previously this was supported only up to three
+  sets. 
 
 \item
 getEAWP() will now find a weights matrix in an ExpressionSet object
@@ -1830,7 +1835,7 @@ new function tricubeMovingAverage() for smoothing a time series.
 barcodeplot() has a new option to add enrichment worms to the plot, making use of tricubeMovingAverage().
 
 \item
-New plot() methods for RGList, MAList, EList and MArrayLM class objects.  In each case, this produces a similar result to plotMA().
+New plot() methods for RGList, MAList, EList and MArrayLM class objects. In each case, this produces a similar result to plotMA().
 When using plot() or plotMA() on an MArrayLM object, the column is now specified by the 'coef' argument instead of by 'array'.
 
 \item
@@ -1866,7 +1871,7 @@ topTable() will now work on an MArrayLM fit object that is missing the lods comp
 roast() and mroast() now permit array weights and observation weights to both be specified.
 
 \item
-camera(), roast() and mroast() now use getEAWP() to interpret the data object.  This means that they now work on any class of data object that lmFit() will.
+camera(), roast() and mroast() now use getEAWP() to interpret the data object. This means that they now work on any class of data object that lmFit() will.
 
 \item
 romer() now uses propTrueNull(method="lfdr") instead of convest().
@@ -1899,7 +1904,7 @@ Bug fix: fitFDistRobustly() was failing when there were missing values or zero d
 Bug fix: vennDiagram() wasn't passing extra arguments (...) to plot() when the number of sets was greater than 3.
 
 \item
-Bug fix to topTreat().  Rownames were incorrectly ordered when p<1.
+Bug fix to topTreat(). Rownames were incorrectly ordered when p<1.
 
 \item
 bug fix to genas(), which was not handling vector df.prior correctly when the fit object was generated using robust=TRUE.
@@ -1921,7 +1926,7 @@ from the bead counts for each probe for Illumina BeadArrays.
 
 \item
 New function contrastAsCoef(), which reforms a design matrix so
-that one or more specified contrasts become coefficients.  This
+that one or more specified contrasts become coefficients. This
 function is called by roast().
 
 \item
@@ -1929,23 +1934,23 @@ plotMA() is now an S3 generic function.
 
 \item
 The legend argument to plotMA() can now take a character value
-giving the position to place the legend.  
+giving the position to place the legend. 
 
 \item
 toptable(), topTable() and topTreat() now preserve the rownames of
 the fit object, unless the fit object has duplicated names, in
-which case the rownames are copied to the ID column.  Empty
+which case the rownames are copied to the ID column. Empty
 rownames are replaced with 1:nrow(fit).
 
 \item 
 read.ilmn() no longer adds the probe IDs to the gene annotation
 data.frame, leaving them instead as rownames of the expression
-matrix.  It longer creates a targets file since the sample names
+matrix. It longer creates a targets file since the sample names
 are already preserved as column names of the expression matrix.
 
 \item
 loessFit() now uses the locfit.raw in the locfit package when
-weights are provided instead of loess in the stats package.  The
+weights are provided instead of loess in the stats package. The
 function now runs very efficiently even on very long data vectors.
 The output results will change slightly when weights are provided.
 
@@ -1967,7 +1972,7 @@ the detection p-pvalues as a function of expression.
 
 \item
 fitFDistRobustly() now uses a smoother for the smallest df.prior
-values.  This may result in smaller tail values than before when
+values. This may result in smaller tail values than before when
 a group of input x values appear to be outliers but the largest
 value is not individually a stand-out value.
 
@@ -1996,7 +2001,7 @@ file using standard codes.
 \item
 Additions and updates to references in the help pages.
 Removed defunct Berkeley Press links to published Smyth (2004)
-article in several Rd files.  Replacing with link to Preprint.
+article in several Rd files. Replacing with link to Preprint.
 Added link to Phipson (2013) thesis in two Rd files.
 Add Majewski et al reference to genas.Rd.
 Add Phipson et al and Sartor et al references to squeezeVar.Rd.
@@ -2004,7 +2009,7 @@ Add Phipson et al reference to eBayes.Rd.
 Update lmscFit and voom references.
 
 \item
-Update mammmary stem cell case study in User's Guide.  As well
+Update mammmary stem cell case study in User's Guide. As well
 as reflecting changes to read.ilmn() and topTable(), this now
 demonstrates how to find signature genes for particular cell type.
 
@@ -2026,7 +2031,7 @@ Edits to voomaByGroup help page.
 
 \item
 duplicateCorrelation() now uses the weights matrix when block is
-set.  Previously the weights were ignored when block was used.
+set. Previously the weights were ignored when block was used.
 
 \item
 Bug fix to subsetting for MArrayLM objects: the df.total component
@@ -2058,12 +2063,12 @@ Previously the meaning of source="agilent" was mis-stated in read.maimages.Rd.
 
 \item
 New robust method for estimating the empirical Bayes prior, called
-by specifying robust=TRUE in the call to eBayes().  When this is
+by specifying robust=TRUE in the call to eBayes(). When this is
 TRUE the output df.prior is now a vector instead of a scalar.
 
 \item  
 New function fitFDistRobustly() estimates the parameters of a
-scaled F-distribution robustly using Winsorized values.  Outlier
+scaled F-distribution robustly using Winsorized values. Outlier
 observations receive smaller values for df.prior than non-outliers.
 This permits robust methods for squeezeVar(), ebayes() and eBayes(),
 all of which now have a new argument wins.tail.p to specify the
@@ -2072,7 +2077,7 @@ tail proportions for Winsorizing.
 \item
 fitFDist() now permits infinite values for the covariate.
 It also gracefully handles cases where the covariate takes only a small number of distinct values.
-Similarly for eBayes() and squeezeVar() that call fitFDist().  
+Similarly for eBayes() and squeezeVar() that call fitFDist(). 
 
 \item
 All the functions that perform gene set tests have been revised to make the input and output formats more consistent.
@@ -2085,7 +2090,7 @@ All functions that perform gene sets now use the argument 'index' to specify whi
 Previously this argument was called 'iset' for roast() and romer() and 'indices' for camera().
 
 camera() and mroast() now produce a data.frames.
-Instead of separate up and down p-value columns, there is now a two-sided p-value and a column indicating direction of change.  
+Instead of separate up and down p-value columns, there is now a two-sided p-value and a column indicating direction of change. 
 There are new columns giving FDR values and the number of genes in each set.
 There is a new argument 'sort' to indicate whether output results should be sorted by p-value.
 
@@ -2155,7 +2160,7 @@ limma license upgraded to GPL (>=2) instead of LGPL to match R itself.
 Many updates to the User's Guide. 
 Sections have been added on reading single channel Agilent and Illumina data.
 The chapter on experimental designs has been split into three chapters on single-channel, common reference and
-two-color designs respectively.  The material on the fixed effect approach
+two-color designs respectively. The material on the fixed effect approach
   to technical replication has been deleted.
 There are new sections on nested interactions for factorial designs
 and on multi-level designs.
@@ -2186,7 +2191,7 @@ roast() now accepts observation level weights, through a new
 
 \item
 loessFit() now applies minimum and maximum bounds by default to avoid zero or
-  infinite weights.  Equal weights are now treated as if the weights were NULL, even all
+  infinite weights. Equal weights are now treated as if the weights were NULL, even all
   zero weights, so that the lowess code is called instead of the loess code.
 
 \item
@@ -2195,13 +2200,13 @@ directly from the C code output instead of computing in R.
 
 \item
   fitFDist() now permits missing values for x or zero values for df1
-  even when there is a covariate.  This means that squeezeVar() and
+  even when there is a covariate. This means that squeezeVar() and
   eBayes() now work with trends even when not all the data values
   are informative.
 
 \item
 New argument 'file' for convest(), implementing edits contributed
-  by Marcus Davy.  Arguments doplot and dereport renamed to 'plot'
+  by Marcus Davy. Arguments doplot and dereport renamed to 'plot'
   and 'report'.
 
 \item
@@ -2232,7 +2237,7 @@ Bug fix for roast() when the fitted model has only one coefficient.
 
 \item
 read.maimages() with source="agilent" now reads median foreground
-estimates instead of mean foreground.  New option source=
+estimates instead of mean foreground. New option source=
 "agilent.mean" preserves earlier meaning of source="agilent".
 
 \item
@@ -2265,7 +2270,7 @@ explicit.
 \item
 new function rankSumTestWithCorrelation extends the
 Wilcoxon-Mann-Whitney test to allow for correlation between
-cases in one of the groups.  geneSetTest() now calls this
+cases in one of the groups. geneSetTest() now calls this
 function instead of wilcox.test, with a consequence improvement
 in speed.
 
@@ -2282,15 +2287,16 @@ access to the different cyclic loess methods.
 
 \item
 There were problems with using the argument gene.weights in
-mroast().  This argument is now permitted to be of the same
-length as the number of probes in the data set.  It is then
+mroast(). This argument is now permitted to be of the same
+length as the number of probes in the data set. It is then
 automatically subsetted for each gene set.
 
 \item
 mroast() now uses mid-p-values by default when adjusting for multiple testing.
 
 \item
-neqc(), nec() and normexp.fit.control() now give user-friendly error messages when no negative control probes or no regular probes are found.
+neqc(), nec() and normexp.fit.control() now give user-friendly error messages
+when no negative control probes or no regular probes are found.
 
 }}
 
@@ -2310,7 +2316,7 @@ barcodeplot() and barcodeplot2() merged into one function.
 removeBatchEffect() can now correct for two batch factors.
 
 \item
-plotMDS is now an S3 generic function.  This allows MDS plots to be redrawn with new labels without needing to repeat the distance or scaling calculations.
+plotMDS is now an S3 generic function. This allows MDS plots to be redrawn with new labels without needing to repeat the distance or scaling calculations.
 New S4 class "MDS" to hold the multidimensional scaling information output from plotMDS.
 
 \item
@@ -2332,12 +2338,1730 @@ Speed improved when weights=NULL.
 
 \item
 Weaver case study (Section 11.5) in User's Guide is updated and rewritten.
-Data classes ElistRaw and Elist now described in the quick start section of the User's Guide.  Other minor updates to User's Guide.
+Data classes ElistRaw and Elist now described in the quick start section of the User's Guide. Other minor updates to User's Guide.
 
 \item
-Bug fix for normalizeBetweenArrays() when object is an EListRaw and method="cyclicloess".  Previously this function was applying cyclicloess to the raw intensities, then logging.  Now it logs first, then applies cyclicloess.
+Bug fix for normalizeBetweenArrays() when object is an EListRaw and method="cyclicloess". Previously this function was applying cyclicloess to the raw intensities, then logging. Now it logs first, then applies cyclicloess.
 
 \item
 Bug fix to avereps() for EList objects x when x$other is not empty.
 
+}}
+
+
+\section{version 3.8.0 (2011-04-14)}{\itemize{
+
+\item
+New method "cyclicloess" for normalizeBetweenArrays().
+
+\item
+New function normalizeMedianValues().
+This is now used by normalizeBetweenArrays() for method="scale" when the
+data object is a matrix or EListRaw object.
+
+\item
+ebayes() and eBayes() now include an option to allow the prior variance
+to be intensity-dependent. Associated with this is a new optional
+argument 'covariate' for fitFDist() and squeezeVar().
+
+\item
+The total degrees of freedom used by ebayes() and eBayes() to compute
+p-values, and therefore also by topTable() and so on, is now not allowed
+to be larger than the total residual degrees of freedom pooled over all
+probes. This limit will normally become active only when the prior
+degrees of freedom is estimated to be infinite. Previously the total df
+was also allowed to be infinite in this case, so that p-values were
+computed as if the t-statistics followed a standard normal distribution.
+The change will not affect microarray analyses with thousands of genes,
+but can come into play with simulated data or with data sets containing
+only a few probes. In these cases, the ebayes p-values now agree with
+those from a pooled analysis in which the genewise variances are assumed
+equal.
+
+\item
+df.total is now included as a component of the MArrayLM object output by
+ebayes() and eBayes().
+
+\item
+topTable() and toptable() now optionally output confidence intervals for
+the log-fold-changes.
+
+\item
+neqc() now supports normexp by control background correction using
+negative control values inferred from detection p-values. This is mainly
+applicable to Illumina BeadChips. The default value of the
+'other.columns' argument of read.ilmn() is changed to "Detection".
+
+\item
+plotSA() now adds the prior variance estimated by eBayes(), if available,
+to the sigma vs A plot.
+
+\item
+symbols2indices() now returns the indices of all occurrences of each
+symbol on the array, not just the first occurrence. The argument names
+have been changed to be more easily understood, and a new argument
+remove.empty has been added to optionally remove gene sets of length
+zero. Previously this was always done.
+
+\item
+normalizeWithinArrays() no longer checks for printer layout information
+before doing "control" normalization.
+
+\item
+read.columns() and read.ilmn() now allow column names with leading or
+trailing blanks, although the white space will be trimmed.
+
+\item
+Gene symbol annotation has been added to the Estrogen case study in the
+User's Guide. The Introduction to the User's Guide now reflects limma's
+capabilities for pre-processing data from single-channel and Illumina
+platforms. A reference to Shi et al (2010) has been added for neqc(),
+the installation instructions have been updated, and use of the sma
+package has been removed from the code examples.
+
+\item
+The help pages for nec() and neqc() have been combined into one file.
+
+\item
+Bug fix to squeezeVar(): the output var.posterior was too long when there
+was a non-null covariate and the prior variance was estimated to be
+infinite.
+
+\item
+Bug fixes to avereps() and avearrays() for matrices, which had been
+treating NA expression values as if they were zero. Averages are now
+computed correctly over the non-missing values.
+
+\item
+Bug fix to mroast(), which had been assigning prior.df incorrectly for
+the second and subsequent gene sets.
+
+\item
+Fix to gls.series() so that it works correctly even when there is only
+one column of microarray data.
+
+\item
+Bug fix to plotMDS() when gene.selection="common".
+
+\item
+Bug fixes to rbind() for EList and EListRaw objects, and to subsetting,
+cbind() and rbind() for EListRaw objects, which were not operating
+correctly on the Eb component.
+
+\item
+read.ilmn() is now careful to return the gene annotation as a data.frame,
+not a character vector, even when it has only one column.
+}}
+
+
+\section{version 3.6.0 (2010-10-18)}{\itemize{
+
+\item
+New function avearrays() to average over technical replicate arrays.
+
+\item
+New function normalizeVSN() to apply vsn normalization to limma data
+objects. normalizeBetweenArrays() no longer supports method="vsn".
+
+\item
+New function mroast(), which organizes roast() tests for multiple gene
+sets.
+
+\item
+New function topRomer() to summarize the output from romer().
+
+\item
+romer() and romer2() have been consolidated into one function romer().
+There is a new argument 'set.statistic' to choose the set summary
+statistic, and the old argument 'floor' has been removed as no longer
+needed. romer() no longer outputs p-values for the "either" alternative
+hypothesis; p-values are output for "Up", "Down" and "Mixed".
+
+\item
+New argument 'set.statistic' for roast() to specify which gene set
+summary statistic should be used. The new default is "mean" and the
+original setting is now called "msq". The output from roast() no longer
+includes a column for the "either" alternative hypothesis.
+
+\item
+New S4 class "Roast" for the output from roast().
+
+\item
+The backgroundCorrect() code has been simplified and a new function
+backgroundCorrect.matrix() introduced for matrix arguments. Background
+intensities are now used correctly when the argument RG is an EListRaw
+object.
+
+\item
+neqc() now subtracts background intensities Rb if they are found in the
+data object.
+
+\item
+read.maimages() now supports ImaGene Version 9.0.
+
+\item
+read.ilmn() now uses readGenericHeader() to skip over header information
+in BeadStudio files, and no longer issues a warning if control probe
+files are not provided.
+
+\item
+marray is no longer a suggested package.
+
+\item
+Updates to the 04.Background help page, which gives an overview of the
+background correction functions, and more complete documentation for
+roast() and romer(). Citation details have been updated for roast() and
+propexpr(), and the Pomelo II reference has been added to the User's
+Guide.
+
+\item
+avereps() for MAList objects was not averaging the "other" data matrices
+correctly. Now fixed.
+
+\item
+Bug fix to normexp.fit.control() when the argument 'x' is a matrix.
+
+\item
+Bug fixes to roast(), affecting the case when set.statistic="msq" and the
+gene weights change sign, and the estimation of the proportion of active
+genes when there are gene weights.
+}}
+
+
+\section{version 3.4.0 (2010-04-23)}{\itemize{
+
+\item
+New function normalizeCyclicLoess().
+
+\item
+read.maimages() has a new argument green.only, which replaces the older
+argument channels. read.maimages() now outputs an EListRaw object
+whenever single channel data is read, and an RGList object when two color
+data is read.
+
+\item
+read.maimages() now provides the option of reading Agilent Feature
+Extraction data using median foreground summaries.
+
+\item
+New argument 'robust' for normexp.fit.control() and neqc(), giving the
+option of robust estimation of the background mean and standard
+deviation. Robustness uses the huber() function from the MASS package
+and is judged on the log-scale. Computation of the background mean and
+standard deviation is also faster.
+
+\item
+The default value for the offset in neqc() has been reduced from 50 to
+16.
+
+\item
+New argument gene.selection for plotMDS().
+
+\item
+avedups() and avereps() now have methods for EList objects.
+
+\item
+New as.data.frame() methods for MAList, EList and EListRaw objects.
+
+\item
+makeContrasts() requires coefficient names (levels) to be syntactically
+valid variable names in R. The intercept column name "(Intercept)",
+which is often produced by the model.matrix() function, is now
+automatically converted, and a more detailed diagnostic message is output
+in the case of non-valid names.
+
+\item
+Speed improvement to avereps(), achieved by calling the base package's
+rowsum() function, following a suggestion of Michael Lawrence.
+
+\item
+MArrayLM objects now re-calculate F-statistics if they are subsetted by
+columns. This ensures that the F-statistics always match the contrast
+columns in the object.
+
+\item
+The output from treat() now includes a component df.prior.
+
+\item
+topTreat() now allows genelist to be a vector as well as a data.frame.
+Previously it failed when a vector was input.
+
+\item
+The truth argument of auROC() can now be logical.
+
+\item
+Output from vennDiagram() improved to draw complete unbroken circles.
+
+\item
+New "quote" argument for read.ilmn().
+
+\item
+The raw data for the IlluminaWG-6 case study in the User's Guide is now
+available online, with the URL given in the User's Guide. The probe
+filtering in the Illumina case study has been corrected and the results
+updated.
+
+\item
+Bug fix to backgroundCorrect() to ensure that normexp.method is always
+correctly passed to normexp.fit(). Previously normexp.method was being
+ignored, in favour of the default, when RG was an RGList object.
+
+\item
+Bug fix to the p-value computation in treat(). This affected only
+p-values greater than 0.5.
+
+\item
+Bug fix to the row numbers returned by toptable() and topTable() when the
+arguments p or lfc are specified.
+
+\item
+Bug fix to the sigma calculation in normexp.fit.control().
+}}
+
+
+\section{version 3.2.0 (2009-10-28)}{\itemize{
+
+\item
+New functions read.ilmn() and read.ilmn.targets() for reading Illumina
+Whole Genome Expression BeadChip data.
+
+\item
+New functions normexp.fit.control() and neqc(), which perform normexp
+background correction using negative control information. This is
+especially useful for Illumina BeadChip data. neqc() undertakes
+background correction and quantile normalization in one step for EListRaw
+data objects with negative control probes.
+
+\item
+New function propexpr() for estimating the proportion of expressed probes
+in a microarray, using negative control probe information. Especially
+useful for Illumina BeadChip data.
+
+\item
+New function genas(), which tests for associations between contrasts in a
+linear model.
+
+\item
+New function topTreat() for listing the top results from treat().
+treat() now also outputs thresholded t-statistics.
+
+\item
+New function alias2SymbolTable() for converting a set of alias names to a
+vector of official gene symbols of the same length.
+
+\item
+New function wilcoxGST() introduced as a synonym for geneSetTest() with
+ranks.only=TRUE.
+
+\item
+New function barcodeplot2() for displaying directional gene sets with up
+and down genes shown separately.
+
+\item
+New options and improved power for romer(). Empirical Bayes shrinkage of
+the residuals is now used to improve statistical power, and there are two
+new options for the set summary statistic. The original mean50 statistic
+is provided in a new function romer2(). The new romer() uses an ordinary
+mean set statistic by default, with a floor-mean set statistic as an
+option. Both functions give better statistical power than the previous
+version, and romer() is also computationally quicker. romer() now
+outputs the number of genes in each gene set.
+
+\item
+Rotation p-values in roast() and romer() are now computed as
+(x+1)/(nrot+1) instead of x/nrot, where x is the number of random
+rotations giving a more extreme statistic than that observed.
+
+\item
+backgroundCorrect() and normalizeWithinArrays() now accept EListRaw
+objects.
+
+\item
+propexpr() now accepts EListRaw objects, or any other data object with an
+as.matrix method.
+
+\item
+getEAWP() and lmFit() now return Amean values for EList objects.
+
+\item
+arrayWeights() now displays convergence information when TRACE=TRUE for
+method="genebygene". The convergence criterion for arrayWeightsSimple()
+is now more lenient for large data sets, while still achieving about 5
+decimal place accuracy, and failed convergence from floating point errors
+is now detected and reported with a diagnostic message.
+
+\item
+strsplit2() now uses ... to pass arguments to strsplit().
+
+\item
+Speed improvements to avereps(), following suggestions from Axel Klenk.
+
+\item
+read.ilmn() now accepts more variations in the name of the ProbeID
+column.
+
+\item
+A case study with Illumina BeadChip microarrays has been added to the
+User's Guide. The Oshlack et al (2007) reference on normalization of
+boutique arrays has been added to the normalizeWithinArrays help page and
+to the User's Guide.
+
+\item
+The sma package has been removed from the list of suggested packages.
+
+\item
+Bug fix to removeBatchEffect(), which gave incorrect results when
+design=NULL.
+
+\item
+Two fixes to contrasts.fit() when there are non-estimable coefficients in
+the linear model. The function previously gave a warning about coercing
+double to logical, and also failed in this situation when the contrast
+was a single vector instead of a matrix.
+}}
+
+
+\section{version 2.18.0 (2009-04-21)}{\itemize{
+
+\item
+New class EList for one-channel microarray data and new class EListRaw
+for non-normalized one-channel data. Basic matrix-like methods,
+including cbind, rbind and subsetting, are provided for EListRaw objects.
+
+\item
+New argument 'channels' for read.maimages(), which allows the function to
+read one-channel data.
+
+\item
+New function plotMDS(), which makes a multidimensional scaling plot using
+a particular distance measure.
+
+\item
+New function romer() for rotation gene set enrichment analysis. This can
+be viewed as a version of GSEA for linear models.
+
+\item
+New function symbols2indices(), which matches a list of gene sets as
+symbols against a vector of gene symbols.
+
+\item
+New function plotSA(), which produces a sigma vs A plot for a fitted
+microarray linear model. The color of the trend line drawn by plotSA()
+has been changed to red.
+
+\item
+New argument expand.symbols for alias2Symbol(). This can be used to
+prevent aliases from being expanded if they are already official symbols.
+
+\item
+ebayes() now returns lods as a matrix. This ensures that MArrayLM
+objects can always be subsetted by column names, even when there is only
+one column.
+
+\item
+lmFit() now looks for a design matrix in an MAList data object, if one
+exists. The lmFit() warning message on NA coefficients is now more
+refined, appearing only when the coefficient vector is partially NA for
+some probes.
+
+\item
+printHead() now prints compactly for recursive lists of arbitrary depth.
+
+\item
+The C code dynamic library is now loaded when the package is loaded
+rather than when it is attached, to enable other packages to import
+limma.
+
+\item
+The biocViews entry has been changed from Statistics to Bioinformatics.
+
+\item
+Documentation updates for backgroundCorrect(), treat(), roast(),
+geneSetTest(), topTable(), topTableF() and alias2Symbol().
+
+\item
+Bug fixes to the calculation of the up, down, mixed and either p-values
+in romer().
+
+\item
+Bug fix to toptable(), which caused t-statistics to be out of order when
+p<1 or lfc>0, and another which caused an error when p<1 and lfc>0.
+
+\item
+Bug fixes to the way that topTable() and topTableF() handle sort="none".
+
+\item
+Bug fix to rowname assignment for MAList and RGList objects containing
+matrices in the 'other' component.
+
+\item
+Fix to gls.series() so that it does not fail when the weight matrix
+contains NA values.
+
+\item
+Bug fix to printHead() to handle object components which are neither
+atomic nor recursive.
+}}
+
+
+\section{version 2.16.0 (2008-10-22)}{\itemize{
+
+\item
+New function roast(), which does rotation gene set testing for linear
+models.
+
+\item
+New function treat(), which computes empirical Bayes moderated-t p-values
+relative to a minimum required fold-change threshold.
+
+\item
+New function removeBatchEffect(), which removes batch effects from
+microarray data.
+
+\item
+New function barcodeplot(), which gives a graphical representation of
+geneSetTest() using ranks.
+
+\item
+New function selectModel(), which implements Akaike Information Criterion
+(AIC) or Bayesian Information Criterion (BIC) model selection between
+alternative linear models. A new method "mallowscp" has also been added.
+
+\item
+New function alias2Symbol() to convert gene aliases to official symbols,
+using the org.Hs.eg.db and similar annotation packages.
+
+\item
+New S3 generic function avereps() for averaging over irregularly spaced
+replicate spots, with a method for MAList objects and a default method
+intended for matrices.
+
+\item
+New function getDupSpacing(), which determines duplicate spacing from a
+vector of gene IDs. getLayout() with guessdups=TRUE can now handle
+values for ndups greater than 2, and getSpacing() recognizes a new value
+"subarrays", meaning that all the probes on an array are repeated in two
+or more subarrays.
+
+\item
+Substantial tidying up of the normexp.fit() code. The optimization step
+is now done in C, speeding up the computation several fold, and the old
+pure-R normexp.fit() has been removed. The old method "neldermead" is
+now replaced by "saddle", and the old methods "bfgs", "nlminb" and
+"nlminblog" are now replaced by "mle". All the user-visible functions
+previously called by normexp.fit() have been removed, including
+dnormexp(), dnormexp.saddle(), normexp.m2loglik() and
+normexp.m2loglik.saddle().
+
+\item
+backgroundCorrect() has a new argument normexp.method to specify the
+parameter estimation method for normexp background correction. The
+options are "mle", "saddle", "rma" and "rma75".
+
+\item
+Better treatment of array weights in linear modelling. lm.series() and
+gls.series() now treat array weights as a special case when there are no
+missing values in the expression data and no probe-specific weights.
+This means that the array weights are now incorporated into
+fit$cov.coefficients, so that contrasts.fit() correctly takes array
+weights into account when computing the contrast standard errors, which
+it did not do previously. It also means that lmFit() is much faster when
+array weighting is used. There is also a speed improvement to
+gls.series() when there are no missing values and no probe-specific
+weights.
+
+\item
+New capabilities and arguments for write.fit(). The argument 'method'
+allows p-values to be adjusted globally instead of separately, and the
+argument F.adjust allows the F-statistic p-values to be adjusted.
+
+\item
+New arguments sort.by and p.value for topTableF(), making it more
+consistent with topTable(). topTableF() now also allows the input
+argument 'number' to be larger than the number of rows of the fitted
+model object, in which case the requested number is set to the number of
+available rows.
+
+\item
+New option "none" for the sort argument of topTable().
+
+\item
+In read.maimages(), support has been added for ArrayVision data files
+with 'Artifact-removed' (ARM) density values.
+
+\item
+gls.series() now preserves the rownames (probe IDs) of the expression
+object. This affects lmFit() when ndups>1 or block is non-NULL, and
+makes gls.series() consistent with lm.series() and mrlm().
+
+\item
+The following obsolete functions, deprecated in December 2006 in favour
+of read.maimages(), have been removed: m.spot, a.spot, read.matrix,
+read.series, rg.series.spot, rg.genepix, rg.quantarray and rg.spot.
+
+\item
+The criterion for the "Active" column output by roast() has been changed
+to be more discriminating.
+
+\item
+Bug fixes to plotMA(), which was ignoring the array argument for RGList
+objects and was not working for MArrayLM objects.
+
+\item
+Bug fixes to getEAWP() for PLMset objects, for which the probe names,
+weights and Amean components were not being set correctly.
+
+\item
+Bug fix to removeBatchEffect(), which previously returned an error.
+}}
+
+
+\section{version 2.14.0 (2008-04-30)}{\itemize{
+
+\item
+New function getEAWP(), introduced to unify the treatment of the
+different classes of microarray data objects that can be input to the
+linear model functions lmFit(), arrayWeights() and printtipWeights().
+
+\item
+Streamlining of the plotMA() code. plotMA() should now work correctly
+for any object class that can be coerced to a matrix, for example
+LumiBatch objects.
+
+\item
+lmFit() now tries to guess whether a data matrix contains log-ratios or
+log-intensities. When the input data object is a matrix, it is not
+possible to know for certain which is the case, and so lmFit() did not
+previously set the Amean component of the output MArrayLM object.
+lmFit() now sets Amean if the input data values are all positive, because
+the data are almost certainly log-intensities in that case.
+
+\item
+lmFit() now warns if coefficients become inestimable due to missing
+values.
+
+\item
+All usage of Biobase's exprSet class has been removed or replaced with
+ExpressionSet. The class exprSet2 has been removed.
+
+\item
+normalizeBetweenArrays(method="vsn") has been updated to reflect changes
+in the vsn package, now uses vsnMatrix() when the data object is a
+matrix, and gives an error if the object is an MAList. The results are
+again on the log2 scale, as they were before December 2007.
+
+\item
+The method option "neldermean" for normexp.fit() has been corrected to
+"neldermead".
+
+\item
+The function rlm.series(), deprecated in 2004, and the deprecated
+function splitName() have been removed.
+
+\item
+arrayWeights() now gives a nice error message if the number of arrays is
+too few to give statistically useful results.
+
+\item
+All uses of I() in data.frame() arguments have been removed and replaced
+with stringsAsFactors=FALSE. This ensures that the appropriate columns
+in data.frames have class "character" instead of "AsIs".
+
+\item
+Comments have been added to the geneSetTest() help page to warn that the
+test assumes genewise independence.
+
+\item
+A section on Multiple Testing Across Contrasts has been added to the
+User's Guide, and the help page for backgroundCorrect() has been edited
+for improved readability.
+
+\item
+The BibTeX entry returned by citation("limma") now uses incollection
+style instead of inbook, thanks to Joern Toedling.
+
+\item
+Bug fix to getEAWP(), which was not getting probe names correctly from
+the rownames of the data object when the object is a matrix.
+
+\item
+Bug fix when a matrix data object containing missing values is passed to
+lmFit(). The check for log-intensities vs log-ratios did not remove
+missing values and hence produced an error.
+}}
+
+
+\section{version 2.12.0 (2007-10-08)}{\itemize{
+
+\item
+topTable() and toptable() have new arguments p.value and lfc, allowing
+users to cut the gene list on adjusted p-value and fold change, rather
+than just taking a set number of genes as before.
+
+\item
+backgroundCorrect() now accepts a matrix argument.
+
+\item
+New argument n.pts for normexp.fit(), which becomes the default for
+method="normexp" in backgroundCorrect(). This decreases computation time
+and introduces some robustness. The rule used to choose the quantiles
+has also been improved to give more nearly unbiased parameter estimators.
+
+\item
+Improvements to the numeric computations of dnormexp.saddle(), which is
+used by backgroundCorrect(method="normexp"). New function
+normexp.m2loglik.saddle(), which is the same as normexp.m2loglik() but
+uses the saddle-point approximation. normexp.fit() has a new argument
+'methods'.
+
+\item
+New as.matrix() methods for vsn, ExpressionSet and LumiBatch objects, so
+that these objects can be used directly in lmFit().
+
+\item
+decideTests(method="hierarchical") now passes adjust.method down to the
+second (t-test) level of testing. Previously the second level testing
+was always "holm". The spelling has also been corrected from
+"heirarchical" to "hierarchical".
+
+\item
+contrasts.fit() now warns if the row names of the contrast matrix do not
+match the column names of the coefficients.
+
+\item
+plotMA3by2() has a new argument 'device' to specify the graphic format.
+
+\item
+The plot character and size can now be passed to volcanoplot() as
+arguments.
+
+\item
+The Ritchie et al (2007) reference has been added to the User's Guide and
+to the backgroundCorrect and normexp help pages, and loessfit.Rd has been
+edited to better acknowledge the lowess and loess authors.
+
+\item
+Correction to loessFit() because the lowess() function is now in stats
+instead of base.
+
+\item
+Bug fix to read.columns() to stop a spurious warning message when
+text.to.search has length greater than one.
+
+\item
+Bug fix for as.matrix.vsn(), which allows vsn objects from vsn2() to be
+used directly in lmFit().
+}}
+
+
+\section{version 2.10.0 (2007-04-26)}{\itemize{
+
+\item
+A NAMESPACE has been introduced to the package. The functions matvec()
+and vecmat() have been renamed to .matvec() and .vecmat() and are no
+longer exported. All objects with names not starting with "." are
+exported.
+
+\item
+Changes to the column headings from topTable(). 'M' is now 'logFC' and 'A' is
+now 'AveExpr'.
+
+\item
+lmFit() now supports ExpressionSet objects, and there is a new function
+as.matrix.ExpressionSet().
+
+\item
+New function strsplit2(), which replaces splitName(). splitName() is
+deprecated.
+
+\item
+New function read.columns(), which is similar to read.delim() but reads
+specified columns only. read.columns() replaces the functions
+getColClasses() and namesInFun().
+
+\item
+New function mergeScansRG().
+
+\item
+New argument 'other.columns' for read.imagene().
+
+\item
+The old functions designed to read image data files into data.frames are
+now deprecated. This affects read.matrix, rg.series.spot, read.series,
+m.spot, a.spot, rg.spot, rg.quantarray and rg.genepix.
+
+\item
+wtVariables() has been renamed to namesInFun().
+
+\item
+normalizeRobustSpline() now works even when there is only one print-tip group,
+although it is designed to handle multiple print-tip groups.
+
+\item
+The function .onAttach() replaces the old .First.lib().
+
+\item
+normalizeForPrintorder(plot=TRUE) now produces no output, to agree with
+the documentation.
+
+\item
+The default number of digits in write.fit() has been changed to 3.
+
+\item
+The User's Guide sections on spot quality weights and quality assessment
+have been expanded, a section on array quality weights has been added,
+and the case studies have been updated for the current version of limma.
+
+\item
+Bug fix to read.maimages() for source="arrayvision". read.images() now reads
+ArrayVision files again, which it has not done since version limma 2.3.1.
+
+\item
+Bug fixes to read.maimages() for source="quantarray", which was reading
+too few lines when searching for "Begin Data" in the second and following
+files and was not setting the annotation columns, and for the Agilent and
+generic sources.
+
+\item
+Bug fix to read.columns(), to read SPOT files with a leading column of
+row numbers.
+
+\item
+Bug fix to topTable(). The values sort="M" and resort.by="M" needed to
+be updated to sort="logFC" and resort.by="logFC", and the values
+sort="AveExpr" and resort.by="AveExpr" are now allowed.
+
+\item
+Bug fix to lmFit(), which was giving an error with marrayNorm objects
+because of incorrect setting of Amean.
+
+\item
+Bug fix to write.fit(), which was writing ambiguous column names for the
+coefficients, t-statistics and p-values when the MArrayLM object had only
+one column.
+
+\item
+Bug fix to lm.series() and gls.series(), which were returning errors when
+the design matrix was not of full rank and the columns were named.
+
+\item
+volcanoplot() now allows a NULL value for the 'names' argument.
+}}
+
+
+\section{version 2.8.0 (2006-10-04)}{\itemize{
+
+\item
+New function topTableF() to rank genes on the basis of F-statistics.
+topTable() now accepts a vector argument coef and calls topTableF() to
+produce a ranking by F-statistic if length(coef)>1. topTable() with
+coef=NULL ranks genes by the F-statistic for all the contrasts.
+
+\item
+New argument 'coefficients' for contrasts.fit(). This provides a simple
+way to specify the contrast matrix when the contrasts are just a subset
+of the original coefficients.
+
+\item
+New argument 'contrasts' for makeContrasts(), which accepts a character
+vector of contrasts. The matrix produced by makeContrasts() now has
+named dimensions.
+
+\item
+New argument 'lfc' for decideTests() to require a minimum fold-change.
+
+\item
+normalizeWithinArrays() now uses asMatrixWeights() to process the weights
+argument, so that the weights can be a vector of probe weights, a vector
+of array weights, or a matrix of spot weights. The weights argument of
+modifyWeights() now has a default value.
+
+\item
+New function exprs.MA() to extract the log-expression matrix from an
+MAList object.
+
+\item
+New function plotlines().
+
+\item
+New function plotFG() for foreground-background plots.
+
+\item
+New function as.matrix.PLMset(), which allows lmFit() to work correctly
+on PLMset objects.
+
+\item
+New arguments for vennDiagram() to allow colors and the printing of
+multiple sets of counts on the same diagram.
+
+\item
+wtflags() has a new argument cutoff, and the argument w has been renamed
+to weight.
+
+\item
+In geneSetTest(), the values "two.sided", "less" and "greater" are now
+permitted as synonyms for "either", "down" and "up". geneSetTest() no
+longer issues a warning with type="t" and all positive values for the
+statistic.
+
+\item
+read.imagene() now uses mean background instead of median if the auto
+segmentation method has been set, and readImaGeneHeader() now allows for
+extraneous trailing white space in the lines of the data files.
+
+\item
+In read.maimages(), flush=TRUE has been added to all instances of
+read.table(). This makes read.maimages() tolerant of spurious columns
+added to the end of data lines.
+
+\item
+Improvements to lm.series(), gls.series() and rlm.series() to better
+preserve column names.
+
+\item
+Improvement to normalizeQuantiles() to reduce memory requirements.
+
+\item
+decideTests() now preserves probe row names.
+
+\item
+Subsetting for MArrayLM objects has been revised so that the contrast
+matrix is subsetted rather than the design matrix.
+
+\item
+makeContrasts() now gives an informative error message if the parameter
+names are not syntactically valid.
+
+\item
+The previously deprecated function array2channel() has been removed.
+
+\item
+A new section on Fitted Model Objects has been added to the User's Guide,
+together with a table of image analysis programs, an updated Bob case
+study, and the CARMAweb reference. The warning that lmscFit() is
+"experimental" has been removed.
+
+\item
+normalizeWithinArrays() was incorrect with method="composite" and
+weights=NULL. Now fixed.
+
+\item
+Bug fixes to kooperberg(), plotlines(), plotMA3by2() and to
+read.imagene(), which was trying to read too many data rows when there
+were multiple ImaGene fields.
+
+\item
+Fix to read.maimages(): using readGenericHeader() to get column names was
+not working when sep or quote were different from the defaults.
+}}
+
+
+\section{version 2.6.0 (2006-04-27)}{\itemize{
+
+\item
+New function arrayWeightsSimple(), with a new argument 'maxratio' which
+stops the iteration when the ratio of largest to smallest weights becomes
+large. arrayWeights() now returns a vector instead of a matrix, and is
+faster and more accurate.
+
+\item
+New function asMatrixWeights(), which is used by all the linear
+model functions so that they
+can accept vectors of probe or array weights in place of a full matrix
+of weights.
+
+\item
+New generic function avedups(), with default and MAList methods.
+
+\item
+New function plotFB().
+
+\item
+New option "rma" for the method argument of backgroundCorrect().
+
+\item
+All the normexp functions now use simpler arguments: 'x' instead of
+'foreground' and 'background', and a vector argument 'par' instead of
+separate arguments for each parameter. normexp.fit() now uses a
+saddlepoint approximation to the normexp density and reverts to the
+Nelder-Mead optimisation method, giving numerically reliable
+computations. New functions dnormexp() and dnormexp.saddle().
+
+\item
+fitFDist() now treats very small and zero variances in a unified way, and
+the bounding of standard deviations away from zero now uses a smaller
+bound. This slightly changes the hyperparameter estimates and
+significance results produced by eBayes().
+
+\item
+topTable() now includes separate columns for raw and adjusted p-values.
+
+\item
+New S3 methods fitted() and residuals() for the MArrayLM class, and new
+S3 methods for 'dimnames<-' for RGList and MAList objects.
+
+\item
+Subsetting of RGList, MAList and MArrayLM objects by rownames now works
+correctly even if not all components have rownames. When an MArrayLM
+object is subsetted, the targets frame is no longer subsetted and the
+design matrix subsets only on columns.
+
+\item
+duplicateCorrelation() and intraspotCorrelation() now return
+atanh-correlations, and the corresponding output components have been
+renamed to 'atanh.correlations'.
+
+\item
+The correlation argument of lmFit() no longer has a default value.
+
+\item
+Support for ScanArray Express has been added to read.maimages(), and
+read.maimages() now reads BlueFuse v3.2 files correctly. The files
+argument of read.maimages() can now be a data.frame, assumed to be the
+targets frame. read.maimages() now uses check.names=FALSE to preserve
+annotation column names as input, uses the X position column to determine
+printer layout information for source="genepix", and no longer tries to
+guess ndups for GenePix data, which was found to be unreliable for small
+boutique arrays.
+
+\item
+readGenericHeader() replaces readBlueFuseHeader() and is now used by
+read.maimages() to get the skip value and column names for generic source
+files. readGenericHeader() now uses protectMetachar() so that special
+characters can be used in column headings.
+
+\item
+Changes to the argument list and defaults for geneSetTest() to make it
+more intuitive.
+
+\item
+decideTests() now supports adjust.method="BY".
+
+\item
+normalizeMedianDeviations() and normalizeMedians() have been replaced by
+normalizeMedianAbsValues(), which is resistant to floating underflow.
+The default method for normalizeBetweenArrays() has been changed to
+"Aquantile".
+
+\item
+The deprecated functions dupcor.series() and
+kooperberg_old() have been removed.
+
+\item
+readTargets() now checks that the labels are unique before making
+row.names.
+
+\item
+MAList subsetting now supports the 'other' component, and cbind() and rbind()
+now support the 'other' component in RGList and MAList objects.
+
+\item
+limma now formally depends on R version 2.2.0 or higher.
+
+\item
+A section on Paired Samples has been added to the User's Guide and the
+help page for normalizeWithinArrays() has been edited and expanded. The
+help pages for lm.series(), gls.series() and mrlm() now make clear that
+they are utility functions called by lmFit(), and the help page for
+topTable() better explains the differences between toptable() and
+topTable(). The definition of interaction in the Weaver case study has
+been corrected.
+
+\item
+Bug fix to decideTests(), which failed with method="nestedF" and
+adjust.method="BH".
+
+\item
+Bug fix to ensure that makeContrasts() works correctly when the level
+names happen to be the same as local variable names.
+
+\item
+Bug fixes to merge.RGList() and merge.MAList(), which used to break when
+there were any components of the data objects other than intensity
+matrices.
+
+\item
+Bug fixes to topTable() when some p-values are missing and to
+as.data.frame.MArrayLM() when the row subset is of length 1.
+
+\item
+Bug fixes to read.maimages() for source="genepix" when there was only one
+block of spots, for source="imagene" when a data.frame of file names was
+confused with a targets file, and for source="genepix" when the meta-grid
+layout could not be determined.
+
+\item
+kooperberg() now gives an informative error message if the input is not
+an RGList.
+}}
+
+
+\section{version 2.2.0 (2005-10-13)}{\itemize{
+
+\item
+kooperberg() now accepts an RGList object instead of requiring each gpr
+file to be read into a separate data.frame. The old function has been
+renamed kooperberg_old().
+
+\item
+Extensive clean-up of the background correction functions based on the
+normexp distribution. fit.normexp0() and m2loglik.normexp() have been
+removed and the functions are now called normexp.fit(),
+normexp.m2loglik(), normexp.grad() and normexp.signal().
+
+\item
+The deprecated functions designMatrix() and classifyTests() have been
+removed.
+
+\item
+makeContrasts() now accepts expression- or character-valued variable
+arguments.
+
+\item
+"fdr" has been changed to "BH" throughout as the p.adjust() method, and
+the default adjust.method for topTable() has been changed to "BH".
+
+\item
+New options source="genepix.custom" and source="genepix.median" for
+read.maimages(). The default value for the source argument is now NULL.
+The columns argument can now be arbitrary, provided that the two
+foreground channels are included, and the inclusion of background columns
+is now optional.
+
+\item
+Support for BlueFuse files has been added to read.maimages(), with a new
+function readBlueFuseHeader().
+
+\item
+readImaGeneHeader() has been entirely re-written and now supports ImaGene
+6.0 and multiple sub-array fields.
+
+\item
+New method "control" for normalizeWithinArrays().
+
+\item
+normalizeWithinArrays(method="median") now uses a weighted median where
+appropriate, and there is a new function weighted.median().
+normalizeWithinArrays() now checks whether M or A are vectors, and gives
+an informative error for method="printtiploess" if the layout is
+incompatible with the data dimensions.
+
+\item
+arrayWeights() now includes a full "reml" option, and works correctly on
+the chip level coefficients for PLMset objects.
+
+\item
+eBayes() now returns the F.p.value component as a vector rather than a
+matrix.
+
+\item
+Point size 20 and a new path argument have been added to imageplot3by2().
+
+\item
+New introductory chapters 04.Background and 08.Tests for the online help
+system, together with a general cleaning up of the chapter system.
+
+\item
+convest() now checks that the input p-values are between 0 and 1.
+
+\item
+Changes to write.fit() to make it tolerant of not finding expected
+components such as Amean in the fit object.
+
+\item
+The User's Guide has been converted to LaTeX report style, with new
+sections on getting help and on citing limma, an updated Weaver case
+study, and the dendritic cell direct comparison example now using
+modelMatrix(). A note has been added to the duplicateCorrelation() help
+page about the minimum number of arrays needed for the function to return
+statistically useful results.
+
+\item
+Bug fix to plotDensities(), where the background was being subtracted
+twice.
+
+\item
+Work-around in eBayes() for the pf(q,df1,df2=Inf) bug in R 2.1.0.
+
+\item
+Bug fix to normexp.signal() to allow NAs in the signal.
+
+\item
+Bug fix to RGList subsetting, where the targets component was subsetted
+incorrectly with j but missing i.
+
+\item
+Bug fix to as.data.frame.MArrayLM() when the fit contains only one
+contrast and there are matrices stored as vectors.
+
+\item
+modelMatrix() now gives a helpful error message if 'targets' is missing.
+}}
+
+
+\section{version 1.9.6 (2005-05-18)}{\itemize{
+
+\item
+New function arrayWeights(), contributed by Matt Ritchie, which estimates
+relative quality weights for each array in a multi-array experiment. The
+previous version of the function has been renamed arrayWeightsQuick().
+
+\item
+New function convest() to estimate the proportion of true null hypotheses
+from a vector of p-values.
+
+\item
+New function volcanoplot().
+
+\item
+New as.matrix() methods for all the limma data classes, and a new
+as.data.frame() method for MArrayLM objects.
+
+\item
+New BFGS version of fit.normexp(), contributed by Jeremy Silver, with
+several new utility functions to compute the likelihood and gradient.
+The old Nelder-Mead version has been renamed fit.normexp0().
+signal.normexp() is now more resistant to floating overflow and
+underflow, and fit.normexp() now catches and reports optimization errors.
+
+\item
+lm.series() and lmFit() now treat a linear model with no weights and no
+missing values as a special case, giving a great increase in speed for
+typical Affymetrix analyses.
+
+\item
+decideTests() now allows for NA p-values for method="separate" or
+"global", where it was previously giving wrong answers, and
+summary.TestResults() also allows for NA p-values. decideTests() now
+runs eBayes() if the MArrayLM object is found not to contain
+t-statistics.
+
+\item
+The log and unlog arguments have been removed from MA.RG() and RG.MA().
+RGList objects are now always assumed to contain unlogged intensities.
+There are corresponding changes to plotDensities(), for which
+log.transform=TRUE is now the default, and RG.MA() has a new argument
+unlog.
+
+\item
+limma now officially requires R version 2.0 or higher.
+
+\item
+limmaUsersGuide() replaces limmaguideURL() and now outputs the file name
+rather than a URL. The html version of the User's Guide has been
+removed.
+
+\item
+The default column name for gene names in topTable() output is now
+'ProbeID', and lmFit() now captures rownames if the data object is a
+matrix.
+
+\item
+readTargets() has a new '...' argument and now looks for columns "Label"
+or "FileName" to make row.names if the row.names argument is NULL.
+removeExt() now coerces its argument to character.
+
+\item
+duplicateCorrelation() now traps the error condition when all the
+non-missing observations for a gene belong to the same block.
+
+\item
+readImaGeneHeader() now allows for headers up to 100 lines, previously
+60.
+
+\item
+The 'columns' argument no longer overwrites the 'source' argument of
+read.maimages().
+
+\item
+New sections in the User's Guide on Time Course Experiments, Separate
+Channel Analyses, Several Groups, Adjusting for Multiple Testing, and
+software packages using limma. The User's Guide now uses BibTeX for its
+reference list. The CITATION file has been updated to the Bioconductor
+book chapter.
+
+\item
+Bug fixes to lmFit() when there are no weights or missing values and the
+residual degrees of freedom are 0 or 1, and when there are non-estimable
+coefficients.
+
+\item
+Bug fix to uniquegenelist(), which now preserves the data.frame or matrix
+class. This fixes a bug when fitting a model to an exprSet object with
+duplicate probes.
+
+\item
+Bug fix to normalizeRobustSpline() when Sigma0 is zero, that is, when the
+method reduces to a global spline.
+
+\item
+Bug fix to normalizeBetweenArrays() with method="Gquantile" or
+"Rquantile", which now changes only the A-values.
+
+\item
+Bug fix to plotDensities() when the object is an MAList and
+log.transform=TRUE, which should give a log rather than a log-log scale.
+
+\item
+Bug fix so that lmFit() calls mrlm() rather than the deprecated
+rlm.series().
+
+\item
+Bug fixes to changeLog(), to getLayout2() when the GAL file has no
+header, to readGAL() for the stricter regular expression syntax of R
+2.1.0, and to subsetting of MArrayLM objects when the components are
+vectors rather than matrices.
+
+\item
+intraspotCorrelation() now uses try() to tolerate some fit errors from
+remlscore().
+}}
+
+
+\section{version 1.8.5 (2004-10-25)}{\itemize{
+
+\item
+All the linear modelling functions now return the covariance matrix of
+the estimated coefficients. This improves support for models with
+covariance structures, such as random effects models for technical
+replicates, mixed models for log-intensity analysis of two color data,
+and duplicate spots. contrasts.fit() and classifyTestsF() now use the
+covariance matrix stored in the data object.
+
+\item
+New function decideTests() for global multiple testing across probes and
+contrasts.
+
+\item
+New function geneSetTest().
+
+\item
+New function nonEstimable(). lmFit() now reports non-estimable
+coefficients, and contrasts.fit() stops with an error message if an
+attempt is made to take a contrast of a non-estimable parameter.
+
+\item
+New background correction method "normexp" for backgroundCorrect(),
+together with associated functions. backgroundCorrect() also has a new
+argument 'offset', and MA.RG() and normalizeWithinArrays() now accept
+arguments 'bc.method' and 'offset'.
+
+\item
+New functions imageplot3by2() and plotMA3by2() to write plots to files.
+imageplot() now shows a z-range legend, has a new argument 'mar', and
+traps infinite z values with an informative error message.
+
+\item
+plotMA() now does single-channel MA-plots and accepts exprSet, matrix and
+MArrayLM objects. Points with zero weight are no longer plotted by
+default.
+
+\item
+eBayes() now returns F-statistics and the corresponding p-values, and
+checks that the design matrix is of full rank before computing the
+F-statistic.
+
+\item
+New summary methods for RGList, MAList and MArrayLM objects, and a
+slicker summary method for TestResults objects.
+
+\item
+New argument other.columns for read.maimages(). Subsetting of RGList
+objects and MA.RG() now accommodate an 'other' component.
+
+\item
+read.maimages() now handles the new format SMD files, tries to set the
+printer layout for Agilent data, and calls readGPRHeader() to get the
+skip records for each gpr file. New functions readSMDHeader() and
+getLayout2(), the latter reading GAL file headers.
+
+\item
+New utility functions protectMetachar(), trimWhiteSpace() and tZscore().
+
+\item
+New function changeLog() to display the limma change log, which has been
+moved to the inst/doc directory of the package.
+
+\item
+lmFit() now accepts PLMset objects and better recognises when a
+marrayNorm object has a non-empty list of gene names.
+
+\item
+rlm.series() is deprecated in favour of mrlm().
+
+\item
+kooperberg() now returns an RGList.
+
+\item
+heatDiagram() now chooses the color range more carefully, so that red is
+associated only with positive fold changes and green with negative,
+separates the primary up and down genes with white space, and has a new
+argument 'mar'.
+
+\item
+The install.R file has been removed and replaced with LazyLoad in the
+DESCRIPTION file. limma now passes R CMD check under R 2.0 and was for
+the first time posted to CRAN as well as to Bioconductor.
+
+\item
+anova.MAList() now checks whether the design matrix has more than one
+column, and write.fit() now works on MArrayLM objects when eBayes() has
+not been used.
+
+\item
+New sections in the User's Guide on Installation and on Special Designs,
+the Estrogen case study redone, and many edits throughout. A citation
+entry has been added for limma. The Swirl and ApoAI case studies have
+also been updated.
+
+\item
+Bug fixes to contrasts.fit() when there are non-estimable coefficients,
+to decideTests() for method="hierarchical" and method="nestedF", to
+kooperberg() when the background is zero, and to read.imagene().
+
+\item
+Bug fixes to read.maimages() for Agilent data, to readTargets(), and to
+dim() for RGList, MAList and MArrayLM objects, which was returning NULL
+when there was just one column.
+
+\item
+Bug fix to vennCounts() when there are no significant results for one or
+more contrasts.
+
+\item
+normalizeWithinArrays(method="composite") now allows for NAs, and calls
+to rlm() in normalizeRobustSpline() now explicitly set prior weights.
+}}
+
+
+\section{version 1.6.6 (2004-05-17)}{\itemize{
+
+\item
+New functions lmscFit() and intraspotCorrelation() for separate channel
+analysis of two color data, together with a new documentation entry on
+single channel analysis. lmscFit() was originally introduced as
+lmsc.series() and now produces an MArrayLM object.
+
+\item
+New function write.fit() for outputting the results of a linear model
+fit.
+
+\item
+New function modelMatrix() to construct design matrices for microarray
+experiments with common references. modelMatrix() replaces
+designMatrix(), which is deprecated. The use of 'ref' is now more
+general and does not have to occur on every array.
+
+\item
+New function array2channel() to convert targets files from a by-array to
+a by-channel representation.
+
+\item
+New function auROC() to compute the exact area under the ROC curve.
+
+\item
+New function poolVar() for Welch-style pooling of sample variances with
+unequal variances.
+
+\item
+New function squeezeVar(), originally introduced as smoothVar().
+
+\item
+New function FStat(). classifyTests() has been renamed to
+classifyTestsF(), and classifyTestsP() now extracts the degrees of
+freedom from the data object.
+
+\item
+The S3 class "classification" has been replaced by the S4 class
+"TestResults", including show and summary methods. classifyTestsF(),
+classifyTestsT() and classifyTestsP() now produce TestResults objects.
+
+\item
+duplicateCorrelation() now uses randomizedBlockFit() from the statmod
+package instead of gls() from the nlme package. This results in a
+several-fold increase in speed for duplicateCorrelation() and
+dupcor.series(). dupcor.series() is now deprecated and limma depends on
+statmod.
+
+\item
+New argument 'block' for duplicateCorrelation(), gls.series() and lmFit()
+to treat technical replicates as randomized blocks.
+
+\item
+New methods Rquantile, Gquantile and Tquantile for
+normalizeBetweenArrays(), and a new method "vsn".
+
+\item
+New function getSpacing(), and getLayout() now has an option to guess the
+spacing between duplicate spots. New function blockDiag() to form block
+diagonal matrices. printorder() has been upgraded to accommodate spacing
+by rows or topbottom.
+
+\item
+New function modifyWeights().
+
+\item
+New argument 'resort.by' for toptable() and topTable().
+
+\item
+New arguments 'mar' and 'cex' for vennDiagram(), which reduce white-space
+and control text size.
+
+\item
+New argument 'annotation' for read.maimages(), and source="agilent" added
+to read.maimages().
+
+\item
+readGAL() now sorts GAL files into standard order if they are not already
+sorted, and read.maimages() now sets the gene list directly from the gpr
+files, so readGAL() will usually no longer be required.
+
+\item
+New merge method for MAList objects, and new rbind methods for RGList and
+MAList objects.
+
+\item
+lmFit() now extracts probe IDs from exprSet objects.
+
+\item
+vennCounts() now uses table() for the major computation and is therefore
+much faster.
+
+\item
+backgroundCorrect(method="edwards") now handles NAs.
+
+\item
+A Sweave-style vignette has been added, as well as the User's Guide, and
+new functions usersguideURL() and .First.lib() implement a limma entry in
+the Windows drop-down Vignettes menu.
+
+\item
+Estrogen and Ecoli-lrp case studies have been added to the User's Guide,
+and internal links have been added to the contents section.
+
+\item
+Substantial upgrade to the functions which identify and track control
+spots from the gene list, including readTargets(), readSpotTypes(),
+controlStatus() and plotMA(). New 'path' and '...' arguments for
+readSpotTypes() and readTargets().
+
+\item
+Bug fixes to designMatrix(), which was giving the wrong matrix when the
+common reference was Cy5 for the first array, and to printorder() with
+spacing="topbottom", which was returning vectors of the wrong length.
+
+\item
+Bug fixes to imageplot() and heatdiagram(), which caused over-printing
+when using par(mfrow).
+
+\item
+Bug fix to normalizeRobustSpline() to prevent an error when the spline
+basis becomes singular.
+
+\item
+Changes to loessFit() to avoid errors with small numbers of observations.
+
+\item
+Bug fix to duplicateCorrelation(), which was not finding the M matrix
+when the object was not an MArrayLM, and a check has been added for
+correlations less than -1.
+
+\item
+Bug fixes to write.fit(), which was failing when adjusting p-values with
+multiple contrasts, and further fixes to accommodate the TestResults
+class.
+
+\item
+Refinements to the estimation of var.prior in ebayes() and related
+functions.
+
+\item
+Bug fix to gls.series() to ensure that the spacing and weights arguments
+are passed to duplicateCorrelation().
+
+\item
+Bug fixes to backgroundCorrect(method="edwards") and to plotPrintTipLoess().
+}}
+
+
+\section{version 1.2.8 (2003-10-30)}{\itemize{
+
+\item
+New function lmFit(), an object-orientated interface to linear modelling
+which accepts RGList, MAList, marrayNorm and exprSet objects. New
+MArrayLM class to hold the fitted model, and a new virtual class
+LargeDataObject with an associated show method.
+
+\item
+Object-orientated versions of several functions are being gradually
+introduced: eBayes() for ebayes(), topTable() for toptable() and
+heatDiagram() for heatdiagram().
+
+\item
+New function makeContrasts() to construct contrast matrices.
+
+\item
+New function duplicateCorrelation() as an object-orientated wrapper for
+dupcor.series().
+
+\item
+New function designMatrix() to construct design matrices for microarray
+experiments with common references.
+
+\item
+New functions vennCounts() and vennDiagram() for Venn diagram plots, with
+a new argument 'include'.
+
+\item
+New function loessFit(), giving substantial speed improvements for loess
+normalization. loessFit() has a new argument 'bin' and the interpolation
+settings have been fine tuned.
+
+\item
+New functions for Kooperberg Bayesian background correction, with the
+internal functions now hidden from the user.
+
+\item
+New function plotDensities(), contributed by Natalie Thorne.
+
+\item
+New backgroundCorrect() methods "half", "minimum", "movingmin", "edwards"
+and "none".
+
+\item
+read.maimages() now supports ImaGene, ArrayVision and SMD data files, and
+reading of QuantArray files has been fixed. New functions
+readGPRHeaders() and readImageneHeaders(), and read.imagene() now allows
+for changes of header information between arrays.
+
+\item
+classifyTests() now supports MArrayLM objects, accepts design and
+contrast matrices, and returns an F-statistic.
+
+\item
+New class exprSet2, and new function topTable().
+
+\item
+Support for correlated design matrices has been added to contrasts.fit().
+
+\item
+New cbind, rbind and subsetting methods for RGList and MAList objects,
+and support for much extra structure in these objects.
+
+\item
+New argument 'ties' for normalizeBetweenArrays() and new argument 'mar'
+for imageplot().
+
+\item
+normalizeWithinArrays(), normalizeForPrintorder() and plotPrintorder()
+are no longer generic, which simplifies the documentation. The
+documentation for normalizeBetweenArrays() has also been consolidated.
+
+\item
+New section in the User's Guide on single channel normalization,
+contributed by Natalie Thorne, expanded sections on reading data, and a
+new affy example.
+
+\item
+Bug fixes to classifyTests(), to loessFit(), to toptable(), which was
+displaying incorrect A-values, to wtIgnore.Filter() with GenePix data,
+and to backgroundCorrect() with method="minimum".
+}}
+
+
+\section{version 1.0.8 (2003-05-29)}{\itemize{
+
+\item
+limma was included in the Bioconductor project for the first time, as
+part of Bioconductor release 1.2.
+
+\item
+The package was originally called smawehi and was made public for the
+first time on 11 November 2002. It was renamed limma, with the title
+"Linear Models for Microarray Data", in April 2003. The early versions
+of the package were intended to be used in conjunction with the sma
+package from the University of California at Berkeley.
+
+\item
+New S4 classes RGList and MAList for two color microarray data, including
+setValidity() methods. Previously the data objects had the same structure
+but were unclassed.
+
+\item
+New function MA.RG() to make MAList objects from RGList objects or lists,
+and a new merge() method for RGList objects.
+
+\item
+New function backgroundCorrect().
+
+\item
+New S4 generic functions normalizeWithinArrays() and
+normalizeBetweenArrays(), together with normalizeMedians(),
+normalizeQuantiles(), normalizeMedianDeviations() and
+normalizeForPrintorder(). Several of these functions were renamed from
+earlier versions: normalize.quantile() to normalizeQuantiles(),
+norm.scale.ma() to normalizeMedianDeviations() and normalize.printorder()
+to normalizeForPrintorder().
+
+\item
+New function normalizeRobustSpline(), with a corresponding option for
+normalizeWithinArrays(), which implements print-tip normalization by
+fitting spline curves robustly to each print-tip group and then applying
+empirical Bayes moderation across the array.
+
+\item
+New functions wtarea() and wtflags() to make quality weights for
+microarray data from image analysis statistics, and a new function
+wtIgnore.Filter() for QuantArray data.
+
+\item
+New functions classifyTests() and classifyTests.vector() for multiple
+testing across genes and more than one contrast.
+
+\item
+New function plotMA() to make MA plots for both two color and
+single-channel data, and a new function plotPrintTipLoess() to display
+lowess normalization curves for printed two color microarrays.
+plotPrintorder() was renamed from plot.printorder().
+
+\item
+Other functions renamed at this time include anova.series() to
+anova.MAList(), fdist.fit() to fitFDist() and trigamma.inverse() to
+trigammaInverse().
+
+\item
+New utility functions isNumeric() and helpMethods().
+
+\item
+A printable pdf version of the User's Guide is now provided.
+
+\item
+Bug fixes to ebayes() when there are more than two coefficients, to
+read.maimages() for QuantArray data, and to classifyTests().
+}}
+
+
+\section{version 0.3 (2002-11-25)}{\itemize{
+
+\item
+The limma package was originally called the smawehi package, because
+it was intended to be used in conjunction with the sma package from
+the University of California at Berkeley, and was
+made public via the repository http://bioinf.wehi.edu.au/smawehi.
+The package originally focused on the analysis of two-color microarrays.
+
+Version 0.3 of the package formed the basis of the One Day Course
+"Statistics for Microarray Data Analysis" presented at the Australian Genstat
+Conference in Perth, Australia, on 2 December 2002 by
+Terry Speed, Gordon Smyth and Natalie Thorne.
+
+\item
+The package contained the following functions: a.spot, anova.series, bwss,
+bwss.matrix, contrasts.fit, dl2norm, dnorml2norm, dupcor.series,
+ebayes, fdist.fit, gls.series, gridc, gridr, heatdiagram, image.array,
+lm.series, m.spot, matvec, norm.scale.ma, normalize.printorder,
+normalize.quantile, plot.printorder, qqt, read.series, rg.genepix,
+rg.quantarray, rg.series.spot, rg.spot, rlm.series, spotc, spotr,
+txmixture.matrix, txmixture.vector, toptable, trigamma.inverse,
+uniquegenelist, unwrapdups, vecmat.
 }}

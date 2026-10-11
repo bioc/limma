@@ -70,7 +70,7 @@ plotMDS.MDS <- function(x,labels=NULL,pch=NULL,cex=1,dim.plot=NULL,xlab=NULL,yla
 plotMDS.default <- function(x,top=500,labels=NULL,pch=NULL,cex=1,dim.plot=c(1,2),gene.selection="pairwise",xlab=NULL,ylab=NULL,plot=TRUE,var.explained=TRUE,...)
 #	Multi-dimensional scaling with top-distance
 #	Di Wu and Gordon Smyth
-#	19 March 2009.  Last modified 13 May 2021.
+#	19 Mar 2009.  Last modified 13 May 2021.
 {
 #	Check x
 	x <- as.matrix(x)

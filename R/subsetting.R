@@ -41,7 +41,7 @@ assign("[.RGList",
 function(object, i, j, ...)
 #	Subsetting for RGList objects
 #	Gordon Smyth
-#	29 June 2003.  Last modified 10 July 2020.
+#	29 Jun 2003.  Last modified 10 Jul 2020.
 {
 	if(nargs() - length(list(...)) < 3L) stop("Two subscripts required",call.=FALSE)
 
@@ -62,7 +62,7 @@ assign("[.MAList",
 function(object, i, j, ...)
 #	Subsetting for MAList objects
 #	Gordon Smyth
-#	29 June 2003.  Last modified 20 June 2020.
+#	29 Jun 2003.  Last modified 20 Jun 2020.
 {
 	if(nargs() - length(list(...)) < 3L) stop("Two subscripts required",call.=FALSE)
 
@@ -85,7 +85,7 @@ assign("[.EList",
 function(object, i, j, ...)
 #	Subsetting for EList objects
 #	Gordon Smyth
-#	23 February 2009.  Last modified 20 June 2020.
+#	23 Feb 2009.  Last modified 20 Jun 2020.
 {
 	if(nargs() - length(list(...)) < 3L) stop("Two subscripts required",call.=FALSE)
 
@@ -108,7 +108,7 @@ assign("[.MArrayLM",
 function(object, i, j, ...)
 #	Subsetting for MArrayLM objects
 #	Gordon Smyth
-#	Created 26 April 2005. Last modified 10 June 2020.
+#	Created 26 Apr 2005. Last modified 10 Jun 2020.
 {
 	if(nargs() - length(list(...)) < 3L) stop("Two subscripts required",call.=FALSE)
 
@@ -188,7 +188,7 @@ assign("[.TestResults",
 function(object, i, j, ...)
 #	Subsetting for TestResults objects
 #	Gordon Smyth
-#	16 June 2019. Last modified 10 June 2020.
+#	16 Jun 2019. Last modified 10 Jun 2020.
 {
 	if(nargs() - length(list(...)) < 3L) stop("Two subscripts required",call.=FALSE)
 

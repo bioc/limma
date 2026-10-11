@@ -3,7 +3,7 @@
 squeezeVar <- function(var, df, covariate=NULL, span=NULL, robust=FALSE, winsor.tail.p=c(0.05,0.1), legacy=NULL)
 #	Empirical Bayes posterior variances
 #	Gordon Smyth
-#	Created 2 March 2004.  Last modified 12 July 2025.
+#	Created 2 Mar 2004.  Last modified 12 Jul 2025.
 {
 	n <- length(var)
 
@@ -51,7 +51,7 @@ squeezeVar <- function(var, df, covariate=NULL, span=NULL, robust=FALSE, winsor.
 #	Squeeze posterior variances given hyperparameters
 #	NAs not allowed in df.prior
 #	Gordon Smyth
-#	Created 5 May 2016. Last modified 1 August 2024.
+#	Created 5 May 2016. Last modified 1 Aug 2024.
 {
 #	If df.prior are all finite, use canonical formula
 	m <- max(df.prior)

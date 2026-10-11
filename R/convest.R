@@ -10,7 +10,7 @@ convest <- function(p,niter=100,plot=FALSE,report=FALSE,file="",tol=1e-06)
 #	Written by Egil Ferkingstad.
 #	Received from Mette Langaas 26 Jun 2004.
 #	Modified for limma by Gordon Smyth, 29 Oct 2004, 28 May 2005.
-#	Report modified by Marcus Davy, 24 June 2007. Implemented and edited by Gordon Smyth, 9 Sep 2012, 12 Apr 2020.
+#	Report modified by Marcus Davy, 24 Jun 2007. Implemented and edited by Gordon Smyth, 9 Sep 2012, 12 Apr 2020.
 {
 	if(!length(p)) return(NA)
 	if(anyNA(p)) stop("Missing values in p not allowed")

@@ -193,7 +193,7 @@ heatdiagram <- function(stat,coef,primary=1,names=NULL,treatments=colnames(stat)
 plotSA <- function(fit, xlab="Average log-expression", ylab="sqrt(sigma)", zero.weights=FALSE, pch=16, cex=0.3, col=c("black","red"),...)
 #	Plot log-residual variance vs intensity
 #	Gordon Smyth
-#	Created 14 Jan 2009. Last modified 9 April 2025.
+#	Created 14 Jan 2009. Last modified 9 Apr 2025.
 {
 #	Check fit and extract components
 	if(!is(fit,"MArrayLM")) stop("fit must be an MArrayLM object")

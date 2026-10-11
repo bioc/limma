@@ -1,7 +1,7 @@
 beadCountWeights <- function(y, x, design=NULL, bead.stdev=NULL, bead.stderr=NULL, nbeads=NULL, array.cv=TRUE, scale=FALSE)
 #	Compute weights for BeadChips based on bead-level counts and standard deviations
 #	Charity Law and Gordon Smyth
-#	Created 4 August 2010. Last modified 4 Oct 2017.
+#	Created 4 Aug 2010. Last modified 4 Oct 2017.
 {
 #	Matrix of normalized expression values
 	E <- as.matrix(y)
@@ -86,7 +86,7 @@ beadCountWeights <- function(y, x, design=NULL, bead.stdev=NULL, bead.stderr=NUL
 #	Find the component of the between-array variance
 #	not explained by bead-level variability
 #	Gordon Smyth and Charity Law
-#	28 July 2010. Modified 16 July 2012.
+#	28 Jul 2010. Modified 16 Jul 2012.
 {
 	if(any(var.from.beads < 0)) stop("negative variances not allowed")
 	if(any(sq.residuals < 0)) stop("negative variances not allowed")

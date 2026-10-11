@@ -1,7 +1,7 @@
 propexpr <- function(x,neg.x=NULL,status=x$genes$Status,labels=c("negative","regular"))
 #	Estimate proportion of expressed probes on each array
 #	Wei Shi and Gordon Smyth.
-#	17 April 2009. Last modified 15 Oct 2009.
+#	17 Apr 2009. Last modified 15 Oct 2009.
 {
 	if(is.null(neg.x)) {
 		ineg <- grep(tolower(labels[1]),tolower(status))

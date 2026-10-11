@@ -1,12 +1,12 @@
 #  avearrays.R
 
 avearrays <- function(x,ID=NULL,weights=NULL) UseMethod("avearrays")
-#  24 Sept 2010
+#  24 Sep 2010
 
 avearrays.default <- function(x,ID=colnames(x),weights=NULL)
 #	Average over technical replicate columns, for matrices
 #	Gordon Smyth
-#	Created 24 Sept 2010. Last modified 13 Aug 2015.
+#	Created 24 Sep 2010. Last modified 13 Aug 2015.
 {
 	if(is.null(x)) return(NULL)
 	if(is.vector(x)) stop("x must be a matrix")
@@ -34,7 +34,7 @@ avearrays.default <- function(x,ID=colnames(x),weights=NULL)
 avearrays.MAList <- function(x,ID=colnames(x),weights=x$weights)
 #	Average over technical replicate columns for MAList objects
 #	Gordon Smyth
-#	24 Sept 2010.  Last modified 10 Aug 2026.
+#	24 Sep 2010.  Last modified 10 Aug 2026.
 {
 	ID <- as.character(ID)
 	d <- duplicated(ID)
@@ -51,7 +51,7 @@ avearrays.MAList <- function(x,ID=colnames(x),weights=x$weights)
 avearrays.EList <- function(x,ID=colnames(x),weights=x$weights)
 #	Average over irregular replicate columns for EList objects
 #	Gordon Smyth
-#	24 Sept 2010.  Last modified 10 Aug 2026.
+#	24 Sep 2010.  Last modified 10 Aug 2026.
 {
 	d <- duplicated(ID)
 	if(!any(d)) return(x)

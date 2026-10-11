@@ -4,7 +4,7 @@
 #	Gordon Smyth
 #	Created 12 Feb 2019 from .arrayWeightsREML.
 #	C implement and parallel support by Lizhong Chen
-#	Last revised 18 June 2026.
+#	Last revised 18 Jun 2026.
 {
 #	y should be a numeric matrix
 	y <- as.matrix(y)

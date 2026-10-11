@@ -3,7 +3,7 @@
 treat <- function(fit, fc=1.2, lfc=NULL, trend=FALSE, robust=FALSE, winsor.tail.p=c(0.05,0.1), legacy=NULL, upshot=FALSE)
 #	Moderated t-statistics relative to a logFC threshold.
 #	Davis McCarthy, Gordon Smyth
-#	25 July 2008.  Last revised 21 Oct 2025.
+#	25 Jul 2008.  Last revised 21 Oct 2025.
 {
 #	Check fit
 	if(!is(fit,"MArrayLM")) stop("fit must be an MArrayLM object")
@@ -72,7 +72,7 @@ treat <- function(fit, fc=1.2, lfc=NULL, trend=FALSE, robust=FALSE, winsor.tail.
 topTreat <- function(fit,coef=1,sort.by="p",resort.by=NULL,...)
 #	Summary table of top genes by treat
 #	Gordon Smyth
-#	15 June 2009.  Last modified 27 February 2014.
+#	15 Jun 2009.  Last modified 27 Feb 2014.
 
 #	NOTE: This function may become deprecated soon as topTable() takes over
 {

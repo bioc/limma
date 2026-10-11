@@ -2,7 +2,7 @@ fitFDist <- function(x,df1,covariate=NULL)
 #	Moment estimation of the parameters of a scaled F-distribution.
 #	The numerator degrees of freedom is given, the scale factor and denominator df is to be estimated.
 #	Gordon Smyth and Belinda Phipson
-#	Created 8 Sept 2002.  Last revised 22 Jul 2024.
+#	Created 8 Sep 2002.  Last revised 22 Jul 2024.
 {
 #	Check x
 	n <- length(x)
@@ -124,7 +124,7 @@ fitFDist <- function(x,df1,covariate=NULL)
 trigammaInverse <- function(x) {
 #	Solve trigamma(y) = x for y
 #	Gordon Smyth
-#	8 Sept 2002.  Last revised 12 March 2004.
+#	8 Sep 2002.  Last revised 12 Mar 2004.
 
 #	Non-numeric or zero length input
 	if(!is.numeric(x)) stop("Non-numeric argument to mathematical function")

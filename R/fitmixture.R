@@ -1,6 +1,6 @@
 fitmixture <- function(log2e,mixprop,niter=4,trace=FALSE)
 #	Fit mixture model by non-linear least squares
-#	Gordon Smyth  9 April 2007
+#	Gordon Smyth  9 Apr 2007
 {
 	log2e <- as.matrix(log2e)
 	mixprop <- as.numeric(mixprop)

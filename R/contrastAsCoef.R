@@ -1,7 +1,7 @@
 contrastAsCoef <- function(design, contrast=NULL, first=TRUE)
 #	Reform a design matrix so that one or more contrasts become simple coefficients
 #	Gordon Smyth
-#	31 August 2013. Last modified 1 Oct 2025.
+#	31 Aug 2013. Last modified 1 Oct 2025.
 {
 	design <- as.matrix(design)
 	if(is.null(contrast)) return(design)

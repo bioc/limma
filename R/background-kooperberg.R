@@ -6,7 +6,7 @@ kooperberg <- function (RG, a = TRUE, layout=RG$printer, verbose=TRUE)
 #	Kooperberg Bayesian background correction
 #	Matt Ritchie
 #	Charles Kooperberg contributed 'a' estimation functions (.getas, .varaux1, .varaux2)
-#	Created 15 June 2003. Last modified 31 October 2005
+#	Created 15 Jun 2003. Last modified 31 Oct 2005
 {
 	if(!is(RG,"RGList")) stop("RG must be an RGList object")
     if(is.null(layout))
@@ -30,7 +30,7 @@ kooperberg <- function (RG, a = TRUE, layout=RG$printer, verbose=TRUE)
 
 .bayesianAdjustedFG <- function (RG, k, a = TRUE)
 #	Matt Ritchie
-#	18 June 2003. Last modified 22 May 2006.
+#	18 Jun 2003. Last modified 22 May 2006.
 {
     ngenes <- dim(RG)[1] # get number of probes
     Y <- rep(0, ngenes)

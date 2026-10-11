@@ -1,7 +1,7 @@
 coolmap <- function(x, cluster.by="de pattern", col=NULL, linkage.row="complete", linkage.col="complete", show.dendrogram="both", ...)
 #	Interface to heatmap.2 with useful defaults for log2-expression data
 #	Gordon Smyth
-#	Created 23 Sep 2016. Last modified 26 July 2019.
+#	Created 23 Sep 2016. Last modified 26 Jul 2019.
 {
 #	Check arguments
 	x <- as.matrix(x)

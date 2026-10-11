@@ -33,7 +33,7 @@ representation("list")
 printHead <- function(x)
 #  Print leading 5 elements or rows of atomic object
 #  Gordon Smyth
-#  May 2003.  Last modified 4 March 2017.
+#  May 2003.  Last modified 4 Mar 2017.
 {
 	if(is.atomic(x)) {
 		d <- dim(x)
@@ -145,7 +145,7 @@ dimnames.MArrayLM <- function(x) dimnames(x$coefficients)
 .setdimnames <- function(x, value)
 #  Dimension names for RGList-like objects
 #  Gordon Smyth
-#  17 Dec 2005. Last modified 23 March 2009.
+#  17 Dec 2005. Last modified 23 Mar 2009.
 {
 	exprmatrices <- c("R","G","Rb","Gb","M","A","E","Eb","weights")
 	for (a in exprmatrices) if(!is.null(x[[a]])) dimnames(x[[a]]) <- value
@@ -190,13 +190,13 @@ as.MAList <- function(object) {
 	MA
 } 
 
-#  Gordon Smyth, 28 Oct 2004, 23 March 2009
+#  Gordon Smyth, 28 Oct 2004, 23 Mar 2009
 as.matrix.RGList <- function(x,...) normalizeWithinArrays(x,method="none")$M
 as.matrix.MAList <- function(x,...) as.matrix(x$M)
 as.matrix.EListRaw <- as.matrix.EList <- function(x,...) as.matrix(x$E)
 as.matrix.MArrayLM <- function(x,...) x$coefficients
 as.matrix.marrayNorm <- function(x,...) x@maM
-#  13 July 2006
+#  13 Jul 2006
 as.matrix.PLMset <- function(x,...) x@chip.coefs
 #  19 Dec 2006, 18 May 2007
 as.matrix.ExpressionSet <- as.matrix.LumiBatch <- function(x,...) env=x@assayData[["exprs"]]
@@ -236,7 +236,7 @@ as.data.frame.EList <- as.data.frame.EListRaw <- function(x, row.names = NULL, o
 as.data.frame.MArrayLM <- function(x, row.names = NULL, optional = FALSE, ...)
 #	Convert MArrayLM object to data.frame
 #	Gordon Smyth
-#	6 April 2005.  Last modified 13 Jan 2006.
+#	6 Apr 2005.  Last modified 13 Jan 2006.
 {
 	x <- unclass(x)
 	if(is.null(x$coefficients)) {

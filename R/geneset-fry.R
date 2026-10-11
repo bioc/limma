@@ -5,7 +5,7 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid=NU
 #	The up and down p-values are equivalent to those from roast with nrot=Inf
 #	in the special case of prior.df=Inf.
 #	Gordon Smyth and Goknur Giner
-#	Created 30 January 2015.  Last modified 9 June 2020.
+#	Created 30 Jan 2015.  Last modified 9 Jun 2020.
 {
 #	Check gene.weights
 	if(!is.null(gene.weights)) {
@@ -98,7 +98,7 @@ fry.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid=NU
 .fryEffects <- function(effects,index=NULL,geneid=rownames(effects),gene.weights=NULL,sort=TRUE)
 #	fry given the effects matrix
 #	Gordon Smyth and Goknur Giner
-#	Created 30 January 2015.  Last modified 24 July 2019
+#	Created 30 Jan 2015.  Last modified 24 Jul 2019
 {
 	G <- nrow(effects)
 	neffects <- ncol(effects)

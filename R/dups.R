@@ -34,7 +34,7 @@ duplicateCorrelation <- function(object,design=NULL,ndups=2L,spacing=1L,block=NU
 #	Estimate the correlation between duplicates given a series of arrays
 #	Gordon Smyth
 #	C implement and parallel support by Lizhong Chen
-#	25 Apr 2002. Last revised 18 June 2026.
+#	25 Apr 2002. Last revised 18 Jun 2026.
 {
 #	Extract components from y
 	y <- getEAWP(object)
@@ -200,15 +200,15 @@ avedups.EList <- function(x,ndups=x$printer$ndups,spacing=x$printer$spacing,weig
 }
 
 avereps <- function(x,...)
-#	4 June 2008
+#	4 Jun 2008
 	UseMethod("avereps")
 
 avereps.default <- function(x,ID=rownames(x),...)
 #	Average over irregular replicate spots, for matrices or vectors
 #	Gordon Smyth
-#	Created 3 June 2008.  Last modified 1 Dec 2010.
+#	Created 3 Jun 2008.  Last modified 1 Dec 2010.
 #	Revised 19 Aug 2009 following suggestions from Axel Klenk.
-#	Revised 28 March 2010 following suggestion from Michael Lawrence.
+#	Revised 28 Mar 2010 following suggestion from Michael Lawrence.
 {
 	if(is.null(x)) return(NULL)
 	x <- as.matrix(x)
@@ -230,7 +230,7 @@ avereps.default <- function(x,ID=rownames(x),...)
 avereps.MAList <- function(x,ID=NULL,...)
 #	Average over irregular replicate spots for MAList objects
 #	Gordon Smyth
-#	3 June 2008.  Last modified 8 Sep 2010.
+#	3 Jun 2008.  Last modified 8 Sep 2010.
 {
 	if(is.null(ID)) {
 		ID <- x$genes$ID
@@ -251,7 +251,7 @@ avereps.MAList <- function(x,ID=NULL,...)
 avereps.EList <- function(x,ID=NULL,...)
 #	Average over irregular replicate probes for EList objects
 #	Gordon Smyth
-#	2 April 2010.  Last modified 20 May 2011.
+#	2 Apr 2010.  Last modified 20 May 2011.
 {
 	if(is.null(ID)) {
 		ID <- x$genes$ID
@@ -271,7 +271,7 @@ avereps.EList <- function(x,ID=NULL,...)
 avereps.RGList <- function(x,ID=NULL,...)
 #	Warn users that averaging should not be applied prior to normalization
 #	Gordon Smyth
-#	2 December 2013.
+#	2 Dec 2013.
 {
 	stop("avereps should not be applied to an RGList object")
 	invisible()
@@ -281,7 +281,7 @@ avereps.RGList <- function(x,ID=NULL,...)
 avereps.EListRaw <- function(x,ID=NULL,...)
 #	Warn users that averaging should not be applied prior to normalization
 #	Gordon Smyth
-#	2 December 2013.
+#	2 Dec 2013.
 {
 	stop("avereps should not be applied to an EListRaw object")
 	invisible()

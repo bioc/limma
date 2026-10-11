@@ -253,7 +253,7 @@ classifyTestsF <- function(object,cor.matrix=NULL,df=Inf,p.value=0.01,fstat.only
 #FStat <- function(object,cor.matrix=NULL)
 ##	Compute overall F-tests given a matrix of t-statistics
 ##	Gordon Smyth
-##	24 February 2004.  Last modified 21 July 2004.
+##	24 Feb 2004.  Last modified 21 Jul 2004.
 #{
 #	m <- as.list(match.call())
 #	m[[1]] <- as.name("classifyTestsF")
@@ -264,7 +264,7 @@ classifyTestsF <- function(object,cor.matrix=NULL,df=Inf,p.value=0.01,fstat.only
 .classifyTestsP <- function(object,df=Inf,p.value=0.05,method="holm") {
 #	TestResults by rows for a matrix t-statistics using adjusted p-values
 #	Gordon Smyth
-#	12 July 2003.  Last modified 23 March 2004.
+#	12 Jul 2003.  Last modified 23 Mar 2004.
 
 #	Method intended for MArrayLM objects but accept unclassed lists as well
 	if(is.list(object)) {

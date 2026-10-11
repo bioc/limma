@@ -9,8 +9,11 @@ voom <- function(
 #	Creates an EList object for entry to lmFit() etc in the limma pipeline.
 #	Support for offset matrices added 11 Apr 2026.
 #	Gordon Smyth and Charity Law
-#	Created 22 Jun 2011.  Last modified 11 Apr 2026.
+#	Created 22 Jun 2011.  Last modified 11 Apr 2026. Deprecation message added 8 Oct 2026.
 {
+#	Function is deprecated in favor of voomLmFit()
+	message("voomLmFit is now recommended over voom")
+
 	out <- list()
 
 #	Extract counts from known data objects

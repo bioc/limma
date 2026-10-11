@@ -5,8 +5,8 @@ UseMethod("plotDensities")
 
 plotDensities.RGList <- function(object,log=TRUE,group=NULL,col=NULL,main="RG Densities",bc.method="subtract",...)
 #	Plot empirical single-channel densities
-#	Original version by Natalie Thorne, 9 September 2003
-#	Modified by Gordon Smyth.  Last modified 13 March 2015.
+#	Original version by Natalie Thorne, 9 Sep 2003
+#	Modified by Gordon Smyth.  Last modified 13 Mar 2015.
 {
 	object <- backgroundCorrect(object,method=bc.method)
 	narray <- ncol(object)
@@ -31,8 +31,8 @@ plotDensities.RGList <- function(object,log=TRUE,group=NULL,col=NULL,main="RG De
 
 plotDensities.MAList <- function(object,log=TRUE,group=NULL,col=NULL,main="RG Densities",...)
 #	Plot empirical single-channel densities
-#	Original version by Natalie Thorne, 9 September 2003
-#	Modified by Gordon Smyth.  Last modified 1 March 2015.
+#	Original version by Natalie Thorne, 9 Sep 2003
+#	Modified by Gordon Smyth.  Last modified 1 Mar 2015.
 {
 	narray <- ncol(object)
 	E <- cbind(object$A+object$M/2, object$A-object$M/2)
@@ -52,7 +52,7 @@ plotDensities.MAList <- function(object,log=TRUE,group=NULL,col=NULL,main="RG De
 
 plotDensities.EListRaw <- function(object,log=TRUE,bc.method="subtract",...)
 #	Gordon Smyth.
-#	Created 23 March 2009.  Last modified 13 March 2015.
+#	Created 23 Mar 2009.  Last modified 13 Mar 2015.
 {
 	object <- backgroundCorrect(object,method=bc.method)
 	E <- object$E
@@ -62,7 +62,7 @@ plotDensities.EListRaw <- function(object,log=TRUE,bc.method="subtract",...)
 
 plotDensities.EList <- function(object,log=TRUE,...)
 #	Gordon Smyth.
-#	Created 23 March 2009.  Last modified 13 March 2015.
+#	Created 23 Mar 2009.  Last modified 13 Mar 2015.
 {
 	E <- object$E
 	if(!log) E <- 2^E
@@ -72,7 +72,7 @@ plotDensities.EList <- function(object,log=TRUE,...)
 plotDensities.default <- function(object,group=NULL,col=NULL,main=NULL,legend="topleft",...)
 #	Plot empirical single-channel densities
 #	Gordon Smyth
-#	18 Nov 2013.  Last modified 13 March 2015.
+#	18 Nov 2013.  Last modified 13 Mar 2015.
 {
 #	Coerce object to matrix
 	E <- as.matrix(object)

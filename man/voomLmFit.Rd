@@ -6,11 +6,12 @@ Transform count data to log2-counts per million (logCPM), estimate voom precisio
 }
 
 \usage{
-voomLmFit(counts, design = NULL, contrasts = NULL, block = NULL, prior.weights = NULL,
-     sample.weights = FALSE, var.design = NULL, var.group = NULL, prior.n = 10,
-     lib.size = NULL, offset = NULL, offset.prior = NULL, normalize.method = "none",
-     span = 0.5, adaptive.span = TRUE, plot = FALSE, save.plot = FALSE,
-     keep.EList = TRUE, nthreads = 1L)
+voomLmFit(counts, design = NULL, contrasts = NULL, block = NULL,
+    prior.weights = NULL, sample.weights = FALSE, var.design = NULL,
+    var.group = NULL, prior.n = 10, lib.size = NULL, offset = NULL,
+    offset.prior = NULL, normalize.method = "none",
+    span = 0.5, adaptive.span = TRUE, plot = FALSE, save.plot = FALSE,
+    keep.EList = TRUE, nthreads = 1L)
 }
 \arguments{
   \item{counts}{

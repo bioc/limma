@@ -4,7 +4,7 @@ romer <- function(y,...) UseMethod("romer")
 romer.default <- function(y,index,design=NULL,contrast=ncol(design),array.weights=NULL,block=NULL,correlation=NULL,set.statistic="mean",nrot=9999,shrink.resid=TRUE,...)
 #	rotation mean-rank version of GSEA (gene set enrichment analysis) for linear models
 #	Gordon Smyth and Yifang Hu
-#	27 March 2009.	Last modified 3 May 2015.
+#	27 Mar 2009.	Last modified 3 May 2015.
 {
 #	Issue warning if extra arguments found
 	dots <- names(list(...))
@@ -285,7 +285,7 @@ romer.default <- function(y,index,design=NULL,contrast=ncol(design),array.weight
 topRomer <- function(x,n=10,alternative="up")
 #	Extract top gene sets results from romer output
 #	Gordon Smyth and Yifang Hu.
-#	Created 22 Mar 2010.	Last modified 30 March 2015.
+#	Created 22 Mar 2010.	Last modified 30 Mar 2015.
 {
 	n <- min(n,nrow(x))
 	alternative <- match.arg(tolower(alternative),c("up","down","mixed"))

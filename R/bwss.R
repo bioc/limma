@@ -53,7 +53,7 @@ anova.MAList <- function(object,design=NULL,ndups=2,...) {
 #	Analysis of variance, gene x array, for series of replicate arrays
 #	Useful for comparing between to within gene variability
 #	Gordon Smyth
-#	16 March 2002.  Last modified 17 Aug 2004.
+#	16 Mar 2002.  Last modified 17 Aug 2004.
 
 	M <- object$M
 	if(!is.null(design)) {

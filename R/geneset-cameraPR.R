@@ -1,9 +1,11 @@
 cameraPR <- function(statistic,...) UseMethod("cameraPR")
 
 cameraPR.default <- function(statistic,index,use.ranks=FALSE,inter.gene.cor=0.01,sort=TRUE,directional=TRUE,...)
-#	Competitive gene set test allowing for correlation between genes: pre-ranked statistic.
+#	Competitive gene set test allowing for correlation between genes.
+#	This version uses pre-ranked genes (i.e., with a provided vector of test statistics)
+#	and uses pre-specified inter-gene correlations for the sets.
 #	Gordon Smyth
-#	Created 18 April 2017. Last modified 4 Mar 2025.
+#	Created 18 Apr 2017. Last modified 4 Oct 2026.
 {
 #	Issue warning if extra arguments found
 	dots <- names(list(...))
@@ -18,7 +20,7 @@ cameraPR.default <- function(statistic,index,use.ranks=FALSE,inter.gene.cor=0.01
 	if(G<3) stop("Too few genes in dataset: need at least 3")
 
 #	Check index
-	if(!is.list(index)) index <- list(set1=index)
+	if(!is.list(index) || is.data.frame(index)) index <- list(set1=index)
 	nsets <- length(index)
 
 #	Check inter.gene.cor
@@ -57,23 +59,57 @@ cameraPR.default <- function(statistic,index,use.ranks=FALSE,inter.gene.cor=0.01
 	NGenes <- Down <- Up <- rep_len(0,nsets)
 	for (i in 1:nsets) {
 		iset <- index[[i]]
-		if(is.character(iset)) iset <- which(ID %in% iset)
-		StatInSet <- statistic[iset]
-		m <- length(StatInSet)
-		NGenes[i] <- m
-		if(use.ranks) {
-			p.value <- rankSumTestWithCorrelation(iset,statistics=statistic,correlation=inter.gene.cor[i],df=df.camera)
-			Down[i] <- p.value[1]
-			Up[i] <- p.value[2]
-		} else {	
-			vif <- 1+(m-1)*inter.gene.cor[i]
-			m2 <- G-m
-			meanStatInSet <- mean(StatInSet)
-			delta <- G/m2*(meanStatInSet-meanStat)
-			varStatPooled <- ( (G-1L)*varStat - delta^2*m*m2/G ) / (G-2L)
-			two.sample.t <- delta / sqrt( varStatPooled * (vif/m + 1/m2) )
-			Down[i] <- pt(two.sample.t,df=df.camera)
-			Up[i] <- pt(two.sample.t,df=df.camera,lower.tail=FALSE)
+		if(is.data.frame(iset)) {
+			if(ncol(iset) < 2) stop("index ",i," is a data.frame but doesn't contain gene weights")
+			if(!is.numeric(iset[,2])) stop("index ",i," is a data.frame but second column isn't numeric")
+			iw <- iset[,2]
+			iset <- iset[,1]
+			if(is.factor(iset)) iset <- as.character(iset)
+			if(is.character(iset)) {
+				if(is.null(ID)) stop("names(statistic) is NULL, so no gene names to match to")
+				if(anyDuplicated(iset)) stop("Duplicate gene ids in set ",i)
+				iset <- match(iset,ID)
+				if(anyNA(iset)) {
+					o <- which(!is.na(iset))
+					iset <- iset[o]
+					iw <- iw[o]
+				}
+			}
+			if(max(iset) > G) stop("set ",i," contains indices too large")
+			if(min(iset) < 1) stop("set ",i," contains negative indices")
+			NGenes[i] <- length(iset)
+			if(length(iset)) {
+				x <- rep_len(0,G)
+				x[iset] <- iw
+				Z <- .invSqrtCorTimes(cbind(1,x,statistic),sign(x),inter.gene.cor[i])
+				fit <- lm.fit(Z[,1:2],Z[,3])
+				s2 <- mean(fit$effects[3:G]^2)
+				t.stat <- sign(fit$qr$qr[2,2])*fit$effects[2]/sqrt(s2)
+				Down[i] <- pt(t.stat,df=G-2L)
+				Up[i] <- pt(t.stat,df=G-2L,lower.tail=FALSE)
+			} else {
+				Down[i] <- 1
+				Up[i] <- 1
+			}
+		} else {
+			if(is.character(iset)) iset <- which(ID %in% iset)
+			StatInSet <- statistic[iset]
+			m <- length(StatInSet)
+			NGenes[i] <- m
+			if(use.ranks) {
+				p.value <- rankSumTestWithCorrelation(iset,statistics=statistic,correlation=inter.gene.cor[i],df=df.camera)
+				Down[i] <- p.value[1]
+				Up[i] <- p.value[2]
+			} else {	
+				vif <- 1+(m-1)*inter.gene.cor[i]
+				m2 <- G-m
+				meanStatInSet <- mean(StatInSet)
+				delta <- G/m2*(meanStatInSet-meanStat)
+				varStatPooled <- ( (G-1L)*varStat - delta^2*m*m2/G ) / (G-2L)
+				two.sample.t <- delta / sqrt( varStatPooled * (vif/m + 1/m2) )
+				Down[i] <- pt(two.sample.t,df=df.camera)
+				Up[i] <- pt(two.sample.t,df=df.camera,lower.tail=FALSE)
+			}
 		}
 	}
 	TwoSided <- 2*pmin(Down,Up)
@@ -105,4 +141,29 @@ cameraPR.default <- function(statistic,index,use.ranks=FALSE,inter.gene.cor=0.01
 	}
 
 	tab
+}
+
+.invSqrtCorTimes <- function(B, u, rho)
+#	Compute V^(-1/2) %*% B where
+#	V = (1-rho)*I + rho*u u^T + rho*diag(1-u^2),
+#	u has elements 0, 1 or -1, and V^(1/2) is the symmetric square root.
+#	Algorithm is an adaption of the Sherman-Morrison formula.
+#	Gordon Smyth and Claude.
+#	Created 4 Oct 2026. Last modified 5 Oct 2026.
+{
+	B <- as.matrix(B)
+	if(length(u) != nrow(B)) stop("length(u) must equal nrow(B)")
+	i <- which(u != 0)
+	k <- length(i)
+	if(k < 2L) return(B)
+	if(rho >= 1) stop("rho must be less than 1")
+	if(rho <= -1/(k-1)) stop("V is not positive definite")
+	s <- u[i]
+	sa <- sqrt(1 - rho)
+	sd <- sqrt(1 + (k-1)*rho)
+	gamma <- -rho / (sa * sd * (sa + sd))
+	Bs <- B[i, , drop=FALSE]
+	stB <- crossprod(s, Bs)
+	B[i, ] <- Bs / sa + outer(gamma * s, stB[1, ])
+	B
 }

@@ -133,7 +133,7 @@ diffSplice.MArrayLM <- function(fit,geneid,exonid=NULL,robust=FALSE,legacy=FALSE
 	out$gene.lastexon <- gene.lastexon
 
 #	Simes adjustment of exon level p-values
-#	Full Simes adjustment implemented 2 March 2025. Previously a
+#	Full Simes adjustment implemented 2 Mar 2025. Previously a
 #	modified version on the top nexons-1 exons for each gene was used.
 	penalty <- rep_len(1L,length(g))
 	penalty[gene.firstexon[-1]] <- 1L-gene.nexons[-ngenes]

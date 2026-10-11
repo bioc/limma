@@ -3,7 +3,7 @@ goana <- function(de,...) UseMethod("goana")
 goana.MArrayLM <- function(de, coef = ncol(de), geneid = rownames(de), FDR = 0.05, trend = FALSE, ...)
 #	Gene ontology analysis of DE genes from linear model fit
 #	Gordon Smyth and Yifang Hu
-#	Created 20 June 2014.  Last modified 11 Sep 2022.
+#	Created 20 Jun 2014.  Last modified 11 Sep 2022.
 {
 #	Avoid argument collision with default method
 	dots <- names(list(...))
@@ -88,7 +88,7 @@ goana.MArrayLM <- function(de, coef = ncol(de), geneid = rownames(de), FDR = 0.0
 goana.default <- function(de, universe = NULL, species = "Hs", null.prob = NULL, covariate=NULL, plot=FALSE, ...)
 #	Gene ontology analysis of DE genes
 #	Gordon Smyth and Yifang Hu
-#	Created 20 June 2014.  Last modified 11 Sep 2022.
+#	Created 20 Jun 2014.  Last modified 11 Sep 2022.
 {
 #	Get access to package of GO terms
 	suppressPackageStartupMessages(OK <- requireNamespace("GO.db",quietly=TRUE))
@@ -262,7 +262,7 @@ goana.default <- function(de, universe = NULL, species = "Hs", null.prob = NULL,
 topGO <- function(results, ontology = c("BP", "CC", "MF"), sort = NULL, number = 20L, truncate.term = NULL, p.value = 1)
 #	Extract top GO terms from goana output 
 #	Gordon Smyth and Yifang Hu
-#	Created 20 June 2014. Last modified 22 Dec 2022.
+#	Created 20 Jun 2014. Last modified 22 Dec 2022.
 {
 #	Check results
 	if(!is.data.frame(results)) stop("results should be a data.frame.")

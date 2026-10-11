@@ -3,7 +3,7 @@ vooma <- function(y,design=NULL,block=NULL,correlation,predictor=NULL,span=NULL,
 #	Analogous to voom() but for non-count data.
 #	y must not contain NAs.
 #	Gordon Smyth, Charity Law, Mengbo Li.
-#	Created 31 July 2012.  Last modified 6 Nov 2024.
+#	Created 31 Jul 2012.  Last modified 6 Nov 2024.
 {
 #	Check y
 	if(!is(y,"EList")) y <- new("EList",list(E=as.matrix(y)))

@@ -3,7 +3,7 @@
 normexp.signal <- function(par,x)
 #	Expected value of signal given foreground in normal + exponential model
 #	Gordon Smyth
-#	24 Aug 2002. Last modified 24 February 2012.
+#	24 Aug 2002. Last modified 24 Feb 2012.
 {
 	mu <- par[1]
 	sigma <- exp(par[2])
@@ -26,7 +26,7 @@ normexp.fit <- function(x, method="saddle", n.pts=NULL, trace=FALSE)
 #	Estimate parameters of normal+exponential convolution model
 #	Pure R Version Gordon Smyth 24 Aug 2002.
 #	Version with C by Jeremy Silver 29 Oct 2007.
-#	Last modified 14 January 2015.
+#	Last modified 14 Jan 2015.
 {
 	isna <- is.na(x)
 	if(any(isna)) x <- x[!isna]
@@ -110,7 +110,7 @@ normexp.fit <- function(x, method="saddle", n.pts=NULL, trace=FALSE)
 #	normexp minus-twice log-likelihood
 #	Jeremy Silver
 #	29 Oct 2007.
-#	Last modified 25 Sept 2008.
+#	Last modified 25 Sep 2008.
 {
 	mu <- theta[1]
 	s2 <- exp(theta[2])
@@ -132,7 +132,7 @@ normexp.fit <- function(x, method="saddle", n.pts=NULL, trace=FALSE)
 #	with respect to mu, log(sigma^2) and log(alpha)
 #	Jeremy Silver
 #	29 Oct 2007.
-#	Last modified 25 Sept 2008.
+#	Last modified 25 Sep 2008.
 {
 	mu <- theta[1]
 	s2 <- exp(theta[2])
@@ -155,7 +155,7 @@ normexp.fit <- function(x, method="saddle", n.pts=NULL, trace=FALSE)
 #	with respect to mu, log(sigma^2) and log(alpha)
 #	Jeremy Silver
 #	29 Oct 2007.
-#	Last modified 25 Sept 2008.
+#	Last modified 25 Sep 2008.
 {
 	mu <- theta[1]
 	s2 <- exp(theta[2])

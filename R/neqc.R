@@ -1,7 +1,7 @@
 normexp.fit.detection.p <- function(x,detection.p="Detection")
 #  Estimate normexp parameters using negative control probes which are derived from probes' detection p values
 #  Wei Shi and Gordon Smyth
-#  Created 27 October 2010.  Modified 27 May 2013.
+#  Created 27 Oct 2010.  Modified 27 May 2013.
 {
 	if(is(x,"EListRaw")){
 		if(is.character(detection.p)){
@@ -56,7 +56,7 @@ normexp.fit.detection.p <- function(x,detection.p="Detection")
 normexp.fit.control <- function(x,status=NULL,negctrl="negative",regular="regular",robust=FALSE)
 #  Estimate normexp parameters using negative control probes
 #  Wei Shi and Gordon Smyth
-#  Created 17 April 2009. Last modified 14 January 2015.
+#  Created 17 Apr 2009. Last modified 14 Jan 2015.
 {
 	if(is(x, "EListRaw")) {
 		if(is.null(status)) status <- x$genes$Status
@@ -95,7 +95,7 @@ normexp.fit.control <- function(x,status=NULL,negctrl="negative",regular="regula
 nec <- function(x,status=NULL,negctrl="negative",regular="regular",offset=16,robust=FALSE,detection.p="Detection")
 #	Normexp background correction aided by negative controls.
 #	Wei Shi and Gordon Smyth
-#	Created 27 September 2010. Last modified 15 Nov 2015.
+#	Created 27 Sep 2010. Last modified 15 Nov 2015.
 {
 	if(is(x, "EListRaw")) {
 		if(!is.null(x$Eb)) {
@@ -127,7 +127,7 @@ nec <- function(x,status=NULL,negctrl="negative",regular="regular",offset=16,rob
 neqc <- function(x, status=NULL, negctrl="negative", regular="regular", offset=16, robust=FALSE, detection.p="Detection", ...)
 #	Normexp background correction and quantile normalization using control probes
 #	Wei Shi and Gordon Smyth
-#	Created 17 April 2009. Last modified 27 October 2010.
+#	Created 17 Apr 2009. Last modified 27 Oct 2010.
 {
 	x.bg <- nec(x,status,negctrl,regular,offset,robust,detection.p)
 	if(is(x.bg, "EListRaw")) {

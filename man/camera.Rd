@@ -23,8 +23,15 @@ interGeneCorrelation(y, design)
     Any type of object that can be processed by \code{\link{getEAWP}} is acceptable.
     \code{NA} or infinite values are not allowed.
   }
-  \item{statistic}{a numeric vector of genewise statistics. If \code{index} contains gene IDs, then \code{statistic} should be a named vector with the gene IDs as names.}
-  \item{index}{an index vector or a list of index vectors.  Can be any vector such that \code{y[index,]} of \code{statistic[index]} selects the rows corresponding to the test set.  The list can be made using \code{\link{ids2indices}}.}
+  \item{statistic}{
+    a numeric vector of genewise statistics.
+    If \code{index} contains gene IDs, then \code{statistic} should be a named vector with the gene IDs as names.
+  }
+  \item{index}{
+    a list of gene sets.
+    Each gene set is either an index vector \code{i} or a data.frame where the first column is the index vector and the second column gives the positive or negative change magnitude associated with each gene in the gene set.
+    The index vector can contain gene IDs or row numbers, provided that \code{y[i,]} of \code{statistic[i]} will subset to rows corresponding to genes in the gene set.
+  }
   \item{design}{design matrix.}
   \item{contrast}{contrast of the linear model coefficients for which the test is required. Can be an integer specifying a column of \code{design}, or else a numeric vector of same length as the number of columns of \code{design}.}
   \item{weights}{numeric matrix of precision weights. Can be a matrix of the same size as \code{y}, or a numeric vector of array weights with length equal to \code{ncol(y)}, or a numeric vector of gene weights with length equal to \code{nrow(y)}.}
@@ -47,6 +54,15 @@ See \code{\link{roast}} for an analogous \emph{self-contained} gene set test.
 The function can be used for any microarray experiment which can be represented by a linear model.
 The design matrix for the experiment is specified as for the \code{\link{lmFit}} function, and the contrast of interest is specified as for the \code{\link{contrasts.fit}} function.
 This allows users to focus on differential expression for any coefficient or contrast in a linear model by giving the vector of test statistic values.
+
+The argument \code{index} specifies one or more gene sets.
+The gene sets can be simple lists of genes, as indicated by a vector of gene IDs.
+For such gene sets, all the genes in the set are expected to change in the same direction and by the same amount when the molecular pathway is active.
+Alternatively, the gene sets can be provided as expression signatures, whereby an expected directional change is provided for each gene in the gene set.
+For example, the directional changes could be the log-fold-changes observed in previous experiments when a particular biological pathway was perturbed.
+Expression signature gene sets are provided as data.frames, with the gene indices in the first column and the directional changes in the second column.
+
+One convenient way to construct the \code{index} argument is by using \code{\link{ids2indices}}.
 
 \code{camera} estimates p-values after adjusting the variance of test statistics by an estimated variance inflation factor.
 The inflation factor depends on estimated genewise correlation and the number of genes in the gene set.
@@ -114,27 +130,35 @@ There is a topic page on \link{10.GeneSetTests}.
 
 \examples{
 y <- matrix(rnorm(1000*6),1000,6)
+rownames(y) <- paste0("G",1:1000)
+colnames(y) <- paste0("S",1:6)
 design <- cbind(Intercept=1,Group=c(0,0,0,1,1,1))
 
-# First set of 20 genes are genuinely differentially expressed
+# First set of 20 genes are genuinely up-regulated
 index1 <- 1:20
-y[index1,4:6] <- y[index1,4:6]+1
+y[index1,4:6] <- y[index1,4:6] + 1
 
-# Second set of 20 genes are not DE
+# Second set of 20 genes are genuinely down-regulated
 index2 <- 21:40
- 
-camera(y, index1, design)
-camera(y, index2, design)
+y[index2,4:6] <- y[index1,4:6] - 1
 
-camera(y, list(set1=index1,set2=index2), design, inter.gene.cor=NA)
-camera(y, list(set1=index1,set2=index2), design, inter.gene.cor=0.01)
+# Other genes are not DE
+index3 <- 41:60
+ 
+# Directional gene set containing both up and down genes
+index4 <- data.frame(
+  ID = c("G1","G2","G3","G21","G22","G23"),
+  logFC = c(1,1,1,-1,-1,-1)
+)
+ 
+index <- list(set1=index1, set2=index2, set3=index3, set4=index4)
+camera(y, index, design, inter.gene.cor=NA, sort=FALSE)
+camera(y, index, design, inter.gene.cor=0.01, sort=FALSE)
 
 # Pre-ranked version
 fit <- eBayes(lmFit(y, design))
-cameraPR(fit$t[,2], list(set1=index1,set2=index2))
-
-# Non-directional tests
-cameraPR(abs(fit$t[,2]), list(set1=index1,set2=index2), use.ranks=TRUE, directional=FALSE)
+logFC <- fit$coefficient[,2]
+cameraPR(logFC, index, sort=FALSE)
 }
 
 \concept{gene set tests}

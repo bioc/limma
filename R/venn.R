@@ -3,7 +3,7 @@
 vennCounts <- function(x,include="both") {
 #	Venn diagram counts
 #	Gordon Smyth  
-#	4 July 2003.  Last modified 10 March 2013.
+#	4 Jul 2003.  Last modified 10 Mar 2013.
 
 	x <- as.matrix(x)
 	include <- match.arg(include,c("both","up","down"))
@@ -32,7 +32,7 @@ vennDiagram <- function(object,include="both",names=NULL,mar=rep(1,4),cex=c(1.5,
 #	Plot Venn diagram
 #	Gordon Smyth, James Wettenhall, Yifang Hu.
 #	Capabilities for multiple counts and colors uses code by Francois Pepin.
-#	4 July 2003.  Last modified 9 June 2020.
+#	4 Jul 2003.  Last modified 9 Jun 2020.
 {
 #	Check include
 	include <- as.character(include)

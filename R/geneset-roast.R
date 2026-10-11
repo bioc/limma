@@ -16,7 +16,7 @@ roast <- function(y,...) UseMethod("roast")
 roast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid=NULL,set.statistic="mean",gene.weights=NULL,var.prior=NULL,df.prior=NULL,nrot=1999,approx.zscore=TRUE,legacy=FALSE,...)
 # Rotation gene set testing for linear models
 # Gordon Smyth and Di Wu
-# Created 24 Apr 2008.  Last modified 22 July 2019.
+# Created 24 Apr 2008.  Last modified 22 Jul 2019.
 {
 #	Check index
 	if(is.list(index)) return(mroast(y=y,index=index,design=design,contrast=contrast,set.statistic=set.statistic,gene.weights=gene.weights,var.prior=var.prior,df.prior=df.prior,nrot=nrot,approx.zscore=approx.zscore,legacy=legacy,...))
@@ -256,7 +256,7 @@ mroast.default <- function(y,index=NULL,design=NULL,contrast=ncol(design),geneid
 #	Rotation gene set testing, given the effects matrix for one set.
 #	Rows are genes.  First column is primary effect.  Other columns are residual effects.
 #	Gordon Smyth and Di Wu
-#	Created 24 Apr 2008.  Last modified 22 July 2019.
+#	Created 24 Apr 2008.  Last modified 22 Jul 2019.
 {
 	if(legacy) chunk <- nrot
 

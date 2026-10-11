@@ -5,7 +5,7 @@ plotMA <- function(object,...) UseMethod("plotMA")
 
 plotMA.RGList <- function(object, array=1, xlab="A", ylab="M", main=colnames(object)[array], status=object$genes$Status, zero.weights=FALSE, ...)
 #	MA-plot with color coding for controls
-#	Gordon Smyth 7 April 2003, James Wettenhall 27 June 2003.
+#	Gordon Smyth 7 Apr 2003, James Wettenhall 27 Jun 2003.
 #	Last modified 18 Sep 2014.
 {
 	object <- MA.RG(object[,array])
@@ -14,7 +14,7 @@ plotMA.RGList <- function(object, array=1, xlab="A", ylab="M", main=colnames(obj
 
 plotMA.MAList <- function(object, array=1, xlab="A", ylab="M", main=colnames(object)[array], status=object$genes$Status, zero.weights=FALSE, ...)
 #	MA-plot with color coding for controls
-#	Gordon Smyth 7 April 2003, James Wettenhall 27 June 2003.
+#	Gordon Smyth 7 Apr 2003, James Wettenhall 27 Jun 2003.
 #	Last modified 18 Sep 2014.
 {
 	A <- as.matrix(object$A)[,array]
@@ -28,7 +28,7 @@ plotMA.MAList <- function(object, array=1, xlab="A", ylab="M", main=colnames(obj
 
 plotMA.MArrayLM <- function(object, coef=ncol(object), xlab="Average log-expression", ylab="log-fold-change", main=colnames(object)[coef], status=object$genes$Status, ...)
 #	MA-plot with color coding for controls
-#	Gordon Smyth 7 April 2003, James Wettenhall 27 June 2003.
+#	Gordon Smyth 7 Apr 2003, James Wettenhall 27 Jun 2003.
 #	Last modified 15 Jul 2024.
 {
 	if(is.null(object$Amean)) stop("Amean component is absent.")
@@ -50,7 +50,7 @@ plotMA.EListRaw <- function(object, array=1, xlab="Average log-expression", ylab
 
 plotMA.EList <- function(object, array=1, xlab="Average log-expression", ylab="Expression log-ratio (this sample vs others)", main=colnames(object)[array], status=object$genes$Status, zero.weights=FALSE, ...)
 #	MA-plot with color coding for controls
-#	Gordon Smyth 7 April 2003, James Wettenhall 27 June 2003.
+#	Gordon Smyth 7 Apr 2003, James Wettenhall 27 Jun 2003.
 #	Last modified 18 Sep 2014.
 {
 	E <- as.matrix(object$E)
@@ -75,7 +75,7 @@ plotMA.EList <- function(object, array=1, xlab="Average log-expression", ylab="E
 
 plotMA.default <- function(object, array=1, xlab="Average log-expression", ylab="Expression log-ratio (this sample vs others)", main=colnames(object)[array], status=NULL, ...)
 #	MA-plot with color coding for controls
-#	Gordon Smyth 7 April 2003, James Wettenhall 27 June 2003.
+#	Gordon Smyth 7 Apr 2003, James Wettenhall 27 Jun 2003.
 #	Last modified 18 Sep 2014.
 {
 #	Data is assumed to be single-channel
@@ -150,7 +150,7 @@ plotMA3by2 <- function(object, prefix="MA", path=NULL, main=colnames(object), ze
 plotPrintTipLoess <- function(object,layout,array=1,span=0.4,...) {
 #  MA-plots by print-tip group
 #  Gordon Smyth
-#  7 April 2003.  Last revised 19 March 2004.
+#  7 Apr 2003.  Last revised 19 Mar 2004.
 
 	if(is(object,"RGList")) {
 		object <- MA.RG(object[,array])

@@ -3,7 +3,7 @@
 topTable <- function(fit,coef=NULL,number=10,genelist=fit$genes,adjust.method="BH",sort.by="B",resort.by=NULL,p.value=1,fc=NULL,lfc=NULL,confint=FALSE)
 #	Summary table of top genes, object-orientated version
 #	Gordon Smyth
-#	4 August 2003.  Last modified 11 October 2023.
+#	4 Aug 2003.  Last modified 11 Oct 2023.
 {
 #	Check fit
 	if(!is(fit,"MArrayLM")) stop("fit must be an MArrayLM object")
@@ -68,8 +68,8 @@ topTable <- function(fit,coef=NULL,number=10,genelist=fit$genes,adjust.method="B
 .topTableF <- function(fit,number=10,genelist=fit$genes,adjust.method="BH",sort.by="F",p.value=1,lfc=0)
 #	Summary table of top genes by F-statistic
 #	Gordon Smyth
-#	27 August 2006. Last modified 24 June 2014.
-#	Non-exported copy made 8 June 2020.
+#	27 Aug 2006. Last modified 24 Jun 2014.
+#	Non-exported copy made 8 Jun 2020.
 {
 #	Check fit
 	if(is.null(fit$coefficients)) stop("Coefficients not found in fit")

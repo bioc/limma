@@ -3,7 +3,7 @@
 plotRLDF <- function(y,design=NULL,z=NULL,nprobes=100,plot=TRUE,labels.y=NULL,labels.z=NULL,pch.y=NULL,pch.z=NULL,col.y="black",col.z="black",show.dimensions=c(1,2),ndim=max(show.dimensions),var.prior=NULL,df.prior=NULL,trend=FALSE,robust=FALSE,...)
 #	Regularized linear discriminant function
 #	Di Wu and Gordon Smyth
-#	29 June 2009.  Last revised 4 Sep 2016.
+#	29 Jun 2009.  Last revised 4 Sep 2016.
 {
 #	Check y
 	y <- as.matrix(y)

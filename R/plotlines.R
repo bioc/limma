@@ -4,7 +4,7 @@ plotlines <- function(x,first.column.origin=FALSE,xlab="Column",ylab="x",col="bl
 #	Time-course-style plot
 #	Plot expression data as a line for each probe
 #	Gordon Smyth
-#	27 August 2006. Last revised 30 August 2006.
+#	27 Aug 2006. Last revised 30 Aug 2006.
 {
 	x <- as.matrix(x)
 	ntime <- ncol(x)

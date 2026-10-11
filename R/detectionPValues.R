@@ -3,7 +3,7 @@ detectionPValues <- function(x,...) UseMethod("detectionPValues")
 detectionPValues.EListRaw <- function(x,status=NULL,...)
 #	Detection p-values from negative controls for EListRaw
 #	Gordon Smyth
-#	Created 13 June 2016
+#	Created 13 Jun 2016
 {
 	if(is.null(status)) status <- x$genes$Status
 	detectionPValues(x=x$E, status=status, ...)
@@ -12,7 +12,7 @@ detectionPValues.EListRaw <- function(x,status=NULL,...)
 detectionPValues.default <- function(x, status, negctrl="negative",...)
 #	Detection p-values from negative controls
 #	Gordon Smyth
-#	Created 13 June 2016.  Last modified 14 June 2016.
+#	Created 13 Jun 2016.  Last modified 14 Jun 2016.
 {
 	x <- as.matrix(x)
 

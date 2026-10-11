@@ -6,7 +6,7 @@ readGenericHeader <- function(file,columns,sep="\t")
 #	Find line on which numeric data starts in microarray data file
 #	using only names of data columns
 #	Gordon Smyth
-#	10 March 2006. Last modified 5 April 2006.
+#	10 Mar 2006. Last modified 5 Apr 2006.
 {
 	if(missing(columns) || !length(columns)) stop("must specify column headings to find")
 	columns <- protectMetachar(as.character(columns))
@@ -32,7 +32,7 @@ readGenericHeader <- function(file,columns,sep="\t")
 readGPRHeader <- function(file) {
 #	Extracts header information from a GenePix Results (GPR) file
 #	Gordon Smyth
-#	4 October 2003.  Last modified 25 June 2004.
+#	4 Oct 2003.  Last modified 25 Jun 2004.
 
 	con <- file(file, "r")	
  	on.exit(close(con))
@@ -52,7 +52,7 @@ readGPRHeader <- function(file) {
 readImaGeneHeader <- function(file)
 #	Extracts header information from an Imagene analysis output file
 #	Gordon Smyth
-#	14 Aug 2003.  Last modified 27 July 2006.
+#	14 Aug 2003.  Last modified 27 Jul 2006.
 {
 	con <- file(file, "r")	
  	on.exit(close(con))
@@ -153,7 +153,7 @@ readImaGeneHeader <- function(file)
 readSMDHeader <- function(file)
 #	Read header information from a Stanford Microarray Database (SMD) raw data file
 #	Gordon Smyth
-#	3 June 2004
+#	3 Jun 2004
 {
 	con <- file(file, "r")	
  	on.exit(close(con))

@@ -57,7 +57,7 @@ getLayout <- function(gal,guessdups=FALSE)
 #	Guess print layout from a gene list including Block, Row and Column indices
 #	as for a GenePix Allocation List (GAL)
 #	Gordon Smyth
-#	7 Apr 2003.  Last revised 4 June 2004.
+#	7 Apr 2003.  Last revised 4 Jun 2004.
 {
 	if( !all(c("Block","Row","Column") %in% names(gal)) ) stop("gal needs to have columns Block, Row and Column")
 	ngrid.r <- max(gal$Block,na.rm=TRUE)
@@ -111,7 +111,7 @@ getLayout2 <- function(galfile)
 #	Guess print layout from header of GenePix Allocation List (GAL) file
 #	using block position and dimension information
 #	James Wettenhall
-#	4 June 2004
+#	4 Jun 2004
 {
 	if(missing(galfile))
 		galfile <- dir(pattern="\\.gal$")[1]
@@ -256,7 +256,7 @@ controlStatus <- function(types, genes, spottypecol="SpotType", regexpcol, verbo
 removeExt <- function(x, sep=".")
 #	Remove any common extension from a vector of file names
 #	Gordon Smyth
-#	19 July 2002.  Last modified 8 Jan 2016.
+#	19 Jul 2002.  Last modified 8 Jan 2016.
 {
 	x <- as.character(x)
 	n <- length(x)
@@ -273,7 +273,7 @@ removeExt <- function(x, sep=".")
 trimWhiteSpace <- function(x)
 #	Trim white space from start and end of character strings
 #	Tim Beissbarth and Gordon Smyth
-#	7 June 2004
+#	7 Jun 2004
 {
 	sub("[ \t\n\r]*$", "", sub("^[ \t\n\r]*", "", x))
 }
@@ -282,7 +282,7 @@ protectMetachar <- function(x)
 #	Insert backslashs before metacharacters (to allow them to be included in search strings)
 #	Note that backslashs themselves are not handled
 #	Gordon Smyth
-#	9 June 2004. Last modified 5 Jan 2007.
+#	9 Jun 2004. Last modified 5 Jan 2007.
 {
 	x <- gsub("\\.", "\\\\.", x)
 	x <- gsub("\\|", "\\\\|", x)

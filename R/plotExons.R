@@ -1,7 +1,7 @@
 plotExons <- function(fit, coef = ncol(fit), geneid = NULL, genecolname = "GeneID", exoncolname = NULL, rank = 1L, FDR = 0.05)
 #	Plot log2 fold changes of the exons and mark the differentially expressed exons
 #	Yifang Hu and Gordon Smyth.
-#	Created 1 May 2014. Last modified 7 October 2014.
+#	Created 1 May 2014. Last modified 7 Oct 2014.
 {
 
 	# Check input

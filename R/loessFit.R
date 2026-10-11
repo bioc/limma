@@ -4,7 +4,7 @@ loessFit <- function(y, x, weights=NULL, span=0.3, iterations=4L, min.weight=1e-
 #	Fast lowess fit for univariate x and y allowing for weights
 #	Uses lowess() if weights=NULL and weightedLowess(), locfit.raw() or loess() otherwise
 #	Gordon Smyth
-#	28 June 2003.  Last revised 14 January 2015.
+#	28 Jun 2003.  Last revised 14 Jan 2015.
 {
 #	Check x and y
 	n <- length(y)

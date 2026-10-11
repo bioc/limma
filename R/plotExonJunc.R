@@ -6,7 +6,7 @@ plotExonJunc <- function(fit, coef=ncol(fit), geneid, genecolname=NULL, FDR=0.05
 #	the full annotation (e.g. the inbuilt annotation used by featureCounts)
 #	is required for producing the plot.
 #	Yunshun Chen and Gordon Smyth.
-#	Created 9 March 2018. Last modified 29 Oct 2018.
+#	Created 9 Mar 2018. Last modified 29 Oct 2018.
 {
 	if(is.null(genecolname)) 
 		genecolname <- fit$genecolname

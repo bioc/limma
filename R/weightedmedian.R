@@ -1,7 +1,7 @@
 weighted.median <- function (x, w, na.rm = FALSE)
 #	Weighted median
 #	Gordon Smyth
-#	Created 30 June 2005. Last revised 9 June 2020.
+#	Created 30 Jun 2005. Last revised 9 Jun 2020.
 {
 #	Check weights have correct length
 	if (missing(w)) {

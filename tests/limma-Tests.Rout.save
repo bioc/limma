@@ -1,5 +1,5 @@
 
-R version 4.6.0 alpha (2026-03-28 r89737 ucrt)
+R version 4.6.1 (2026-06-24 ucrt) -- "Happy Hop"
 Copyright (C) 2026 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64
 
@@ -1214,6 +1214,7 @@ Gene95 -1.907074  1.26297763 -2.106861 0.0589594023 0.58959402 -4.4117140
 > y <- matrix(rpois(100*4,lambda=20),100,4)
 > design <- cbind(Int=1,x=c(0,0,1,1))
 > v <- voom(y,design)
+voomLmFit is now recommended over voom
 > names(v)
 [1] "E"       "weights" "design"  "targets" "span"   
 > summary(v$E)
@@ -1273,4 +1274,4 @@ GO:0007507              heart development  BP 3  0    2    1 0.025788497
 > 
 > proc.time()
    user  system elapsed 
-   2.76    0.89    4.57 
+   2.17    0.84    3.40 
