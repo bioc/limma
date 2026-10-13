@@ -4,25 +4,26 @@
  * (the .Call("glsfit") branch), used when probe weights or missing
  * values are present; the weight-free fast path stays in R.
  *
- * Model for gene g:  y ~ N(X beta, sigma^2 V), where V is the correlation
- * matrix implied by the consensus correlation (block-diagonal for within-array
- * duplicates, or Z rho Z^T for general blocks; unit diagonal). GLS is solved by
- * prewhitening with the Cholesky factor of V:
- *     V = U^T U            (dpotrf, upper triangle)
- *     solve U^T y~ = y     (dtrsv, upper+transpose)   => y~ = U^{-T} y
- *     solve U^T X~ = X     (per design column)         => X~ = U^{-T} X
- *     then ordinary LS on (X~, y~) via qrfit().
- * This is the C analogue of R's backsolve(cholV, ., transpose=TRUE) + lm.fit().
+ * Model for gene g:  y ~ N(X beta, sigma^2 V) with V = W^{-1/2} R W^{-1/2},
+ * where W holds the probe weights and R is block diagonal with exchangeable
+ * blocks: R_b = (1 - rho) I + rho J (unit diagonal, correlation rho within a
+ * block, zero between blocks). Within-array duplicates are blocks of size ndups.
  *
- * Probe weights enter through V: Cov(y_i) carries 1/w_i, so the (i,j) entry of
- * the working V is cormatrix[i,j] / (sqrt(w_i) sqrt(w_j)) (the diagonal is
- * 1/w_i). The per-observation sqrt(w) is cached during the scan as qr.scale.
+ * GLS is solved by prewhitening with T = R^{-1/2} W^{1/2}, which satisfies
+ * T^T T = V^{-1}, followed by ordinary LS on (T X, T y) via qrfit(). The
+ * symmetric inverse square root of an exchangeable block has the closed form
+ *     R_b^{-1/2} z = (z - c_b S_b 1) / s,
+ *     s = sqrt(1 - rho), lambda_b = 1 + (n_b - 1) rho,
+ *     c_b = rho / (lambda_b + s sqrt(lambda_b)),
+ * where n_b is the number of observed arrays in block b and S_b = 1^T z is the
+ * block sum. The observed arrays of a block are again an exchangeable block,
+ * so missing values only change n_b. Each gene therefore costs O(nobs nbeta)
+ * for the whitening instead of a Cholesky factorization of the observed V.
+ * This is the C analogue of R's .invSqrtBlockCor() + lm.fit().
  */
 
 #include <math.h>
 #include <R.h>
-#include <R_ext/BLAS.h>
-#include <R_ext/Lapack.h>
 #include <R_ext/RS.h>
 #ifdef _OPENMP
 #include <omp.h>
@@ -33,28 +34,28 @@
  * Inputs:
  *   m: ngenes x narrays expression matrix in R column-major order.
  *   design: narrays x nbeta design matrix.
- *   cormatrix: narrays x narrays working correlation matrix.
+ *   block: length-narrays one-based block labels in 1..nblocks.
+ *   correlation: common within-block correlation rho; the caller guarantees
+ *     rho < 1 and 1 + (n_b - 1) rho > 0 for every full block.
  *   weights: optional ngenes x narrays prior-weight matrix, or NULL.
  *   gene: zero-based row of m to fit; gws is reusable scratch for one thread.
  * Outputs:
  *   beta, stdev_unscaled, sigma and df_residual are filled for this gene only.
  * Returns:
- *   0 on success or normal no-observation paths; otherwise the LAPACK dpotrf
- *   leading-minor index for a non-positive-definite working covariance.
+ *   Status from qrfit(); 0 on success or normal no-observation paths.
  * Notes:
- *   Finite observations are compacted, the observed covariance submatrix is
- *   weighted when needed, and the model is fitted after Cholesky whitening.
+ *   Finite observations are compacted, scaled by sqrt(w), whitened block by
+ *   block with the closed-form R^{-1/2}, and fitted by ordinary least squares.
  */
-int glsgene(const double *m, const double *design, const double *cormatrix, const double *weights, int ngenes, int narrays, int nbeta, const double *contrasts, int ncont, int gene, double *beta, double *stdev_unscaled, double *sigma, int *df_residual, const double *cholc, glsws *gws)
+int glsgene(const double *m, const double *design, const int *block, int nblocks, double correlation, const double *weights, int ngenes, int narrays, int nbeta, const double *contrasts, int ncont, int gene, double *beta, double *stdev_unscaled, double *sigma, int *df_residual, glsws *gws)
 {
-	int array, i, j, nobs = 0, info = 0, all_zero = 1;
+	int array, b, i, j, nobs = 0, all_zero = 1;
 	int ncols = contrasts ? ncont : nbeta;
-	const int inc = 1;
-	const char upper = 'U', left = 'L', transpose = 'T', nonunit = 'N';
-	const double one = 1.0;
+	const double s = sqrt(1.0 - correlation);
 	const double *mptr = m + gene;
 	const double *wptr = weights ? weights + gene : NULL;
 	double *bptr = beta + gene, *sptr = stdev_unscaled + gene;
+	double *xptr, *sumptr;
 
 	/* self-initialise this gene's output row (see lm.c for rationale);
 	 * ncont columns under contrasts, otherwise nbeta */
@@ -96,102 +97,42 @@ int glsgene(const double *m, const double *design, const double *cormatrix, cons
 		}
 	}
 
-	/* Complete gene (all arrays observed): reuse the one-time Cholesky factor of the
-	 * full correlation matrix. Since chol(D^-1 C D^-1) = chol(C) D^-1 with
-	 * D = diag(sqrt(w)), scaling the observed rows of y and X by sqrt(w) and whitening
-	 * with the shared factor cholc reproduces the per-gene result without building V or
-	 * calling dpotrf. Genes with missing values use a submatrix of C and fall through to
-	 * the per-gene factorization below. cholc has leading dimension narrays. */
-	if(cholc && nobs == narrays)
+	/* W^{1/2} scaling of y and X, accumulating observed block counts and the
+	 * block sums of the scaled [y | X] columns (column 0 is y, column j+1 is X_j) */
+	for(b = 0; b < nblocks; b++)
+		gws->bcount[b] = 0;
+	for(j = 0; j < (nbeta + 1) * nblocks; j++)
+		gws->bsum[j] = 0.0;
+	for(i = 0; i < nobs; i++)
 	{
-		for(i = 0; i < nobs; i++)
-			gws->qr.y[i] *= gws->qr.scale[i];
-		/* DTRSV (Netlib BLAS) solves a real triangular matrix-vector system.
-		 * limma uses it here to whiten the complete-gene response with the shared
-		 * Cholesky factor:
-		 *   - UPLO='U' uses the upper-triangular factor cholc;
-		 *   - TRANS='T' solves cholc^T x = b;
-		 *   - DIAG='N' treats cholc as non-unit triangular;
-		 *   - N=nobs, LDA=narrays and INCX=1 describe the full-array layout;
-		 *   - gws->qr.y is overwritten by y_tilde = cholc^{-T} y.
-		 * The transformed response can be fitted by ordinary least squares.
-		 * Equivalent R operation: backsolve(cholc, y, transpose=TRUE).
-		 * Netlib references:
-		 *   https://www.netlib.org/blas/dtrsv.f */
-		F77_CALL(dtrsv)(&upper, &transpose, &nonunit, &nobs, cholc, &narrays, gws->qr.y, &inc FCONE FCONE FCONE);
-		if(all_zero)
+		double w = gws->qr.scale[i];
+		b = block[gws->qr.obser[i]] - 1;
+		gws->bcount[b]++;
+		gws->qr.y[i] *= w;
+		gws->bsum[b] += gws->qr.y[i];
+		for(j = 0, xptr = gws->qr.x + i, sumptr = gws->bsum + nblocks + b; j < nbeta; j++, xptr += nobs, sumptr += nblocks)
 		{
-			double sumsq = 0.0;
-			for(i = 0; i < nobs; i++)
-				sumsq += gws->qr.y[i] * gws->qr.y[i];
-			df_residual[gene] = nobs;
-			sigma[gene] = sqrt(sumsq / nobs);
-			return 0;
-		}
-		for(j = 0; j < nbeta; j++)
-			for(i = 0; i < nobs; i++)
-				gws->qr.x[i + j * nobs] *= gws->qr.scale[i];
-		/* DTRSM (Netlib BLAS) solves real triangular matrix equations with
-		 * multiple right-hand sides. limma uses it here to whiten all complete-gene
-		 * design columns with the shared Cholesky factor:
-		 *   - SIDE='L' solves with cholc on the left;
-		 *   - UPLO='U', TRANS='T' and DIAG='N' solve cholc^T X_tilde = X;
-		 *   - M=nobs and N=nbeta describe the design block;
-		 *   - ALPHA=1 leaves the right-hand side unscaled;
-		 *   - gws->qr.x is overwritten by X_tilde = cholc^{-T} X.
-		 * Ordinary least squares on (X_tilde, y_tilde) is the GLS fit.
-		 * Equivalent R operation: backsolve(cholc, X, transpose=TRUE).
-		 * Netlib references:
-		 *   https://www.netlib.org/blas/dtrsm.f */
-		F77_CALL(dtrsm)(&left, &upper, &transpose, &nonunit, &nobs, &nbeta, &one, cholc, &narrays, gws->qr.x, &nobs FCONE FCONE FCONE FCONE);
-		return qrfit(nobs, nbeta, gene, ngenes, contrasts, ncont, beta, stdev_unscaled, sigma, df_residual, &gws->qr);
-	}
-
-	/* working covariance V on the observed arrays: cormatrix scaled by weights,
-	 * V[i,j] = cormatrix[row_i, col_j] / (sqrt(w_i) sqrt(w_j)). Only the upper triangle
-	 * is filled because dpotrf('U') reads just that. */
-	for(j = 0; j < nobs; j++)
-	{
-		int col = gws->qr.obser[j];
-		double col_scale = gws->qr.scale[j];
-		for(i = 0; i <= j; i++)
-		{
-			int row = gws->qr.obser[i];
-			double value = cormatrix[row + col * narrays];
-			if(weights)
-				value /= gws->qr.scale[i] * col_scale;
-			gws->v[i + j * nobs] = value;
+			*xptr *= w;
+			*sumptr += *xptr;
 		}
 	}
 
-	/* DPOTRF (Netlib LAPACK) computes the Cholesky factorization of a real
-	 * symmetric positive-definite matrix A. limma uses it here to factor the
-	 * observed gene-specific covariance submatrix:
-	 *   - UPLO='U' says the upper triangle of gws->v holds V on entry;
-	 *   - N=nobs and LDA=nobs describe the observed covariance submatrix;
-	 *   - gws->v is overwritten in its upper triangle by U where V = U^T U;
-	 *   - INFO=0 means success; INFO=i>0 means the leading principal minor of
-	 *     order i is not positive definite, which the R shim reports as an error.
-	 * The factor U is reused below to whiten the response and design.
-	 * Equivalent R operation: chol(V).
-	 * Netlib references:
-	 *   https://www.netlib.org/lapack/explore-html/d2/d09/group__potrf_ga84e90859b02139934b166e579dd211d4.html */
-	F77_CALL(dpotrf)(&upper, &nobs, gws->v, &nobs, &info FCONE);
-	if(info != 0)
-		return info;
+	/* closed-form coefficient c_b for each block with observed arrays */
+	for(b = 0; b < nblocks; b++)
+	{
+		if(gws->bcount[b] > 0)
+		{
+			double lambda = 1.0 + (gws->bcount[b] - 1) * correlation;
+			gws->bcoef[b] = correlation / (lambda + s * sqrt(lambda));
+		}
+	}
 
-	/* DTRSV (Netlib BLAS) solves a real triangular matrix-vector system. limma
-	 * uses it here to whiten the response with the gene-specific Cholesky factor:
-	 *   - UPLO='U' uses the Cholesky factor U stored in gws->v;
-	 *   - TRANS='T' solves U^T x = b;
-	 *   - DIAG='N' treats U as non-unit triangular;
-	 *   - N=nobs, LDA=nobs and INCX=1 describe the matrix/vector layout;
-	 *   - gws->qr.y is overwritten by y_tilde = U^{-T} y.
-	 * This is the response half of the GLS whitening transform.
-	 * Equivalent R operation: backsolve(U, y, transpose=TRUE).
-	 * Netlib references:
-	 *   https://www.netlib.org/blas/dtrsv.f */
-	F77_CALL(dtrsv)(&upper, &transpose, &nonunit, &nobs, gws->v, &nobs, gws->qr.y, &inc FCONE FCONE FCONE);
+	/* whiten the response: y_tilde = R^{-1/2} (W^{1/2} y) */
+	for(i = 0; i < nobs; i++)
+	{
+		b = block[gws->qr.obser[i]] - 1;
+		gws->qr.y[i] = (gws->qr.y[i] - gws->bcoef[b] * gws->bsum[b]) / s;
+	}
 
 	/* If every observed design entry is zero, there are no estimable
 	 * coefficients. The whitened response is still meaningful, so keep
@@ -206,24 +147,21 @@ int glsgene(const double *m, const double *design, const double *cormatrix, cons
 		return 0;
 	}
 
-	/* DTRSM (Netlib BLAS) solves real triangular matrix equations with multiple
-	 * right-hand sides. limma uses it here to whiten all design columns at once:
-	 *   - SIDE='L' solves with U on the left;
-	 *   - UPLO='U', TRANS='T' and DIAG='N' solve U^T X_tilde = X;
-	 *   - M=nobs and N=nbeta describe the observed design block;
-	 *   - ALPHA=1 leaves the right-hand side unscaled;
-	 *   - gws->qr.x is overwritten by X_tilde = U^{-T} X.
-	 * Ordinary least squares on (X_tilde, y_tilde) is the GLS fit with covariance V.
-	 * Equivalent R operation: backsolve(U, X, transpose=TRUE).
-	 * Netlib references:
-	 *   https://www.netlib.org/blas/dtrsm.f */
-	F77_CALL(dtrsm)(&left, &upper, &transpose, &nonunit, &nobs, &nbeta, &one, gws->v, &nobs, gws->qr.x, &nobs FCONE FCONE FCONE FCONE);
+	/* whiten the design columns the same way: X_tilde = R^{-1/2} (W^{1/2} X) */
+	for(i = 0; i < nobs; i++)
+	{
+		double c;
+		b = block[gws->qr.obser[i]] - 1;
+		c = gws->bcoef[b];
+		for(j = 0, xptr = gws->qr.x + i, sumptr = gws->bsum + nblocks + b; j < nbeta; j++, xptr += nobs, sumptr += nblocks)
+			*xptr = (*xptr - c * *sumptr) / s;
+	}
 
 	/* GLS reduces to ordinary LS on the prewhitened (X~, y~) */
 	return qrfit(nobs, nbeta, gene, ngenes, contrasts, ncont, beta, stdev_unscaled, sigma, df_residual, &gws->qr);
 }
 
-static void allocgls(glsws *gws, int narrays, int nbeta)
+static void allocgls(glsws *gws, int narrays, int nbeta, int nblocks)
 {
 	gws->qr.x = R_Calloc((size_t) narrays * nbeta, double);
 	gws->qr.y = R_Calloc(narrays, double);
@@ -238,7 +176,9 @@ static void allocgls(glsws *gws, int narrays, int nbeta)
 	gws->qr.obser = R_Calloc(narrays, int);
 	gws->qr.pivot = R_Calloc(nbeta, int);
 	gws->qr.estpos = R_Calloc(nbeta, int);
-	gws->v = R_Calloc((size_t) narrays * narrays, double);
+	gws->bsum = R_Calloc((size_t) nblocks * (nbeta + 1), double);
+	gws->bcoef = R_Calloc(nblocks, double);
+	gws->bcount = R_Calloc(nblocks, int);
 }
 
 static void freegls(glsws *gws)
@@ -256,65 +196,57 @@ static void freegls(glsws *gws)
 	R_Free(gws->qr.obser);
 	R_Free(gws->qr.pivot);
 	R_Free(gws->qr.estpos);
-	R_Free(gws->v);
+	R_Free(gws->bsum);
+	R_Free(gws->bcoef);
+	R_Free(gws->bcount);
 }
 
 /*
  * Inputs:
  *   m: ngenes x narrays expression matrix.
  *   design: narrays x nbeta design matrix.
- *   cormatrix: narrays x narrays correlation matrix shared by all genes.
+ *   block: length-narrays one-based block labels in 1..nblocks.
+ *   correlation: common within-block correlation rho.
  *   weights: optional ngenes x narrays prior-weight matrix, or NULL.
  *   nthreads: requested OpenMP thread count.
  * Outputs:
  *   beta and stdev_unscaled: ngenes x nbeta matrices.
  *   sigma and df_residual: length-ngenes vectors.
  * Returns:
- *   0 if all gene fits succeed; otherwise the first nonzero dpotrf status.
+ *   0 if all gene fits succeed; 1 if the correlation matrix is not positive
+ *   definite (rho >= 1 or 1 + (n_b - 1) rho <= 0 for some full block), in which
+ *   case no gene is fitted; otherwise the first nonzero gene status.
  * Notes:
- *   One glsws scratch workspace is allocated per active thread. Any covariance
- *   failure is collected during the parallel loop and reported by the R shim.
+ *   Observed sub-blocks are never larger than full blocks, so checking the full
+ *   block sizes once guarantees lambda_b > 0 for every gene. One glsws scratch
+ *   workspace is allocated per active thread.
  */
-int gls(const double *m, const double *design, const double *cormatrix, const double *weights, int ngenes, int narrays, int nbeta, const double *contrasts, int ncont, int nthreads, double *beta, double *stdev_unscaled, double *sigma, int *df_residual)
+int gls(const double *m, const double *design, const int *block, int nblocks, double correlation, const double *weights, int ngenes, int narrays, int nbeta, const double *contrasts, int ncont, int nthreads, double *beta, double *stdev_unscaled, double *sigma, int *df_residual)
 {
-	int gene, failed = 0, cinfo = 0;
-	int *status;
-	double *cholc;
-	const double *shared;
-	const char upper = 'U';
+	int array, b, gene, failed = 0;
+	int *status, *bsize;
 	glsws *gws;
+
+	if(correlation >= 1.0)
+		return 1;
+	bsize = R_Calloc(nblocks, int);
+	for(array = 0; array < narrays; array++)
+		bsize[block[array] - 1]++;
+	for(b = 0; b < nblocks; b++)
+	{
+		if(1.0 + (bsize[b] - 1) * correlation <= 0.0)
+			failed = 1;
+	}
+	R_Free(bsize);
+	if(failed)
+		return failed;
 
 	nthreads = clampthreads(nthreads, ngenes);
 
 	gws = R_Calloc(nthreads, glsws);
 	status = R_Calloc(ngenes, int);
 	for(gene = 0; gene < nthreads; gene++)
-		allocgls(gws + gene, narrays, nbeta);
-
-	/* Factor the full correlation matrix once; complete genes reuse it instead of a
-	 * per-gene dpotrf (see glsgene). If cormatrix is not positive definite the factor
-	 * is unavailable (shared = NULL) and every gene takes the per-gene path, which
-	 * reports the failure for any complete gene exactly as before. */
-	cholc = R_Calloc((size_t) narrays * narrays, double);
-	int ci, cj;
-	for(cj = 0; cj < narrays; cj++)
-		for(ci = 0; ci <= cj; ci++)
-			cholc[ci + cj * narrays] = cormatrix[ci + cj * narrays];
-	/* DPOTRF (Netlib LAPACK) computes the Cholesky factorization of a real
-	 * symmetric positive-definite matrix A. limma uses it here to pre-factor
-	 * the full correlation matrix for complete genes:
-	 *   - UPLO='U' says the upper triangle of cholc holds cormatrix on entry;
-	 *   - N=narrays and LDA=narrays describe the full matrix;
-	 *   - cholc is overwritten in its upper triangle by U where C = U^T U;
-	 *   - cinfo=0 means the shared factor is available; cinfo>0 leaves the
-	 *     complete genes to the per-gene path, which reports the same failure.
-	 * The shared U avoids repeating the same Cholesky factorization for every
-	 * complete gene.
-	 * Equivalent R operation: chol(cormatrix).
-	 * Netlib references:
-	 *   https://www.netlib.org/lapack/explore-html/d2/d09/group__potrf_ga84e90859b02139934b166e579dd211d4.html */
-	F77_CALL(dpotrf)(&upper, &narrays, cholc, &narrays, &cinfo FCONE);
-	shared = cinfo == 0 ? cholc : NULL;
+		allocgls(gws + gene, narrays, nbeta, nblocks);
 
 	#ifdef _OPENMP
 	#pragma omp parallel for schedule(static) num_threads(nthreads)
@@ -325,7 +257,7 @@ int gls(const double *m, const double *design, const double *cormatrix, const do
 		#ifdef _OPENMP
 		thread = omp_get_thread_num();
 		#endif
-		status[gene] = glsgene(m, design, cormatrix, weights, ngenes, narrays, nbeta, contrasts, ncont, gene, beta, stdev_unscaled, sigma, df_residual, shared, gws + thread);
+		status[gene] = glsgene(m, design, block, nblocks, correlation, weights, ngenes, narrays, nbeta, contrasts, ncont, gene, beta, stdev_unscaled, sigma, df_residual, gws + thread);
 	}
 	for(gene = 0; gene < ngenes; gene++)
 	{
@@ -339,6 +271,5 @@ int gls(const double *m, const double *design, const double *cormatrix, const do
 		freegls(gws + gene);
 	R_Free(gws);
 	R_Free(status);
-	R_Free(cholc);
 	return failed;
 }

@@ -23,7 +23,7 @@ static const R_CMethodDef CEntries[] = {
 static const R_CallMethodDef CallEntries[] = {
     {"awremlfit", (DL_FUNC) &awremlfit, 9},
     {"dupcorfit", (DL_FUNC) &dupcorfit, 6},
-    {"glsfit", (DL_FUNC) &glsfit, 6},
+    {"glsfit", (DL_FUNC) &glsfit, 8},
     {"lmfit",  (DL_FUNC) &lmfit,  5},
     {"poisfit", (DL_FUNC) &poisfit, 5},
     {"weighted_lowess", (DL_FUNC) &weighted_lowess, 6},

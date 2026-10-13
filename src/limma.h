@@ -18,8 +18,10 @@ typedef struct {
 } lmws;
 
 typedef struct {
-	lmws qr;    /* ordinary least-squares workspace after GLS prewhitening */
-	double *v;  /* observed covariance submatrix -> Cholesky factor U */
+	lmws qr;        /* ordinary least-squares workspace after GLS prewhitening */
+	double *bsum;   /* block sums of W^{1/2} [y | X] (nblocks x (nbeta + 1)) */
+	double *bcoef;  /* closed-form R^{-1/2} coefficient c_b per block (nblocks) */
+	int *bcount;    /* observed arrays per block for the current gene (nblocks) */
 } glsws;
 
 typedef struct {
@@ -91,13 +93,13 @@ int qrfit(int, int, int, int, const double *, int, double *, double *, double *,
 
 int lmgene(const double *, const double *, const double *, int, int, int, const double *, int, int, double *, double *, double *, int *, lmws *);
 
-int glsgene(const double *, const double *, const double *, const double *, int, int, int, const double *, int, int, double *, double *, double *, int *, const double *, glsws *);
+int glsgene(const double *, const double *, const int *, int, double, const double *, int, int, int, const double *, int, int, double *, double *, double *, int *, glsws *);
 
 double dupcorgene(const double *, const double *, const int *, const double *, int, int, int, int, int, dupws *);
 
 void lm(const double *, const double *, const double *, int, int, int, const double *, int, int, double *, double *, double *, int *);
 
-int gls(const double *, const double *, const double *, const double *, int, int, int, const double *, int, int, double *, double *, double *, int *);
+int gls(const double *, const double *, const int *, int, double, const double *, int, int, int, const double *, int, int, double *, double *, double *, int *);
 
 int dupcor(const double *, const double *, const int *, const double *, int, int, int, int, int, double *);
 

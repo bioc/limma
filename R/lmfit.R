@@ -253,7 +253,7 @@ gls.series <- function(M,design=NULL,ndups=2,spacing=1,block=NULL,correlation=NU
 #	Fit is by generalized least squares allowing for correlation between duplicate spots.
 #	Gordon Smyth
 #	Contrast and parallel support by Lizhong Chen
-#	11 May 2002.  Last revised 18 Jun 2026.
+#	11 May 2002.  Last revised 5 Oct 2026.
 {
 #	Check M
 	M <- as.matrix(M)
@@ -279,7 +279,7 @@ gls.series <- function(M,design=NULL,ndups=2,spacing=1,block=NULL,correlation=NU
 		weights[weights < 1e-15] <- NA
 	}
 
-#	Unwrap duplicates (if necessary) and make correlation matrix
+#	Unwrap duplicates (if necessary) and make integer block labels 1..nblocks
 	if(is.null(block)) {
 #		Correlated within-array probes
 		if(ndups<2) {
@@ -287,12 +287,13 @@ gls.series <- function(M,design=NULL,ndups=2,spacing=1,block=NULL,correlation=NU
 			ndups <- 1
 			correlation <- 0
 		}
-		cormatrix <- diag(rep_len(correlation,narrays),nrow=narrays,ncol=narrays) %x% array(1,c(ndups,ndups))
 		if(is.null(spacing)) spacing <- 1
 		M <- unwrapdups(M,ndups=ndups,spacing=spacing)
 		if(!is.null(weights)) weights <- unwrapdups(weights,ndups=ndups,spacing=spacing)
 		design <- design %x% rep_len(1,ndups)
 		colnames(design) <- coef.names
+#		Duplicates of each original array form one block of the unwrapped data
+		Block <- rep(seq_len(narrays),each=ndups)
 		ngenes <- nrow(M)
 		narrays <- ncol(M)
 	} else {
@@ -300,27 +301,30 @@ gls.series <- function(M,design=NULL,ndups=2,spacing=1,block=NULL,correlation=NU
 		ndups <- spacing <- 1
 		block <- as.vector(block)
 		if(length(block)!=narrays) stop("Length of block does not match number of arrays")
-		ub <- unique(block)
-		nblocks <- length(ub)
-		Z <- matrix(block,narrays,nblocks)==matrix(ub,narrays,nblocks,byrow=TRUE)
-		cormatrix <- Z%*%(correlation*t(Z))
+		Block <- as.integer(factor(block))
 	}
-	diag(cormatrix) <- 1
+	nblocks <- max(Block)
+
+#	Correlation matrix is block diagonal with exchangeable blocks, positive definite iff 1+(size-1)*correlation > 0
+	if(any(1+(tabulate(Block)-1)*correlation <= 0)) stop("correlation is too negative for the block sizes, so the model is degenerate")
 
 	stdev.unscaled <- matrix(NA,ngenes,nbeta,dimnames=list(rownames(M),coef.names))
 
 #	If weights and missing values are absent, use a fast computation
 	NoProbeWts <- all(is.finite(M)) && (is.null(weights) || !is.null(attr(weights,"arrayweights")))
 	if(NoProbeWts) {
-		V <- cormatrix
+#		Whiten by V^(-1/2) = R^(-1/2) W^(1/2), using the closed form of R^(-1/2)
 		if(!is.null(weights)) {
-			wrs <- 1/sqrt(weights[1,])
-			V <- wrs * t(wrs * t(V))
+			wrs <- sqrt(weights[1,])
+			y <- wrs * t(M)
+			X <- wrs * design
+		} else {
+			y <- t(M)
+			X <- design
 		}
-		cholV <- chol(V)
-		y <- backsolve(cholV,t(M),transpose=TRUE)
+		y <- .invSqrtBlockCor(y,Block,correlation)
 		dimnames(y) <- rev(dimnames(M))
-		X <- backsolve(cholV,design,transpose=TRUE)
+		X <- .invSqrtBlockCor(X,Block,correlation)
 		dimnames(X) <- dimnames(design)
 		fit <- lm.fit(X,y)
 		if(fit$df.residual>0) {
@@ -350,13 +354,12 @@ gls.series <- function(M,design=NULL,ndups=2,spacing=1,block=NULL,correlation=NU
 	}
 
 #	Weights or missing values are present, to have to iterate over probes
-	fit <- .Call("glsfit",M,design,cormatrix,weights,contrasts,nthreads,PACKAGE="limma")
+	fit <- .Call("glsfit",M,design,Block,nblocks,correlation,weights,contrasts,nthreads,PACKAGE="limma")
 	beta <- fit$coefficients
 	stdev.unscaled <- fit$stdev.unscaled
 	sigma <- fit$sigma
 	df.residual <- fit$df.residual
-	cholV <- chol(cormatrix)
-	QR <- qr(backsolve(cholV,design,transpose=TRUE))
+	QR <- qr(.invSqrtBlockCor(design,Block,correlation))
 	cov.coef <- chol2inv(QR$qr,size=QR$rank)
 	est <- QR$pivot[1:QR$rank]
 	dimnames(cov.coef) <- list(coef.names[est],coef.names[est])
@@ -374,6 +377,25 @@ gls.series <- function(M,design=NULL,ndups=2,spacing=1,block=NULL,correlation=NU
 	cov.coef <- crossprod(chol(cov.coef) %*% contrasts[est,,drop=FALSE])
 	dimnames(cov.coef) <- list(cn,cn)
 	list(coefficients=beta,stdev.unscaled=stdev.unscaled,sigma=sigma,df.residual=df.residual,ndups=ndups,spacing=spacing,block=block,correlation=correlation,cov.coefficients=cov.coef,pivot=QR$pivot,rank=QR$rank,contrasts=contrasts)
+}
+
+.invSqrtBlockCor <- function(y, block, correlation)
+#	Compute V^(-1/2) y, where V is block diagonal correlation matrix with
+#	exchangeable correlation within blocks and V^(-1/2) is the symmetric sqrt.
+#	block: factor or vector giving block membership.
+#	correlation: a common correlation
+#	y: vector or a matrix with several columns.
+#	Gordon Smyth and Caude.
+#	Created 3 Oct 2026. Last modified 5 Oct 2026.
+{
+	y <- as.matrix(y)
+	block <- droplevels(as.factor(block))
+	b <- as.integer(block)
+	nk <- tabulate(b)
+	vif <- 1 + (nk - 1) * correlation
+	s1cor <- sqrt(1 - correlation)
+	ybar <- correlation / (s1cor*sqrt(vif)+vif) * rowsum(y,b,reorder=TRUE)
+	(y - ybar[b,,drop=FALSE]) / s1cor
 }
 
 is.fullrank <- function(x)

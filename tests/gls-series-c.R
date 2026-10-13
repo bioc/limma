@@ -39,10 +39,13 @@ gls.series.loop <- function(M,design,cormatrix,weights=NULL)
 	list(coefficients=beta,stdev.unscaled=stdev.unscaled,sigma=sigma,df.residual=df.residual)
 }
 
-check.gls.series <- function(M,design,cormatrix,weights=NULL)
+check.gls.series <- function(M,design,block,correlation,weights=NULL)
 {
-	actual <- .Call("glsfit",M,design,cormatrix,weights,NULL,1L,PACKAGE="limma")
-	parallel <- .Call("glsfit",M,design,cormatrix,weights,NULL,2L,PACKAGE="limma")
+	block <- as.integer(block)
+	cormatrix <- outer(block,block,"==") * correlation
+	diag(cormatrix) <- 1
+	actual <- .Call("glsfit",M,design,block,max(block),correlation,weights,NULL,1L,PACKAGE="limma")
+	parallel <- .Call("glsfit",M,design,block,max(block),correlation,weights,NULL,2L,PACKAGE="limma")
 	expected <- gls.series.loop(M,design,cormatrix,weights)
 	for(n in names(expected)) {
 		stopifnot(isTRUE(all.equal(actual[[n]],expected[[n]],tolerance=1e-11,check.attributes=FALSE)))
@@ -58,22 +61,22 @@ design <- cbind(Int=1,Group=c(0,0,0,1,1,1))
 block <- c(1,1,2,2,3,3)
 cormatrix <- outer(block,block,"==") * 0.3
 diag(cormatrix) <- 1
-check.gls.series(M,design,cormatrix)
+check.gls.series(M,design,block,0.3)
 fit <- gls.series(M,design,block=block,correlation=0.3)
 expected <- gls.series.loop(M,design,cormatrix)
 for(n in names(expected))
 	stopifnot(isTRUE(all.equal(fit[[n]],expected[[n]],tolerance=1e-11,check.attributes=FALSE)))
 
 weights <- matrix(runif(8*6,0.2,2),8,6)
-check.gls.series(M,design,cormatrix,weights)
-check.gls.series(M,cbind(design,design[,2]),cormatrix,weights)
-check.gls.series(M,matrix(0,6,2),cormatrix,weights)
-check.gls.series(matrix(c(1,NA),1,2),matrix(1,2,1),diag(2))
-check.gls.series(matrix(NA_real_,1,2),matrix(1,2,1),diag(2))
+check.gls.series(M,design,block,0.3,weights)
+check.gls.series(M,cbind(design,design[,2]),block,0.3,weights)
+check.gls.series(M,matrix(0,6,2),block,0.3,weights)
+check.gls.series(matrix(c(1,NA),1,2),matrix(1,2,1),1:2,0)
+check.gls.series(matrix(NA_real_,1,2),matrix(1,2,1),1:2,0)
 
 M.rank <- M
 M.rank[1,4:6] <- NA
-check.gls.series(M.rank,design,cormatrix,weights)
+check.gls.series(M.rank,design,block,0.3,weights)
 
 weights.raw <- weights
 weights.raw[c(1,8,15)] <- c(0,-1,NA)
@@ -81,16 +84,14 @@ weights.raw[is.na(weights.raw)] <- 0
 M.weights <- M
 M.weights[weights.raw < 1e-15] <- NA
 weights.raw[weights.raw < 1e-15] <- NA
-check.gls.series(M.weights,design,cormatrix,weights.raw)
+check.gls.series(M.weights,design,block,0.3,weights.raw)
 
 M.dups <- matrix(rnorm(8*3),8,3)
 M.dups[c(2,13)] <- NA
 design.dups <- cbind(Int=1,Group=c(0,1,1))
 M.dups <- unwrapdups(M.dups,ndups=2)
 design.dups <- design.dups %x% rep_len(1,2)
-cormatrix.dups <- diag(rep_len(0.4,3),nrow=3,ncol=3) %x% array(1,c(2,2))
-diag(cormatrix.dups) <- 1
-check.gls.series(M.dups,design.dups,cormatrix.dups)
+check.gls.series(M.dups,design.dups,rep(1:3,each=2),0.4)
 
 M.complete <- matrix(rnorm(8*6),8,6)
 fit.fast <- gls.series(M.complete,design,block=block,correlation=0.3)
@@ -98,10 +99,11 @@ fit.slow <- gls.series(M.complete,design,block=block,correlation=0.3,weights=mat
 for(n in c("coefficients","stdev.unscaled","sigma","df.residual"))
 	stopifnot(isTRUE(all.equal(fit.fast[[n]],fit.slow[[n]],tolerance=1e-11,check.attributes=FALSE)))
 
-bad.cormatrix <- matrix(c(1,2,2,1),2,2)
-bad.one <- try(.Call("glsfit",matrix(1,4,2),matrix(1,2,1),bad.cormatrix,NULL,NULL,1L,PACKAGE="limma"),silent=TRUE)
-bad.two <- try(.Call("glsfit",matrix(1,4,2),matrix(1,2,1),bad.cormatrix,NULL,NULL,2L,PACKAGE="limma"),silent=TRUE)
+bad.one <- try(.Call("glsfit",matrix(1,4,2),matrix(1,2,1),c(1L,1L),1L,-1.5,NULL,NULL,1L,PACKAGE="limma"),silent=TRUE)
+bad.two <- try(.Call("glsfit",matrix(1,4,2),matrix(1,2,1),c(1L,1L),1L,-1.5,NULL,NULL,2L,PACKAGE="limma"),silent=TRUE)
 stopifnot(inherits(bad.one,"try-error"), identical(as.character(bad.one),as.character(bad.two)))
+bad.R <- try(gls.series(M.complete,design,block=c(1,1,1,2,2,2),correlation=-0.6),silent=TRUE)
+stopifnot(inherits(bad.R,"try-error"))
 
 fit.one <- lmFit(M,design,block=block,correlation=0.3,weights=weights,nthreads=1L)
 fit.two <- lmFit(M,design,block=block,correlation=0.3,weights=weights,nthreads=2L)

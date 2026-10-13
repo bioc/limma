@@ -85,7 +85,8 @@ SEXP lmfit(SEXP m, SEXP design, SEXP weight, SEXP contrasts, SEXP nthr)
  * Inputs:
  *   m: numeric ngenes x narrays matrix.
  *   design: numeric narrays x nbeta design matrix.
- *   cormat: numeric narrays x narrays correlation matrix.
+ *   block: integer length-narrays one-based block labels.
+ *   nlev: number of block levels; correlation: common within-block correlation.
  *   weight: optional numeric ngenes x narrays matrix, or R_NilValue.
  *   contrasts: optional numeric nbeta x ncont contrast matrix, or R_NilValue.
  *   nthr: requested thread count.
@@ -96,18 +97,18 @@ SEXP lmfit(SEXP m, SEXP design, SEXP weight, SEXP contrasts, SEXP nthr)
  * Returns:
  *   SEXP list allocated for R.
  * Notes:
- *   Calls gls(); a nonzero Cholesky status is converted to an R error.
+ *   Calls gls(); a nonzero status (correlation matrix not positive definite)
+ *   is converted to an R error.
  */
-SEXP glsfit(SEXP m, SEXP design, SEXP cormat, SEXP weight, SEXP contrasts, SEXP nthr)
+SEXP glsfit(SEXP m, SEXP design, SEXP block, SEXP nlev, SEXP correlation, SEXP weight, SEXP contrasts, SEXP nthr)
 {
 	SEXP output, beta, stdev, sigma, df, names;
 	SEXP mdim, ddim;
-	int ngenes, narrays, nbeta, nthreads, ncont = 0, ncols, nprotect = 9, failed;
+	int ngenes, narrays, nbeta, nblocks, nthreads, ncont = 0, ncols, nprotect = 8, failed;
 	const double *cptr = NULL;
 
 	m = PROTECT(coerceVector(m, REALSXP));
 	design = PROTECT(coerceVector(design, REALSXP));
-	cormat = PROTECT(coerceVector(cormat, REALSXP));
 	if(weight != R_NilValue)
 	{
 		weight = PROTECT(coerceVector(weight, REALSXP));
@@ -126,6 +127,7 @@ SEXP glsfit(SEXP m, SEXP design, SEXP cormat, SEXP weight, SEXP contrasts, SEXP 
 	ngenes = INTEGER(mdim)[0];
 	narrays = INTEGER(mdim)[1];
 	nbeta = INTEGER(ddim)[1];
+	nblocks = asInteger(nlev);
 	nthreads = asInteger(nthr);
 	ncols = (contrasts != R_NilValue) ? ncont : nbeta;
 
@@ -136,9 +138,9 @@ SEXP glsfit(SEXP m, SEXP design, SEXP cormat, SEXP weight, SEXP contrasts, SEXP 
 	df = PROTECT(allocVector(INTSXP, ngenes));
 	names = PROTECT(allocVector(STRSXP, 4));
 
-	failed = gls(REAL(m), REAL(design), REAL(cormat), weight == R_NilValue ? NULL : REAL(weight), ngenes, narrays, nbeta, cptr, ncont, nthreads, REAL(beta), REAL(stdev), REAL(sigma), INTEGER(df));
+	failed = gls(REAL(m), REAL(design), INTEGER(block), nblocks, asReal(correlation), weight == R_NilValue ? NULL : REAL(weight), ngenes, narrays, nbeta, cptr, ncont, nthreads, REAL(beta), REAL(stdev), REAL(sigma), INTEGER(df));
 	if(failed)
-		error("the leading minor of order %d is not positive", failed);
+		error("correlation matrix is not positive definite");
 
 	SET_VECTOR_ELT(output, 0, beta);
 	SET_VECTOR_ELT(output, 1, stdev);
