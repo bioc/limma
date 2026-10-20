@@ -61,7 +61,7 @@ helpMethods <- function(genericFunction) {
 #	21 Apr 2003.  Last revised 24 Jun 2014.
 
 	objectclass <- class(genericFunction)
- 	if(objectclass != "standardGeneric") {
+	if(!extends(objectclass, "genericFunction")) {
 		if(objectclass == "character" && isGeneric(genericFunction))
 			genericFunction <- getGeneric(genericFunction)
 		else {
