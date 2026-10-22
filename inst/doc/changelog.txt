@@ -1,3 +1,12 @@
+22 Oct 2026: limma 3.99.3
+
+- New argument 'fixed' and code speed-up for strplit2().
+
+13 Oct 2026: limma 3.99.2
+
+- gls.series() now uses symmetric sqrt factorization of correlation
+  matrix instead of Choleski factor.
+
 11 Oct 2026: limma 3.99.1
 
 - camera() and cameraPR() now support gene sets as expression
