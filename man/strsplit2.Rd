@@ -16,12 +16,6 @@ strsplit2(x, split, fixed = TRUE, \dots)
 \item{\dots}{other arguments are passed to \code{strsplit}}
 }
 
-\value{
-A list containing components
-\item{Name}{character vector of the same length as \code{x} containing first splits of each element}
-\item{Annotation}{character vector of the same length as \code{x} containing second splits of each element}
-}
-
 \details{
 This function is the same as \code{\link[base]{strsplit}} except that the output value is a matrix instead of a list.
 The elements of \code{x} are treated as delimited text with fields separated by \code{split}.
@@ -31,6 +25,14 @@ If different rows have different numbers of fields, then trailing fields are fil
 
 The motivation for this function in the limma package is to handle input columns which are composites of two or more annotation fields.
 }
+
+\value{
+A list containing components
+\item{Name}{character vector of the same length as \code{x} containing first splits of each element}
+\item{Annotation}{character vector of the same length as \code{x} containing second splits of each element}
+}
+
+\author{Gordon Smyth}
 
 \seealso{
 \code{\link[base]{strsplit}}.
@@ -45,6 +47,4 @@ x <- c("AA196000;actinin, alpha 3",
 strsplit2(x,split=";")
 }
 
-\author{Gordon Smyth}
-
-\keyword{character}
+\concept{Reading data}

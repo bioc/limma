@@ -28,16 +28,20 @@ voom(counts, design = NULL,
     to \code{normLibSizes(counts)} if \code{counts} is a \code{DGEList}.
   }
   \item{offset}{
-    alternative name for \code{offset.prior} for compatibility with older code.
-   }
-  \item{offset.prior}{
-    offset matrix of same dimensions as \code{counts} with row means equal to zero, containing observation-specific normalization factors for the library sizes on the log-scale.
-    Used to implement observation-specific normalization strategies based on effective transcript lengths or GC content.
-    This type of normalization is independent of library size normalization based on count distributions as done by \code{edgeR::normLibSizes()}.
+    an edgeR-style offset matrix of same dimensions as \code{counts} specifying observation-specific library sizes on the natural log scale.
+    Provides a way to input observation-specific normalization schemes.
+    If not \code{NULL}, then the library sizes will be set to \code{exp(offset)}.
   }
+  \item{offset.prior}{
+    an alternative way to specify the offset matrix.
+    \code{offset.prior} specifies observation-specific deviations from the sample-wise library sizes instead of replacing them, as \code{offset} does.
+    If provided, then the library sizes will be set to \code{exp(offset)}, where \code{offset} is obtained by adding the normalized library sizes to \code{offset.prior}.
+    The rows of \code{offset.prior} should sum to zero on average to ensure that the combined offset is reflective of the library sizes.
+   }
   \item{normalize.method}{
-    the microarray-style normalization method to be applied to the logCPM values.
+    a microarray-style normalization method to be applied to the logCPM values (if any).
     Choices are as for the \code{method} argument of \code{normalizeBetweenArrays} when the data is single-channel.
+    Note that any normalization factors found in \code{counts} will still be used to form the log2CPM even if \code{normalize.method="none"}.
   }
   \item{block}{
     vector or factor specifying a blocking variable on the samples.
@@ -102,8 +106,9 @@ If \code{counts} is a \code{DGEList} object from the edgeR package, then voom wi
 In other words, the logCPM values are computed from the effective library sizes rather than the raw library sizes.
 If the \code{DGEList} object has been scale-normalized in edgeR, then it is usual to leave \code{normalize.method="none"} in voom, i.e., the logCPM values should not usually be re-normalized in the \code{voom} call.
 
-If the \code{DGEList} object contains a prior offset matrix, then observation-specific effective library sizes will be obtained by adding \code{offset.prior} to the log library sizes.
-If an ordinary edgeR-style offset matrix is supplied (\code{offset}), either as an argument or in the DGEList, then it will be row-mean corrected and treated as a prior offset matrix.
+If the \code{DGEList} object contains an offset matrix, then observation-specific effective library sizes will be set to \code{exp(offset)}.
+If an \code{offset.prior} matrix is found, then \code{offset.prior} will be added to the log library sizes to make the offset matrix.
+\code{offset.prior} provides a way to implement normalization observation-specific normalization strategies based on considerations such as transcript length or GC content.
 
 The \code{voom} method is similar in purpose to the limma-trend method, which uses \code{\link{eBayes}} or \code{\link{treat}} with \code{trend=TRUE}.
 The voom method incorporates the mean-variance trend into the precision weights, whereas limma-trend incorporates the trend into the empirical Bayes moderation.

@@ -6,10 +6,10 @@ Transform count data to log2-counts per million (logCPM), estimate voom precisio
 }
 
 \usage{
-voomLmFit(counts, design = NULL, contrasts = NULL, block = NULL,
-    prior.weights = NULL, sample.weights = FALSE, var.design = NULL,
-    var.group = NULL, prior.n = 10, lib.size = NULL, offset = NULL,
-    offset.prior = NULL, normalize.method = "none",
+voomLmFit(counts, design = NULL, contrasts = NULL,
+	block = NULL, prior.weights = NULL,
+    sample.weights = FALSE, var.design = NULL, var.group = NULL, prior.n = 10,
+    lib.size = NULL, offset = NULL, offset.prior = NULL, normalize.method = "none",
     span = 0.5, adaptive.span = TRUE, plot = FALSE, save.plot = FALSE,
     keep.EList = TRUE, nthreads = 1L)
 }
@@ -60,19 +60,20 @@ voomLmFit(counts, design = NULL, contrasts = NULL, block = NULL,
     Defaults to the normalized (effective) library sizes in \code{counts} if \code{counts} is a \code{DGEList} or to the columnwise count totals if \code{counts} is a matrix.
   }
   \item{offset}{
-    an edgeR-style offset matrix of same dimensions as \code{counts} specifying observation-specific effective library sizes.
-    Provides a way to input observation-wise normalization schemes.
-    If not NULL, then the library sizes will be set to \code{exp(offset)}.
+    an edgeR-style offset matrix of same dimensions as \code{counts} specifying observation-specific library sizes on the natural log scale.
+    Provides a way to input observation-specific normalization schemes.
+    If not \code{NULL}, then the library sizes will be set to \code{exp(offset)}.
    }
   \item{offset.prior}{
     an alternative way to specify the offset matrix.
-    \code{offset.prior} specifies effective library sizes relative to the raw library sizes instead of replacing the raw library sizes.
-    The rows of \code{offset.prior} should sum to zero on average.
+    \code{offset.prior} specifies observation-specific deviations from the sample-wise library sizes instead of replacing them, as \code{offset} does.
+    If provided, then the library sizes will be set to \code{exp(offset)}, where \code{offset} is obtained by adding the normalized library sizes to \code{offset.prior}.
+    The rows of \code{offset.prior} should sum to zero on average to ensure that the combined offset is reflective of the library sizes.
    }
   \item{normalize.method}{
-    the microarray-style normalization method to be applied to the logCPM values (if any).
+    a microarray-style normalization method to be applied to the logCPM values (if any).
     Choices are as for the \code{method} argument of \code{normalizeBetweenArrays} when the data is single-channel.
-    Any normalization factors found in \code{counts} will still be used even if \code{normalize.method="none"}.
+    Note that any normalization factors found in \code{counts} will still be used to form the log2CPM even if \code{normalize.method="none"}.
   }
   \item{span}{
     width of the smoothing window used for the lowess mean-variance trend, expressed as a proportion between 0 and 1.
@@ -163,6 +164,7 @@ If the \code{DGEList} object contains library normalization factors, then it is 
 
 If the \code{DGEList} object contains an offset matrix, then observation-specific effective library sizes will be set to \code{exp(offset)}.
 If an \code{offset.prior} matrix is found, then \code{offset.prior} will be added to the log library sizes to make the offset matrix.
+\code{offset.prior} provides a way to implement normalization observation-specific normalization strategies based on considerations such as transcript length or GC content.
 
 The \code{voom} method is similar in purpose to the limma-trend method, which uses \code{\link{eBayes}} or \code{\link{treat}} with \code{trend=TRUE}.
 The voom method incorporates the mean-variance trend into the precision weights, whereas limma-trend incorporates the trend into the empirical Bayes moderation.
@@ -223,6 +225,17 @@ Why weight? Modelling sample and observational level variability improves power 
 \code{\link{arrayWeights}},
 \code{\link{MArrayLM-class}},
 \code{\link{chooseLowessSpan}}.
+}
+
+\examples{
+ngenes <- 200
+nsamples <- 6
+mu <- rlnorm(ngenes, meanlog = 1, sdlog = 3)
+y <- matrix(rnbinom(ngenes*nsamples, size=1/0.05, mu=mu), ngenes, nsamples)
+Group <- factor(c(1,1,1,2,2,2))
+design <- model.matrix(~Group)
+fit <- voomLmFit(y, design, plot=TRUE)
+table(fit$df.residual)
 }
 
 \concept{Model fit}

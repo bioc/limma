@@ -17,7 +17,7 @@ voomLmFit <- function(
 #
 #	Gordon Smyth. Self-contained limma version by Lizhong Chen, including C code
 #	and contrasts argument.
-#	Created 21 Jan 2020.  Last modified 16 Aug 2026.
+#	Created 21 Jan 2020.  Last modified 1 Nov 2026.
 {
 	Block <- !is.null(block)
 	PriorWeights <- !is.null(prior.weights)
@@ -26,15 +26,16 @@ voomLmFit <- function(
 #	Can't specify prior weights and ask for sample weights to be estimated as well
 	if(PriorWeights && SampleWeights) stop("Can't specify prior.weights and estimate sample weights")
 
-#	Create output object
+#	Create output list
 	out <- list()
 
 #	Extract counts from known data objects
 	if(is(counts,"DGEList")) {
 		out$genes <- counts$genes
 		out$targets <- counts$samples
-		if(is.null(design) && diff(range(as.numeric(counts$samples$group)))>0) design <- model.matrix(~group,data=counts$samples)
-#		Effective (normalized) library sizes, as getNormLibSizes() returns for a DGEList
+		if(is.null(design) && diff(range(as.numeric(counts$samples$group)))>0)
+			design <- model.matrix(~group,data=counts$samples)
+#		Normalized library sizes
 		if(is.null(lib.size)) {
 			nf <- counts$samples$norm.factors
 			if(is.null(nf)) nf <- 1
@@ -48,10 +49,11 @@ voomLmFit <- function(
 			stop("SummarizedExperiment package required but is not installed (or can't be loaded)")
 		se <- counts
 		an <- SummarizedExperiment::assayNames(se)
-		if(!is.null(an) && "counts" %in% an)
+		if("counts" %in% an) {
 			counts <- SummarizedExperiment::assay(se,"counts")
-		else
+		} else {
 			counts <- SummarizedExperiment::assay(se,1L)
+		}
 		counts <- as.matrix(counts)
 		rd <- SummarizedExperiment::rowData(se)
 		if(ncol(rd)) out$genes <- as.data.frame(rd)
@@ -98,10 +100,11 @@ voomLmFit <- function(
 		if(!identical(nrow(contrasts),ncol(design))) stop("Number of rows of contrasts must match number of columns of design")
 	}
 
-#	Check library sizes
+#	library sizes default to column sums.
 	if(is.null(lib.size)) lib.size <- colSums(counts)
 
-#	Offset matrix takes precedence over lib.size and offset.prior. Otherwise, lib.sizes default to column sums.
+#	Combine library sizes with offsets.
+#	offset takes precedence over lib.size and offset.prior, if provided.
 #	offset.prior adds to log(lib.size) while offset replaces them.
 	if(is.null(offset)) {
 		if(is.null(offset.prior)) {
@@ -113,13 +116,14 @@ voomLmFit <- function(
 		}
 	} else {
 		message("Using offset matrix")
-#		Offset can be a matrix or a row vector.
+#		Offset can be a matrix or a sample-wise vector.
 		if(is.matrix(offset)) {
 			if(!identical(dim(counts),dim(offset))) stop("counts and offset must have equal dimensions")
+			lib.size.matrix <- exp(offset)
 		} else {
 			if(!identical(length(offset),n)) stop("if offset is a vector, its length must be the number of samples")
+			lib.size.matrix <- matrix(exp(offset),G,n,byrow=TRUE)
 		}
-		lib.size.matrix <- exp(offset)
 	}
 
 #	Expand prior.weights if necessary
