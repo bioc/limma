@@ -1,5 +1,5 @@
 
-R version 4.6.1 (2026-06-24 ucrt) -- "Happy Hop"
+R version 4.6.2 (2026-10-29 ucrt) -- "Diversified Portfolio"
 Copyright (C) 2026 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64
 
@@ -1248,30 +1248,30 @@ voomLmFit is now recommended over voom
 + "137682","137695","137735","1378","137814","137868","137872","137886","137902","137964")
 > go <- goana(fit,FDR=0.8,geneid=EB)
 > topGO(go,number=10,truncate.term=30)
-                                     Term Ont N Up Down       P.Up      P.Down
-GO:0070062          extracellular exosome  CC 8  0    4 1.00000000 0.003047199
-GO:0065010 extracellular membrane-boun...  CC 8  0    4 1.00000000 0.003047199
-GO:0043230        extracellular organelle  CC 8  0    4 1.00000000 0.003047199
-GO:1903561          extracellular vesicle  CC 8  0    4 1.00000000 0.003047199
-GO:0048232         male gamete generation  BP 2  0    2 1.00000000 0.009090909
-GO:0007283                spermatogenesis  BP 2  0    2 1.00000000 0.009090909
-GO:0031252              cell leading edge  CC 3  3    0 0.01095238 1.000000000
-GO:0072359 circulatory system developm...  BP 3  0    2 1.00000000 0.025788497
-GO:0003006 developmental process invol...  BP 3  0    2 1.00000000 0.025788497
-GO:0007276              gamete generation  BP 3  0    2 1.00000000 0.025788497
+                                     Term Ont  N Up Down      P.Up      P.Down
+GO:0070062          extracellular exosome  CC  8  0    4 1.0000000 0.003047199
+GO:0065010 extracellular membrane-boun...  CC  8  0    4 1.0000000 0.003047199
+GO:0043230        extracellular organelle  CC  8  0    4 1.0000000 0.003047199
+GO:1903561          extracellular vesicle  CC  8  0    4 1.0000000 0.003047199
+GO:0032502          developmental process  BP 21  4    6 0.7767186 0.005278793
+GO:0003006 developmental process invol...  BP  2  0    2 1.0000000 0.009090909
+GO:0007276              gamete generation  BP  2  0    2 1.0000000 0.009090909
+GO:0048232         male gamete generation  BP  2  0    2 1.0000000 0.009090909
+GO:0048609 multicellular organismal re...  BP  2  0    2 1.0000000 0.009090909
+GO:0007283                spermatogenesis  BP  2  0    2 1.0000000 0.009090909
 > topGO(go,number=10,truncate.term=30,sort="down")
-                                     Term Ont N Up Down P.Up      P.Down
-GO:0070062          extracellular exosome  CC 8  0    4    1 0.003047199
-GO:0065010 extracellular membrane-boun...  CC 8  0    4    1 0.003047199
-GO:0043230        extracellular organelle  CC 8  0    4    1 0.003047199
-GO:1903561          extracellular vesicle  CC 8  0    4    1 0.003047199
-GO:0048232         male gamete generation  BP 2  0    2    1 0.009090909
-GO:0007283                spermatogenesis  BP 2  0    2    1 0.009090909
-GO:0072359 circulatory system developm...  BP 3  0    2    1 0.025788497
-GO:0003006 developmental process invol...  BP 3  0    2    1 0.025788497
-GO:0007276              gamete generation  BP 3  0    2    1 0.025788497
-GO:0007507              heart development  BP 3  0    2    1 0.025788497
+                                     Term Ont  N Up Down      P.Up      P.Down
+GO:0070062          extracellular exosome  CC  8  0    4 1.0000000 0.003047199
+GO:0065010 extracellular membrane-boun...  CC  8  0    4 1.0000000 0.003047199
+GO:0043230        extracellular organelle  CC  8  0    4 1.0000000 0.003047199
+GO:1903561          extracellular vesicle  CC  8  0    4 1.0000000 0.003047199
+GO:0032502          developmental process  BP 21  4    6 0.7767186 0.005278793
+GO:0003006 developmental process invol...  BP  2  0    2 1.0000000 0.009090909
+GO:0007276              gamete generation  BP  2  0    2 1.0000000 0.009090909
+GO:0048232         male gamete generation  BP  2  0    2 1.0000000 0.009090909
+GO:0048609 multicellular organismal re...  BP  2  0    2 1.0000000 0.009090909
+GO:0007283                spermatogenesis  BP  2  0    2 1.0000000 0.009090909
 > 
 > proc.time()
    user  system elapsed 
-   2.17    0.84    3.40 
+   3.01    0.68    3.89 

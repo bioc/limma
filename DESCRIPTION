@@ -1,6 +1,6 @@
 Package: limma
-Version: 3.99.4
-Date: 2026-11-01
+Version: 3.99.5
+Date: 2026-11-14
 Title: Linear Models for Microarray and Omics Data
 Description: Data analysis, linear models and differential expression for omics data.
 Authors@R: c(person(given = "Gordon",
@@ -81,5 +81,5 @@ Depends: R (>= 3.6.0)
 Imports: grDevices, graphics, stats, utils, methods, statmod
 Suggests: BiasedUrn, ellipse, gplots, knitr, locfit, MASS, splines, affy, AnnotationDbi, Biobase, BiocStyle, GO.db, illuminaio, org.Hs.eg.db, SummarizedExperiment, vsn
 VignetteBuilder: knitr
-URL: https://bioinf.wehi.edu.au/limma/
+URL: https://github.com/SmythLab/limma, https://bioinf.wehi.edu.au/limma/
 biocViews: ExonArray, GeneExpression, Transcription, AlternativeSplicing, DifferentialExpression, DifferentialSplicing, GeneSetEnrichment, DataImport, Bayesian, Clustering, Regression, TimeCourse, Microarray, MicroRNAArray, mRNAMicroarray, OneChannel, ProprietaryPlatforms, TwoChannel, Sequencing, RNASeq, BatchEffect, MultipleComparison, Normalization, Preprocessing, QualityControl, BiomedicalInformatics, CellBiology, Cheminformatics, Epigenetics, FunctionalGenomics, Genetics, ImmunoOncology, Metabolomics, Proteomics, SystemsBiology, Transcriptomics
